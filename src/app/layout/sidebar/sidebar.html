@@ -1,0 +1,28 @@
+<nav id="sidebar" [class.closed]="closed()">
+  <div class="top">
+    <div
+      class="text-2xl text-gray-800 dark:text-gray-100 font-[Oswald] font-medium mb-14 logo"
+      [class.closed]="closed()"
+    >
+      Finwaze
+    </div>
+
+    <app-sidebar-toggle-btn [class.closed]="closed()" (toggled)="toggle($event)" />
+
+    <ul>
+      @for (item of items; track item.label) {
+        <app-sidebar-nav-item
+          [label]="item.label"
+          [icon]="item.icon"
+          [active]="item.name === currentPath()"
+          [closed]="closed()"
+          (click)="selectNavItem(item.name)"
+        />
+      }
+    </ul>
+  </div>
+
+  <div class="bottom">
+    <app-sidebar-nav-item label="Log out" icon="logout" [closed]="closed()" />
+  </div>
+</nav>

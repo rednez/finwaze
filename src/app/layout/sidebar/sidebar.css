@@ -1,0 +1,43 @@
+#sidebar {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 280px;
+  height: 100vh;
+  background-color: light-dark(var(--p-primary-50), var(--p-surface-800));
+  position: sticky;
+  top: 0;
+  align-self: start;
+  padding: 24px;
+  transition: 300ms ease-in-out;
+  overflow: hidden;
+  white-space: nowrap;
+
+  &.closed {
+    width: 68px;
+    padding: 24px 14px;
+  }
+}
+
+.top {
+  position: relative;
+
+  app-sidebar-toggle-btn {
+    position: absolute;
+    top: 36px;
+    right: -18px;
+    transition: right 300ms ease-in-out;
+
+    &.closed {
+      right: 6px;
+    }
+  }
+}
+
+.logo {
+  transition: opacity 200ms ease-in-out;
+
+  &.closed {
+    opacity: 0;
+  }
+}
