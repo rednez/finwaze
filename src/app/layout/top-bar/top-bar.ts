@@ -5,14 +5,16 @@ import { UserAvatar } from './user-avatar/user-avatar';
 @Component({
   selector: 'app-top-bar',
   imports: [UserAvatar],
-  template: `<div>
+  template: `
+    <div>
       <h1 class="text-2xl font-medium">{{ title() }}</h1>
       <div class="hidden sm:block text-sm text-gray-400">
         {{ description() }}
       </div>
     </div>
 
-    <app-user-avatar name="John Doe" email="john@gmail.com" /> `,
+    <app-user-avatar name="John Doe" email="john@gmail.com" />
+  `,
   host: {
     class: 'flex justify-between gap-1 p-4',
   },

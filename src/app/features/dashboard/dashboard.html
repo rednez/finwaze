@@ -1,4 +1,4 @@
-<div class="flex flex-wrap grow gap-4">
+<div class="flex flex-wrap grow gap-4 min-w-0">
   @for (widget of amountWidgets; track widget.title) {
     <app-amount-widget
       class="grow"
@@ -9,4 +9,6 @@
       [isGrowth]="widget.isGrowth"
     />
   }
+
+  <app-money-flow-widget class="grow min-w-0" />
 </div>

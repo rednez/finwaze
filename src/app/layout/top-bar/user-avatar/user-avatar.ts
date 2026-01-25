@@ -7,7 +7,8 @@ import { ButtonModule } from 'primeng/button';
 @Component({
   selector: 'app-user-avatar',
   imports: [AvatarModule, MenuModule, ButtonModule],
-  template: ` <p-menu #menu [model]="items" [popup]="true" />
+  template: `
+    <p-menu #menu [model]="items" [popup]="true" />
     <div
       class="flex gap-2 items-center border border-gray-300 dark:border-gray-600 py-1 pl-1 pr-4 rounded-full"
       (click)="menu.toggle($event)"
@@ -25,7 +26,8 @@ import { ButtonModule } from 'primeng/button';
         <div class="text-sm font-medium">{{ name() }}</div>
         <div class="text-xs text-gray-400">{{ email() }}</div>
       </div>
-    </div>`,
+    </div>
+  `,
 })
 export class UserAvatar {
   name = input.required<string>();

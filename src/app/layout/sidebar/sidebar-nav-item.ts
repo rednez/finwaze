@@ -3,10 +3,12 @@ import { Component, input, output } from '@angular/core';
 @Component({
   selector: 'app-sidebar-nav-item',
   imports: [],
-  template: `<li [class.active]="active()" [class.closed]="closed()">
-    <span class="material-icons-outlined"> {{ icon() }} </span>
-    <span class="nav-label" [class.closed]="closed()">{{ label() }}</span>
-  </li>`,
+  template: `
+    <li [class.active]="active()" [class.closed]="closed()">
+      <span class="material-icons-outlined"> {{ icon() }} </span>
+      <span class="nav-label" [class.closed]="closed()">{{ label() }}</span>
+    </li>
+  `,
   styles: `
     li {
       padding: 12px 8px;

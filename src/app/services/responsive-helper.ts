@@ -6,7 +6,7 @@ import { debounceTime, fromEvent, map, startWith } from 'rxjs';
 })
 export class ResponsiveHelper {
   windowWidth = fromEvent(window, 'resize').pipe(
-    debounceTime(100),
+    debounceTime(50),
     map(() => window.innerWidth),
     startWith(window.innerWidth),
   );
