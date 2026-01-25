@@ -8,7 +8,7 @@ import { UserAvatar } from './user-avatar/user-avatar';
   template: `
     <div>
       <h1 class="text-2xl font-medium">{{ title() }}</h1>
-      <div class="hidden sm:block text-sm text-gray-400">
+      <div class="hidden sm:block text-sm text-muted-color">
         {{ description() }}
       </div>
     </div>

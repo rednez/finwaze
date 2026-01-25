@@ -5,7 +5,8 @@ import { BottomNavBar, Sidebar, TopBar } from '@layout';
 @Component({
   selector: 'app-root',
   imports: [RouterOutlet, Sidebar, TopBar, BottomNavBar],
-  template: ` <app-sidebar />
+  template: `
+    <app-sidebar />
 
     <app-bottom-nav-bar />
 
@@ -15,16 +16,11 @@ import { BottomNavBar, Sidebar, TopBar } from '@layout';
       <div class="px-4 pb-4">
         <router-outlet />
       </div>
-    </div>`,
-  styles: `
-    :host {
-      display: flex;
-    }
-
-    .content {
-      padding: 0 18px 18px 18px;
-    }
+    </div>
   `,
+  host: {
+    class: 'flex',
+  },
 })
 export class App {
   visible = signal(false);

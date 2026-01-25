@@ -10,13 +10,19 @@ import { Component, computed, input } from '@angular/core';
     <span class="text-gray-300 dark:text-gray-500">{{ fraction() }}</span>
   `,
   host: {
-    class: 'text-2xl font-medium',
+    class: 'font-semibold',
+    '[class.text-xl]': "size() === 'sm'",
+    '[class.text-2xl]': "size() === 'md'",
+    '[class.text-3xl]': "size() === 'lg'",
   },
 })
 export class StyledAmount {
   readonly currency = input.required<string>();
   readonly amount = input.required<number>();
+  readonly size = input<'sm' | 'md' | 'lg'>('md');
 
   wholeNumber = computed(() => Math.floor(this.amount()));
-  fraction = computed(() => '.' + ((this.amount() % 1) * 100).toFixed(0).padStart(2, '0'));
+  fraction = computed(
+    () => '.' + ((this.amount() % 1) * 100).toFixed(0).padStart(2, '0'),
+  );
 }
