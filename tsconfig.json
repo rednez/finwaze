@@ -18,7 +18,8 @@
     "paths": {
       "@ui": ["src/app/ui"],
       "@features": ["src/app/features"],
-      "@layout": ["src/app/layout"]
+      "@layout": ["src/app/layout"],
+      "@services": ["src/app/services"]
     }
   },
   "angularCompilerOptions": {

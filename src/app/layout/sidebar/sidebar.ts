@@ -1,8 +1,8 @@
 import { Component, DestroyRef, inject, OnInit, signal } from '@angular/core';
-import { takeUntilDestroyed, toSignal } from '@angular/core/rxjs-interop';
-import { NavigationEnd, Router } from '@angular/router';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { Router } from '@angular/router';
+import { NavigatorHelper, ResponsiveHelper } from '@services';
 import { ButtonModule } from 'primeng/button';
-import { debounceTime, filter, fromEvent, map, startWith, tap } from 'rxjs';
 import { SidebarNavItem } from './sidebar-nav-item';
 import { SidebarToggleBtn } from './sidebar-toggle-btn';
 
@@ -14,26 +14,19 @@ import { SidebarToggleBtn } from './sidebar-toggle-btn';
 })
 export class Sidebar implements OnInit {
   private readonly router = inject(Router);
+  private readonly navigatorHelper = inject(NavigatorHelper);
+  private readonly responsiveHelper = inject(ResponsiveHelper);
   private readonly destroyRef = inject(DestroyRef);
 
-  currentPath = toSignal(
-    this.router.events.pipe(
-      filter((event) => event instanceof NavigationEnd),
-      map(() => this.router.url.split('/')[1]),
-    ),
-    { initialValue: this.router.url },
-  );
+  readonly currentPath = this.navigatorHelper.currentFeatureName;
 
-  closed = signal(false);
+  readonly closed = signal(false);
 
-  windowWidth = fromEvent(window, 'resize').pipe(
-    debounceTime(100),
-    map(() => window.innerWidth),
+  readonly windowWidth = this.responsiveHelper.windowWidth.pipe(
     takeUntilDestroyed(this.destroyRef),
-    startWith(window.innerWidth),
   );
 
-  items = [
+  readonly items = [
     { name: 'dashboard', label: 'Dashboard', icon: 'dashboard' },
     { name: 'transactions', label: 'Transactions', icon: 'receipt' },
     { name: 'wallet', label: 'Wallet', icon: 'wallet' },
@@ -55,7 +48,7 @@ export class Sidebar implements OnInit {
   }
 
   private handleWidthChanges = (width: number) => {
-    if (width <= 800) {
+    if (width <= 640) {
       this.closed.set(true);
     } else {
       this.closed.set(false);
