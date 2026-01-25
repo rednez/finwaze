@@ -1,8 +1,8 @@
-import { Component, inject, signal } from '@angular/core';
-import { toSignal } from '@angular/core/rxjs-interop';
+import { Component, DestroyRef, inject, OnInit, signal } from '@angular/core';
+import { takeUntilDestroyed, toSignal } from '@angular/core/rxjs-interop';
 import { NavigationEnd, Router } from '@angular/router';
 import { ButtonModule } from 'primeng/button';
-import { filter, map } from 'rxjs';
+import { debounceTime, filter, fromEvent, map, startWith, tap } from 'rxjs';
 import { SidebarNavItem } from './sidebar-nav-item';
 import { SidebarToggleBtn } from './sidebar-toggle-btn';
 
@@ -12,8 +12,9 @@ import { SidebarToggleBtn } from './sidebar-toggle-btn';
   templateUrl: './sidebar.html',
   styleUrl: './sidebar.css',
 })
-export class Sidebar {
+export class Sidebar implements OnInit {
   private readonly router = inject(Router);
+  private readonly destroyRef = inject(DestroyRef);
 
   currentPath = toSignal(
     this.router.events.pipe(
@@ -25,6 +26,13 @@ export class Sidebar {
 
   closed = signal(false);
 
+  windowWidth = fromEvent(window, 'resize').pipe(
+    debounceTime(100),
+    map(() => window.innerWidth),
+    takeUntilDestroyed(this.destroyRef),
+    startWith(window.innerWidth),
+  );
+
   items = [
     { name: 'dashboard', label: 'Dashboard', icon: 'dashboard' },
     { name: 'transactions', label: 'Transactions', icon: 'receipt' },
@@ -34,11 +42,23 @@ export class Sidebar {
     { name: 'analytics', label: 'Analytics', icon: 'analytics' },
   ];
 
-  toggle(e: boolean) {
-    this.closed.set(e);
+  ngOnInit(): void {
+    this.windowWidth.subscribe(this.handleWidthChanges);
+  }
+
+  toggle() {
+    this.closed.update((v) => !v);
   }
 
   selectNavItem(name: string) {
     this.router.navigate([name]);
   }
+
+  private handleWidthChanges = (width: number) => {
+    if (width <= 800) {
+      this.closed.set(true);
+    } else {
+      this.closed.set(false);
+    }
+  };
 }

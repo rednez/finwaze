@@ -1,10 +1,10 @@
-import { Component, output, signal } from '@angular/core';
+import { Component, input } from '@angular/core';
 
 @Component({
   selector: 'app-sidebar-toggle-btn',
   imports: [],
   template: `
-    <div class="toggle-btn" [class.rotate]="closed()" (click)="toggle()">
+    <div class="toggle-btn" [class.rotate]="closed()">
       <span class="pi pi-angle-left"></span>
     </div>
   `,
@@ -32,15 +32,9 @@ import { Component, output, signal } from '@angular/core';
     }
   `,
   host: {
-    '[class.rotate]': 'closed() === true',
+    '[class.rotate]': 'closed()',
   },
 })
 export class SidebarToggleBtn {
-  closed = signal(false);
-  toggled = output<boolean>();
-
-  toggle() {
-    this.closed.update((value) => !value);
-    this.toggled.emit(this.closed());
-  }
+  closed = input(false);
 }
