@@ -5,6 +5,7 @@ import { AmountWidget } from './ui/amount-widget/amount-widget';
 import { MoneyFlowWidget } from './ui/money-flow-widget/money-flow-widget';
 import { BudgetWidget } from './ui/budget-widget/budget-widget';
 import { RecentTransactionsWidget } from './ui/recent-transactions-widget/recent-transactions-widget';
+import { SavingGoalsWidget } from './ui/saving-goals-widget/saving-goals-widget';
 
 @Component({
   selector: 'app-dashboard',
@@ -15,6 +16,7 @@ import { RecentTransactionsWidget } from './ui/recent-transactions-widget/recent
     MoneyFlowWidget,
     BudgetWidget,
     RecentTransactionsWidget,
+    SavingGoalsWidget,
   ],
   template: `
     <div class="flex flex-wrap gap-4 min-w-0">
@@ -34,11 +36,12 @@ import { RecentTransactionsWidget } from './ui/recent-transactions-widget/recent
       <app-money-flow-widget
         class="grow sm:flex-1 min-w-0 sm:min-w-75 max-w-152 lg:max-w-full"
       />
-      <app-budget-widget class="grow sm:grow-0" />
+      <app-budget-widget class="grow md:grow-0" />
     </div>
 
     <div class="flex flex-wrap gap-4 min-w-0">
       <app-recent-transactions-widget class="grow overflow-scroll" />
+      <app-saving-goals-widget class="grow" />
     </div>
   `,
   host: {
