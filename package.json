@@ -1,6 +1,15 @@
 {
   "name": "finwaze",
+  "description": "Web app for financial planning and management",
   "version": "0.0.0",
+  "author": {
+    "name": "Vasyl Yefimenko",
+    "email": "rednez@gmail.com"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/rednez/finwaze.git"
+  },
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
