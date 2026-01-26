@@ -75,10 +75,13 @@ export class MoneyFlowChart {
   protected readonly options = computed(() => ({
     maintainAspectRatio: false,
     aspectRatio: 1.6,
+    borderRadius: 100,
     plugins: {
       legend: {
+        display: true,
         labels: {
           color: this.chartColors().textColor,
+          usePointStyle: true,
         },
       },
       tooltip: {

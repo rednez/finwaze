@@ -88,6 +88,9 @@ export class BudgetChart {
 
   protected readonly options = computed(() => ({
     cutout: '80%',
+    borderRadius: 4,
+    borderWidth: 0,
+    spacing: 4,
     plugins: {
       legend: {
         labels: {},
