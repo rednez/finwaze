@@ -1,5 +1,4 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-
 import { MoneyFlowChart } from './money-flow-chart';
 
 describe('MoneyFlowChart', () => {
@@ -7,6 +6,15 @@ describe('MoneyFlowChart', () => {
   let fixture: ComponentFixture<MoneyFlowChart>;
 
   beforeEach(async () => {
+    window.matchMedia = vi.fn().mockImplementation((query) => ({
+      matches: false,
+      media: query,
+      onchange: null,
+      addEventListener: vi.fn(),
+      removeEventListener: vi.fn(),
+      dispatchEvent: vi.fn(),
+    }));
+
     await TestBed.configureTestingModule({
       imports: [MoneyFlowChart],
     }).compileComponents();

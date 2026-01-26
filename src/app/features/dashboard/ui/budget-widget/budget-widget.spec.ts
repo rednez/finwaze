@@ -7,10 +7,18 @@ describe('BudgetWidget', () => {
   let fixture: ComponentFixture<BudgetWidget>;
 
   beforeEach(async () => {
+    window.matchMedia = vi.fn().mockImplementation((query) => ({
+      matches: false,
+      media: query,
+      onchange: null,
+      addEventListener: vi.fn(),
+      removeEventListener: vi.fn(),
+      dispatchEvent: vi.fn(),
+    }));
+
     await TestBed.configureTestingModule({
-      imports: [BudgetWidget]
-    })
-    .compileComponents();
+      imports: [BudgetWidget],
+    }).compileComponents();
 
     fixture = TestBed.createComponent(BudgetWidget);
     component = fixture.componentInstance;
