@@ -40,7 +40,7 @@ import { SavingGoalsWidget } from './ui/saving-goals-widget/saving-goals-widget'
     </div>
 
     <div class="flex flex-wrap gap-4 min-w-0">
-      <app-recent-transactions-widget class="grow overflow-scroll" />
+      <app-recent-transactions-widget class="grow overflow-x-auto" />
       <app-saving-goals-widget class="grow" />
     </div>
   `,
