@@ -1,5 +1,4 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-
 import { SidebarToggleBtn } from './sidebar-toggle-btn';
 
 describe('SidebarToggleBtn', () => {
@@ -8,9 +7,8 @@ describe('SidebarToggleBtn', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [SidebarToggleBtn]
-    })
-    .compileComponents();
+      imports: [SidebarToggleBtn],
+    }).compileComponents();
 
     fixture = TestBed.createComponent(SidebarToggleBtn);
     component = fixture.componentInstance;

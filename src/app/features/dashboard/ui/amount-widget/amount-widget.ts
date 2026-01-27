@@ -1,6 +1,7 @@
 import { PercentPipe } from '@angular/common';
 import { Component, computed, input } from '@angular/core';
-import { Card, StyledAmount } from '@ui';
+import { Card } from '@ui/card';
+import { StyledAmount } from '@ui/styled-amount';
 import { CardModule } from 'primeng/card';
 import { TagModule } from 'primeng/tag';
 

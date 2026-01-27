@@ -1,6 +1,6 @@
 import { Component, inject } from '@angular/core';
 import { Router } from '@angular/router';
-import { NavigatorHelper } from '@services';
+import { NavigatorHelper } from '@services/navigator-helper';
 import { ButtonModule } from 'primeng/button';
 
 @Component({

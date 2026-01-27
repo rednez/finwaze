@@ -1,7 +1,7 @@
 import { Component, computed, inject, input } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
-import { DarkModeHelper } from '@services';
-import { StyledAmount } from '@ui';
+import { DarkModeHelper } from '@services/dark-mode-helper';
+import { StyledAmount } from '@ui/styled-amount';
 import { ChartModule } from 'primeng/chart';
 
 @Component({

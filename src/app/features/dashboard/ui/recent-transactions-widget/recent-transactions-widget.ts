@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component, signal } from '@angular/core';
-import { Card } from '@ui';
+import { Card } from '@ui/card';
 import { TableModule } from 'primeng/table';
 
 @Component({

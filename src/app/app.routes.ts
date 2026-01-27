@@ -3,10 +3,12 @@ import { Routes } from '@angular/router';
 export const routes: Routes = [
   {
     path: 'dashboard',
-    loadComponent: () => import('@features').then((c) => c.Dashboard),
+    loadComponent: () =>
+      import('./features/dashboard').then((c) => c.Dashboard),
   },
   {
     path: 'transactions',
-    loadComponent: () => import('@features').then((c) => c.Transactions),
+    loadComponent: () =>
+      import('./features/transactions').then((c) => c.Transactions),
   },
 ];

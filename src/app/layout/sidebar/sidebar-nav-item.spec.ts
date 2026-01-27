@@ -1,5 +1,4 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-
 import { SidebarNavItem } from './sidebar-nav-item';
 
 describe('SidebarNavItem', () => {

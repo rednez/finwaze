@@ -1,5 +1,5 @@
 import { Component, signal } from '@angular/core';
-import { Card } from '@ui';
+import { Card } from '@ui/card';
 import { BudgetChart } from '../budget-chart/budget-chart';
 
 @Component({

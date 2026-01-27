@@ -8,7 +8,6 @@ import { RecentTransactionsWidget } from './ui/recent-transactions-widget/recent
 import { SavingGoalsWidget } from './ui/saving-goals-widget/saving-goals-widget';
 
 @Component({
-  selector: 'app-dashboard',
   imports: [
     CardModule,
     TagModule,

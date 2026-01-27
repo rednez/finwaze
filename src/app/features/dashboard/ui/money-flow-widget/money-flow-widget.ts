@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { Card } from '@ui';
+import { Card } from '@ui/card';
 import { MoneyFlowChart } from '../money-flow-chart/money-flow-chart';
 
 @Component({

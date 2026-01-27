@@ -16,10 +16,9 @@
     "module": "preserve",
     "baseUrl": "./",
     "paths": {
-      "@ui": ["src/app/ui"],
-      "@features": ["src/app/features"],
-      "@layout": ["src/app/layout"],
-      "@services": ["src/app/services"]
+      "@ui/*": ["src/app/ui/*"],
+      "@layout/*": ["src/app/layout/*"],
+      "@services/*": ["src/app/services/*"]
     }
   },
   "angularCompilerOptions": {

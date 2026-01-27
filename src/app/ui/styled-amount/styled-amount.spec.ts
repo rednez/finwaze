@@ -1,5 +1,4 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-
 import { StyledAmount } from './styled-amount';
 
 describe('StyledAmount', () => {

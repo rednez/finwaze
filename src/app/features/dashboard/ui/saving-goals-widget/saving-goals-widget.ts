@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, computed, signal } from '@angular/core';
 import { ProgressBarDesignTokens } from '@primeuix/themes/types/progressbar';
-import { Card } from '@ui';
+import { Card } from '@ui/card';
 import { ProgressBarModule } from 'primeng/progressbar';
 
 @Component({
