@@ -1,0 +1,54 @@
+<div>
+  <div class="flex gap-2 mb-4 flex-wrap">
+    <p-iftalabel>
+      <p-datepicker
+        [(ngModel)]="date"
+        view="month"
+        dateFormat="mm/yy"
+        [readonlyInput]="true"
+        [inputStyle]="{ borderRadius: '22px' }"
+      />
+      <label for="dd-currency">Month</label>
+    </p-iftalabel>
+
+    <p-iftalabel class="min-w-32">
+      <p-select
+        [(ngModel)]="currency"
+        [options]="currencies()"
+        optionLabel="name"
+        class="w-full"
+        [dt]="selectInputSchema"
+      />
+      <label for="dd-currency">Currency</label>
+    </p-iftalabel>
+
+    <p-iftalabel class="min-w-32">
+      <p-select
+        [(ngModel)]="group"
+        [options]="groups()"
+        optionLabel="name"
+        class="w-full"
+        [dt]="selectInputSchema"
+      />
+      <label for="dd-group">Groups</label>
+    </p-iftalabel>
+
+    <p-iftalabel class="min-w-32">
+      <p-select
+        [(ngModel)]="category"
+        [options]="categories()"
+        optionLabel="name"
+        class="w-full"
+        [dt]="selectInputSchema"
+      />
+      <label for="dd-category">Categories</label>
+    </p-iftalabel>
+  </div>
+
+  <div class="scrollable-container overflow-auto max-h-[calc(100vh-100px)]">
+    <app-transactions-data-table
+      [transactions]="store.transactions()"
+      [cols]="tableCols"
+    />
+  </div>
+</div>

@@ -1,50 +1,34 @@
-import { CommonModule } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
   inject,
   signal,
 } from '@angular/core';
+import { FormsModule } from '@angular/forms';
+import { DatePickerDesignTokens } from '@primeuix/themes/types/datepicker';
+import { SelectDesignTokens } from '@primeuix/themes/types/select';
 import { AppStore } from '@store/app-store';
 import {
   TransactionDataTableColumnType,
   TransactionsDataTable,
 } from '@ui/transactions-data-table';
+import { DatePickerModule } from 'primeng/datepicker';
+import { IftaLabelModule } from 'primeng/iftalabel';
+import { SelectModule } from 'primeng/select';
 import { TableModule } from 'primeng/table';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [CommonModule, TableModule, TransactionsDataTable],
-  template: `
-    <div class="scrollable-container overflow-auto max-h-[calc(100vh-100px)]">
-      <app-transactions-data-table
-        [transactions]="store.transactions()"
-        [cols]="tableCols"
-      />
-    </div>
-  `,
-  styles: `
-    .scrollable-container {
-      scrollbar-width: thin;
-      transition: scrollbar-color 200ms ease-out;
-      scrollbar-color: var(--p-surface-400) transparent;
-
-      &::-webkit-scrollbar {
-        width: 8px;
-        height: 8px;
-      }
-
-      &::-webkit-scrollbar-thumb {
-        scrollbar-color: var(--p-surface-400) transparent;
-        border-radius: 4px;
-      }
-
-      &:hover::-webkit-scrollbar-thumb,
-      &:active::-webkit-scrollbar-thumb {
-        background-color: var(--p-surface-400);
-      }
-    }
-  `,
+  imports: [
+    FormsModule,
+    TableModule,
+    TransactionsDataTable,
+    SelectModule,
+    IftaLabelModule,
+    DatePickerModule,
+  ],
+  templateUrl: './transactions.html',
+  styleUrls: ['./transactions.css'],
 })
 export class Transactions {
   protected readonly store = inject(AppStore);
@@ -58,4 +42,35 @@ export class Transactions {
     'exchangeRate',
     'description',
   ];
+
+  protected readonly currencies = signal([
+    { name: 'USD' },
+    { name: 'EUR' },
+    { name: 'UAH' },
+  ]);
+
+  protected readonly groups = signal([
+    { name: 'Life' },
+    { name: 'Sport' },
+    { name: 'Medical' },
+  ]);
+
+  protected readonly categories = signal([
+    { name: 'Food' },
+    { name: 'Car wash' },
+    { name: 'Hockey' },
+    { name: 'Football' },
+    { name: 'Mathematic' },
+  ]);
+
+  protected date = new Date();
+  protected currency: { name: string } = { name: 'USD' };
+  protected group: { name: string } = { name: 'Life' };
+  protected category: { name: string } = { name: 'Food' };
+
+  protected readonly selectInputSchema: SelectDesignTokens = {
+    root: {
+      borderRadius: '22px',
+    },
+  };
 }
