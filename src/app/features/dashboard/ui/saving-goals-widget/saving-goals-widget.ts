@@ -1,5 +1,10 @@
 import { CommonModule } from '@angular/common';
-import { Component, computed, signal } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  computed,
+  signal,
+} from '@angular/core';
 import { ProgressBarDesignTokens } from '@primeuix/themes/types/progressbar';
 import { Card } from '@ui/card';
 import { ProgressBarModule } from 'primeng/progressbar';
@@ -29,6 +34,7 @@ import { ProgressBarModule } from 'primeng/progressbar';
       </div>
     </app-card>
   `,
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SavingGoalsWidget {
   readonly goals = signal([

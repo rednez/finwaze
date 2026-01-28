@@ -1,11 +1,21 @@
 import { CommonModule } from '@angular/common';
-import { Component, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, input } from '@angular/core';
 import { Card } from '@ui/card';
 import { TableModule } from 'primeng/table';
+
+type RecentTransaction = {
+  id: number;
+  date: string;
+  amount: number;
+  currency: string;
+  group: string;
+  category: string;
+};
 
 @Component({
   selector: 'app-recent-transactions-widget',
   imports: [CommonModule, Card, TableModule],
+  changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <app-card>
       <div class="text-lg font-medium mb-4">Recent Transactions</div>
@@ -22,7 +32,7 @@ import { TableModule } from 'primeng/table';
         <ng-template #body let-transaction>
           <tr>
             <td>
-              {{ transaction.date | date: 'dd.MM.yyyy, HH:mm' }}
+              {{ transaction.date | date: 'dd.MM.yyyy' }}
             </td>
             <td>
               {{ transaction.amount | currency: transaction.currency }}
@@ -42,42 +52,5 @@ import { TableModule } from 'primeng/table';
   `,
 })
 export class RecentTransactionsWidget {
-  protected transactions = signal([
-    {
-      id: 1,
-      date: '2024-06-01T12:34:56',
-      amount: 122354.23,
-      currency: '$',
-      group: 'Life',
-      category: 'Products',
-      description: 'Grocery Store',
-      exchangeAmount: 12.2,
-      exchangeCurrency: '€',
-      exchangeRate: 0.225,
-    },
-    {
-      id: 2,
-      date: '2024-06-02T08:15:30',
-      amount: 3120.0,
-      currency: '$',
-      group: 'Transport',
-      category: 'Fuel',
-      description: 'Gas Station',
-      exchangeAmount: 27.0,
-      exchangeCurrency: '€',
-      exchangeRate: 0.225,
-    },
-    {
-      id: 3,
-      date: '2025-09-12T14:20:00',
-      amount: 12.0,
-      currency: '$',
-      group: 'Transport',
-      category: 'Fuel',
-      description: 'Gas Station',
-      exchangeAmount: 27.0,
-      exchangeCurrency: '€',
-      exchangeRate: 0.225,
-    },
-  ]);
+  readonly transactions = input<RecentTransaction[]>([]);
 }

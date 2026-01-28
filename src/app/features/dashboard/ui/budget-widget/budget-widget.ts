@@ -1,4 +1,4 @@
-import { Component, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, signal } from '@angular/core';
 import { Card } from '@ui/card';
 import { BudgetChart } from '../budget-chart/budget-chart';
 
@@ -22,6 +22,7 @@ import { BudgetChart } from '../budget-chart/budget-chart';
       </div>
     </app-card>
   `,
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class BudgetWidget {
   readonly categories = signal([

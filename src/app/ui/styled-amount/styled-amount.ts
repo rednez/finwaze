@@ -1,9 +1,15 @@
-import { CurrencyPipe, DecimalPipe } from '@angular/common';
-import { Component, computed, input } from '@angular/core';
+import { DecimalPipe } from '@angular/common';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  computed,
+  input,
+} from '@angular/core';
 
 @Component({
   selector: 'app-styled-amount',
   imports: [DecimalPipe],
+  changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <span>{{ currency() }}</span>
     <span>{{ wholeNumber() | number: '1.0-0' }}</span>

@@ -1,5 +1,10 @@
 import { PercentPipe } from '@angular/common';
-import { Component, computed, input } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  computed,
+  input,
+} from '@angular/core';
 import { Card } from '@ui/card';
 import { StyledAmount } from '@ui/styled-amount';
 import { CardModule } from 'primeng/card';
@@ -23,6 +28,7 @@ import { TagModule } from 'primeng/tag';
       </div>
     </app-card>
   `,
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AmountWidget {
   readonly title = input.required<string>();

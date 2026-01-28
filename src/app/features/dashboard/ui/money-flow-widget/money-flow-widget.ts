@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { Card } from '@ui/card';
 import { MoneyFlowChart } from '../money-flow-chart/money-flow-chart';
 
@@ -15,6 +15,7 @@ import { MoneyFlowChart } from '../money-flow-chart/money-flow-chart';
       />
     </app-card>
   `,
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class MoneyFlowWidget {
   labels = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul'];

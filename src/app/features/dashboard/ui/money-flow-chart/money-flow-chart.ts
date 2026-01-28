@@ -1,4 +1,10 @@
-import { Component, computed, inject, input } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  computed,
+  inject,
+  input,
+} from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { DarkModeHelper } from '@services/dark-mode-helper';
 import { ChartModule } from 'primeng/chart';
@@ -12,6 +18,7 @@ import { ChartModule } from 'primeng/chart';
     [options]="options()"
     class="h-50"
   />`,
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class MoneyFlowChart {
   private readonly darkModeHelper = inject(DarkModeHelper);

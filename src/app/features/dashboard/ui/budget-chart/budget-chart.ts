@@ -1,4 +1,10 @@
-import { Component, computed, inject, input } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  computed,
+  inject,
+  input,
+} from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { DarkModeHelper } from '@services/dark-mode-helper';
 import { StyledAmount } from '@ui/styled-amount';
@@ -26,6 +32,7 @@ import { ChartModule } from 'primeng/chart';
   host: {
     class: 'relative',
   },
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class BudgetChart {
   private readonly darkModeHelper = inject(DarkModeHelper);

@@ -1,9 +1,15 @@
-import { Component } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  computed,
+  inject,
+} from '@angular/core';
+import { AppStore } from '@store/app-store';
 import { CardModule } from 'primeng/card';
 import { TagModule } from 'primeng/tag';
 import { AmountWidget } from './ui/amount-widget/amount-widget';
-import { MoneyFlowWidget } from './ui/money-flow-widget/money-flow-widget';
 import { BudgetWidget } from './ui/budget-widget/budget-widget';
+import { MoneyFlowWidget } from './ui/money-flow-widget/money-flow-widget';
 import { RecentTransactionsWidget } from './ui/recent-transactions-widget/recent-transactions-widget';
 import { SavingGoalsWidget } from './ui/saving-goals-widget/saving-goals-widget';
 
@@ -39,15 +45,21 @@ import { SavingGoalsWidget } from './ui/saving-goals-widget/saving-goals-widget'
     </div>
 
     <div class="flex flex-wrap gap-4 min-w-0">
-      <app-recent-transactions-widget class="grow overflow-x-auto" />
+      <app-recent-transactions-widget
+        class="grow overflow-x-auto"
+        [transactions]="recentTransactions()"
+      />
       <app-saving-goals-widget class="grow" />
     </div>
   `,
   host: {
     class: 'flex flex-col gap-4',
   },
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class Dashboard {
+  private readonly store = inject(AppStore);
+
   readonly amountWidgets = [
     {
       title: 'Total balance',
@@ -71,4 +83,18 @@ export class Dashboard {
       isGrowth: true,
     },
   ];
+
+  protected readonly recentTransactions = computed(() =>
+    this.store
+      .transactions()
+      .slice(0, 3)
+      .map((i) => ({
+        id: i.id,
+        date: i.date,
+        amount: i.transactionAmount,
+        currency: i.transactionCurrency,
+        group: i.group,
+        category: i.category,
+      })),
+  );
 }
