@@ -18,7 +18,9 @@
     "paths": {
       "@ui/*": ["src/app/ui/*"],
       "@layout/*": ["src/app/layout/*"],
-      "@services/*": ["src/app/services/*"]
+      "@services/*": ["src/app/services/*"],
+      "@store/*": ["src/app/store/*"],
+      "@models/*": ["src/app/models/*"]
     }
   },
   "angularCompilerOptions": {

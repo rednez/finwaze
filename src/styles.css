@@ -5,7 +5,7 @@
 @import 'primeicons/primeicons.css';
 
 :root {
-  --text-color: light-dark(--p-surface-700, --p-surface-100);
+  --text-color: light-dark(var(--p-surface-800), var(--p-surface-200));
 }
 
 * {
