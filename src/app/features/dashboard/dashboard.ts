@@ -85,16 +85,6 @@ export class Dashboard {
   ];
 
   protected readonly recentTransactions = computed(() =>
-    this.store
-      .transactions()
-      .slice(0, 3)
-      .map((i) => ({
-        id: i.id,
-        date: i.date,
-        amount: i.transactionAmount,
-        currency: i.transactionCurrency,
-        group: i.group,
-        category: i.category,
-      })),
+    this.store.transactions().slice(0, 3),
   );
 }

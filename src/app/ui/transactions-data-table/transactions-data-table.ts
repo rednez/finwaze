@@ -1,6 +1,21 @@
 import { CommonModule } from '@angular/common';
-import { ChangeDetectionStrategy, Component, input } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  computed,
+  input,
+  signal,
+} from '@angular/core';
 import { Transaction } from '@models/transactions';
+
+export type TransactionDataTableColumnType =
+  | 'date'
+  | 'group'
+  | 'category'
+  | 'transactionAmount'
+  | 'chargedAmount'
+  | 'exchangeRate'
+  | 'description';
 
 @Component({
   selector: 'app-transactions-data-table',
@@ -13,13 +28,13 @@ import { Transaction } from '@models/transactions';
       >
         <tr>
           @for (
-            header of headers;
+            header of headersTitles();
             track header;
             let first = $first;
             let last = $last
           ) {
             <th
-              class="font-medium text-xs text-primary uppercase text-start"
+              class="font-normal text-sm text-primary uppercase text-start"
               [class.rounded-s-3xl]="first"
               [class.pl-4!]="first"
               [class.rounded-e-3xl]="last"
@@ -32,25 +47,44 @@ import { Transaction } from '@models/transactions';
       <tbody>
         @for (row of transactions(); track row.id) {
           <tr class="border-b border-gray-200 dark:border-gray-700">
-            <td
-              class="pl-4! pr-1 text-xs lg:text-sm text-muted-color sm:whitespace-nowrap"
-            >
-              {{ row.date | date: 'dd.MM.yyyy, HH:mm' }}
-            </td>
-            <td>
-              {{ row.group }}
-            </td>
-            <td>{{ row.category }}</td>
-            <td>
-              {{ row.transactionAmount | currency: row.transactionCurrency }}
-            </td>
-            <td>
-              {{ row.chargedAmount | currency: row.chargedCurrency }}
-            </td>
-            <td class="text-muted-color">
-              {{ row.exchangeRate | number: '1.4-4' }}
-            </td>
-            <td class="text-muted-color min-w-60">{{ row.description }}</td>
+            @if (hasDateColumn()) {
+              <td
+                class="pl-4! pr-1 text-xs lg:text-sm text-muted-color sm:whitespace-nowrap"
+              >
+                <span class="sm:hidden">
+                  {{ row.date | date: 'dd.MM.yyyy' }}
+                </span>
+                <span class="hidden sm:block">
+                  {{ row.date | date: dateFormat() }}
+                </span>
+              </td>
+            }
+            @if (hasGroupColumn()) {
+              <td>
+                {{ row.group }}
+              </td>
+            }
+            @if (hasCategoryColumn()) {
+              <td>{{ row.category }}</td>
+            }
+            @if (hasTransactionAmountColumn()) {
+              <td>
+                {{ row.transactionAmount | currency: row.transactionCurrency }}
+              </td>
+            }
+            @if (hasChargedAmountColumn()) {
+              <td>
+                {{ row.chargedAmount | currency: row.chargedCurrency }}
+              </td>
+            }
+            @if (hasExchangeRateColumn()) {
+              <td class="text-muted-color">
+                {{ row.exchangeRate | number: '1.4-4' }}
+              </td>
+            }
+            @if (hasDescriptionColumn()) {
+              <td class="text-muted-color min-w-60">{{ row.description }}</td>
+            }
           </tr>
         }
       </tbody>
@@ -70,14 +104,58 @@ import { Transaction } from '@models/transactions';
 })
 export class TransactionsDataTable {
   readonly transactions = input<Transaction[]>([]);
+  readonly transactionAmountHeaderTitle = input<string>();
+  readonly cols = input<TransactionDataTableColumnType[]>([
+    'transactionAmount',
+  ]);
+  readonly shortDateFormat = input(false);
 
-  protected readonly headers = [
-    'Date',
-    'Group',
-    'Category',
-    'Transaction Amount',
-    'Charged Amount',
-    'Exchange Rate',
-    'Description',
-  ];
+  protected readonly dateFormat = computed(() =>
+    this.shortDateFormat() ? 'dd.MM.yyyy' : 'dd.MM.yyyy, HH:mm',
+  );
+
+  protected readonly headersTitles = computed(() =>
+    this.cols().map((i) => {
+      switch (i) {
+        case 'date':
+          return 'Date';
+        case 'group':
+          return 'Group';
+        case 'category':
+          return 'Category';
+        case 'transactionAmount':
+          return this.transactionAmountHeaderTitle() || 'Transaction Amount';
+        case 'chargedAmount':
+          return 'Charged Amount';
+        case 'exchangeRate':
+          return 'Exchange Rate';
+        case 'description':
+          return 'Description';
+        default:
+          return '';
+      }
+    }),
+  );
+
+  protected readonly hasDateColumn = computed(() =>
+    this.cols().includes('date'),
+  );
+  protected readonly hasGroupColumn = computed(() =>
+    this.cols().includes('group'),
+  );
+  protected readonly hasCategoryColumn = computed(() =>
+    this.cols().includes('category'),
+  );
+  protected readonly hasTransactionAmountColumn = computed(() =>
+    this.cols().includes('transactionAmount'),
+  );
+  protected readonly hasChargedAmountColumn = computed(() =>
+    this.cols().includes('chargedAmount'),
+  );
+  protected readonly hasExchangeRateColumn = computed(() =>
+    this.cols().includes('exchangeRate'),
+  );
+  protected readonly hasDescriptionColumn = computed(() =>
+    this.cols().includes('description'),
+  );
 }

@@ -70,7 +70,7 @@ export class SavingGoalsWidget {
 
   protected readonly progressSchema: ProgressBarDesignTokens = {
     root: {
-      height: '29px',
+      height: '27px',
       borderRadius: '12px',
     },
     colorScheme: {

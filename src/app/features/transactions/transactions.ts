@@ -1,7 +1,15 @@
 import { CommonModule } from '@angular/common';
-import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  inject,
+  signal,
+} from '@angular/core';
 import { AppStore } from '@store/app-store';
-import { TransactionsDataTable } from '@ui/transactions-data-table';
+import {
+  TransactionDataTableColumnType,
+  TransactionsDataTable,
+} from '@ui/transactions-data-table';
 import { TableModule } from 'primeng/table';
 
 @Component({
@@ -9,7 +17,10 @@ import { TableModule } from 'primeng/table';
   imports: [CommonModule, TableModule, TransactionsDataTable],
   template: `
     <div class="scrollable-container overflow-auto max-h-[calc(100vh-100px)]">
-      <app-transactions-data-table [transactions]="store.transactions()" />
+      <app-transactions-data-table
+        [transactions]="store.transactions()"
+        [cols]="tableCols"
+      />
     </div>
   `,
   styles: `
@@ -37,4 +48,14 @@ import { TableModule } from 'primeng/table';
 })
 export class Transactions {
   protected readonly store = inject(AppStore);
+
+  protected readonly tableCols: TransactionDataTableColumnType[] = [
+    'date',
+    'group',
+    'category',
+    'transactionAmount',
+    'chargedAmount',
+    'exchangeRate',
+    'description',
+  ];
 }

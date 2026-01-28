@@ -10,8 +10,8 @@ const initialState: AppState = {
     {
       id: 1,
       date: '2024-06-01T12:34:56',
-      group: 'Life dfdff fdfdfdf df',
-      category: 'Products dfkdjfkdjf jdfkj kjdfkj  f',
+      group: 'Life',
+      category: 'Products',
       transactionAmount: 13200.1878997,
       transactionCurrency: 'USD',
       chargedAmount: 22232.4399876,
