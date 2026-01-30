@@ -1,6 +1,9 @@
+export type TransactionType = 'income' | 'expense';
+
 export interface Transaction {
   id: number;
-  date: string;
+  createdAt: Date;
+  // budgetMonth: Date;
   group: string;
   category: string;
   transactionAmount: number;
@@ -8,6 +11,7 @@ export interface Transaction {
   chargedAmount: number;
   chargedCurrency: string;
   exchangeRate: number;
-  description: string | null;
-  isIncome: boolean;
+  comment: string | null;
+  type: TransactionType;
+  // isDeleted: boolean;
 }

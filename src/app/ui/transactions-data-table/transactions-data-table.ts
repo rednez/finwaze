@@ -4,7 +4,6 @@ import {
   Component,
   computed,
   input,
-  signal,
 } from '@angular/core';
 import { Transaction } from '@models/transactions';
 
@@ -15,7 +14,7 @@ export type TransactionDataTableColumnType =
   | 'transactionAmount'
   | 'chargedAmount'
   | 'exchangeRate'
-  | 'description';
+  | 'comment';
 
 @Component({
   selector: 'app-transactions-data-table',
@@ -52,10 +51,10 @@ export type TransactionDataTableColumnType =
                 class="pl-4! pr-1 text-xs lg:text-sm text-muted-color sm:whitespace-nowrap"
               >
                 <span class="sm:hidden">
-                  {{ row.date | date: 'dd.MM.yyyy' }}
+                  {{ row.createdAt | date: 'dd.MM.yyyy' }}
                 </span>
                 <span class="hidden sm:block">
-                  {{ row.date | date: dateFormat() }}
+                  {{ row.createdAt | date: dateFormat() }}
                 </span>
               </td>
             }
@@ -82,8 +81,10 @@ export type TransactionDataTableColumnType =
                 {{ row.exchangeRate | number: '1.4-4' }}
               </td>
             }
-            @if (hasDescriptionColumn()) {
-              <td class="text-muted-color min-w-60">{{ row.description }}</td>
+            @if (hasCommentColumn()) {
+              <td class="text-muted-color min-w-60">
+                {{ row.comment || '–' }}
+              </td>
             }
           </tr>
         }
@@ -129,8 +130,8 @@ export class TransactionsDataTable {
           return 'Charged Amount';
         case 'exchangeRate':
           return 'Exchange Rate';
-        case 'description':
-          return 'Description';
+        case 'comment':
+          return 'Comment';
         default:
           return '';
       }
@@ -140,22 +141,28 @@ export class TransactionsDataTable {
   protected readonly hasDateColumn = computed(() =>
     this.cols().includes('date'),
   );
+
   protected readonly hasGroupColumn = computed(() =>
     this.cols().includes('group'),
   );
+
   protected readonly hasCategoryColumn = computed(() =>
     this.cols().includes('category'),
   );
+
   protected readonly hasTransactionAmountColumn = computed(() =>
     this.cols().includes('transactionAmount'),
   );
+
   protected readonly hasChargedAmountColumn = computed(() =>
     this.cols().includes('chargedAmount'),
   );
+
   protected readonly hasExchangeRateColumn = computed(() =>
     this.cols().includes('exchangeRate'),
   );
-  protected readonly hasDescriptionColumn = computed(() =>
-    this.cols().includes('description'),
+
+  protected readonly hasCommentColumn = computed(() =>
+    this.cols().includes('comment'),
   );
 }

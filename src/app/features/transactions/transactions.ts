@@ -5,17 +5,17 @@ import {
   signal,
 } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { DatePickerDesignTokens } from '@primeuix/themes/types/datepicker';
-import { SelectDesignTokens } from '@primeuix/themes/types/select';
 import { AppStore } from '@store/app-store';
 import {
   TransactionDataTableColumnType,
   TransactionsDataTable,
 } from '@ui/transactions-data-table';
+import { ButtonModule } from 'primeng/button';
 import { DatePickerModule } from 'primeng/datepicker';
 import { IftaLabelModule } from 'primeng/iftalabel';
 import { SelectModule } from 'primeng/select';
 import { TableModule } from 'primeng/table';
+import { TransactionsFilters } from './transactions-filters/transactions-filters';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -26,12 +26,18 @@ import { TableModule } from 'primeng/table';
     SelectModule,
     IftaLabelModule,
     DatePickerModule,
+    TransactionsFilters,
+    ButtonModule,
   ],
   templateUrl: './transactions.html',
   styleUrls: ['./transactions.css'],
 })
 export class Transactions {
   protected readonly store = inject(AppStore);
+
+  loading = signal(false);
+  data = signal<number[]>([]);
+  dataError = signal(false);
 
   protected readonly tableCols: TransactionDataTableColumnType[] = [
     'date',
@@ -40,37 +46,6 @@ export class Transactions {
     'transactionAmount',
     'chargedAmount',
     'exchangeRate',
-    'description',
+    'comment',
   ];
-
-  protected readonly currencies = signal([
-    { name: 'USD' },
-    { name: 'EUR' },
-    { name: 'UAH' },
-  ]);
-
-  protected readonly groups = signal([
-    { name: 'Life' },
-    { name: 'Sport' },
-    { name: 'Medical' },
-  ]);
-
-  protected readonly categories = signal([
-    { name: 'Food' },
-    { name: 'Car wash' },
-    { name: 'Hockey' },
-    { name: 'Football' },
-    { name: 'Mathematic' },
-  ]);
-
-  protected date = new Date();
-  protected currency: { name: string } = { name: 'USD' };
-  protected group: { name: string } = { name: 'Life' };
-  protected category: { name: string } = { name: 'Food' };
-
-  protected readonly selectInputSchema: SelectDesignTokens = {
-    root: {
-      borderRadius: '22px',
-    },
-  };
 }

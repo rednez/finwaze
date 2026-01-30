@@ -1,0 +1,46 @@
+<p-iftalabel>
+  <p-datepicker
+    [(ngModel)]="date"
+    view="month"
+    dateFormat="mm/yy"
+    [readonlyInput]="true"
+    [inputStyle]="{ borderRadius: '16px', fontSize: '14px', height: '50px' }"
+  />
+  <label for="dd-currency">Budget month</label>
+</p-iftalabel>
+
+<p-iftalabel>
+  <p-select
+    [(ngModel)]="currency"
+    [options]="currencies()"
+    optionLabel="name"
+    class="pt-3 min-w-20"
+    size="small"
+    [dt]="selectInputSchema"
+  />
+  <label for="dd-currency">Currency</label>
+</p-iftalabel>
+
+<p-iftalabel>
+  <p-select
+    [(ngModel)]="group"
+    [options]="groups()"
+    optionLabel="name"
+    class="pt-3 min-w-20"
+    size="small"
+    [dt]="selectInputSchema"
+  />
+  <label for="dd-currency">Group</label>
+</p-iftalabel>
+
+<p-iftalabel>
+  <p-select
+    [(ngModel)]="category"
+    [options]="categories()"
+    optionLabel="name"
+    class="pt-3 min-w-20"
+    size="small"
+    [dt]="selectInputSchema"
+  />
+  <label for="dd-currency">Category</label>
+</p-iftalabel>
