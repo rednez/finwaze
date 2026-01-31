@@ -1,19 +1,20 @@
-import { DecimalPipe } from '@angular/common';
+import { CurrencyPipe } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
   computed,
+  inject,
   input,
+  LOCALE_ID,
 } from '@angular/core';
 
 @Component({
   selector: 'app-styled-amount',
-  imports: [DecimalPipe],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
-    <span>{{ currency() }}</span>
-    <span>{{ wholeNumber() | number: '1.0-0' }}</span>
-    <span class="text-gray-300 dark:text-gray-500">{{ fraction() }}</span>
+    <span>{{ mainPart() }}</span
+    ><span class="text-gray-300 dark:text-gray-500">{{ decimalPart() }}</span
+    ><span>{{ suffixPart() }}</span>
   `,
   host: {
     class: 'font-semibold',
@@ -23,12 +24,43 @@ import {
   },
 })
 export class StyledAmount {
+  private readonly locale = inject(LOCALE_ID);
+  private readonly currencyPipe = new CurrencyPipe(this.locale);
+  private readonly decimalSeparator =
+    new Intl.NumberFormat(this.locale)
+      .formatToParts(1.1)
+      .find((part) => part.type === 'decimal')?.value ?? '.';
+
   readonly currency = input.required<string>();
   readonly amount = input.required<number>();
   readonly size = input<'sm' | 'md' | 'lg'>('md');
 
-  wholeNumber = computed(() => Math.floor(this.amount()));
-  fraction = computed(
-    () => '.' + ((this.amount() % 1) * 100).toFixed(0).padStart(2, '0'),
+  private readonly formattedAmount = computed(
+    () => this.currencyPipe.transform(this.amount(), this.currency()) ?? '',
   );
+
+  private readonly parsedParts = computed(() => {
+    const formatted = this.formattedAmount();
+    const lastSeparatorIndex = formatted.lastIndexOf(this.decimalSeparator);
+
+    if (lastSeparatorIndex === -1) {
+      return { main: formatted, decimal: '', suffix: '' };
+    }
+
+    const main = formatted.slice(0, lastSeparatorIndex);
+    const afterSeparator = formatted.slice(lastSeparatorIndex);
+
+    // Extract only the decimal separator and digits
+    const decimalMatch = afterSeparator.match(
+      new RegExp(`^\\${this.decimalSeparator}\\d+`),
+    );
+    const decimal = decimalMatch ? decimalMatch[0] : '';
+    const suffix = afterSeparator.slice(decimal.length);
+
+    return { main, decimal, suffix };
+  });
+
+  readonly mainPart = computed(() => this.parsedParts().main);
+  readonly decimalPart = computed(() => this.parsedParts().decimal);
+  readonly suffixPart = computed(() => this.parsedParts().suffix);
 }

@@ -51,7 +51,7 @@ export type TransactionDataTableColumnType =
                 class="pl-4! pr-1 text-xs lg:text-sm text-muted-color sm:whitespace-nowrap"
               >
                 <span class="sm:hidden">
-                  {{ row.createdAt | date: 'dd.MM.yyyy' }}
+                  {{ row.createdAt | date: 'shortDate' }}
                 </span>
                 <span class="hidden sm:block">
                   {{ row.createdAt | date: dateFormat() }}
@@ -112,7 +112,7 @@ export class TransactionsDataTable {
   readonly shortDateFormat = input(false);
 
   protected readonly dateFormat = computed(() =>
-    this.shortDateFormat() ? 'dd.MM.yyyy' : 'dd.MM.yyyy, HH:mm',
+    this.shortDateFormat() ? 'shortDate' : 'short',
   );
 
   protected readonly headersTitles = computed(() =>

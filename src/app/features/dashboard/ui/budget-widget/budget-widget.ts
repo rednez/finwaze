@@ -76,5 +76,5 @@ export class BudgetWidget {
       amount: 750,
     },
   ]);
-  readonly currency = signal('$');
+  readonly currency = signal('USD');
 }

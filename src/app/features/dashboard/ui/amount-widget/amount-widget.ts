@@ -16,7 +16,7 @@ import { TagModule } from 'primeng/tag';
   template: `
     <app-card>
       <div class="text-lg font-medium mb-4">{{ title() }}</div>
-      <app-styled-amount currency="$" [amount]="amount()" />
+      <app-styled-amount currency="USD" [amount]="amount()" />
       <div class="mt-2">
         <p-tag
           [icon]="percentIcon()"

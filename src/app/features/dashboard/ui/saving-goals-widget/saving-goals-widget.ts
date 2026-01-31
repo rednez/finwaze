@@ -43,21 +43,21 @@ export class SavingGoalsWidget {
       name: 'Ford Mustang GT',
       targetAmount: 20000,
       currentAmount: 2200,
-      currency: '$',
+      currency: 'USD',
     },
     {
       id: 2,
       name: 'iPhone 18 Pro Max Super',
       targetAmount: 2100,
       currentAmount: 876,
-      currency: '$',
+      currency: 'UAH',
     },
     {
       id: 3,
       name: 'Trip to Japan',
       targetAmount: 5000,
       currentAmount: 3900,
-      currency: '$',
+      currency: 'CZK',
     },
   ]);
 
