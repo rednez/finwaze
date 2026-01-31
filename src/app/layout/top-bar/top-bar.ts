@@ -36,8 +36,7 @@ export class TopBar {
 
   title = computed(
     () =>
-      this.pages[this.currentPath() as keyof typeof this.pages]?.title ||
-      'Unknown',
+      this.pages[this.currentPath() as keyof typeof this.pages]?.title || '',
   );
 
   description = computed(

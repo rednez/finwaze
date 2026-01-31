@@ -1,4 +1,5 @@
 import { Routes } from '@angular/router';
+import { PageNotFound } from './features/page-not-found/page-not-found';
 
 export const routes: Routes = [
   {
@@ -11,5 +12,5 @@ export const routes: Routes = [
     loadComponent: () =>
       import('./features/transactions').then((c) => c.Transactions),
   },
-  { path: '**', redirectTo: '/dashboard' },
+  { path: '**', component: PageNotFound },
 ];
