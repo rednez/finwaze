@@ -36,7 +36,7 @@ type SummaryItem = {
     />
   `,
   host: {
-    class: 'relative',
+    class: 'relative block w-fit',
   },
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
