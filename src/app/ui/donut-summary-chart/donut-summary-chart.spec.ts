@@ -24,6 +24,7 @@ describe('DonutSummaryChart', () => {
 
     fixture.componentRef.setInput('items', []);
     fixture.componentRef.setInput('currency', 'USD');
+    fixture.componentRef.setInput('title', 'Total for month');
 
     await fixture.whenStable();
   });

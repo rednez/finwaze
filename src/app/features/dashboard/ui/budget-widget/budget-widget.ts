@@ -29,6 +29,7 @@ import { v4 } from 'uuid';
         </div>
 
         <app-donut-summary-chart
+          title="Total for month"
           [currency]="currency()"
           [items]="displayedCategories()"
         />
