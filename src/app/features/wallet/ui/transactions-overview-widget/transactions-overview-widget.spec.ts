@@ -1,10 +1,10 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { BudgetChart } from './budget-chart';
+import { TransactionsOverviewWidget } from './transactions-overview-widget';
 
-describe('BudgetChart', () => {
-  let component: BudgetChart;
-  let fixture: ComponentFixture<BudgetChart>;
+describe('TransactionsOverviewWidget', () => {
+  let component: TransactionsOverviewWidget;
+  let fixture: ComponentFixture<TransactionsOverviewWidget>;
 
   beforeEach(async () => {
     window.matchMedia = vi.fn().mockImplementation((query) => ({
@@ -17,15 +17,11 @@ describe('BudgetChart', () => {
     }));
 
     await TestBed.configureTestingModule({
-      imports: [BudgetChart],
+      imports: [TransactionsOverviewWidget],
     }).compileComponents();
 
-    fixture = TestBed.createComponent(BudgetChart);
+    fixture = TestBed.createComponent(TransactionsOverviewWidget);
     component = fixture.componentInstance;
-
-    fixture.componentRef.setInput('categories', []);
-    fixture.componentRef.setInput('currency', '$');
-
     await fixture.whenStable();
   });
 

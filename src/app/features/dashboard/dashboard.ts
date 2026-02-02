@@ -10,7 +10,7 @@ import { TagModule } from 'primeng/tag';
 import { AmountWidget } from './ui/amount-widget/amount-widget';
 import { BudgetWidget } from './ui/budget-widget/budget-widget';
 import { MoneyFlowWidget } from './ui/money-flow-widget/money-flow-widget';
-import { RecentTransactionsWidget } from './ui/recent-transactions-widget/recent-transactions-widget';
+import { RecentTransactionsWidget } from '@ui/recent-transactions-widget';
 import { SavingGoalsWidget } from './ui/saving-goals-widget/saving-goals-widget';
 
 @Component({

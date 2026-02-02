@@ -29,6 +29,10 @@ export class TopBar {
       title: 'Transactions',
       description: 'View and manage your transactions',
     },
+    wallet: {
+      title: 'Wallet',
+      description: 'Manage your accounts and balances',
+    },
   };
 
   private readonly navigatorHelper = inject(NavigatorHelper);

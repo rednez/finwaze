@@ -10,15 +10,21 @@ import { DarkModeHelper } from '@services/dark-mode-helper';
 import { StyledAmount } from '@ui/styled-amount';
 import { ChartModule } from 'primeng/chart';
 
+type SummaryItem = {
+  name: string;
+  amount: number;
+  color: string;
+};
+
 @Component({
-  selector: 'app-budget-chart',
+  selector: 'app-donut-summary-chart',
   imports: [ChartModule, StyledAmount],
   template: `
     <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
       <div class="text-sm text-muted-color text-center">Total for month</div>
       <app-styled-amount
         [currency]="currency()"
-        [amount]="sumAmount()"
+        [amount]="totalAmount()"
         size="sm"
       />
     </div>
@@ -34,36 +40,16 @@ import { ChartModule } from 'primeng/chart';
   },
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class BudgetChart {
+export class DonutSummaryChart {
   private readonly darkModeHelper = inject(DarkModeHelper);
 
-  readonly categories =
-    input.required<
-      Array<{ id: number; name: string; chartColor: string; amount: number }>
-    >();
+  readonly items = input.required<SummaryItem[]>();
   readonly currency = input.required<string>();
 
-  private readonly sortedCategories = computed(() =>
-    this.categories().sort((a, b) => b.amount - a.amount),
-  );
+  private amounts = computed(() => this.items().map((cat) => cat.amount));
 
-  private amounts = computed(() =>
-    this.sortedCategories().map((cat) => cat.amount),
-  );
-
-  private colors = computed(() =>
-    this.sortedCategories().map((cat) => {
-      const documentStyle = getComputedStyle(document.documentElement);
-      return documentStyle.getPropertyValue(cat.chartColor);
-    }),
-  );
-
-  protected readonly sumAmount = computed(() =>
-    this.categories().reduce((sum, cat) => sum + cat.amount, 0),
-  );
-
-  private readonly isDarkModeSignal = toSignal(
-    this.darkModeHelper.isDarkModeChanges$,
+  protected readonly totalAmount = computed(() =>
+    this.items().reduce((sum, cat) => sum + cat.amount, 0),
   );
 
   protected readonly chartColors = computed(() => {
@@ -85,10 +71,11 @@ export class BudgetChart {
   });
 
   protected readonly data = computed(() => ({
+    labels: this.items().map((item) => item.name),
     datasets: [
       {
         data: this.amounts(),
-        backgroundColor: this.colors(),
+        backgroundColor: this.items().map((item) => item.color),
       },
     ],
   }));
@@ -100,7 +87,7 @@ export class BudgetChart {
     spacing: 4,
     plugins: {
       legend: {
-        labels: {},
+        display: false,
       },
       tooltip: {
         backgroundColor: this.chartColors().tooltipBg,
@@ -111,4 +98,8 @@ export class BudgetChart {
       },
     },
   }));
+
+  private readonly isDarkModeSignal = toSignal(
+    this.darkModeHelper.isDarkModeChanges$,
+  );
 }

@@ -1,5 +1,5 @@
 import { Routes } from '@angular/router';
-import { PageNotFound } from './features/page-not-found/page-not-found';
+import { PageNotFound } from './features/page-not-found';
 
 export const routes: Routes = [
   {
@@ -11,6 +11,10 @@ export const routes: Routes = [
     path: 'transactions',
     loadComponent: () =>
       import('./features/transactions').then((c) => c.Transactions),
+  },
+  {
+    path: 'wallet',
+    loadComponent: () => import('./features/wallet').then((c) => c.Wallet),
   },
   { path: '**', component: PageNotFound },
 ];
