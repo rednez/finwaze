@@ -8,10 +8,16 @@ import {
 import { AppStore } from '@store/app-store';
 import { RecentTransactionsWidget } from '@ui/recent-transactions-widget';
 import { AccountCard } from './ui/account-card/account-card';
+import { StatisticsWidget } from './ui/statistics-widget/statistics-widget';
 import { TransactionsOverviewWidget } from './ui/transactions-overview-widget/transactions-overview-widget';
 
 @Component({
-  imports: [AccountCard, TransactionsOverviewWidget, RecentTransactionsWidget],
+  imports: [
+    AccountCard,
+    TransactionsOverviewWidget,
+    RecentTransactionsWidget,
+    StatisticsWidget,
+  ],
   template: `
     <div class="flex flex-wrap gap-4">
       @for (acc of accounts(); track acc.name) {
@@ -23,16 +29,26 @@ import { TransactionsOverviewWidget } from './ui/transactions-overview-widget/tr
       }
     </div>
 
-    <app-transactions-overview-widget
-      class="grow sm:flex-1 min-w-0 sm:min-w-75 max-w-152 lg:max-w-full"
-    />
+    <div class="grid lg:grid-flow-col lg:grid-rows-2 gap-4">
+      <app-transactions-overview-widget class="lg:col-span-2 min-w-0" />
 
-    <app-recent-transactions-widget [transactions]="recentTransactions()" />
+      <app-recent-transactions-widget
+        class="lg:col-span-2"
+        [transactions]="recentTransactions()"
+      />
+
+      <app-statistics-widget
+        class="lg:row-span-2 sm:w-fit sm:min-w-85 xl:min-w-100 2xl:min-w-120"
+      />
+    </div>
+  `,
+  styles: `
+    @reference "tailwindcss";
+    :host {
+      @apply flex flex-col gap-4;
+    }
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  host: {
-    class: 'flex flex-col gap-4',
-  },
 })
 export class Wallet {
   private readonly store = inject(AppStore);

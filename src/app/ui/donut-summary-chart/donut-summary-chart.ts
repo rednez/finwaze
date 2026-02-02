@@ -32,7 +32,8 @@ type SummaryItem = {
       type="doughnut"
       [data]="data()"
       [options]="options()"
-      class="size-50"
+      [class.size-50]="size() === 'medium'"
+      [class.size-62]="size() === 'large'"
     />
   `,
   host: {
@@ -46,6 +47,7 @@ export class DonutSummaryChart {
   readonly title = input.required<string>();
   readonly items = input.required<SummaryItem[]>();
   readonly currency = input.required<string>();
+  readonly size = input<'medium' | 'large'>('medium');
 
   private amounts = computed(() => this.items().map((cat) => cat.amount));
 

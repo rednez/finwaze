@@ -40,6 +40,7 @@ export class BottomNavBar {
   readonly items = [
     { name: 'dashboard', icon: 'dashboard' },
     { name: 'transactions', icon: 'receipt' },
+    { name: 'wallet', icon: 'wallet' },
     { name: 'budget', icon: 'savings' },
   ];
 
