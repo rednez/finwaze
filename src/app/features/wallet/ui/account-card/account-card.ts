@@ -9,7 +9,11 @@ import { ChangeDetectionStrategy, Component, input } from '@angular/core';
       <div class="text-2xl font-semibold">
         {{ balance() | currency: currency() }}
       </div>
-      <div class="font-light">{{ name() }}</div>
+      <div
+        class="font-light whitespace-nowrap overflow-hidden text-ellipsis max-w-64 sm:whitespace-normal sm:max-w-full"
+      >
+        {{ name() }}
+      </div>
     </div>
     <div class="self-end font-semibold">{{ currency() }}</div>
   `,
@@ -17,7 +21,7 @@ import { ChangeDetectionStrategy, Component, input } from '@angular/core';
     @reference "tailwindcss";
 
     :host {
-      @apply w-full sm:w-64 h-40 gap-2 p-7 rounded-3xl text-white/92;
+      @apply w-full sm:w-74 h-33 sm:h-40 gap-2 p-7 rounded-3xl text-white/92;
       display: flex;
       justify-content: space-between;
       flex-shrink: 0;

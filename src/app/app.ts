@@ -15,7 +15,7 @@ import { TopBar } from '@layout/top-bar';
     <div class="grow min-w-0">
       <app-top-bar />
 
-      <div class="px-4 pb-4">
+      <div class="px-4 pb-24 sm:pb-4">
         <router-outlet />
       </div>
     </div>
