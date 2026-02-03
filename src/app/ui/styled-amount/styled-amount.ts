@@ -24,16 +24,16 @@ import {
   },
 })
 export class StyledAmount {
+  readonly currency = input.required<string>();
+  readonly amount = input.required<number>();
+  readonly size = input<'sm' | 'md' | 'lg'>('md');
+
   private readonly locale = inject(LOCALE_ID);
   private readonly currencyPipe = new CurrencyPipe(this.locale);
   private readonly decimalSeparator =
     new Intl.NumberFormat(this.locale)
       .formatToParts(1.1)
       .find((part) => part.type === 'decimal')?.value ?? '.';
-
-  readonly currency = input.required<string>();
-  readonly amount = input.required<number>();
-  readonly size = input<'sm' | 'md' | 'lg'>('md');
 
   private readonly formattedAmount = computed(
     () => this.currencyPipe.transform(this.amount(), this.currency()) ?? '',
