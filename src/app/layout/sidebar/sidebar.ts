@@ -4,12 +4,13 @@ import { Router } from '@angular/router';
 import { NavigatorHelper } from '@services/navigator-helper';
 import { ResponsiveHelper } from '@services/responsive-helper';
 import { ButtonModule } from 'primeng/button';
-import { SidebarNavItem } from './sidebar-nav-item';
-import { SidebarToggleBtn } from './sidebar-toggle-btn';
+import { Logo } from './logo';
+import { SidebarNavItem } from './sidebar-nav-item/sidebar-nav-item';
+import { SidebarToggleBtn } from './sidebar-toggle-btn/sidebar-toggle-btn';
 
 @Component({
   selector: 'app-sidebar',
-  imports: [ButtonModule, SidebarToggleBtn, SidebarNavItem],
+  imports: [ButtonModule, SidebarToggleBtn, SidebarNavItem, Logo],
   templateUrl: './sidebar.html',
   styleUrl: './sidebar.css',
 })
