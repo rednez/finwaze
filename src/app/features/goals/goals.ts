@@ -1,13 +1,34 @@
 import { ChangeDetectionStrategy, Component, signal } from '@angular/core';
 import { Goal } from '@models/goal';
 import { GoalCard } from './ui/goal-card/goal-card';
+import { GoalsFilters } from './ui/goals-filters/goals-filters';
 import { SavingsOverviewWidget } from './ui/savings-overview-widget/savings-overview-widget';
 import { TotalGoalsCard } from './ui/total-goals-card/total-goals-card';
+import { ButtonModule } from 'primeng/button';
 
 @Component({
   selector: 'app-goals',
-  imports: [GoalCard, TotalGoalsCard, SavingsOverviewWidget],
+  imports: [
+    GoalCard,
+    TotalGoalsCard,
+    SavingsOverviewWidget,
+    GoalsFilters,
+    ButtonModule,
+  ],
   template: `
+    <div class="flex justify-between gap-4">
+      <app-goals-filters />
+
+      <p-button
+        icon="pi pi-plus"
+        label="Add new goal"
+        [rounded]="true"
+        size="large"
+        class="shrink-0"
+        [dt]="{ root: { lg: { fontSize: '14px' } } }"
+      />
+    </div>
+
     <div class="flex gap-4 flex-wrap">
       @for (goal of goals(); track goal.id) {
         <app-goal-card [goal]="goal" class="grow sm:max-w-80" />

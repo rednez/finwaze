@@ -1,4 +1,4 @@
-import { Component, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { SelectDesignTokens } from '@primeuix/themes/types/select';
 import { DatePickerModule } from 'primeng/datepicker';
@@ -16,13 +16,10 @@ import { TableModule } from 'primeng/table';
     DatePickerModule,
   ],
   templateUrl: './transactions-filters.html',
-  styles: `
-    @reference "tailwindcss";
-
-    :host {
-      @apply flex gap-2 mb-4 flex-wrap;
-    }
-  `,
+  host: {
+    class: 'flex gap-2 mb-4 flex-wrap',
+  },
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class TransactionsFilters {
   protected readonly currencies = signal([

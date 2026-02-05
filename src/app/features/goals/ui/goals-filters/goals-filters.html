@@ -1,0 +1,26 @@
+<p-iftalabel>
+  <p-datepicker
+    [(ngModel)]="year"
+    view="year"
+    dateFormat="yy"
+    [readonlyInput]="true"
+    [inputStyle]="{ borderRadius: '16px', fontSize: '14px', height: '50px' }"
+  />
+  <label for="dd-currency">Year</label>
+</p-iftalabel>
+
+<p-iftalabel>
+  <p-select
+    [(ngModel)]="status"
+    [options]="statuses()"
+    optionLabel="name"
+    class="pt-3 min-w-20"
+    size="small"
+    [dt]="{
+      root: {
+        borderRadius: '16px',
+      },
+    }"
+  />
+  <label for="dd-currency">Status</label>
+</p-iftalabel>
