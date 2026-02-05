@@ -28,8 +28,9 @@ import { ButtonModule } from 'primeng/button';
     </div>
   `,
   host: {
-    class:
-      'min-[500px]:hidden z-10 fixed bottom-4 left-1/2 transform -translate-x-1/2 bg-white dark:bg-gray-900 border border-gray-100 dark:border-gray-600 rounded-3xl p-2 shadow-lg',
+    class: `min-[500px]:hidden z-10 fixed bottom-4 left-1/2 transform 
+      -translate-x-1/2 bg-white/80 dark:bg-gray-900/70 border border-surface-100 
+      dark:border-gray-600 rounded-3xl p-2 shadow-lg backdrop-blur-sm`,
   },
 })
 export class BottomNavBar {
@@ -42,9 +43,12 @@ export class BottomNavBar {
     { name: 'transactions', icon: 'receipt' },
     { name: 'wallet', icon: 'wallet' },
     { name: 'budget', icon: 'savings' },
+    { name: 'goals', icon: 'radar' },
   ];
 
   navigateTo(name: string) {
     this.router.navigate([name]);
   }
 }
+
+// min-[500px]:hidden
