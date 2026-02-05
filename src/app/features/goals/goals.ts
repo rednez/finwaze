@@ -1,11 +1,12 @@
 import { ChangeDetectionStrategy, Component, signal } from '@angular/core';
 import { Goal } from '@models/goal';
 import { GoalCard } from './ui/goal-card/goal-card';
+import { SavingsOverviewWidget } from './ui/savings-overview-widget/savings-overview-widget';
 import { TotalGoalsCard } from './ui/total-goals-card/total-goals-card';
 
 @Component({
   selector: 'app-goals',
-  imports: [GoalCard, TotalGoalsCard],
+  imports: [GoalCard, TotalGoalsCard, SavingsOverviewWidget],
   template: `
     <div class="flex gap-4 flex-wrap">
       @for (goal of goals(); track goal.id) {
@@ -13,7 +14,11 @@ import { TotalGoalsCard } from './ui/total-goals-card/total-goals-card';
       }
     </div>
 
-    <app-total-goals-card />
+    <div class="flex gap-4 flex-wrap">
+      <app-total-goals-card />
+
+      <app-savings-overview-widget class="grow lg:flex-1 min-w-0" />
+    </div>
   `,
   host: {
     class: 'flex flex-col gap-4',
