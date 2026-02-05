@@ -1,6 +1,8 @@
 import { ChangeDetectionStrategy, Component, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Card } from '@ui/card';
+import { CardHeaderTitle } from '@ui/card-header-title/card-header-title';
+import { CardHeader } from '@ui/card-header/card-header';
 import { DatePickerModule } from 'primeng/datepicker';
 import { IftaLabelModule } from 'primeng/iftalabel';
 import { SelectModule } from 'primeng/select';
@@ -17,11 +19,13 @@ import { TransactionsOverviewChart } from '../transactions-overview-chart/transa
     SelectModule,
     IftaLabelModule,
     DatePickerModule,
+    CardHeaderTitle,
+    CardHeader,
   ],
   template: `
     <app-card>
-      <div class="flex items-center justify-between">
-        <div class="text-lg font-medium mb-4">Transactions overflow</div>
+      <app-card-header class="flex items-center justify-between">
+        <app-card-header-title>Transactions overflow</app-card-header-title>
 
         <div class="flex gap-2">
           <p-datepicker
@@ -50,7 +54,7 @@ import { TransactionsOverviewChart } from '../transactions-overview-chart/transa
             }"
           />
         </div>
-      </div>
+      </app-card-header>
 
       <app-transactions-overview-chart
         [labels]="labels"

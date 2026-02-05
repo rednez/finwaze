@@ -2,6 +2,8 @@ import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component, input } from '@angular/core';
 import { Transaction } from '@models/transactions';
 import { Card } from '@ui/card';
+import { CardHeaderTitle } from '@ui/card-header-title/card-header-title';
+import { CardHeader } from '@ui/card-header/card-header';
 import {
   TransactionDataTableColumnType,
   TransactionsDataTable,
@@ -9,11 +11,19 @@ import {
 
 @Component({
   selector: 'app-recent-transactions-widget',
-  imports: [CommonModule, Card, TransactionsDataTable],
+  imports: [
+    CommonModule,
+    Card,
+    CardHeader,
+    CardHeaderTitle,
+    TransactionsDataTable,
+  ],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <app-card>
-      <div class="text-lg font-medium mb-4">Recent Transactions</div>
+      <app-card-header>
+        <app-card-header-title>Recent Transactions</app-card-header-title>
+      </app-card-header>
 
       <app-transactions-data-table
         [transactions]="transactions()"

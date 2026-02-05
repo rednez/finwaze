@@ -16,5 +16,9 @@ export const routes: Routes = [
     path: 'wallet',
     loadComponent: () => import('./features/wallet').then((c) => c.Wallet),
   },
+  {
+    path: 'goals',
+    loadComponent: () => import('./features/goals').then((c) => c.Goals),
+  },
   { path: '**', component: PageNotFound },
 ];

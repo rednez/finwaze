@@ -33,6 +33,10 @@ export class TopBar {
       title: 'Wallet',
       description: 'Manage your accounts and balances',
     },
+    goals: {
+      title: 'Goals',
+      description: 'Set and track your financial goals',
+    },
   };
 
   private readonly navigatorHelper = inject(NavigatorHelper);

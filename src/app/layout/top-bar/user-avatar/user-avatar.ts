@@ -10,7 +10,7 @@ import { ButtonModule } from 'primeng/button';
   template: `
     <p-menu #menu [model]="items" [popup]="true" />
     <div
-      class="flex gap-2 items-center border border-gray-300 dark:border-gray-600 py-1 pl-1 pr-4 rounded-full"
+      class="flex gap-2 items-center border border-surface-300 dark:border-surface-600 py-1 pl-1 pr-4 rounded-full"
       (click)="menu.toggle($event)"
     >
       <p-avatar

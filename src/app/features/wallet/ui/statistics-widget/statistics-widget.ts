@@ -15,6 +15,8 @@ import { SelectButtonModule } from 'primeng/selectbutton';
 import { generateAnalogColors } from 'src/app/utils/colors';
 import { v4 } from 'uuid';
 import { StatisticsByGroups } from '../statistics-by-groups/statistics-by-groups';
+import { CardHeader } from '@ui/card-header/card-header';
+import { CardHeaderTitle } from '@ui/card-header-title/card-header-title';
 
 @Component({
   selector: 'app-statistics-widget',
@@ -27,12 +29,13 @@ import { StatisticsByGroups } from '../statistics-by-groups/statistics-by-groups
     DonutSummaryChart,
     SelectButtonModule,
     StatisticsByGroups,
+    CardHeader,
+    CardHeaderTitle,
   ],
   template: `
     <app-card>
-      <div class="flex items-center justify-between mb-3">
-        <div class="text-lg font-medium mb-4">Statistics</div>
-
+      <app-card-header class="flex items-center justify-between">
+        <app-card-header-title>Statistics</app-card-header-title>
         <p-datepicker
           [(ngModel)]="date"
           view="month"
@@ -45,7 +48,7 @@ import { StatisticsByGroups } from '../statistics-by-groups/statistics-by-groups
             height: '42px',
           }"
         />
-      </div>
+      </app-card-header>
 
       <p-selectbutton
         [options]="typeOptions"

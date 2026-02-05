@@ -5,13 +5,12 @@ import {
   computed,
   signal,
 } from '@angular/core';
-import { ProgressBarDesignTokens } from '@primeuix/themes/types/progressbar';
 import { Card } from '@ui/card';
-import { ProgressBarModule } from 'primeng/progressbar';
+import { ProgressBar } from '@ui/progress-bar';
 
 @Component({
   selector: 'app-saving-goals-widget',
-  imports: [CommonModule, Card, ProgressBarModule],
+  imports: [CommonModule, Card, ProgressBar],
   template: `
     <app-card>
       <div class="text-lg font-medium mb-5">Saving goals</div>
@@ -25,10 +24,8 @@ import { ProgressBarModule } from 'primeng/progressbar';
                 {{ goal.targetAmount | currency: goal.currency }}
               </div>
             </div>
-            <p-progressbar
-              [value]="goal.savedAmountPercent"
-              [dt]="progressSchema"
-            />
+
+            <app-progress-bar [value]="goal.savedAmountPercent" />
           </div>
         }
       </div>
@@ -67,23 +64,4 @@ export class SavingGoalsWidget {
       savedAmountPercent: Math.floor((i.currentAmount / i.targetAmount) * 100),
     })),
   );
-
-  protected readonly progressSchema: ProgressBarDesignTokens = {
-    root: {
-      height: '27px',
-      borderRadius: '12px',
-    },
-    colorScheme: {
-      light: {
-        root: {
-          background: 'var(--p-primary-100)',
-        },
-      },
-      dark: {
-        root: {
-          background: 'var(--p-gray-700)',
-        },
-      },
-    },
-  };
 }
