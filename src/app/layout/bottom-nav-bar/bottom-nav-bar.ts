@@ -42,7 +42,7 @@ export class BottomNavBar {
     { name: 'dashboard', icon: 'dashboard' },
     { name: 'transactions', icon: 'receipt' },
     { name: 'wallet', icon: 'wallet' },
-    { name: 'budget', icon: 'savings' },
+    // { name: 'budget', icon: 'savings' },
     { name: 'goals', icon: 'radar' },
   ];
 
