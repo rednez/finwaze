@@ -31,9 +31,9 @@ export class Sidebar implements OnInit {
   readonly items = [
     { name: 'dashboard', label: 'Dashboard', icon: 'dashboard' },
     { name: 'transactions', label: 'Transactions', icon: 'receipt' },
-    { name: 'wallet', label: 'Wallet', icon: 'wallet' },
-    // { name: 'budget', label: 'Budget', icon: 'savings' },
-    { name: 'goals', label: 'Goals', icon: 'radar' },
+    { name: 'wallet', label: 'Wallet', icon: 'account_balance_wallet' },
+    // { name: 'budget', label: 'Budget', icon: 'payments' },
+    { name: 'goals', label: 'Goals', icon: 'savings' },
     // { name: 'analytics', label: 'Analytics', icon: 'analytics' },
   ];
 

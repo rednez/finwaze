@@ -22,7 +22,7 @@ import { GoalStatus } from '@models/goal';
       [class.dark:bg-rose-900]="status() === 'cancelled'"
     >
       <div
-        class="material-icons-outlined"
+        class="material-symbols-rounded"
         [class.text-emerald-500]="status() === 'inProgress'"
         [class.text-amber-500]="status() === 'notStarted'"
         [class.text-primary-500]="status() === 'done'"

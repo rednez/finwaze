@@ -5,7 +5,7 @@ import { Component, input, output } from '@angular/core';
   imports: [],
   template: `
     <li [class.active]="active()" [class.closed]="closed()">
-      <span class="material-icons-outlined"> {{ icon() }} </span>
+      <span class="material-symbols-rounded"> {{ icon() }} </span>
       <span class="nav-label" [class.closed]="closed()">{{ label() }}</span>
     </li>
   `,

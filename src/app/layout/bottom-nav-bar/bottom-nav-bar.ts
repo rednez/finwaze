@@ -18,7 +18,7 @@ import { ButtonModule } from 'primeng/button';
           (onClick)="navigateTo(item.name)"
         >
           <span
-            class="material-icons-outlined "
+            class="material-symbols-rounded"
             [class.text-primary-500]="currentPath() === item.name"
           >
             {{ item.icon }}
@@ -41,9 +41,9 @@ export class BottomNavBar {
   readonly items = [
     { name: 'dashboard', icon: 'dashboard' },
     { name: 'transactions', icon: 'receipt' },
-    { name: 'wallet', icon: 'wallet' },
-    // { name: 'budget', icon: 'savings' },
-    { name: 'goals', icon: 'radar' },
+    { name: 'wallet', icon: 'account_balance_wallet' },
+    // { name: 'budget', icon: 'payments' },
+    { name: 'goals', icon: 'savings' },
   ];
 
   navigateTo(name: string) {
