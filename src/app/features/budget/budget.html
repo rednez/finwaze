@@ -1,51 +1,49 @@
-<div class="flex flex-col gap-4 md:flex-row md:flex-wrap">
-  <section class="flex-1">
-    <div
-      class="flex flex-col-reverse sm:flex-row justify-end sm:justify-between gap-4"
-    >
-      <app-budget-filters class="grow" />
+<section class="flex-1">
+  <div
+    class="flex flex-col-reverse sm:flex-row justify-end sm:justify-between gap-4"
+  >
+    <app-budget-filters class="grow" />
 
-      <p-button
-        class="shrink-0 self-end sm:self-auto"
-        icon="pi pi-plus"
-        label="Add new budget"
-        [rounded]="true"
-        size="large"
-        [dt]="{ root: { lg: { fontSize: '14px' } } }"
-      />
-    </div>
-
-    <div class="flex gap-4 flex-wrap mt-4">
-      @for (group of groups(); track group.id) {
-        <app-budget-card
-          class="flex-1"
-          [name]="group.name"
-          [budgetAmount]="group.budgetAmount"
-          [spentAmount]="group.spentAmount"
-          [currency]="group.currency"
-        >
-          <p-button
-            card-actions
-            [label]="`${group.categoriesCount} categories`"
-            severity="primary"
-            variant="outlined"
-            rounded
-            size="small"
-            icon="pi pi-arrow-right"
-            iconPos="right"
-        /></app-budget-card>
-      }
-    </div>
-  </section>
-
-  <section class="flex flex-col gap-4 grow md:max-w-100">
-    <app-monthly-summary-card
-      [name]="'Monthly budget'"
-      [budgetAmount]="4123989"
-      [spentAmount]="323989"
-      [currency]="'UAH'"
+    <p-button
+      class="shrink-0 self-end sm:self-auto"
+      icon="pi pi-plus"
+      label="Add new budget"
+      [rounded]="true"
+      size="large"
+      [dt]="{ root: { lg: { fontSize: '14px' } } }"
     />
+  </div>
 
-    <app-budget-most-expenses-card [expenses]="mostExpenses()" />
-  </section>
-</div>
+  <div class="flex gap-4 flex-wrap mt-4">
+    @for (group of groups(); track group.id) {
+      <app-budget-card
+        class="flex-1"
+        [name]="group.name"
+        [budgetAmount]="group.budgetAmount"
+        [spentAmount]="group.spentAmount"
+        [currency]="group.currency"
+      >
+        <p-button
+          card-actions
+          [label]="`${group.categoriesCount} categories`"
+          severity="primary"
+          variant="outlined"
+          rounded
+          size="small"
+          icon="pi pi-arrow-right"
+          iconPos="right"
+      /></app-budget-card>
+    }
+  </div>
+</section>
+
+<section class="flex flex-col gap-4 grow md:max-w-100">
+  <app-monthly-summary-card
+    [name]="'Monthly budget'"
+    [budgetAmount]="4123989"
+    [spentAmount]="323989"
+    [currency]="'UAH'"
+  />
+
+  <app-budget-most-expenses-card [expenses]="mostExpenses()" />
+</section>

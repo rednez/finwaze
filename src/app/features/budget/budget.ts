@@ -15,9 +15,9 @@ import { MonthlySummaryCard } from './ui/monthly-summary-card/monthly-summary-ca
     BudgetMostExpensesCard,
   ],
   templateUrl: './budget.html',
-  // host: {
-  //   class: 'flex flex-col gap-4',
-  // },
+  host: {
+    class: 'flex flex-col gap-4 md:flex-row md:flex-wrap',
+  },
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class Budget {
@@ -25,16 +25,16 @@ export class Budget {
     // {
     //   id: 1,
     //   name: 'Life',
-    //   budgetAmount: 1198200.32,
-    //   spentAmount: 186900.98,
+    //   budgetAmount: 12000.32,
+    //   spentAmount: 11090.98,
     //   currency: 'UAH',
     //   categoriesCount: 4,
     // },
     // {
     //   id: 11,
     //   name: 'Life',
-    //   budgetAmount: 1198200.32,
-    //   spentAmount: 186900.98,
+    //   budgetAmount: 3200.32,
+    //   spentAmount: 3000.98,
     //   currency: 'USD',
     //   categoriesCount: 6,
     // },
