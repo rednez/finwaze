@@ -1,10 +1,9 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { TotalBudget } from './total-budget';
 
-import { Budget } from './budget';
-
-describe('Budget', () => {
-  let component: Budget;
-  let fixture: ComponentFixture<Budget>;
+describe('TotalBudget', () => {
+  let component: TotalBudget;
+  let fixture: ComponentFixture<TotalBudget>;
 
   beforeEach(async () => {
     window.matchMedia = vi.fn().mockImplementation((query) => ({
@@ -17,10 +16,10 @@ describe('Budget', () => {
     }));
 
     await TestBed.configureTestingModule({
-      imports: [Budget],
+      imports: [TotalBudget],
     }).compileComponents();
 
-    fixture = TestBed.createComponent(Budget);
+    fixture = TestBed.createComponent(TotalBudget);
     component = fixture.componentInstance;
     await fixture.whenStable();
   });
