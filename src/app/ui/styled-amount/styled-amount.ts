@@ -18,6 +18,7 @@ import {
   `,
   host: {
     class: 'font-semibold',
+    '[class.text-large]': "size() === 'xs'",
     '[class.text-xl]': "size() === 'sm'",
     '[class.text-2xl]': "size() === 'md'",
     '[class.text-3xl]': "size() === 'lg'",
@@ -26,7 +27,7 @@ import {
 export class StyledAmount {
   readonly currency = input.required<string>();
   readonly amount = input.required<number>();
-  readonly size = input<'sm' | 'md' | 'lg'>('md');
+  readonly size = input<'xs' | 'sm' | 'md' | 'lg'>('md');
 
   private readonly locale = inject(LOCALE_ID);
   private readonly currencyPipe = new CurrencyPipe(this.locale);

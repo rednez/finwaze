@@ -22,6 +22,7 @@
       "@store/*": ["src/app/store/*"],
       "@models/*": ["src/app/models/*"],
       "@repositories/*": ["src/app/repositories/*"],
+      "@utils/*": ["src/app/utils/*"],
       "@env": ["src/environments/environment.ts"]
     }
   },

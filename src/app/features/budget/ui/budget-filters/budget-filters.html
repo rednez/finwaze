@@ -1,0 +1,64 @@
+<div class="flex gap-2 flex-wrap">
+  <p-iftalabel>
+    <p-datepicker
+      [(ngModel)]="month"
+      view="month"
+      dateFormat="mm/yy"
+      [readonlyInput]="true"
+      [inputStyle]="{ borderRadius: '16px', fontSize: '14px', height: '50px' }"
+    />
+    <label for="dd-month">Month</label>
+  </p-iftalabel>
+
+  <p-iftalabel>
+    <p-select
+      [(ngModel)]="currency"
+      [options]="currencies()"
+      optionLabel="name"
+      class="pt-3 min-w-20"
+      size="small"
+      [dt]="{
+        root: {
+          borderRadius: '16px',
+        },
+      }"
+    />
+    <label for="dd-currency">Currency</label>
+  </p-iftalabel>
+
+  <p-iftalabel>
+    <p-select
+      [(ngModel)]="status"
+      [options]="statuses()"
+      optionLabel="name"
+      class="pt-3 min-w-20"
+      size="small"
+      [dt]="{
+        root: {
+          borderRadius: '16px',
+        },
+      }"
+    />
+    <label for="dd-status">Status</label>
+  </p-iftalabel>
+</div>
+
+<p-multiselect
+  [options]="groups()"
+  [(ngModel)]="selectedGroups"
+  optionLabel="name"
+  placeholder="Select groups"
+  [maxSelectedLabels]="3"
+  [showClear]="true"
+  display="chip"
+  class="text-sm"
+  [dt]="{
+    root: {
+      borderRadius: '16px',
+      paddingY: '14px',
+    },
+    chip: {
+      borderRadius: '16px',
+    },
+  }"
+/>

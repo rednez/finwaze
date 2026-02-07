@@ -1,0 +1,38 @@
+<div class="flex flex-col gap-4 md:flex-row md:flex-wrap">
+  <section class="flex-1">
+    <app-budget-filters />
+
+    <div class="flex gap-4 flex-wrap mt-4">
+      @for (group of groups(); track group.id) {
+        <app-budget-card
+          class="flex-1"
+          [name]="group.name"
+          [budgetAmount]="group.budgetAmount"
+          [spentAmount]="group.spentAmount"
+          [currency]="group.currency"
+        >
+          <p-button
+            card-actions
+            [label]="`${group.categoriesCount} categories`"
+            severity="primary"
+            variant="outlined"
+            rounded
+            size="small"
+            icon="pi pi-arrow-right"
+            iconPos="right"
+        /></app-budget-card>
+      }
+    </div>
+  </section>
+
+  <section class="flex flex-col gap-4 grow md:max-w-100">
+    <app-monthly-summary-card
+      [name]="'Monthly budget'"
+      [budgetAmount]="4123989"
+      [spentAmount]="323989"
+      [currency]="'UAH'"
+    />
+
+    <app-budget-most-expenses-card [expenses]="mostExpenses()" />
+  </section>
+</div>

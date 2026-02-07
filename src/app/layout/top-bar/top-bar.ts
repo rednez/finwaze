@@ -33,6 +33,10 @@ export class TopBar {
       title: 'Wallet',
       description: 'Manage your accounts and balances',
     },
+    budget: {
+      title: 'Budget',
+      description: 'Create and track your budgets',
+    },
     goals: {
       title: 'Goals',
       description: 'Set and track your financial goals',

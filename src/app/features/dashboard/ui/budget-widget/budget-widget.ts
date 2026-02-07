@@ -6,7 +6,7 @@ import {
 } from '@angular/core';
 import { Card } from '@ui/card';
 import { DonutSummaryChart } from '@ui/donut-summary-chart';
-import { generateAnalogColors } from 'src/app/utils/colors';
+import { generateAnalogColors } from '@utils/colors';
 import { v4 } from 'uuid';
 
 @Component({
