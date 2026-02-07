@@ -1,4 +1,4 @@
-import { signalStore, withMethods, withState } from '@ngrx/signals';
+import { patchState, signalStore, withMethods, withState } from '@ngrx/signals';
 import { Transaction } from '@models/transactions';
 
 type AppState = {

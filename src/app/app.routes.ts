@@ -18,7 +18,9 @@ export const routes: Routes = [
   },
   {
     path: 'budget',
-    loadComponent: () => import('./features/budget').then((c) => c.Budget),
+
+    loadChildren: () =>
+      import('./features/budget/budget.routes').then((c) => c.budgetRoutes),
   },
   {
     path: 'goals',

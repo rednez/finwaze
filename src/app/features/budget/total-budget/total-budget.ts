@@ -1,5 +1,12 @@
-import { ChangeDetectionStrategy, Component, signal } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  inject,
+  signal,
+} from '@angular/core';
+import { Router } from '@angular/router';
 import { ButtonModule } from 'primeng/button';
+import { BudgetState } from '../services/budget-state';
 import { BudgetCard } from '../ui/budget-card/budget-card';
 import { BudgetFilters } from '../ui/budget-filters/budget-filters';
 import { BudgetMostExpensesCard } from '../ui/budget-most-expenses-card/budget-most-expenses-card';
@@ -21,6 +28,9 @@ import { MonthlySummaryCard } from '../ui/monthly-summary-card/monthly-summary-c
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class TotalBudget {
+  private readonly router = inject(Router);
+  private readonly budgetState = inject(BudgetState);
+
   protected readonly groups = signal([
     {
       id: 1,
@@ -123,4 +133,15 @@ export class TotalBudget {
       currency: 'USD',
     },
   ]);
+
+  constructor() {
+    this.budgetState.selectedGroupName.set('');
+  }
+
+  gotoBudgetByGroup(id: number, name: string) {
+    this.budgetState.selectedCurrency.set('USD');
+    this.budgetState.selectedGroupName.set(name);
+
+    this.router.navigate([`/budget/groups/${id}`]);
+  }
 }
