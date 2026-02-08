@@ -37,7 +37,7 @@ import { TransactionsOverviewWidget } from './ui/transactions-overview-widget/tr
         [transactions]="recentTransactions()"
       />
 
-      <app-statistics-widget
+      <app-wallet-statistics-widget
         class="lg:row-span-2 sm:w-fit sm:min-w-85 xl:min-w-100 2xl:min-w-120"
       />
     </div>

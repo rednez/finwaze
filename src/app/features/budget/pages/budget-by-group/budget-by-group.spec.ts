@@ -8,12 +8,13 @@ describe('BudgetByGroup', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [BudgetByGroup]
-    })
-    .compileComponents();
+      imports: [BudgetByGroup],
+    }).compileComponents();
 
     fixture = TestBed.createComponent(BudgetByGroup);
     component = fixture.componentInstance;
+    fixture.componentRef.setInput('categories', []);
+    fixture.componentRef.setInput('mostExpenses', []);
     await fixture.whenStable();
   });
 

@@ -11,27 +11,27 @@ import { DarkModeHelper } from '@services/dark-mode-helper';
 import { ChartModule } from 'primeng/chart';
 
 @Component({
-  selector: 'app-savings-overview-chart',
+  selector: 'app-budgets-expenses-chart',
   imports: [ChartModule],
-  template: `
-    <p-chart type="line" [data]="data()" [options]="options()" class="h-50" />
-  `,
   providers: [DatePipe],
+  template: `
+    <p-chart type="bar" [data]="data()" [options]="options()" class="h-50" />
+  `,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class SavingsOverviewChart {
+export class BudgetsExpensesChart {
   private readonly darkModeHelper = inject(DarkModeHelper);
   private readonly datePipe = inject(DatePipe);
 
   readonly labels = input<string[]>([]);
-  readonly currentSavings = input<number[]>([]);
-  readonly previousSavings = input<number[]>([]);
+  readonly expenses = input<number[]>([]);
+  readonly budgets = input<number[]>([]);
 
   private readonly isDarkModeSignal = toSignal(
     this.darkModeHelper.isDarkModeChanges$,
   );
 
-  protected readonly colors = computed(() => {
+  protected readonly chartColors = computed(() => {
     const documentStyle = getComputedStyle(document.documentElement);
 
     const textColor = documentStyle.getPropertyValue('--p-text-color');
@@ -41,75 +41,40 @@ export class SavingsOverviewChart {
     const surfaceBorder = documentStyle.getPropertyValue(
       '--p-content-border-color',
     );
-    const income = this.isDarkModeSignal()
+    const expense = this.isDarkModeSignal()
       ? documentStyle.getPropertyValue('--p-primary-500')
       : documentStyle.getPropertyValue('--p-primary-color');
-    const expense = this.isDarkModeSignal()
+    const budget = this.isDarkModeSignal()
       ? documentStyle.getPropertyValue('--p-primary-300')
       : documentStyle.getPropertyValue('--p-primary-300');
     const tooltipBg = this.isDarkModeSignal()
       ? documentStyle.getPropertyValue('--p-gray-800')
       : 'white';
-    const gradientStop = this.isDarkModeSignal()
-      ? 'transparent'
-      : 'rgba(255, 255, 255, 0.4)';
 
     return {
       textColor,
       textColorSecondary,
       surfaceBorder,
-      income,
+      budget,
       expense,
       tooltipBg,
-      gradientStop,
     };
   });
 
   protected readonly data = computed(() => ({
-    labels: this.labels().map((i) => this.datePipe.transform(i, 'd MMM')),
+    labels: this.labels().map((i) => this.datePipe.transform(i, 'MMM')),
     datasets: [
       {
-        label: 'Selected',
-        backgroundColor: ({
-          chart,
-        }: {
-          chart: {
-            ctx: CanvasRenderingContext2D;
-            chartArea?: { top: number; bottom: number };
-          };
-        }) => {
-          if (!chart.chartArea) {
-            return this.colors().income;
-          }
-
-          const { ctx, chartArea } = chart;
-          const gradient = ctx.createLinearGradient(
-            0,
-            chartArea.top,
-            0,
-            chartArea.bottom,
-          );
-          gradient.addColorStop(0, this.colors().income);
-          gradient.addColorStop(1, this.colors().gradientStop);
-
-          return gradient;
-        },
-        borderColor: this.colors().income,
-        data: this.currentSavings(),
-        borderWidth: 2,
-        fill: true,
-        tension: 0.4,
-        pointRadius: 0,
+        label: 'Expenses',
+        backgroundColor: this.chartColors().expense,
+        borderColor: this.chartColors().expense,
+        data: this.expenses(),
       },
       {
-        label: 'Previous',
-        backgroundColor: this.colors().expense,
-        borderColor: this.colors().expense,
-        data: this.previousSavings(),
-        borderWidth: 2,
-        borderDash: [8, 5],
-        tension: 0.4,
-        pointRadius: 0,
+        label: 'Budgets',
+        backgroundColor: this.chartColors().budget,
+        borderColor: this.chartColors().budget,
+        data: this.budgets(),
       },
     ],
   }));
@@ -122,37 +87,37 @@ export class SavingsOverviewChart {
       legend: {
         display: true,
         labels: {
-          color: this.colors().textColor,
+          color: this.chartColors().textColor,
           usePointStyle: true,
         },
       },
       tooltip: {
-        backgroundColor: this.colors().tooltipBg,
-        borderColor: this.colors().surfaceBorder,
+        backgroundColor: this.chartColors().tooltipBg,
+        borderColor: this.chartColors().surfaceBorder,
         borderWidth: 1,
-        bodyColor: this.colors().textColor,
-        titleColor: this.colors().textColor,
+        bodyColor: this.chartColors().textColor,
+        titleColor: this.chartColors().textColor,
       },
     },
     scales: {
       x: {
         ticks: {
-          color: this.colors().textColorSecondary,
+          color: this.chartColors().textColorSecondary,
           font: {
             weight: 400,
           },
         },
         grid: {
-          color: this.colors().surfaceBorder,
+          color: this.chartColors().surfaceBorder,
           drawBorder: false,
         },
       },
       y: {
         ticks: {
-          color: this.colors().textColorSecondary,
+          color: this.chartColors().textColorSecondary,
         },
         grid: {
-          color: this.colors().surfaceBorder,
+          color: this.chartColors().surfaceBorder,
           drawBorder: false,
         },
       },

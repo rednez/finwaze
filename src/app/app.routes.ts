@@ -26,5 +26,10 @@ export const routes: Routes = [
     path: 'goals',
     loadComponent: () => import('./features/goals').then((c) => c.Goals),
   },
+  {
+    path: 'analytics',
+    loadComponent: () =>
+      import('./features/analytics').then((c) => c.Analytics),
+  },
   { path: '**', component: PageNotFound },
 ];

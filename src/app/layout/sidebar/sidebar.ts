@@ -34,7 +34,7 @@ export class Sidebar implements OnInit {
     { name: 'wallet', label: 'Wallet', icon: 'account_balance_wallet' },
     { name: 'budget', label: 'Budget', icon: 'donut_small' },
     { name: 'goals', label: 'Goals', icon: 'savings' },
-    // { name: 'analytics', label: 'Analytics', icon: 'analytics' },
+    { name: 'analytics', label: 'Analytics', icon: 'analytics' },
   ];
 
   ngOnInit(): void {

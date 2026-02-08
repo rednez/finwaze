@@ -1,8 +1,9 @@
+import { CommonModule, DatePipe } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
   computed,
-  model,
+  inject,
   signal,
 } from '@angular/core';
 import { FormsModule } from '@angular/forms';
@@ -11,54 +12,41 @@ import { CardHeaderTitle } from '@ui/card-header-title/card-header-title';
 import { CardHeader } from '@ui/card-header/card-header';
 import { DonutSummaryChart } from '@ui/donut-summary-chart';
 import { generateAnalogColors } from '@utils/colors';
-import { DatePickerModule } from 'primeng/datepicker';
-import { IftaLabelModule } from 'primeng/iftalabel';
 import { SelectModule } from 'primeng/select';
 import { SelectButtonModule } from 'primeng/selectbutton';
 import { v4 } from 'uuid';
 import { StatisticsByGroups } from './statistics-by-groups/statistics-by-groups';
 
 @Component({
-  selector: 'app-wallet-statistics-widget',
+  selector: 'app-analytic-statistics-card',
   imports: [
+    CommonModule,
     Card,
+    CardHeader,
+    CardHeaderTitle,
     SelectModule,
-    IftaLabelModule,
-    DatePickerModule,
     FormsModule,
     DonutSummaryChart,
     SelectButtonModule,
     StatisticsByGroups,
-    CardHeader,
-    CardHeaderTitle,
   ],
+  providers: [DatePipe],
   template: `
     <app-card>
       <app-card-header class="flex items-center justify-between">
         <app-card-header-title>Statistics</app-card-header-title>
-        <p-datepicker
-          [(ngModel)]="date"
-          view="month"
-          dateFormat="mm/yy"
-          [readonlyInput]="true"
-          class="w-22"
-          [inputStyle]="{
-            borderRadius: '16px',
-            fontSize: '14px',
-            height: '42px',
+        <p-select
+          [(ngModel)]="type"
+          [options]="typesOptions()"
+          optionLabel="name"
+          size="small"
+          [dt]="{
+            root: {
+              borderRadius: '16px',
+            },
           }"
         />
       </app-card-header>
-
-      <p-selectbutton
-        [options]="typeOptions"
-        [(ngModel)]="selectedType"
-        optionLabel="label"
-        optionValue="value"
-        aria-labelledby="basic"
-        size="small"
-        fluid
-      />
 
       <div class="flex flex-col">
         <app-donut-summary-chart
@@ -69,19 +57,22 @@ import { StatisticsByGroups } from './statistics-by-groups/statistics-by-groups'
           class="py-6 self-center"
         />
 
-        <app-wallet-statistics-by-groups [groups]="displayedItems()" />
+        <app-statistics-by-groups [groups]="displayedItems()" />
       </div>
     </app-card>
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class StatisticsWidget {
-  protected readonly date = model(new Date());
-  protected readonly typeOptions = [
-    { value: 'expense', label: 'Expense' },
-    { value: 'income', label: 'Income' },
-  ];
-  protected readonly selectedType = model('expense');
+export class AnalyticStatisticsCard {
+  private readonly datePipe = inject(DatePipe);
+
+  protected readonly typesOptions = signal([
+    { name: 'Expenses' },
+    { name: 'Income' },
+    { name: 'Budget' },
+  ]);
+
+  protected type: { name: string } = { name: 'Expenses' };
 
   readonly incomes = signal([
     {
@@ -95,6 +86,22 @@ export class StatisticsWidget {
     {
       name: 'Допомога',
       amount: 100,
+    },
+    {
+      name: 'Подарунки',
+      amount: 2400,
+    },
+    {
+      name: 'Продаж',
+      amount: 1200,
+    },
+    {
+      name: 'Кредити',
+      amount: 1000,
+    },
+    {
+      name: 'Інвестиції',
+      amount: 500,
     },
   ]);
 
@@ -129,67 +136,47 @@ export class StatisticsWidget {
     },
   ]);
 
+  readonly budgets = signal([]);
+
   readonly currency = signal('UAH');
+  readonly month = signal(new Date());
 
   protected readonly displayedItems = computed(() =>
-    this.selectedType() === 'income'
+    this.type.name === 'Expenses'
       ? this.displayedIncomes()
       : this.displayedExpenses(),
   );
 
-  protected readonly chartLabel = computed(() =>
-    this.selectedType() === 'income' ? 'Total income' : 'Total expenses',
-  );
+  protected readonly chartLabel = computed(() => {
+    const monthString = this.datePipe.transform(this.month(), 'MM/yy');
+    const label =
+      this.type.name === 'Income'
+        ? 'Income for'
+        : this.type.name === 'Expenses'
+          ? 'Expenses for'
+          : 'Budget for';
+    return label + ' ' + monthString;
+  });
 
   private readonly displayedIncomes = computed(() => {
     const colors = generateAnalogColors(this.incomes().length);
-
-    const sortedIncomes = this.incomes()
+    return this.incomes()
       .sort((a, b) => b.amount - a.amount)
       .map((cat, index) => ({
         ...cat,
         id: v4(),
         color: colors[index],
       }));
-
-    return this.incomes().length <= 7
-      ? sortedIncomes
-      : [
-          ...sortedIncomes.slice(0, 6),
-          {
-            id: v4(),
-            name: 'Rest categories',
-            amount: sortedIncomes
-              .slice(6)
-              .reduce((sum, cat) => sum + cat.amount, 0),
-            color: '#e2e1e3',
-          },
-        ];
   });
 
   private readonly displayedExpenses = computed(() => {
     const colors = generateAnalogColors(this.expenses().length);
-
-    const sortedExpenses = this.expenses()
+    return this.expenses()
       .sort((a, b) => b.amount - a.amount)
       .map((cat, index) => ({
         ...cat,
         id: v4(),
         color: colors[index],
       }));
-
-    return this.expenses().length <= 7
-      ? sortedExpenses
-      : [
-          ...sortedExpenses.slice(0, 6),
-          {
-            id: v4(),
-            name: 'Rest categories',
-            amount: sortedExpenses
-              .slice(6)
-              .reduce((sum, cat) => sum + cat.amount, 0),
-            color: '#e2e1e3',
-          },
-        ];
   });
 }

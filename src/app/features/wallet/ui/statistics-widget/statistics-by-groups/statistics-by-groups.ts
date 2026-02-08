@@ -14,7 +14,7 @@ interface StatisticGroup {
 }
 
 @Component({
-  selector: 'app-statistics-by-groups',
+  selector: 'app-wallet-statistics-by-groups',
   imports: [CommonModule],
   template: `
     @for (group of displayedData(); track group.id) {

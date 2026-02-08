@@ -1,0 +1,43 @@
+<app-stats-filters />
+
+<div class="flex gap-4 flex-wrap">
+  <app-financial-summary-card
+    title="Total balance"
+    [currentAmount]="11200"
+    [previousAmount]="10000"
+    [currency]="'UAH'"
+    [growTrendIsGood]="true"
+    infoTextPart="You have extra"
+    [transactionCount]="65"
+    [groupsCount]="12"
+  />
+  <app-financial-summary-card
+    title="Income"
+    [currentAmount]="10590"
+    [previousAmount]="10500"
+    [currency]="'UAH'"
+    [growTrendIsGood]="true"
+    infoTextPart="You earn extra"
+    [transactionCount]="2"
+    [groupsCount]="1"
+  />
+  <app-financial-summary-card
+    title="Expense"
+    [currentAmount]="10800.34"
+    [previousAmount]="16700.12"
+    [currency]="'UAH'"
+    [growTrendIsGood]="false"
+    infoTextPart="You have extra"
+    [transactionCount]="195"
+    [groupsCount]="10"
+  />
+</div>
+
+<div class="flex gap-4 flex-col lg:flex-row">
+  <div class="flex flex-col gap-4 grow min-w-0">
+    <app-financial-monthly-overview-card class="min-w-0 grow" />
+    <app-budgets-expenses-card class="min-w-0 grow" />
+  </div>
+
+  <app-analytic-statistics-card class="lg:max-w-100" />
+</div>

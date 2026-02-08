@@ -11,7 +11,7 @@ import { DarkModeHelper } from '@services/dark-mode-helper';
 import { ChartModule } from 'primeng/chart';
 
 @Component({
-  selector: 'app-savings-overview-chart',
+  selector: 'app-financial-monthly-overview-chart',
   imports: [ChartModule],
   template: `
     <p-chart type="line" [data]="data()" [options]="options()" class="h-50" />
@@ -19,13 +19,13 @@ import { ChartModule } from 'primeng/chart';
   providers: [DatePipe],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class SavingsOverviewChart {
+export class FinancialMonthlyOverviewChart {
   private readonly darkModeHelper = inject(DarkModeHelper);
   private readonly datePipe = inject(DatePipe);
 
   readonly labels = input<string[]>([]);
-  readonly currentSavings = input<number[]>([]);
-  readonly previousSavings = input<number[]>([]);
+  readonly currentAmounts = input<number[]>([]);
+  readonly previousAmounts = input<number[]>([]);
 
   private readonly isDarkModeSignal = toSignal(
     this.darkModeHelper.isDarkModeChanges$,
@@ -41,10 +41,10 @@ export class SavingsOverviewChart {
     const surfaceBorder = documentStyle.getPropertyValue(
       '--p-content-border-color',
     );
-    const income = this.isDarkModeSignal()
+    const currentLine = this.isDarkModeSignal()
       ? documentStyle.getPropertyValue('--p-primary-500')
       : documentStyle.getPropertyValue('--p-primary-color');
-    const expense = this.isDarkModeSignal()
+    const previousLine = this.isDarkModeSignal()
       ? documentStyle.getPropertyValue('--p-primary-300')
       : documentStyle.getPropertyValue('--p-primary-300');
     const tooltipBg = this.isDarkModeSignal()
@@ -58,18 +58,18 @@ export class SavingsOverviewChart {
       textColor,
       textColorSecondary,
       surfaceBorder,
-      income,
-      expense,
+      currentLine,
+      previousLine,
       tooltipBg,
       gradientStop,
     };
   });
 
   protected readonly data = computed(() => ({
-    labels: this.labels().map((i) => this.datePipe.transform(i, 'd MMM')),
+    labels: this.labels().map((i) => this.datePipe.transform(i, 'MMM')),
     datasets: [
       {
-        label: 'Selected',
+        label: 'Selected month',
         backgroundColor: ({
           chart,
         }: {
@@ -79,7 +79,7 @@ export class SavingsOverviewChart {
           };
         }) => {
           if (!chart.chartArea) {
-            return this.colors().income;
+            return this.colors().currentLine;
           }
 
           const { ctx, chartArea } = chart;
@@ -89,23 +89,23 @@ export class SavingsOverviewChart {
             0,
             chartArea.bottom,
           );
-          gradient.addColorStop(0, this.colors().income);
+          gradient.addColorStop(0, this.colors().currentLine);
           gradient.addColorStop(1, this.colors().gradientStop);
 
           return gradient;
         },
-        borderColor: this.colors().income,
-        data: this.currentSavings(),
+        borderColor: this.colors().currentLine,
+        data: this.currentAmounts(),
         borderWidth: 2,
         fill: true,
         tension: 0.4,
         pointRadius: 0,
       },
       {
-        label: 'Previous',
-        backgroundColor: this.colors().expense,
-        borderColor: this.colors().expense,
-        data: this.previousSavings(),
+        label: 'Previous month',
+        backgroundColor: this.colors().previousLine,
+        borderColor: this.colors().previousLine,
+        data: this.previousAmounts(),
         borderWidth: 2,
         borderDash: [8, 5],
         tension: 0.4,

@@ -11,7 +11,6 @@ import { CardHeader } from '@ui/card-header/card-header';
 import { DatePickerModule } from 'primeng/datepicker';
 import { IftaLabelModule } from 'primeng/iftalabel';
 import { SelectModule } from 'primeng/select';
-import { TableModule } from 'primeng/table';
 import { SavingsOverviewChart } from '../savings-overview-chart/savings-overview-chart';
 
 @Component({
@@ -20,7 +19,6 @@ import { SavingsOverviewChart } from '../savings-overview-chart/savings-overview
     Card,
     SavingsOverviewChart,
     FormsModule,
-    TableModule,
     SelectModule,
     IftaLabelModule,
     DatePickerModule,
@@ -68,7 +66,6 @@ import { SavingsOverviewChart } from '../savings-overview-chart/savings-overview
       />
     </app-card>
   `,
-  styles: ``,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SavingsOverviewWidget {

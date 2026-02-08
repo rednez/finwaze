@@ -1,0 +1,43 @@
+<app-card>
+  <app-card-header>
+    <app-card-header-title>{{ title() }}</app-card-header-title>
+  </app-card-header>
+
+  <app-styled-amount [amount]="currentAmount()" [currency]="currency()" />
+
+  <div class="flex gap-6 mt-6 justify-between">
+    <div class="flex flex-col place-content-between">
+      <app-financial-trend-badge
+        [currentAmount]="currentAmount()"
+        [previousAmount]="previousAmount()"
+        [growTrendIsGood]="growTrendIsGood()"
+      />
+
+      <p
+        class="max-w-46 text-sm leading-snug text-muted-color wrap-break-words"
+      >
+        @if (diffAmount() !== 0) {
+          <span
+            class="font-semibold text-gray-700 dark:text-gray-300 whitespace-nowrap"
+          >
+            {{ diffAmount() | currency: currency() }}
+          </span>
+        }
+        {{ comparedText() }} compared to last month
+      </p>
+    </div>
+
+    <div class="flex flex-col">
+      <app-financial-summary-card-button
+        label="transactions"
+        [count]="transactionCount()"
+        icon="sync_alt"
+      />
+      <app-financial-summary-card-button
+        label="groups"
+        [count]="groupsCount()"
+        icon="grid_view"
+      />
+    </div>
+  </div>
+</app-card>

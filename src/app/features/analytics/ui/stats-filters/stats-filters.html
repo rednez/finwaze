@@ -1,0 +1,46 @@
+<p-iftalabel>
+  <p-datepicker
+    [(ngModel)]="month"
+    view="month"
+    dateFormat="mm/yy"
+    [readonlyInput]="true"
+    [inputStyle]="{ borderRadius: '16px', fontSize: '14px', height: '50px' }"
+  />
+  <label for="dd-month">Month</label>
+</p-iftalabel>
+
+<p-iftalabel>
+  <p-select
+    [(ngModel)]="currency"
+    [options]="currencies()"
+    optionLabel="name"
+    class="pt-3 min-w-20"
+    size="small"
+    [dt]="{
+      root: {
+        borderRadius: '16px',
+      },
+    }"
+  />
+  <label for="dd-currency">Currency</label>
+</p-iftalabel>
+
+<p-multiselect
+  [options]="accounts()"
+  [(ngModel)]="selectedAccount"
+  optionLabel="name"
+  placeholder="Select accounts"
+  [maxSelectedLabels]="3"
+  [showClear]="true"
+  display="chip"
+  class="text-sm"
+  [dt]="{
+    root: {
+      borderRadius: '16px',
+      paddingY: '14px',
+    },
+    chip: {
+      borderRadius: '16px',
+    },
+  }"
+/>

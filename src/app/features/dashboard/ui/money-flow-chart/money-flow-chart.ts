@@ -12,12 +12,9 @@ import { ChartModule } from 'primeng/chart';
 @Component({
   selector: 'app-money-flow-chart',
   imports: [ChartModule],
-  template: `<p-chart
-    type="bar"
-    [data]="data()"
-    [options]="options()"
-    class="h-50"
-  />`,
+  template: `
+    <p-chart type="bar" [data]="data()" [options]="options()" class="h-50" />
+  `,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class MoneyFlowChart {
