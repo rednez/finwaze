@@ -6,11 +6,11 @@ import {
 } from '@angular/core';
 import { Router } from '@angular/router';
 import { ButtonModule } from 'primeng/button';
-import { BudgetState } from '../services/budget-state';
-import { BudgetCard } from '../ui/budget-card/budget-card';
-import { BudgetFilters } from '../ui/budget-filters/budget-filters';
-import { BudgetMostExpensesCard } from '../ui/budget-most-expenses-card/budget-most-expenses-card';
-import { MonthlySummaryCard } from '../ui/monthly-summary-card/monthly-summary-card';
+import { BudgetState } from '../../services/budget-state';
+import { BudgetCard } from '../../ui/budget-card/budget-card';
+import { BudgetFilters } from '../../ui/budget-filters';
+import { BudgetMostExpensesCard } from '../../ui/budget-most-expenses-card';
+import { MonthlySummaryCard } from '../../ui/monthly-summary-card';
 
 @Component({
   selector: 'app-budget',

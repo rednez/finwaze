@@ -11,12 +11,12 @@ export const budgetRoutes: Routes = [
       {
         path: '',
         loadComponent: () =>
-          import('./total-budget').then((c) => c.TotalBudget),
+          import('./pages/total-budget').then((c) => c.TotalBudget),
       },
       {
         path: 'groups/:id',
         loadComponent: () =>
-          import('./budget-by-group').then((c) => c.BudgetByGroup),
+          import('./pages/budget-by-group').then((c) => c.BudgetByGroup),
         canActivate: [budgetByGroupGuard],
         resolve: {
           categories: categoriesResolver,

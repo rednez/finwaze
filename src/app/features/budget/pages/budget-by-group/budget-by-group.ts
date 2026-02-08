@@ -4,10 +4,10 @@ import {
   inject,
   input,
 } from '@angular/core';
-import { BudgetState } from '../services/budget-state';
-import { BudgetCard } from '../ui/budget-card/budget-card';
-import { BudgetMostExpensesCard } from '../ui/budget-most-expenses-card/budget-most-expenses-card';
-import { MonthlySummaryCard } from '../ui/monthly-summary-card/monthly-summary-card';
+import { BudgetState } from '../../services/budget-state';
+import { BudgetCard } from '../../ui/budget-card';
+import { BudgetMostExpensesCard } from '../../ui/budget-most-expenses-card';
+import { MonthlySummaryCard } from '../../ui/monthly-summary-card';
 
 @Component({
   imports: [BudgetCard, MonthlySummaryCard, BudgetMostExpensesCard],
