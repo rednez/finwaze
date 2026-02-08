@@ -4,19 +4,13 @@ import {
   inject,
   input,
 } from '@angular/core';
+import { BudgetState } from '../services/budget-state';
 import { BudgetCard } from '../ui/budget-card/budget-card';
-import { BudgetFilters } from '../ui/budget-filters/budget-filters';
 import { BudgetMostExpensesCard } from '../ui/budget-most-expenses-card/budget-most-expenses-card';
 import { MonthlySummaryCard } from '../ui/monthly-summary-card/monthly-summary-card';
-import { BudgetState } from '../services/budget-state';
 
 @Component({
-  imports: [
-    BudgetCard,
-    BudgetFilters,
-    MonthlySummaryCard,
-    BudgetMostExpensesCard,
-  ],
+  imports: [BudgetCard, MonthlySummaryCard, BudgetMostExpensesCard],
   templateUrl: './budget-by-group.html',
   host: {
     class: 'flex flex-col gap-4 md:flex-row md:flex-wrap',
