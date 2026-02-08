@@ -4,8 +4,18 @@ import { ResolveFn } from '@angular/router';
 import { mostExpensesResolver } from './most-expenses-resolver';
 
 describe('mostExpensesResolver', () => {
-  const executeResolver: ResolveFn<boolean> = (...resolverParameters) => 
-      TestBed.runInInjectionContext(() => mostExpensesResolver(...resolverParameters));
+  const executeResolver: ResolveFn<
+    {
+      id: number;
+      name: string;
+      currentAmount: number;
+      previousPeriodAmount: number;
+      currency: string;
+    }[]
+  > = (...resolverParameters) =>
+    TestBed.runInInjectionContext(() =>
+      mostExpensesResolver(...resolverParameters),
+    );
 
   beforeEach(() => {
     TestBed.configureTestingModule({});

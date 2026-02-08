@@ -1,54 +1,42 @@
-import { Component } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { FinancialTrendBadge } from './financial-trend-badge';
 
-@Component({
-  template: `
-    <app-financial-trend-badge
-      [currentAmount]="currentAmount"
-      [previousAmount]="previousAmount"
-      [growTrendIsGood]="growTrendIsGood"
-    />
-  `,
-  imports: [FinancialTrendBadge],
-})
-class TestHostComponent {
-  currentAmount = 0;
-  previousAmount = 0;
-  growTrendIsGood = false;
-}
-
 describe('FinancialTrendBadge', () => {
-  let host: TestHostComponent;
-  let fixture: ComponentFixture<TestHostComponent>;
+  let fixture: ComponentFixture<FinancialTrendBadge>;
+  let component: FinancialTrendBadge;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [TestHostComponent],
+      imports: [FinancialTrendBadge],
     }).compileComponents();
 
-    fixture = TestBed.createComponent(TestHostComponent);
-    host = fixture.componentInstance;
-    fixture.detectChanges();
+    fixture = TestBed.createComponent(FinancialTrendBadge);
+    component = fixture.componentInstance;
   });
 
   it('should create', () => {
-    expect(host).toBeTruthy();
+    expect(component).toBeTruthy();
   });
 
+  const setInputs = (
+    currentAmount: number,
+    previousAmount: number,
+    growTrendIsGood: boolean,
+  ) => {
+    fixture.componentRef.setInput('currentAmount', currentAmount);
+    fixture.componentRef.setInput('previousAmount', previousAmount);
+    fixture.componentRef.setInput('growTrendIsGood', growTrendIsGood);
+    fixture.detectChanges();
+  };
+
   const getBadgeClasses = () => {
-    const badge = fixture.debugElement.query(
-      By.css('app-financial-trend-badge div'),
-    );
+    const badge = fixture.debugElement.query(By.css('div'));
     return badge.nativeElement.classList as DOMTokenList;
   };
 
   it('marks positive delta as good when growTrendIsGood is true', () => {
-    host.growTrendIsGood = true;
-    host.previousAmount = 100;
-    host.currentAmount = 110;
-    fixture.detectChanges();
+    setInputs(110, 100, true);
 
     const classes = getBadgeClasses();
 
@@ -61,10 +49,7 @@ describe('FinancialTrendBadge', () => {
   });
 
   it('marks positive delta as bad when growTrendIsGood is false', () => {
-    host.growTrendIsGood = false;
-    host.previousAmount = 100;
-    host.currentAmount = 110;
-    fixture.detectChanges();
+    setInputs(110, 100, false);
 
     const classes = getBadgeClasses();
 
@@ -77,10 +62,7 @@ describe('FinancialTrendBadge', () => {
   });
 
   it('marks zero delta as neutral', () => {
-    host.growTrendIsGood = true;
-    host.previousAmount = 100;
-    host.currentAmount = 100;
-    fixture.detectChanges();
+    setInputs(100, 100, true);
 
     const classes = getBadgeClasses();
 

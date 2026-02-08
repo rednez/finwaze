@@ -31,10 +31,13 @@ export class FinancialTrendBadge {
   readonly previousAmount = input(0);
   readonly growTrendIsGood = input(false);
 
-  private readonly delta = computed(
-    () =>
-      (this.currentAmount() - this.previousAmount()) / this.previousAmount(),
-  );
+  private readonly delta = computed(() => {
+    const previous = this.previousAmount();
+    if (previous === 0) {
+      return 0;
+    }
+    return (this.currentAmount() - previous) / previous;
+  });
 
   protected readonly absDelta = computed(() => Math.abs(this.delta()));
 
@@ -42,18 +45,17 @@ export class FinancialTrendBadge {
     this.delta() > 0 ? 'north' : 'south',
   );
 
-  protected readonly color = computed(() => ({
-    'text-green-600': this.isPositiveTrend(),
-    'text-red-600': this.isNegativeTrend(),
-    'text-gray-600': this.isNeutralTrend(),
-    'bg-green-100': this.isPositiveTrend(),
-    'bg-red-100': this.isNegativeTrend(),
-    'bg-gray-100': this.isNeutralTrend(),
-    'dark:text-green-500': this.isPositiveTrend(),
-    'dark:text-red-500': this.isNegativeTrend(),
-    'dark:bg-green-950': this.isPositiveTrend(),
-    'dark:bg-red-950': this.isNegativeTrend(),
-  }));
+  protected readonly color = computed(() => {
+    if (this.isPositiveTrend()) {
+      return 'text-green-600 bg-green-100 dark:text-green-500 dark:bg-green-950';
+    }
+
+    if (this.isNegativeTrend()) {
+      return 'text-red-600 bg-red-100 dark:text-red-500 dark:bg-red-950';
+    }
+
+    return 'text-gray-600 bg-gray-100';
+  });
 
   private readonly isPositiveTrend = computed(() =>
     this.growTrendIsGood() ? this.delta() > 0 : this.delta() < 0,
