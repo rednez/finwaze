@@ -32,7 +32,7 @@ export class Sidebar implements OnInit {
     { name: 'dashboard', label: 'Dashboard', icon: 'dashboard' },
     { name: 'transactions', label: 'Transactions', icon: 'receipt' },
     { name: 'wallet', label: 'Wallet', icon: 'account_balance_wallet' },
-    { name: 'budget', label: 'Budget', icon: 'payments' },
+    { name: 'budget', label: 'Budget', icon: 'donut_small' },
     { name: 'goals', label: 'Goals', icon: 'savings' },
     // { name: 'analytics', label: 'Analytics', icon: 'analytics' },
   ];
