@@ -138,10 +138,14 @@ export class TotalBudget {
     this.budgetState.selectedGroupName.set('');
   }
 
-  gotoBudgetByGroup(id: number, name: string) {
+  protected gotoBudgetByGroup(id: number, name: string) {
     this.budgetState.selectedCurrency.set('USD');
     this.budgetState.selectedGroupName.set(name);
 
     this.router.navigate([`/budget/groups/${id}`]);
+  }
+
+  protected gotoCreateBudget() {
+    this.router.navigate([`/budget/create`]);
   }
 }

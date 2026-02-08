@@ -23,6 +23,11 @@ export const budgetRoutes: Routes = [
           mostExpenses: mostExpensesResolver,
         },
       },
+      {
+        path: 'create',
+        loadComponent: () =>
+          import('./pages/create-budget').then((c) => c.CreateBudget),
+      },
     ],
   },
 ];
