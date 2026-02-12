@@ -1,5 +1,5 @@
 import { Component, computed, inject } from '@angular/core';
-import { NavigatorHelper } from '@services/navigator-helper';
+import { NavigatorHelper } from '@core/services/navigator-helper';
 import { UserAvatar } from './user-avatar/user-avatar';
 
 @Component({

@@ -4,9 +4,9 @@ import {
   computed,
   signal,
 } from '@angular/core';
-import { Card } from '@ui/card';
-import { DonutSummaryChart } from '@ui/donut-summary-chart';
-import { generateAnalogColors } from '@utils/colors';
+import { Card } from '@shared/ui/card';
+import { DonutSummaryChart } from '@shared/ui/donut-summary-chart';
+import { generateAnalogColors } from '@core/utils/colors';
 import { v4 } from 'uuid';
 
 @Component({

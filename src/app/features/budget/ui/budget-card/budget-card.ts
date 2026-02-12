@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, input } from '@angular/core';
-import { Card } from '@ui/card';
-import { CardHeaderTitle } from '@ui/card-header-title/card-header-title';
-import { CardHeader } from '@ui/card-header/card-header';
+import { Card } from '@shared/ui/card';
+import { CardHeaderTitle } from '@shared/ui/card-header-title/card-header-title';
+import { CardHeader } from '@shared/ui/card-header/card-header';
 import { ButtonModule } from 'primeng/button';
 import { BudgetCardChart } from './budget-card-chart/budget-card-chart';
 import { BudgetCardSummary } from './budget-card-summary/budget-card-summary';

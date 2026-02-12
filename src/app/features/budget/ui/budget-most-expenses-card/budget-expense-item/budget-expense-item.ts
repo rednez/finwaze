@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component, input } from '@angular/core';
-import { FinancialTrendBadge } from '@ui/financial-trend-badge';
+import { FinancialTrendBadge } from '@shared/ui/financial-trend-badge';
 
 @Component({
   selector: 'app-budget-expense-item',

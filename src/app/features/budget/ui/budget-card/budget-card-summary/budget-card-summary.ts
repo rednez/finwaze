@@ -5,7 +5,7 @@ import {
   computed,
   input,
 } from '@angular/core';
-import { StyledAmount } from '@ui/styled-amount/styled-amount';
+import { StyledAmount } from '@shared/ui/styled-amount/styled-amount';
 import { BudgetStatusBadge } from '../../budget-status-badge/budget-status-badge';
 
 @Component({

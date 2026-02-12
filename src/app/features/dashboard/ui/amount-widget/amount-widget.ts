@@ -5,8 +5,8 @@ import {
   computed,
   input,
 } from '@angular/core';
-import { Card } from '@ui/card';
-import { StyledAmount } from '@ui/styled-amount';
+import { Card } from '@shared/ui/card';
+import { StyledAmount } from '@shared/ui/styled-amount';
 import { CardModule } from 'primeng/card';
 import { TagModule } from 'primeng/tag';
 

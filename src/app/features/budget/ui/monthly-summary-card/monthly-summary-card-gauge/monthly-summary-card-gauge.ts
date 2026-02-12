@@ -4,8 +4,8 @@ import {
   computed,
   input,
 } from '@angular/core';
-import { BudgetGauge } from '@ui/budget-gauge';
-import { StyledAmount } from '@ui/styled-amount';
+import { BudgetGauge } from '@shared/ui/budget-gauge';
+import { StyledAmount } from '@shared/ui/styled-amount';
 
 @Component({
   selector: 'app-monthly-summary-card-gauge',

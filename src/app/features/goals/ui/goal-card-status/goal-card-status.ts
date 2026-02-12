@@ -4,7 +4,7 @@ import {
   computed,
   input,
 } from '@angular/core';
-import { GoalStatus } from '@models/goal';
+import { GoalStatus } from '@core/models/goal';
 
 @Component({
   selector: 'app-goal-card-status',

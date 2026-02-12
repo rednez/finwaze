@@ -1,8 +1,8 @@
 import { Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
-import { BottomNavBar } from '@layout/bottom-nav-bar';
-import { Sidebar } from '@layout/sidebar';
-import { TopBar } from '@layout/top-bar';
+import { BottomNavBar } from '@core/layout/bottom-nav-bar';
+import { Sidebar } from '@core/layout/sidebar';
+import { TopBar } from '@core/layout/top-bar';
 
 @Component({
   selector: 'app-root',

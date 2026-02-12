@@ -5,11 +5,11 @@ import {
   signal,
 } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { AppStore } from '@store/app-store';
+import { AppStore } from '@core/store/app-store';
 import {
   TransactionDataTableColumnType,
   TransactionsDataTable,
-} from '@ui/transactions-data-table';
+} from '@shared/ui/transactions-data-table';
 import { ButtonModule } from 'primeng/button';
 import { DatePickerModule } from 'primeng/datepicker';
 import { IftaLabelModule } from 'primeng/iftalabel';

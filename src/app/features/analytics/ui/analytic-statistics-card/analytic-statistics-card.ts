@@ -7,11 +7,11 @@ import {
   signal,
 } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { Card } from '@ui/card';
-import { CardHeaderTitle } from '@ui/card-header-title/card-header-title';
-import { CardHeader } from '@ui/card-header/card-header';
-import { DonutSummaryChart } from '@ui/donut-summary-chart';
-import { generateAnalogColors } from '@utils/colors';
+import { Card } from '@shared/ui/card';
+import { CardHeaderTitle } from '@shared/ui/card-header-title/card-header-title';
+import { CardHeader } from '@shared/ui/card-header/card-header';
+import { DonutSummaryChart } from '@shared/ui/donut-summary-chart';
+import { generateAnalogColors } from '@core/utils/colors';
 import { SelectModule } from 'primeng/select';
 import { SelectButtonModule } from 'primeng/selectbutton';
 import { v4 } from 'uuid';

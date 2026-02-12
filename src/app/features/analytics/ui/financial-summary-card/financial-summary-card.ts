@@ -6,11 +6,11 @@ import {
   input,
   signal,
 } from '@angular/core';
-import { Card } from '@ui/card';
-import { CardHeaderTitle } from '@ui/card-header-title/card-header-title';
-import { CardHeader } from '@ui/card-header/card-header';
-import { FinancialTrendBadge } from '@ui/financial-trend-badge';
-import { StyledAmount } from '@ui/styled-amount';
+import { Card } from '@shared/ui/card';
+import { CardHeaderTitle } from '@shared/ui/card-header-title/card-header-title';
+import { CardHeader } from '@shared/ui/card-header/card-header';
+import { FinancialTrendBadge } from '@shared/ui/financial-trend-badge';
+import { StyledAmount } from '@shared/ui/styled-amount';
 import { ButtonModule } from 'primeng/button';
 import { FinancialSummaryCardButton } from './financial-summary-card-button/financial-summary-card-button';
 

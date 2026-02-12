@@ -6,7 +6,7 @@ import {
   input,
 } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
-import { DarkModeHelper } from '@services/dark-mode-helper';
+import { DarkModeHelper } from '@core/services/dark-mode-helper';
 import { ChartModule } from 'primeng/chart';
 
 @Component({

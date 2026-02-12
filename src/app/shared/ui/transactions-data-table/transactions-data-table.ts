@@ -5,7 +5,7 @@ import {
   computed,
   input,
 } from '@angular/core';
-import { Transaction } from '@models/transactions';
+import { Transaction } from '@core/models/transactions';
 
 export type TransactionDataTableColumnType =
   | 'date'

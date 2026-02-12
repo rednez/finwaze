@@ -5,9 +5,9 @@ import {
   signal,
 } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { Card } from '@ui/card';
-import { CardHeaderTitle } from '@ui/card-header-title/card-header-title';
-import { CardHeader } from '@ui/card-header/card-header';
+import { Card } from '@shared/ui/card';
+import { CardHeaderTitle } from '@shared/ui/card-header-title/card-header-title';
+import { CardHeader } from '@shared/ui/card-header/card-header';
 import { SelectModule } from 'primeng/select';
 import { FinancialMonthlyOverviewChart } from '../financial-monthly-overview-chart/financial-monthly-overview-chart';
 

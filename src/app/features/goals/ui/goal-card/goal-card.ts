@@ -5,9 +5,9 @@ import {
   computed,
   input,
 } from '@angular/core';
-import { Goal } from '@models/goal';
-import { ProgressBar } from '@ui/progress-bar';
-import { StyledAmount } from '@ui/styled-amount';
+import { Goal } from '@core/models/goal';
+import { ProgressBar } from '@shared/ui/progress-bar';
+import { StyledAmount } from '@shared/ui/styled-amount';
 import { GoalCardStatus } from '../goal-card-status/goal-card-status';
 
 @Component({

@@ -1,5 +1,5 @@
 import { patchState, signalStore, withMethods, withState } from '@ngrx/signals';
-import { Transaction } from '@models/transactions';
+import { Transaction } from '@core/models/transactions';
 
 type AppState = {
   transactions: Transaction[];

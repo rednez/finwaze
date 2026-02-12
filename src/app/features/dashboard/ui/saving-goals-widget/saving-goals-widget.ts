@@ -5,8 +5,8 @@ import {
   computed,
   signal,
 } from '@angular/core';
-import { Card } from '@ui/card';
-import { ProgressBar } from '@ui/progress-bar';
+import { Card } from '@shared/ui/card';
+import { ProgressBar } from '@shared/ui/progress-bar';
 
 @Component({
   selector: 'app-saving-goals-widget',

@@ -5,8 +5,8 @@ import {
   inject,
   signal,
 } from '@angular/core';
-import { AppStore } from '@store/app-store';
-import { RecentTransactionsWidget } from '@ui/recent-transactions-widget';
+import { AppStore } from '@core/store/app-store';
+import { RecentTransactionsWidget } from '@shared/ui/recent-transactions-widget';
 import { AccountCard } from './ui/account-card/account-card';
 import { StatisticsWidget } from './ui/statistics-widget/statistics-widget';
 import { TransactionsOverviewWidget } from './ui/transactions-overview-widget/transactions-overview-widget';

@@ -1,8 +1,8 @@
 import { Component, DestroyRef, inject, OnInit, signal } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { Router } from '@angular/router';
-import { NavigatorHelper } from '@services/navigator-helper';
-import { ResponsiveHelper } from '@services/responsive-helper';
+import { NavigatorHelper } from '@core/services/navigator-helper';
+import { ResponsiveHelper } from '@core/services/responsive-helper';
 import { ButtonModule } from 'primeng/button';
 import { Logo } from './logo';
 import { SidebarNavItem } from './sidebar-nav-item/sidebar-nav-item';
