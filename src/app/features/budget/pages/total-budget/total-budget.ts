@@ -13,7 +13,6 @@ import { BudgetMostExpensesCard } from '../../ui/budget-most-expenses-card';
 import { MonthlySummaryCard } from '../../ui/monthly-summary-card';
 
 @Component({
-  selector: 'app-budget',
   imports: [
     BudgetCard,
     BudgetFilters,

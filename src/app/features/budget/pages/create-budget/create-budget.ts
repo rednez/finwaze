@@ -22,7 +22,6 @@ import { ToastModule } from 'primeng/toast';
 import { ProductService } from './products.service';
 
 @Component({
-  selector: 'app-create-budget',
   imports: [
     CommonModule,
     ButtonModule,
