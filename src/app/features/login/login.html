@@ -1,0 +1,39 @@
+<div
+  class="bg-[#FDFDFF] dark:bg-[#09090B] text-slate-900 dark:text-zinc-100 transition-colors duration-500 overflow-hidden"
+>
+  <div
+    class="relative min-h-screen flex flex-col items-center justify-center p-6"
+  >
+    <div
+      class="w-full max-w-110 bg-white/40 dark:bg-zinc-900/40 backdrop-blur-2xl border border-white dark:border-zinc-800/50 p-12 rounded-[40px] shadow-2xl shadow-violet-500/12 dark:shadow-none"
+    >
+      <div class="flex justify-center mb-8">
+        <div class="relative">
+          <app-logo-short />
+        </div>
+      </div>
+
+      <div class="text-center mb-10">
+        <h1 class="text-3xl font-semibold tracking-tight leading-tight">
+          Sign In to the App
+        </h1>
+        <p
+          class="text-slate-500 dark:text-zinc-400 mt-3 font-light leading-relaxed"
+        >
+          Control your money with confidence. Make your expenses answer to you.
+        </p>
+      </div>
+
+      <app-google-button (clickLogin)="loginWithGoogle()" />
+
+      <div class="mt-8 flex items-center justify-center gap-2">
+        <span class="w-1.5 h-1.5 rounded-full bg-violet-500"></span>
+        <span
+          class="text-[10px] uppercase tracking-[0.2em] text-slate-400 dark:text-zinc-500 font-bold"
+        >
+          Free and secure
+        </span>
+      </div>
+    </div>
+  </div>
+</div>
