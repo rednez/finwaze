@@ -23,6 +23,7 @@
       "@core/models/*": ["src/app/core/models/*"],
       "@core/repositories/*": ["src/app/core/repositories/*"],
       "@core/utils/*": ["src/app/core/utils/*"],
+      "@core/guards": ["src/app/core/guards/index.ts"],
       "@env": ["src/environments/environment.ts"]
     }
   },

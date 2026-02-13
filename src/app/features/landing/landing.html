@@ -1,0 +1,58 @@
+<header class="w-full">
+  <app-logo-pic class="mx-auto" />
+
+  <app-gradient-block class="mt-7">
+    <div class="flex items-center gap-4">
+      <app-credit-card-heart-pic />
+      <div class="text-lg font-semibold">
+        {{ headerText }}
+      </div>
+    </div>
+  </app-gradient-block>
+</header>
+
+<app-filled-block class="w-full text-center">
+  <div class="text-lg font-bold mb-4">
+    Money shouldn’t feel confusing or overwhelming.
+  </div>
+  <div>
+    This app helps you clearly see where your money goes, plan ahead with
+    confidence, and build a more secure future for you and your family.
+  </div>
+
+  <app-gradient-button class="mt-8" (getStarted)="gotoLogin()" />
+</app-filled-block>
+
+<div
+  class="flex flex-col gap-8 md:gap-3 sm:flex-row sm:justify-between sm:w-full"
+>
+  <app-description-section
+    [title]="sectionsData.budget.title"
+    [bullets]="sectionsData.budget.bullets"
+  >
+    <app-section-budget-pic />
+  </app-description-section>
+
+  <app-description-section
+    [title]="sectionsData.spending.title"
+    [bullets]="sectionsData.spending.bullets"
+  >
+    <app-section-spending-pic />
+  </app-description-section>
+
+  <app-description-section
+    [title]="sectionsData.savings.title"
+    [bullets]="sectionsData.savings.bullets"
+  >
+    <app-section-savings-pic />
+  </app-description-section>
+</div>
+
+<app-gradient-block class="w-full text-center">
+  <div class="text-lg font-bold mb-4">
+    Take care of your money — and it will take care of you.
+  </div>
+  <div>Start today and feel more confident about tomorrow.</div>
+
+  <app-white-button class="mt-8" (getStarted)="gotoLogin()" />
+</app-gradient-block>
