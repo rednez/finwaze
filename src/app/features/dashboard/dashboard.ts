@@ -30,9 +30,8 @@ import { SavingGoalsWidget } from './ui/saving-goals-widget/saving-goals-widget'
           class="grow"
           [title]="widget.title"
           [amount]="widget.amount"
-          [percent]="widget.percent"
-          [isPositive]="widget.isPositive"
-          [isGrowth]="widget.isGrowth"
+          [previousAmount]="widget.previousAmount"
+          [growTrendIsGood]="widget.growTrendIsGood"
         />
       }
     </div>
@@ -64,23 +63,22 @@ export class Dashboard {
     {
       title: 'Total balance',
       amount: 34123.43,
-      percent: 12.1,
-      isPositive: true,
-      isGrowth: true,
+      previousAmount: 32000,
+
+      growTrendIsGood: true,
     },
     {
       title: 'Income',
       amount: 8500.43,
-      percent: 8.6,
-      isPositive: false,
-      isGrowth: false,
+      previousAmount: 7800,
+
+      growTrendIsGood: true,
     },
     {
       title: 'Expenses',
       amount: 4200.1,
-      percent: 5.2,
-      isPositive: false,
-      isGrowth: true,
+      previousAmount: 3200.43,
+      growTrendIsGood: false,
     },
   ];
 
