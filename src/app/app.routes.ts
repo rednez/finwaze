@@ -1,11 +1,11 @@
 import { Routes } from '@angular/router';
+import { authGuard, guestGuard } from '@core/guards';
 import { PageNotFound } from './features/page-not-found';
-import { guestGuard, authGuard } from '@core/guards';
 
 export const routes: Routes = [
   {
     path: '',
-    canMatch: [guestGuard],
+    canActivate: [guestGuard],
     loadComponent: () =>
       import('@core/layout/guest-layout').then((c) => c.GuestLayout),
     children: [
@@ -22,7 +22,7 @@ export const routes: Routes = [
   },
   {
     path: '',
-    canMatch: [authGuard],
+    canActivate: [authGuard],
     loadComponent: () =>
       import('@core/layout/app-layout').then((c) => c.AppLayout),
     children: [

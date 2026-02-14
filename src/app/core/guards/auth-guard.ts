@@ -1,7 +1,16 @@
 import { inject } from '@angular/core';
-import { CanMatchFn, RedirectCommand, Router } from '@angular/router';
+import { CanActivateFn, RedirectCommand, Router } from '@angular/router';
+import { SupabaseService } from '@core/services/supabase.service';
 
-export const authGuard: CanMatchFn = (route, segments) => {
+export const authGuard: CanActivateFn = async (route, segments) => {
   const router = inject(Router);
-  return new RedirectCommand(router.parseUrl('/login'));
+  const supabaseService = inject(SupabaseService);
+
+  const session = await supabaseService.getSession();
+
+  if (!session) {
+    return new RedirectCommand(router.parseUrl('/login'));
+  } else {
+    return true;
+  }
 };

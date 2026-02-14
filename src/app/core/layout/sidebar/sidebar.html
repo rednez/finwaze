@@ -22,6 +22,11 @@
   </div>
 
   <div class="bottom">
-    <app-sidebar-nav-item label="Log out" icon="logout" [closed]="closed()" />
+    <app-sidebar-nav-item
+      label="Log out"
+      icon="logout"
+      [closed]="closed()"
+      (click)="logout()"
+    />
   </div>
 </nav>

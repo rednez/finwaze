@@ -1,4 +1,5 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import { SupabaseService } from '@core/services/supabase.service';
 import { GoogleButton } from './ui/google-button/google-button';
 import { LogoShort } from './ui/logo-short/logo-short';
 
@@ -8,8 +9,9 @@ import { LogoShort } from './ui/logo-short/logo-short';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class Login {
-  protected loginWithGoogle() {
-    // TODO
-    console.log('Login with Google');
+  private supabase = inject(SupabaseService);
+
+  protected async loginWithGoogle() {
+    this.supabase.signInWithGoogle();
   }
 }

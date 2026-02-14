@@ -1,8 +1,9 @@
-import { Component, DestroyRef, inject, OnInit, signal } from '@angular/core';
+import { Component, DestroyRef, inject, signal } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { Router } from '@angular/router';
 import { NavigatorHelper } from '@core/services/navigator-helper';
 import { ResponsiveHelper } from '@core/services/responsive-helper';
+import { SupabaseService } from '@core/services/supabase.service';
 import { ButtonModule } from 'primeng/button';
 import { Logo } from './logo';
 import { SidebarNavItem } from './sidebar-nav-item/sidebar-nav-item';
@@ -14,11 +15,12 @@ import { SidebarToggleBtn } from './sidebar-toggle-btn/sidebar-toggle-btn';
   templateUrl: './sidebar.html',
   styleUrl: './sidebar.css',
 })
-export class Sidebar implements OnInit {
+export class Sidebar {
   private readonly router = inject(Router);
   private readonly navigatorHelper = inject(NavigatorHelper);
   private readonly responsiveHelper = inject(ResponsiveHelper);
   private readonly destroyRef = inject(DestroyRef);
+  private readonly supabase = inject(SupabaseService);
 
   readonly currentPath = this.navigatorHelper.currentFeatureName;
 
@@ -37,16 +39,21 @@ export class Sidebar implements OnInit {
     { name: 'analytics', label: 'Analytics', icon: 'analytics' },
   ];
 
-  ngOnInit(): void {
+  constructor() {
     this.windowWidth.subscribe(this.handleWidthChanges);
   }
 
-  toggle() {
+  protected toggle() {
     this.closed.update((v) => !v);
   }
 
-  selectNavItem(name: string) {
+  protected selectNavItem(name: string) {
     this.router.navigate([name]);
+  }
+
+  protected async logout() {
+    await this.supabase.signOut();
+    this.router.navigate(['login']);
   }
 
   private handleWidthChanges = (width: number) => {

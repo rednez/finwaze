@@ -6,12 +6,12 @@ import { createClient, SupabaseClient } from '@supabase/supabase-js';
   providedIn: 'root',
 })
 export class TransactionsRepository {
-  private supabase: SupabaseClient;
+  // private supabase: SupabaseClient;
 
   constructor() {
-    this.supabase = createClient(
-      environment.supabase.url,
-      environment.supabase.publicKey,
-    );
+    // this.supabase = createClient(
+    //   environment.supabase.url,
+    //   environment.supabase.publicKey,
+    // );
   }
 }

@@ -1,46 +1,57 @@
-import { Component, input } from '@angular/core';
+import { Component, input, output } from '@angular/core';
 import { AvatarModule } from 'primeng/avatar';
-import { MenuModule } from 'primeng/menu';
-import { MenuItem, MessageService } from 'primeng/api';
 import { ButtonModule } from 'primeng/button';
+import { MenuModule } from 'primeng/menu';
+import { SkeletonModule } from 'primeng/skeleton';
+
+export interface UserData {
+  name?: string;
+  email?: string;
+  imgUrl?: string;
+}
 
 @Component({
   selector: 'app-user-avatar',
-  imports: [AvatarModule, MenuModule, ButtonModule],
+  imports: [AvatarModule, MenuModule, ButtonModule, SkeletonModule],
   template: `
     <p-menu #menu [model]="items" [popup]="true" />
     <div
       class="flex gap-2 items-center border border-surface-300 dark:border-surface-600 py-1 pl-1 pr-4 rounded-full"
       (click)="menu.toggle($event)"
     >
-      <p-avatar
-        class="hidden! sm:block!"
-        [image]="imgUrl()"
-        shape="circle"
-        size="large"
-      />
+      @if (user(); as user) {
+        <p-avatar
+          class="hidden! sm:block!"
+          [image]="user.imgUrl"
+          shape="circle"
+          size="large"
+        />
 
-      <p-avatar class="sm:hidden!" [image]="imgUrl()" shape="circle" />
+        <p-avatar class="sm:hidden!" [image]="user.imgUrl" shape="circle" />
 
-      <div>
-        <div class="text-sm font-medium">{{ name() }}</div>
-        <div class="text-xs text-gray-400">{{ email() }}</div>
-      </div>
+        <div>
+          <div class="text-sm font-medium">{{ user.name }}</div>
+          <div class="text-xs text-gray-400">{{ user.email }}</div>
+        </div>
+      } @else {
+        <p-skeleton shape="circle" size="3rem" />
+        <div>
+          <p-skeleton width="6rem" height="12px" class="mb-2" />
+          <p-skeleton width="6rem" height="12px" />
+        </div>
+      }
     </div>
   `,
 })
 export class UserAvatar {
-  name = input.required<string>();
-  email = input.required<string>();
-  // TODO
-  imgUrl = input<string>(
-    'https://primefaces.org/cdn/primeng/images/demo/avatar/asiyajavayant.png',
-  );
+  readonly user = input<UserData | undefined>(undefined);
+  readonly logout = output();
 
-  items = [
+  protected items = [
     {
       label: 'Log out',
       icon: 'pi pi-sign-out',
+      command: () => this.logout.emit(),
     },
   ];
 }
