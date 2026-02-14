@@ -25,7 +25,7 @@ INSERT INTO auth.users (
   crypt('password1234', gen_salt('bf')),
   now(),
   '{"provider": "email", "providers": ["email"]}',
-  '{"full_name": "Demo User"}',
+  '{"full_name": "Demo User", "avatar_url": "https://i.pravatar.cc/150?img=6"}',
   now(),
   now(),
   '',

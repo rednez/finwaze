@@ -1,24 +1,33 @@
 import { ChangeDetectionStrategy, Component, output } from '@angular/core';
-import { GooglePic } from '../google-pic/google-pic';
 
 @Component({
-  selector: 'app-google-button',
-  imports: [GooglePic],
+  selector: 'app-demo-button',
   template: `
     <button
       class="group relative w-full flex items-center justify-center 
-      gap-4 bg-white dark:bg-zinc-800 text-zinc-900 dark:text-zinc-200
+      gap-4 bg-white dark:bg-zinc-800 text-zinc-900 dark:text-zinc-200 
       py-4 px-6 rounded-2xl transition-all duration-300 hover:shadow-xl
       hover:shadow-violet-500/10 dark:hover:shadow-none border border-slate-200 dark:border-transparent 
-      active:scale-[0.98] hover:cursor-pointer"
+      active:scale-[0.98] hover:cursor-pointer font-medium"
       (click)="clickLogin.emit()"
     >
-      <app-google-pic />
-      <span class="font-semibold">Continue with Google</span>
+      <span>Try Demo Mode</span>
     </button>
+  `,
+  styles: `
+    :host {
+      display: block;
+    }
+
+    span {
+      background: linear-gradient(90deg, #5e23e9 0%, #ca27f3 100%);
+      background-clip: text;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class GoogleButton {
+export class DemoButton {
   readonly clickLogin = output();
 }
