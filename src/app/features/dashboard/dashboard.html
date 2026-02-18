@@ -1,0 +1,43 @@
+<div class="h-13">
+  @if (store.selectedCurrencyCode()) {
+    <app-dashboard-filters
+      [currencies]="store.myCurrencies()"
+      [initCurrency]="store.selectedCurrencyCode()"
+      (currencyChanged)="updateCurrency($event)"
+    />
+  }
+</div>
+
+<div class="flex flex-wrap gap-4 min-w-0">
+  @for (widget of amountWidgets(); track widget.title) {
+    <app-amount-widget
+      class="grow"
+      [title]="widget.title"
+      [amount]="widget.amount"
+      [previousAmount]="widget.previousAmount"
+      [growTrendIsGood]="widget.growTrendIsGood"
+      [isLoading]="store.isTotalsSummaryLoading()"
+      [isError]="store.isTotalsSummaryError()"
+      [currency]="store.selectedCurrencyCode()"
+    />
+  }
+</div>
+
+<div class="flex flex-wrap gap-4 min-w-0">
+  <app-money-flow-widget
+    class="grow sm:flex-1 min-w-0 sm:min-w-75 max-w-152 lg:max-w-full"
+    [months]="store.cashFlowMonths()"
+    [incomes]="store.cashFlowIncomes()"
+    [expenses]="store.cashFlowExpenses()"
+  />
+
+  <app-budget-widget class="grow md:grow-0" />
+</div>
+
+<div class="flex flex-wrap gap-4 min-w-0">
+  <app-recent-transactions-widget
+    class="grow overflow-x-auto"
+    [transactions]="store.recentTransactions()"
+  />
+  <app-saving-goals-widget class="grow" />
+</div>

@@ -8,13 +8,18 @@ import { Card } from '@shared/ui/card';
 import { DonutSummaryChart } from '@shared/ui/donut-summary-chart';
 import { generateAnalogColors } from '@core/utils/colors';
 import { v4 } from 'uuid';
+import { CardHeader } from '@shared/ui/card-header/card-header';
+import { CardHeaderTitle } from '@shared/ui/card-header-title/card-header-title';
 
 @Component({
   selector: 'app-budget-widget',
-  imports: [Card, DonutSummaryChart],
+  imports: [Card, DonutSummaryChart, CardHeader, CardHeaderTitle],
   template: `
     <app-card>
-      <div class="text-lg font-medium mb-4">Budget</div>
+      <app-card-header>
+        <app-card-header-title>Budget</app-card-header-title>
+      </app-card-header>
+
       <div class="flex gap-2 items-center">
         <div>
           @for (cat of displayedCategories(); track cat.id) {

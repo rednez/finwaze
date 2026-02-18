@@ -4,7 +4,6 @@ import {
   Component,
   computed,
   input,
-  signal,
 } from '@angular/core';
 import { Card } from '@shared/ui/card';
 import { CardHeaderTitle } from '@shared/ui/card-header-title/card-header-title';

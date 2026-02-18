@@ -1,0 +1,1 @@
+select * from get_recent_transactions('UAH', 3);

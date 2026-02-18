@@ -1,3 +1,11 @@
 {
-  "cSpell.words": ["finwaze", "iftalabel", "primeng", "plpgsql", "pkey", "fkey"]
+  "cSpell.words": [
+    "finwaze",
+    "fkey",
+    "iftalabel",
+    "pkey",
+    "plpgsql",
+    "primeng",
+    "trunc"
+  ]
 }

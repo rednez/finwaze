@@ -6,14 +6,18 @@ import {
   signal,
 } from '@angular/core';
 import { Card } from '@shared/ui/card';
+import { CardHeaderTitle } from '@shared/ui/card-header-title/card-header-title';
+import { CardHeader } from '@shared/ui/card-header/card-header';
 import { ProgressBar } from '@shared/ui/progress-bar';
 
 @Component({
   selector: 'app-saving-goals-widget',
-  imports: [CommonModule, Card, ProgressBar],
+  imports: [CommonModule, Card, ProgressBar, CardHeader, CardHeaderTitle],
   template: `
     <app-card>
-      <div class="text-lg font-medium mb-5">Saving goals</div>
+      <app-card-header>
+        <app-card-header-title>Saving goals</app-card-header-title>
+      </app-card-header>
 
       <div class="flex flex-col gap-4">
         @for (goal of formattedGoals(); track goal.id) {

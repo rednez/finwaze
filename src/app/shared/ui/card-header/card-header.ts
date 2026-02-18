@@ -1,12 +1,31 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, input } from '@angular/core';
+import { ProgressSpinnerModule } from 'primeng/progressspinner';
 
 @Component({
   selector: 'app-card-header',
-  imports: [],
-  template: ` <ng-content /> `,
+  imports: [ProgressSpinnerModule],
+  template: `
+    <div class="flex items-center gap-4">
+      <ng-content select="app-card-header-title" />
+
+      @if (isLoading()) {
+        <div>
+          <p-progress-spinner
+            ariaLabel="loading"
+            strokeWidth="7"
+            class="size-5!"
+          />
+        </div>
+      }
+    </div>
+
+    <ng-content select="[append-right]" />
+  `,
   host: {
-    class: 'block mb-4',
+    class: 'flex justify-between gap-4 mb-4',
   },
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class CardHeader {}
+export class CardHeader {
+  readonly isLoading = input(false);
+}

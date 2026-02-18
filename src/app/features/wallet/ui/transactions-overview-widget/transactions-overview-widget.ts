@@ -24,10 +24,10 @@ import { TransactionsOverviewChart } from '../transactions-overview-chart/transa
   ],
   template: `
     <app-card>
-      <app-card-header class="flex items-center justify-between">
+      <app-card-header>
         <app-card-header-title>Transactions overflow</app-card-header-title>
 
-        <div class="flex gap-2">
+        <div append-right class="flex gap-2">
           <p-datepicker
             [(ngModel)]="date"
             view="month"

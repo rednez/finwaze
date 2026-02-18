@@ -1,0 +1,1 @@
+drop function get_recent_transactions;

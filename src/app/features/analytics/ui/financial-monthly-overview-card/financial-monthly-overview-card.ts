@@ -27,6 +27,7 @@ import { FinancialMonthlyOverviewChart } from '../financial-monthly-overview-cha
         <app-card-header-title>Total balance overview</app-card-header-title>
 
         <p-select
+          append-right
           [(ngModel)]="type"
           [options]="types()"
           optionLabel="name"

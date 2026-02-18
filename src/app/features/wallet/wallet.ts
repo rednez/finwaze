@@ -5,7 +5,6 @@ import {
   inject,
   signal,
 } from '@angular/core';
-import { AppStore } from '@core/store/app-store';
 import { RecentTransactionsWidget } from '@shared/ui/recent-transactions-widget';
 import { AccountCard } from './ui/account-card/account-card';
 import { StatisticsWidget } from './ui/statistics-widget/statistics-widget';
@@ -51,7 +50,8 @@ import { TransactionsOverviewWidget } from './ui/transactions-overview-widget/tr
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class Wallet {
-  private readonly store = inject(AppStore);
+  // TODO
+  // private readonly store = inject(AppStore);
 
   protected readonly accounts = signal([
     {
@@ -71,7 +71,9 @@ export class Wallet {
     },
   ]);
 
+  // TODO: ???
   protected readonly recentTransactions = computed(() =>
-    this.store.transactions().slice(0, 3),
+    // this.store.transactions().slice(0, 3),
+    [],
   );
 }

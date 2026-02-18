@@ -20,9 +20,11 @@
       "@core/layout/*": ["src/app/core/layout/*"],
       "@core/store/*": ["src/app/core/store/*"],
       "@shared/ui/*": ["src/app/shared/ui/*"],
+      "@shared/utils/*": ["src/app/shared/utils/*"],
       "@core/models/*": ["src/app/core/models/*"],
-      "@core/repositories/*": ["src/app/core/repositories/*"],
       "@core/utils/*": ["src/app/core/utils/*"],
+      "@core/mappers/*": ["src/app/core/mappers/*"],
+      "@core/repositories/*": ["src/app/core/repositories/*"],
       "@core/guards": ["src/app/core/guards/index.ts"],
       "@env": ["src/environments/environment.ts"]
     }

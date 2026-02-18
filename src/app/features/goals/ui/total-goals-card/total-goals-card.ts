@@ -22,6 +22,7 @@ import { TotalGoalItem } from '../total-goal-item/total-goal-item';
         <app-card-header-title>Total Goals</app-card-header-title>
 
         <p-datepicker
+          append-right
           [(ngModel)]="date"
           view="year"
           dateFormat="yy"

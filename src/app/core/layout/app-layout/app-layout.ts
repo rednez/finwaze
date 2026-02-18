@@ -1,5 +1,7 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
+import { AccountsStore } from '@core/store/accounts-store';
+import { CurrenciesStore } from '@core/store/currencies-store';
 import { BottomNavBar } from '../bottom-nav-bar';
 import { Sidebar } from '../sidebar';
 import { TopBar } from '../top-bar';
@@ -24,4 +26,24 @@ import { TopBar } from '../top-bar';
   },
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class AppLayout {}
+export class AppLayout {
+  private readonly accountsStore = inject(AccountsStore);
+  private readonly currenciesStore = inject(CurrenciesStore);
+
+  constructor() {
+    this.fetchData();
+  }
+
+  private async fetchData() {
+    await Promise.all([
+      this.accountsStore.getAll(),
+      this.currenciesStore.getAll(),
+    ]);
+
+    if (this.accountsStore.hasAccounts()) {
+      this.currenciesStore.updateSelectedCode(
+        this.accountsStore.firstAccount().currencyCode,
+      );
+    }
+  }
+}

@@ -191,6 +191,212 @@ AS $function$
   $function$
 ;
 
+CREATE OR REPLACE FUNCTION public.get_dashboard_totals(p_currency_code text)
+ RETURNS TABLE(total_balance numeric, monthly_income numeric, monthly_expense numeric, previous_total_balance numeric, previous_monthly_income numeric, previous_monthly_expense numeric)
+ LANGUAGE plpgsql
+ SET search_path TO ''
+AS $function$
+declare
+    v_currency_id bigint;
+begin
+    select id into v_currency_id
+    from public.currencies
+    where code = p_currency_code;
+
+    return query
+    select
+        -- BALANCE (entire period)
+        coalesce(sum(t.account_amount), 0) as total_balance,
+
+        -- INCOME (current month)
+        coalesce(sum(
+            case
+                when t.account_amount > 0
+                 and t.transacted_at >= date_trunc('month', now())
+                 and t.transacted_at < date_trunc('month', now()) + interval '1 month'
+                then t.account_amount
+            end
+        ), 0) as monthly_income,
+
+        -- EXPENSE (current month)
+        coalesce(sum(
+            case
+                when t.account_amount < 0
+                 and t.transacted_at >= date_trunc('month', now())
+                 and t.transacted_at < date_trunc('month', now()) + interval '1 month'
+                then t.account_amount
+            end
+        ), 0) as monthly_expense,
+
+
+        -- BALANCE (up to previous month end)
+        coalesce(sum(
+            case
+                when t.transacted_at < date_trunc('month', now())
+                then t.account_amount
+            end
+        ), 0) as previous_total_balance,
+
+        -- INCOME (previous month)
+        coalesce(sum(
+            case
+                when t.account_amount > 0
+                 and t.transacted_at >= date_trunc('month', now()) - interval '1 month'
+                 and t.transacted_at < date_trunc('month', now())
+                then t.account_amount
+            end
+        ), 0) as previous_monthly_income,
+
+        -- EXPENSE (previous month)
+        coalesce(sum(
+            case
+                when t.account_amount < 0
+                 and t.transacted_at >= date_trunc('month', now()) - interval '1 month'
+                 and t.transacted_at < date_trunc('month', now())
+                then t.account_amount
+            end
+        ), 0) as previous_monthly_expense
+
+    from public.transactions t
+    where t.account_currency_id = v_currency_id;
+end;
+$function$
+;
+
+CREATE OR REPLACE FUNCTION public.get_filtered_transactions(p_category_ids bigint[] DEFAULT NULL::bigint[], p_account_ids bigint[] DEFAULT NULL::bigint[], p_account_currency_codes text[] DEFAULT NULL::text[], p_transaction_currency_codes text[] DEFAULT NULL::text[], p_month date DEFAULT NULL::date, p_page integer DEFAULT 1, p_page_size integer DEFAULT 10)
+ RETURNS TABLE(id bigint, transacted_at timestamp with time zone, transaction_amount numeric, transaction_currency_code text, account_name text, account_amount numeric, account_currency_code text, exchange_rate numeric, type public.transaction_type, category_name text, group_name text, comment text)
+ LANGUAGE sql
+ SET search_path TO ''
+AS $function$
+  select
+    t.id,
+    t.transacted_at,
+    t.transaction_amount,
+    tc.code as transaction_currency_code,
+    acc.name as account_name,
+    t.account_amount,
+    ac.code as account_currency_code,
+    (t.account_amount / nullif(t.transaction_amount, 0)) as exchange_rate,
+    t.type,
+    cat.name as category_name,
+    cg.name as group_name,
+    t.comment
+  from public.transactions t
+  join public.accounts acc
+    on acc.id = t.account_id
+  join public.currencies ac
+    on ac.id = t.account_currency_id
+  join public.currencies tc
+    on tc.id = t.transaction_currency_id
+  join public.categories cat
+    on cat.id = t.category_id
+  join public.groups cg
+    on cg.id = cat.group_id
+  where (
+      p_category_ids is null
+      or cardinality(p_category_ids) = 0
+      or t.category_id = any(p_category_ids)
+    )
+    and (
+      p_account_ids is null
+      or cardinality(p_account_ids) = 0
+      or t.account_id = any(p_account_ids)
+    )
+    and (
+      p_account_currency_codes is null
+      or cardinality(p_account_currency_codes) = 0
+      or ac.code = any(p_account_currency_codes)
+    )
+    and (
+      p_transaction_currency_codes is null
+      or cardinality(p_transaction_currency_codes) = 0
+      or tc.code = any(p_transaction_currency_codes)
+    )
+    and (
+      p_month is null
+      or (
+        t.transacted_at >= date_trunc('month', p_month::timestamp)
+        and t.transacted_at < date_trunc('month', p_month::timestamp) + interval '1 month'
+      )
+    )
+  order by t.transacted_at desc, t.id desc
+  limit greatest(coalesce(p_page_size, 10), 1)
+  offset (greatest(coalesce(p_page, 1), 1) - 1) * greatest(coalesce(p_page_size, 10), 1);
+$function$
+;
+
+CREATE OR REPLACE FUNCTION public.get_monthly_cash_flow(p_currency_code text, p_months integer DEFAULT 6)
+ RETURNS TABLE(month timestamp with time zone, total_income numeric, total_expense numeric)
+ LANGUAGE sql
+ SET search_path TO ''
+AS $function$
+  select
+    date_trunc('month', t.transacted_at) as month,
+    sum(case when t.account_amount > 0 then t.account_amount else 0 end) as total_income,
+    sum(case when t.account_amount < 0 then t.account_amount else 0 end) as total_expense
+  from public.transactions t
+  join public.currencies c
+    on c.id = t.account_currency_id
+  where c.code = p_currency_code
+    and t.transacted_at >= date_trunc('month', now()) 
+        - make_interval(months => p_months - 1)
+  group by date_trunc('month', t.transacted_at)
+  order by month;
+$function$
+;
+
+CREATE OR REPLACE FUNCTION public.get_recent_transactions(p_account_currency_code text, p_size integer DEFAULT 10)
+ RETURNS TABLE(id bigint, transacted_at timestamp with time zone, transaction_amount numeric, transaction_currency_code text, account_name text, account_amount numeric, account_currency_code text, exchange_rate numeric, type public.transaction_type, category_name text, group_name text, comment text)
+ LANGUAGE sql
+ SET search_path TO ''
+AS $function$
+  select
+    t.id,
+    t.transacted_at,
+    t.transaction_amount,
+    tc.code as transaction_currency_code,
+    acc.name as account_name,
+    t.account_amount,
+    ac.code as account_currency_code,
+    (t.account_amount / nullif(t.transaction_amount, 0)) as exchange_rate,
+    t.type,
+    cat.name as category_name,
+    cg.name as group_name,
+    t.comment
+  from public.transactions t
+  join public.accounts acc
+    on acc.id = t.account_id
+  join public.currencies ac
+    on ac.id = t.account_currency_id
+  join public.currencies tc
+    on tc.id = t.transaction_currency_id
+  join public.categories cat
+    on cat.id = t.category_id
+  join public.groups cg
+    on cg.id = cat.group_id
+  where ac.code = p_account_currency_code
+  order by t.transacted_at desc, t.id desc
+  limit greatest(coalesce(p_size, 10), 1);
+$function$
+;
+
+create or replace view "public"."my_accounts" WITH
+  (security_invoker = ON) as  SELECT acc.id,
+    acc.name,
+    c.code AS currency_code
+   FROM (public.accounts acc
+     JOIN public.currencies c ON ((c.id = acc.currency_id)));
+
+
+create or replace view "public"."my_categories" WITH
+  (security_invoker = ON) as  SELECT cat.id,
+    cat.name,
+    grp.id AS group_id,
+    grp.name AS group_name
+   FROM (public.categories cat
+     JOIN public.groups grp ON ((grp.id = cat.group_id)));
+
+
 CREATE OR REPLACE FUNCTION public.set_transaction_account_currency()
  RETURNS trigger
  LANGUAGE plpgsql

@@ -1,11 +1,5 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  inject,
-  signal,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { AppStore } from '@core/store/app-store';
 import {
   TransactionDataTableColumnType,
   TransactionsDataTable,
@@ -33,8 +27,8 @@ import { TransactionsFilters } from './transactions-filters/transactions-filters
   styleUrls: ['./transactions.css'],
 })
 export class Transactions {
-  protected readonly store = inject(AppStore);
-
+  // TODO: ?
+  transactions = signal([]);
   loading = signal(false);
   data = signal<number[]>([]);
   dataError = signal(false);

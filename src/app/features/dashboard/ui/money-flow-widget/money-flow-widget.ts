@@ -1,24 +1,46 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  computed,
+  inject,
+  input,
+  signal,
+} from '@angular/core';
 import { Card } from '@shared/ui/card';
 import { MoneyFlowChart } from '../money-flow-chart/money-flow-chart';
+import { DatePipe } from '@angular/common';
+import { CardHeader } from '@shared/ui/card-header/card-header';
+import { CardHeaderTitle } from '@shared/ui/card-header-title/card-header-title';
 
 @Component({
   selector: 'app-money-flow-widget',
-  imports: [Card, MoneyFlowChart],
+  imports: [Card, MoneyFlowChart, CardHeader, CardHeaderTitle],
   template: `
     <app-card>
-      <div class="text-lg font-medium mb-4">Money flow</div>
+      <app-card-header>
+        <app-card-header-title>Money flow</app-card-header-title>
+      </app-card-header>
+
       <app-money-flow-chart
-        [labels]="labels"
-        [incomes]="incomes"
-        [expenses]="expenses"
+        [labels]="chartLabels()"
+        [incomes]="incomes()"
+        [expenses]="expenses()"
       />
     </app-card>
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,
+  providers: [DatePipe],
 })
 export class MoneyFlowWidget {
-  labels = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul'];
-  incomes = [1200, 1800, 1720, 2100, 1500, 1900, 1820];
-  expenses = [1102, 1760, 1300, 1930, 1650, 1900, 1790];
+  private readonly datePipe = inject(DatePipe);
+
+  readonly months = input<Date[]>([]);
+  readonly incomes = input<number[]>([]);
+  readonly expenses = input<number[]>([]);
+
+  protected readonly chartLabels = computed(() =>
+    this.months().map(
+      (date) => this.datePipe.transform(date, 'MMM yy') || 'NA',
+    ),
+  );
 }

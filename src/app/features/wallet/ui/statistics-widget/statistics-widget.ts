@@ -37,6 +37,7 @@ import { StatisticsByGroups } from './statistics-by-groups/statistics-by-groups'
       <app-card-header class="flex items-center justify-between">
         <app-card-header-title>Statistics</app-card-header-title>
         <p-datepicker
+          append-right
           [(ngModel)]="date"
           view="month"
           dateFormat="mm/yy"

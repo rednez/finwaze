@@ -20,7 +20,7 @@ import { BudgetCardSummary } from './budget-card-summary/budget-card-summary';
     <app-card>
       <app-card-header class="flex gap-2 justify-between">
         <app-card-header-title>{{ name() }}</app-card-header-title>
-        <div>
+        <div append-right>
           <ng-content select="[card-actions]" />
         </div>
       </app-card-header>

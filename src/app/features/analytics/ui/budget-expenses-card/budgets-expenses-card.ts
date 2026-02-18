@@ -27,6 +27,7 @@ import { BudgetsExpensesChart } from '../budgets-expenses-chart/budgets-expenses
         <app-card-header-title>Budgets vs Expenses</app-card-header-title>
 
         <p-datepicker
+          append-right
           [(ngModel)]="year"
           view="year"
           dateFormat="yy"
