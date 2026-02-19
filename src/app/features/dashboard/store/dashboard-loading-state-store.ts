@@ -2,21 +2,17 @@ import { patchState, signalStore, withMethods, withState } from '@ngrx/signals';
 import { waitFormMs } from '@shared/utils/wait-for-ms';
 
 interface State {
-  isTotalsSummaryLoading: boolean;
-  isTotalsSummaryError: boolean;
-  isCashFlowLoading: boolean;
-  isCashFlowError: boolean;
-  isRecentTransactionsLoading: boolean;
-  isRecentTransactionsError: boolean;
+  isLoading: boolean;
+  isLoaded: boolean;
+  isUpdating: boolean;
+  isError: boolean;
 }
 
 const State: State = {
-  isTotalsSummaryLoading: false,
-  isCashFlowLoading: false,
-  isCashFlowError: false,
-  isTotalsSummaryError: false,
-  isRecentTransactionsLoading: false,
-  isRecentTransactionsError: false,
+  isLoading: false,
+  isLoaded: false,
+  isUpdating: false,
+  isError: false,
 };
 
 export const DashboardLoadingStateStore = signalStore(
@@ -24,67 +20,104 @@ export const DashboardLoadingStateStore = signalStore(
   withState(State),
 
   withMethods((store) => ({
-    startTotalsSummaryLoading(): void {
+    startLoading(): void {
       patchState(store, () => ({
-        isTotalsSummaryLoading: true,
-        isTotalsSummaryError: false,
+        isLoading: true,
+        isLoaded: false,
+        isError: false,
       }));
     },
-
-    async successTotalsSummaryLoading(): Promise<void> {
+    async successLoading(): Promise<void> {
       await waitFormMs();
       patchState(store, () => ({
-        isTotalsSummaryLoading: false,
+        isLoading: false,
+        isLoaded: true,
       }));
     },
-
-    errorTotalsSummaryLoading(): void {
+    errorLoading(): void {
       patchState(store, () => ({
-        isTotalsSummaryLoading: false,
-        isTotalsSummaryError: true,
+        isLoading: false,
+        isError: true,
       }));
     },
-
-    startCashFlowLoading(): void {
+    startUpdating(): void {
       patchState(store, () => ({
-        isCashFlowLoading: true,
-        isCashFlowError: false,
+        isUpdating: true,
+        isError: false,
       }));
     },
-
-    async successCashFlowLoading(): Promise<void> {
+    async successUpdating(): Promise<void> {
       await waitFormMs();
       patchState(store, () => ({
-        isCashFlowLoading: false,
+        isUpdating: false,
+      }));
+    },
+    errorUpdating(): void {
+      patchState(store, () => ({
+        isUpdating: false,
+        isError: true,
       }));
     },
 
-    errorCashFlowLoading(): void {
-      patchState(store, () => ({
-        isCashFlowLoading: false,
-        isCashFlowError: true,
-      }));
-    },
-
-    startRecentTransactionsLoading(): void {
-      patchState(store, () => ({
-        isRecentTransactionsLoading: true,
-        isRecentTransactionsError: false,
-      }));
-    },
-
-    async successRecentTransactionsLoading(): Promise<void> {
-      await waitFormMs();
-      patchState(store, () => ({
-        isRecentTransactionsLoading: false,
-      }));
-    },
-
-    errorRecentTransactionsLoading(): void {
-      patchState(store, () => ({
-        isRecentTransactionsLoading: false,
-        isRecentTransactionsError: true,
-      }));
-    },
+    // startTotalsSummaryLoading(): void {
+    //   patchState(store, () => ({
+    //     isLoading: true,
+    //     isLoaded: false,
+    //     isError: false,
+    //   }));
+    // },
+    // async successTotalsSummaryLoading(): Promise<void> {
+    //   await waitFormMs();
+    //   patchState(store, () => ({
+    //     isLoading: false,
+    //     isLoaded: true,
+    //   }));
+    // },
+    // errorTotalsSummaryLoading(): void {
+    //   patchState(store, () => ({
+    //     isLoading: false,
+    //     isError: true,
+    //   }));
+    // },
+    // startCashFlowLoading(): void {
+    //   patchState(store, () => ({
+    //     isLoading: true,
+    //     isLoaded: false,
+    //     isError: false,
+    //   }));
+    // },
+    // async successCashFlowLoading(): Promise<void> {
+    //   await waitFormMs();
+    //   patchState(store, () => ({
+    //     isLoading: false,
+    //     isLoaded: true,
+    //   }));
+    // },
+    // errorCashFlowLoading(): void {
+    //   patchState(store, () => ({
+    //     isLoading: false,
+    //     isError: true,
+    //   }));
+    // },
+    // startRecentTransactionsLoading(): void {
+    //   patchState(store, () => ({
+    //     isLoading: true,
+    //     isLoaded: false,
+    //     isError: false,
+    //   }));
+    // },
+    // async successRecentTransactionsLoading(): Promise<void> {
+    //   await waitFormMs();
+    //   patchState(store, () => ({
+    //     isLoading: false,
+    //     isLoaded: true,
+    //   }));
+    // },
+    // errorRecentTransactionsLoading(): void {
+    //   patchState(store, () => ({
+    //     isLoading: false,
+    //     isError: true,
+    //   }));
+    // },
   })),
 );

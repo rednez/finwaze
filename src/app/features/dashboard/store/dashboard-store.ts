@@ -53,11 +53,11 @@ export const DashboardStore = signalStore(
   })),
 
   withComputed((store) => ({
-    isTotalsSummaryLoading: () =>
-      store.loadingStore.isTotalsSummaryLoading() ||
+    isLoading: () =>
+      store.loadingStore.isLoading() ||
       store.currenciesStore.isLoading() ||
       store.accountsStore.isLoading(),
-    isTotalsSummaryError: () => store.loadingStore.isTotalsSummaryError(),
+    isError: () => store.loadingStore.isError(),
     myCurrencies: () => store.accountsStore.myCurrencies(),
     selectedCurrencyCode: () => store.currenciesStore.selectedCode(),
     cashFlowMonths: () => store._cashFlow().map((item) => item.month),
@@ -67,7 +67,11 @@ export const DashboardStore = signalStore(
 
   withMethods((store) => ({
     async loadTotalsSummary(): Promise<void> {
-      store.loadingStore.startTotalsSummaryLoading();
+      if (store.loadingStore.isLoaded()) {
+        store.loadingStore.startUpdating();
+      } else {
+        store.loadingStore.startLoading();
+      }
 
       try {
         if (!store.selectedCurrencyCode()) {
@@ -79,14 +83,27 @@ export const DashboardStore = signalStore(
         );
 
         patchState(store, () => ({ totalsSummary }));
-        store.loadingStore.successTotalsSummaryLoading();
+
+        if (store.loadingStore.isLoaded()) {
+          store.loadingStore.successUpdating();
+        } else {
+          store.loadingStore.successLoading();
+        }
       } catch (error) {
-        store.loadingStore.errorTotalsSummaryLoading();
+        if (store.loadingStore.isLoaded()) {
+          store.loadingStore.errorUpdating();
+        } else {
+          store.loadingStore.errorLoading();
+        }
       }
     },
 
     async loadCashFlow(): Promise<void> {
-      store.loadingStore.startCashFlowLoading();
+      if (store.loadingStore.isLoaded()) {
+        store.loadingStore.startUpdating();
+      } else {
+        store.loadingStore.startLoading();
+      }
 
       try {
         if (!store.selectedCurrencyCode()) {
@@ -99,14 +116,27 @@ export const DashboardStore = signalStore(
         );
 
         patchState(store, () => ({ _cashFlow: cashFlow }));
-        store.loadingStore.successCashFlowLoading();
+
+        if (store.loadingStore.isLoaded()) {
+          store.loadingStore.successUpdating();
+        } else {
+          store.loadingStore.successLoading();
+        }
       } catch (error) {
-        store.loadingStore.errorCashFlowLoading();
+        if (store.loadingStore.isLoaded()) {
+          store.loadingStore.errorUpdating();
+        } else {
+          store.loadingStore.errorLoading();
+        }
       }
     },
 
     async loadRecentTransactions(): Promise<void> {
-      store.loadingStore.startRecentTransactionsLoading();
+      if (store.loadingStore.isLoaded()) {
+        store.loadingStore.startUpdating();
+      } else {
+        store.loadingStore.startLoading();
+      }
 
       try {
         if (!store.selectedCurrencyCode()) {
@@ -118,9 +148,18 @@ export const DashboardStore = signalStore(
         );
 
         patchState(store, () => ({ recentTransactions }));
-        store.loadingStore.successRecentTransactionsLoading();
+
+        if (store.loadingStore.isLoaded()) {
+          store.loadingStore.successUpdating();
+        } else {
+          store.loadingStore.successLoading();
+        }
       } catch (error) {
-        store.loadingStore.errorRecentTransactionsLoading();
+        if (store.loadingStore.isLoaded()) {
+          store.loadingStore.errorUpdating();
+        } else {
+          store.loadingStore.errorLoading();
+        }
       }
     },
   })),

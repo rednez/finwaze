@@ -16,8 +16,8 @@
       [amount]="widget.amount"
       [previousAmount]="widget.previousAmount"
       [growTrendIsGood]="widget.growTrendIsGood"
-      [isLoading]="store.isTotalsSummaryLoading()"
-      [isError]="store.isTotalsSummaryError()"
+      [isLoading]="store.isLoading()"
+      [isError]="store.isError()"
       [currency]="store.selectedCurrencyCode()"
     />
   }
