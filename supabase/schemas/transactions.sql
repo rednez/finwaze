@@ -6,7 +6,7 @@ create table public.transactions (
   transacted_at timestamp with time zone null default now(),
   updated_at timestamp with time zone null,
   comment text null,
-  user_id uuid not null,
+  user_id uuid not null default auth.uid (),
   account_id bigint not null,
   transaction_amount numeric not null,
   transaction_currency_id bigint not null,

@@ -1,14 +1,14 @@
 import { inject } from '@angular/core';
 import { CanActivateFn, RedirectCommand, Router } from '@angular/router';
-import { SupabaseService } from '@core/services/supabase.service';
+import { AuthStore } from '@core/store/auth-store';
 
 export const authGuard: CanActivateFn = async (route, segments) => {
   const router = inject(Router);
-  const supabaseService = inject(SupabaseService);
+  const authStore = inject(AuthStore);
 
-  const session = await supabaseService.getSession();
+  await authStore.init();
 
-  if (!session) {
+  if (!authStore.isAuthorized()) {
     return new RedirectCommand(router.parseUrl('/login'));
   } else {
     return true;

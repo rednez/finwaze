@@ -7,6 +7,7 @@ import { Currency } from '@core/models/currencies';
 export class CurrenciesMapper {
   fromCurrencyDto(dto: any): Currency {
     return {
+      id: dto.id,
       code: dto.code,
       name: dto.name,
       country: dto.country_name,

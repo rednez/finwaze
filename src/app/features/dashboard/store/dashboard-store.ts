@@ -2,7 +2,6 @@ import { inject } from '@angular/core';
 import { toObservable } from '@angular/core/rxjs-interop';
 import { Transaction } from '@core/models/transactions';
 import { AccountsStore } from '@core/store/accounts-store';
-import { CurrenciesStore } from '@core/store/currencies-store';
 import {
   patchState,
   signalStore,
@@ -42,24 +41,21 @@ export const DashboardStore = signalStore(
   withProps(() => ({
     repository: inject(DashboardRepository),
     accountsStore: inject(AccountsStore),
-    currenciesStore: inject(CurrenciesStore),
     loadingStore: inject(DashboardLoadingStateStore),
   })),
 
   withProps((store) => ({
-    currencyCode$: toObservable(store.currenciesStore.selectedCode).pipe(
+    currencyCode$: toObservable(store.accountsStore.selectedCurrencyCode).pipe(
       filter(Boolean),
     ),
   })),
 
   withComputed((store) => ({
     isLoading: () =>
-      store.loadingStore.isLoading() ||
-      store.currenciesStore.isLoading() ||
-      store.accountsStore.isLoading(),
+      store.loadingStore.isLoading() || store.accountsStore.isLoading(),
     isError: () => store.loadingStore.isError(),
     myCurrencies: () => store.accountsStore.myCurrencies(),
-    selectedCurrencyCode: () => store.currenciesStore.selectedCode(),
+    selectedCurrencyCode: () => store.accountsStore.selectedCurrencyCode(),
     cashFlowMonths: () => store._cashFlow().map((item) => item.month),
     cashFlowIncomes: () => store._cashFlow().map((item) => item.income),
     cashFlowExpenses: () => store._cashFlow().map((item) => item.expense),

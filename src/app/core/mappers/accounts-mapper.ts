@@ -9,7 +9,7 @@ export class AccountsMapper {
     return {
       id: dto.id,
       name: dto.name,
-      currencyCode: dto.currency_code,
+      currencyCode: dto.currencies.code,
     };
   }
 }

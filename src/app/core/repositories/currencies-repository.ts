@@ -13,7 +13,7 @@ export class CurrenciesRepository {
   async getAll(): Promise<Currency[]> {
     const { data, error } = await this.supabase.client
       .from('currencies')
-      .select('code, name, country_name');
+      .select('id, code, name, country_name');
 
     if (error) {
       throw new Error(error.message);

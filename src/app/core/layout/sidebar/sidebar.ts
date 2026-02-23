@@ -3,7 +3,7 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { Router } from '@angular/router';
 import { NavigatorHelper } from '@core/services/navigator-helper';
 import { ResponsiveHelper } from '@core/services/responsive-helper';
-import { SupabaseService } from '@core/services/supabase.service';
+import { AuthStore } from '@core/store/auth-store';
 import { ButtonModule } from 'primeng/button';
 import { Logo } from './logo';
 import { SidebarNavItem } from './sidebar-nav-item/sidebar-nav-item';
@@ -20,7 +20,7 @@ export class Sidebar {
   private readonly navigatorHelper = inject(NavigatorHelper);
   private readonly responsiveHelper = inject(ResponsiveHelper);
   private readonly destroyRef = inject(DestroyRef);
-  private readonly supabase = inject(SupabaseService);
+  private readonly authStore = inject(AuthStore);
 
   readonly currentPath = this.navigatorHelper.currentFeatureName;
 
@@ -52,7 +52,7 @@ export class Sidebar {
   }
 
   protected async logout() {
-    await this.supabase.signOut();
+    await this.authStore.logOut();
     this.router.navigate(['login']);
   }
 

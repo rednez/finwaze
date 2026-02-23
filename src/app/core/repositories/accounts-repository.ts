@@ -12,13 +12,26 @@ export class AccountsRepository {
 
   async getAll(): Promise<Account[]> {
     const { data, error } = await this.supabase.client
-      .from('my_accounts')
-      .select();
+      .from('accounts')
+      .select(`id, name, currencies(code)`);
 
     if (error) {
       throw new Error(error.message);
     }
 
     return data.map(this.mapper.fromAccountDto);
+  }
+
+  async create(accountName: string, currencyId: number): Promise<Account> {
+    const { data, error } = await this.supabase.client
+      .from('accounts')
+      .insert([{ name: accountName, currency_id: currencyId }])
+      .select(`id, name, currencies(code)`);
+
+    if (error) {
+      throw new Error(error.message);
+    }
+
+    return this.mapper.fromAccountDto(data[0]);
   }
 }

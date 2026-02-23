@@ -1,7 +1,7 @@
-import { Component, computed, inject, signal } from '@angular/core';
-import { Router } from '@angular/router';
+import { Component, computed, inject, input, signal } from '@angular/core';
+import { AuthService } from '@core/services/auth-service';
 import { NavigatorHelper } from '@core/services/navigator-helper';
-import { SupabaseService } from '@core/services/supabase.service';
+import { AuthStore } from '@core/store/auth-store';
 import { UserAvatar, UserData } from './user-avatar/user-avatar';
 
 @Component({
@@ -9,10 +9,12 @@ import { UserAvatar, UserData } from './user-avatar/user-avatar';
   imports: [UserAvatar],
   template: `
     <div>
-      <h1 class="text-2xl font-medium">{{ title() }}</h1>
-      <div class="hidden sm:block text-sm text-muted-color">
-        {{ description() }}
-      </div>
+      @if (hasTitle()) {
+        <h1 class="text-2xl font-medium">{{ title() }}</h1>
+        <div class="hidden sm:block text-sm text-muted-color">
+          {{ description() }}
+        </div>
+      }
     </div>
 
     <app-user-avatar [user]="user()" (logout)="logout()" />
@@ -22,9 +24,11 @@ import { UserAvatar, UserData } from './user-avatar/user-avatar';
   },
 })
 export class TopBar {
+  readonly hasTitle = input(true);
+
   private readonly navigatorHelper = inject(NavigatorHelper);
-  private readonly supabase = inject(SupabaseService);
-  private readonly router = inject(Router);
+  private readonly auth = inject(AuthService);
+  private readonly authStore = inject(AuthStore);
 
   private readonly currentPath = this.navigatorHelper.currentFeatureName;
 
@@ -72,17 +76,16 @@ export class TopBar {
   }
 
   protected async logout() {
-    await this.supabase.signOut();
-    this.router.navigate(['login']);
+    await this.auth.logOut();
   }
 
   private async getUser() {
-    const user = await this.supabase.getUser();
+    const user = this.authStore.user();
     if (user) {
       this.user.set({
-        name: user.user_metadata['full_name'] || '',
-        email: user.email || '',
-        imgUrl: user.user_metadata['avatar_url'] || '',
+        name: user.name,
+        email: user.email,
+        imgUrl: user.imgUrl,
       });
     }
   }

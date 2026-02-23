@@ -1,10 +1,9 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
-import { AccountsStore } from '@core/store/accounts-store';
-import { CurrenciesStore } from '@core/store/currencies-store';
 import { BottomNavBar } from '../bottom-nav-bar';
 import { Sidebar } from '../sidebar';
 import { TopBar } from '../top-bar';
+import { AccountsStore } from '@core/store/accounts-store';
 
 @Component({
   imports: [RouterOutlet, Sidebar, TopBar, BottomNavBar],
@@ -28,22 +27,17 @@ import { TopBar } from '../top-bar';
 })
 export class AppLayout {
   private readonly accountsStore = inject(AccountsStore);
-  private readonly currenciesStore = inject(CurrenciesStore);
 
   constructor() {
-    this.fetchData();
+    this.initAccountsStore();
   }
 
-  private async fetchData() {
-    await Promise.all([
-      this.accountsStore.getAll(),
-      this.currenciesStore.getAll(),
-    ]);
-
-    if (this.accountsStore.hasAccounts()) {
-      this.currenciesStore.updateSelectedCode(
-        this.accountsStore.firstAccount().currencyCode,
-      );
+  private initAccountsStore() {
+    if (!this.accountsStore.selectedCurrencyCode()) {
+      this.accountsStore.restoreFromLocalStorage();
+    }
+    if (!this.accountsStore.isLoaded()) {
+      this.accountsStore.getAll();
     }
   }
 }

@@ -82,7 +82,7 @@ export class Dashboard implements OnInit {
   }
 
   protected updateCurrency(e: string) {
-    this.store.currenciesStore.updateSelectedCode(e);
+    this.store.accountsStore.updateSelectedCurrencyCode(e);
     this.store.loadTotalsSummary();
     this.store.loadCashFlow();
     this.store.loadRecentTransactions();

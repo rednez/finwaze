@@ -1,11 +1,11 @@
 import { Routes } from '@angular/router';
-import { authGuard, guestGuard } from '@core/guards';
+import { authGuard, guestGuard, hasAccountsGuard } from '@core/guards';
 import { PageNotFound } from './features/page-not-found';
 
 export const routes: Routes = [
   {
     path: '',
-    canActivate: [guestGuard],
+    canMatch: [guestGuard],
     loadComponent: () =>
       import('@core/layout/guest-layout').then((c) => c.GuestLayout),
     children: [
@@ -18,11 +18,13 @@ export const routes: Routes = [
         path: 'login',
         loadComponent: () => import('./features/login').then((c) => c.Login),
       },
+      { path: '**', redirectTo: 'login' },
     ],
   },
   {
     path: '',
     canActivate: [authGuard],
+    canMatch: [hasAccountsGuard],
     loadComponent: () =>
       import('@core/layout/app-layout').then((c) => c.AppLayout),
     children: [
@@ -54,6 +56,20 @@ export const routes: Routes = [
         path: 'analytics',
         loadComponent: () =>
           import('./features/analytics').then((c) => c.Analytics),
+      },
+      { path: '**', redirectTo: 'dashboard' },
+    ],
+  },
+  {
+    path: '',
+    canActivate: [authGuard],
+    loadComponent: () =>
+      import('@core/layout/setup-layout').then((c) => c.SetupLayout),
+    children: [
+      {
+        path: '**',
+        loadComponent: () =>
+          import('./features/setup-account').then((c) => c.SetupAccount),
       },
     ],
   },
