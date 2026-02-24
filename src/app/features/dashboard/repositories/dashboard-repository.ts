@@ -3,7 +3,7 @@ import { TransactionsMapper } from '@core/mappers/transactions-mapper';
 import { Transaction } from '@core/models/transactions';
 import { SupabaseService } from '@core/services/supabase.service';
 import { DashboardMapper } from '../mappers';
-import { MonthlyCashFlow, TotalSummaries } from '../models';
+import { MonthlyCashFlow, RecentSavingsGoal, TotalSummaries } from '../models';
 
 @Injectable({
   providedIn: 'root',
@@ -58,5 +58,19 @@ export class DashboardRepository {
     }
 
     return data.map(this.transactionsMapper.fromTransactionDto);
+  }
+
+  async getRecentSavingsGoals(): Promise<RecentSavingsGoal[]> {
+    const { data, error } = await this.supabase.client
+      .rpc('get_savings_goal_balances', {
+        p_limit: 3,
+      })
+      .select();
+
+    if (error) {
+      throw new Error(error.message);
+    }
+
+    return data.map(this.mapper.fromRecentSavingsGoalDto);
   }
 }

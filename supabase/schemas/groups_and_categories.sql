@@ -6,7 +6,7 @@ create table public.groups (
   is_system boolean not null default false,
   constraint groups_pkey primary key (id),
   constraint groups_user_id_fkey foreign KEY (user_id) references auth.users (id),
-  constraint groups_name_check check ((length(name) < 25))
+  constraint groups_name_check check ((length(name) <= 25))
 );
 
 ALTER TABLE groups ENABLE ROW LEVEL SECURITY;
@@ -30,7 +30,7 @@ create table public.categories (
   constraint categories_pkey primary key (id),
   constraint categories_user_id_fkey foreign KEY (user_id) references auth.users (id),
   constraint categories_group_id_fkey foreign KEY (group_id) references groups (id),
-  constraint categories_name_check check ((length(name) < 25))
+  constraint categories_name_check check ((length(name) <= 25))
 );
 
 ALTER TABLE categories ENABLE ROW LEVEL SECURITY;
@@ -54,16 +54,16 @@ create function create_default_user_categories()
     INSERT INTO public.groups (user_id, name, is_system) 
     SELECT 
         NEW.id,
-        'adjustment',                                   
+        'internal',                                   
         true;
     INSERT INTO public.categories (user_id, group_id, name, is_system)
     SELECT
         NEW.id, 
         public.groups.id, 
-        'adjustment', 
+        'internal', 
         true 
     FROM public.groups
-    WHERE public.groups.user_id = NEW.id AND public.groups.name = 'adjustment';
+    WHERE public.groups.user_id = NEW.id AND public.groups.name = 'internal';
 
     return NEW;
   end;

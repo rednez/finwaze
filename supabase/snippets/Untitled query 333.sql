@@ -1,1 +1,1 @@
-select * from get_recent_transactions('UAH', 3);
+select make_transfer(2, 6, 50000)

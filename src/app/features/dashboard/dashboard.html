@@ -39,5 +39,5 @@
     class="grow overflow-x-auto"
     [transactions]="store.recentTransactions()"
   />
-  <app-saving-goals-widget class="grow" />
+  <app-saving-goals-widget class="grow" [goals]="store.recentSavingsGoals()" />
 </div>

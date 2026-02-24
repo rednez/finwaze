@@ -11,7 +11,7 @@ import {
   withState,
 } from '@ngrx/signals';
 import { filter } from 'rxjs';
-import { MonthlyCashFlow, TotalSummaries } from '../models';
+import { MonthlyCashFlow, RecentSavingsGoal, TotalSummaries } from '../models';
 import { DashboardRepository } from '../repositories';
 import { DashboardLoadingStateStore } from './dashboard-loading-state-store';
 
@@ -19,6 +19,7 @@ export interface DashboardState {
   totalsSummary: TotalSummaries;
   _cashFlow: MonthlyCashFlow[];
   recentTransactions: Transaction[];
+  recentSavingsGoals: RecentSavingsGoal[];
 }
 
 const initialState: DashboardState = {
@@ -32,6 +33,7 @@ const initialState: DashboardState = {
   },
   _cashFlow: [],
   recentTransactions: [],
+  recentSavingsGoals: [],
 };
 
 export const DashboardStore = signalStore(
@@ -144,6 +146,32 @@ export const DashboardStore = signalStore(
         );
 
         patchState(store, () => ({ recentTransactions }));
+
+        if (store.loadingStore.isLoaded()) {
+          store.loadingStore.successUpdating();
+        } else {
+          store.loadingStore.successLoading();
+        }
+      } catch (error) {
+        if (store.loadingStore.isLoaded()) {
+          store.loadingStore.errorUpdating();
+        } else {
+          store.loadingStore.errorLoading();
+        }
+      }
+    },
+
+    async loadRecentSavingsGoals(): Promise<void> {
+      if (store.loadingStore.isLoaded()) {
+        store.loadingStore.startUpdating();
+      } else {
+        store.loadingStore.startLoading();
+      }
+
+      try {
+        const recentGoals = await store.repository.getRecentSavingsGoals();
+
+        patchState(store, () => ({ recentSavingsGoals: recentGoals }));
 
         if (store.loadingStore.isLoaded()) {
           store.loadingStore.successUpdating();
