@@ -1,4 +1,4 @@
-import { inject } from '@angular/core';
+import { computed, inject } from '@angular/core';
 import { toObservable } from '@angular/core/rxjs-interop';
 import { Transaction } from '@core/models/transactions';
 import { AccountsStore } from '@core/store/accounts-store';
@@ -65,6 +65,37 @@ export const DashboardStore = signalStore(
     isError: () => store.loadingStore.isError(),
     myCurrencies: () => store.accountsStore.myCurrencies(),
     selectedCurrencyCode: () => store.accountsStore.selectedCurrencyCode(),
+    displayedTotalsSummary: computed(() => {
+      const {
+        totalBalance,
+        previousMonthTotalBalance,
+        monthlyIncome,
+        previousMonthlyIncome,
+        monthlyExpense,
+        previousMonthlyExpense,
+      } = store.totalsSummary();
+
+      return [
+        {
+          title: 'Total balance',
+          amount: totalBalance,
+          previousAmount: previousMonthTotalBalance,
+          growTrendIsGood: true,
+        },
+        {
+          title: 'Income',
+          amount: monthlyIncome,
+          previousAmount: previousMonthlyIncome,
+          growTrendIsGood: true,
+        },
+        {
+          title: 'Expenses',
+          amount: monthlyExpense,
+          previousAmount: previousMonthlyExpense,
+          growTrendIsGood: false,
+        },
+      ];
+    }),
     cashFlowMonths: () => store._cashFlow().map((item) => item.month),
     cashFlowIncomes: () => store._cashFlow().map((item) => item.income),
     cashFlowExpenses: () => store._cashFlow().map((item) => item.expense),

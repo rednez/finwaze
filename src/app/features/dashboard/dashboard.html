@@ -9,7 +9,7 @@
 </div>
 
 <div class="flex flex-wrap gap-4 min-w-0">
-  @for (widget of amountWidgets(); track widget.title) {
+  @for (widget of store.displayedTotalsSummary(); track widget.title) {
     <app-amount-widget
       class="grow"
       [title]="widget.title"
@@ -35,6 +35,7 @@
     class="grow md:grow-0"
     [currency]="store.selectedCurrencyCode()"
     [categories]="store.recentMonthlyBudgets()"
+    (actionClicked)="gotoBudget()"
   />
 </div>
 
@@ -42,6 +43,12 @@
   <app-recent-transactions-widget
     class="grow overflow-x-auto"
     [transactions]="store.recentTransactions()"
+    (actionClicked)="gotoTransactions()"
   />
-  <app-saving-goals-widget class="grow" [goals]="store.recentSavingsGoals()" />
+
+  <app-saving-goals-widget
+    class="grow"
+    [goals]="store.recentSavingsGoals()"
+    (actionClicked)="gotoGoals()"
+  />
 </div>

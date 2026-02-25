@@ -1,12 +1,12 @@
 import {
   ChangeDetectionStrategy,
   Component,
-  computed,
   DestroyRef,
   inject,
   OnInit,
 } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { Router } from '@angular/router';
 import { RecentTransactionsWidget } from '@shared/ui/recent-transactions-widget';
 import { CardModule } from 'primeng/card';
 import { TagModule } from 'primeng/tag';
@@ -38,38 +38,7 @@ import { SavingGoalsWidget } from './ui/saving-goals-widget/saving-goals-widget'
 export class Dashboard implements OnInit {
   protected readonly store = inject(DashboardStore);
   private readonly destroyRef = inject(DestroyRef);
-
-  readonly amountWidgets = computed(() => {
-    const {
-      totalBalance,
-      previousMonthTotalBalance,
-      monthlyIncome,
-      previousMonthlyIncome,
-      monthlyExpense,
-      previousMonthlyExpense,
-    } = this.store.totalsSummary();
-
-    return [
-      {
-        title: 'Total balance',
-        amount: totalBalance,
-        previousAmount: previousMonthTotalBalance,
-        growTrendIsGood: true,
-      },
-      {
-        title: 'Income',
-        amount: monthlyIncome,
-        previousAmount: previousMonthlyIncome,
-        growTrendIsGood: true,
-      },
-      {
-        title: 'Expenses',
-        amount: monthlyExpense,
-        previousAmount: previousMonthlyExpense,
-        growTrendIsGood: false,
-      },
-    ];
-  });
+  private router = inject(Router);
 
   ngOnInit(): void {
     this.store.currencyCode$
@@ -89,5 +58,17 @@ export class Dashboard implements OnInit {
     this.store.loadCashFlow();
     this.store.loadRecentTransactions();
     this.store.loadRecentMonthlyBudgets();
+  }
+
+  protected gotoTransactions() {
+    this.router.navigate(['transactions']);
+  }
+
+  protected gotoBudget() {
+    this.router.navigate(['budget']);
+  }
+
+  protected gotoGoals() {
+    this.router.navigate(['goals']);
   }
 }
