@@ -98,8 +98,7 @@ SET
 $$;
 
 CREATE OR REPLACE FUNCTION get_recent_transactions (
-  p_account_currency_code TEXT,
-  p_size INTEGER DEFAULT 10
+  p_limit INTEGER DEFAULT 10
 ) returns TABLE (
   id BIGINT,
   transacted_at transactions.transacted_at % type,
@@ -140,10 +139,9 @@ SET
     on cat.id = t.category_id
   join public.groups cg
     on cg.id = cat.group_id
-  where ac.code = p_account_currency_code
-    and t.type <> 'transfer'
+  where t.type <> 'transfer'
   order by t.transacted_at desc, t.id desc
-  limit greatest(coalesce(p_size, 10), 1);
+  limit greatest(coalesce(p_limit, 10), 1);
 $$;
 
 CREATE OR REPLACE FUNCTION get_filtered_transactions (

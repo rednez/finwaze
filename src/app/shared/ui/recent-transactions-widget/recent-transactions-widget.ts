@@ -41,7 +41,7 @@ import { CardEmptyState } from '../card-empty-state';
         />
       } @else {
         <app-card-empty-state
-          title="No transactions for wallets in selected currency"
+          title="No transactions"
           actionText="You can add new transactions to see them here in the Transactions."
           actionBtnLabel="Goto Transactions"
           (actionBtnClicked)="actionClicked.emit()"

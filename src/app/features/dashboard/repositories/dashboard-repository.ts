@@ -50,11 +50,10 @@ export class DashboardRepository {
     return data.map(this.mapper.fromMonthlyCashFlowDto);
   }
 
-  async getRecentTransactions(currencyCode: string): Promise<Transaction[]> {
+  async getRecentTransactions(): Promise<Transaction[]> {
     const { data, error } = await this.supabase.client
       .rpc('get_recent_transactions', {
-        p_account_currency_code: currencyCode,
-        p_size: 3,
+        p_limit: 3,
       })
       .select();
 

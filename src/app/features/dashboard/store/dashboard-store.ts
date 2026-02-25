@@ -175,13 +175,8 @@ export const DashboardStore = signalStore(
       }
 
       try {
-        if (!store.selectedCurrencyCode()) {
-          throw new Error('Currency is not set');
-        }
-
-        const recentTransactions = await store.repository.getRecentTransactions(
-          store.selectedCurrencyCode()!,
-        );
+        const recentTransactions =
+          await store.repository.getRecentTransactions();
 
         patchState(store, () => ({ recentTransactions }));
 
