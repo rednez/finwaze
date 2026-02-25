@@ -34,6 +34,17 @@ with check (
   (select auth.uid()) = user_id
 );
 
+CREATE POLICY "Enable update their own data only" ON "public"."accounts" AS PERMISSIVE
+FOR UPDATE
+  TO authenticated USING (
+    (
+      user_id = (
+        SELECT
+          auth.uid () AS uid
+      )
+    )
+  );
+
 create trigger before_update_account_trigger BEFORE
 update on accounts for EACH row
 execute FUNCTION storage.update_updated_at_column ();

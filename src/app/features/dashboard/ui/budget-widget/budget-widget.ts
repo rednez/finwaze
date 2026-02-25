@@ -2,6 +2,7 @@ import {
   ChangeDetectionStrategy,
   Component,
   computed,
+  input,
   signal,
 } from '@angular/core';
 import { Card } from '@shared/ui/card';
@@ -44,46 +45,8 @@ import { CardHeaderTitle } from '@shared/ui/card-header-title/card-header-title'
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class BudgetWidget {
-  readonly categories = signal([
-    {
-      name: 'Taxes',
-      amount: 500,
-    },
-    {
-      name: 'Life',
-      amount: 900,
-    },
-    {
-      name: 'Medicine',
-      amount: 100,
-    },
-    {
-      name: 'Foods',
-      amount: 2400,
-    },
-    {
-      name: 'Credits',
-      amount: 1200,
-    },
-    {
-      name: 'Car',
-      amount: 1000,
-    },
-    {
-      name: 'Stuff',
-      amount: 500,
-    },
-    {
-      name: 'Other',
-      amount: 750,
-    },
-    {
-      name: 'Other2',
-      amount: 790,
-    },
-  ]);
-
-  readonly currency = signal('USD');
+  readonly categories = input<Array<{ name: string; amount: number }>>([]);
+  readonly currency = input<string>();
 
   protected readonly displayedCategories = computed(() => {
     const colors = generateAnalogColors(this.categories().length);

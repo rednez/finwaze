@@ -60,6 +60,16 @@ with check (
   (select auth.uid()) = user_id
 );
 
+CREATE POLICY "Enable update their own data only" ON "public"."transactions" AS PERMISSIVE
+FOR UPDATE
+  TO authenticated USING (
+    (
+      user_id = (
+        SELECT
+          auth.uid () AS uid
+      )
+    )
+  );
 
 create trigger before_update_transaction_trigger BEFORE
 update on transactions for EACH row

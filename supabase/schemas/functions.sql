@@ -99,7 +99,7 @@ $$;
 
 CREATE OR REPLACE FUNCTION get_recent_transactions (
   p_account_currency_code TEXT,
-   p_size INTEGER DEFAULT 10
+  p_size INTEGER DEFAULT 10
 ) returns TABLE (
   id BIGINT,
   transacted_at transactions.transacted_at % type,
@@ -227,7 +227,6 @@ SET
   offset (greatest(coalesce(p_page, 1), 1) - 1) * greatest(coalesce(p_page_size, 10), 1);
 $$;
 
-
 CREATE OR REPLACE FUNCTION make_transfer (
   p_from_account BIGINT,
   p_to_account BIGINT,
@@ -297,3 +296,4 @@ BEGIN
   VALUES (p_to_account, actual_to_amount, actual_to_amount, 'transfer', internal_category_id, tid, p_comment, to_currency_id);
 END;
 $$ LANGUAGE plpgsql;
+

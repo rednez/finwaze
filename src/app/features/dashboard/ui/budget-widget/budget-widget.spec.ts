@@ -22,6 +22,7 @@ describe('BudgetWidget', () => {
 
     fixture = TestBed.createComponent(BudgetWidget);
     component = fixture.componentInstance;
+    fixture.componentRef.setInput('currency', 'USD');
     await fixture.whenStable();
   });
 

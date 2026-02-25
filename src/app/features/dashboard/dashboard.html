@@ -31,7 +31,11 @@
     [expenses]="store.cashFlowExpenses()"
   />
 
-  <app-budget-widget class="grow md:grow-0" />
+  <app-budget-widget
+    class="grow md:grow-0"
+    [currency]="store.selectedCurrencyCode()"
+    [categories]="store.recentMonthlyBudgets()"
+  />
 </div>
 
 <div class="flex flex-wrap gap-4 min-w-0">

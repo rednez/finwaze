@@ -11,7 +11,12 @@ import {
   withState,
 } from '@ngrx/signals';
 import { filter } from 'rxjs';
-import { MonthlyCashFlow, RecentSavingsGoal, TotalSummaries } from '../models';
+import {
+  MonthlyCashFlow,
+  RecentMonthlyBudget,
+  RecentSavingsGoal,
+  TotalSummaries,
+} from '../models';
 import { DashboardRepository } from '../repositories';
 import { DashboardLoadingStateStore } from './dashboard-loading-state-store';
 
@@ -20,6 +25,7 @@ export interface DashboardState {
   _cashFlow: MonthlyCashFlow[];
   recentTransactions: Transaction[];
   recentSavingsGoals: RecentSavingsGoal[];
+  recentMonthlyBudgets: RecentMonthlyBudget[];
 }
 
 const initialState: DashboardState = {
@@ -34,6 +40,7 @@ const initialState: DashboardState = {
   _cashFlow: [],
   recentTransactions: [],
   recentSavingsGoals: [],
+  recentMonthlyBudgets: [],
 };
 
 export const DashboardStore = signalStore(
@@ -172,6 +179,38 @@ export const DashboardStore = signalStore(
         const recentGoals = await store.repository.getRecentSavingsGoals();
 
         patchState(store, () => ({ recentSavingsGoals: recentGoals }));
+
+        if (store.loadingStore.isLoaded()) {
+          store.loadingStore.successUpdating();
+        } else {
+          store.loadingStore.successLoading();
+        }
+      } catch (error) {
+        if (store.loadingStore.isLoaded()) {
+          store.loadingStore.errorUpdating();
+        } else {
+          store.loadingStore.errorLoading();
+        }
+      }
+    },
+
+    async loadRecentMonthlyBudgets(): Promise<void> {
+      if (store.loadingStore.isLoaded()) {
+        store.loadingStore.startUpdating();
+      } else {
+        store.loadingStore.startLoading();
+      }
+
+      try {
+        if (!store.selectedCurrencyCode()) {
+          throw new Error('Currency is not set');
+        }
+
+        const data = await store.repository.getRecentMonthlyBudgets(
+          store.selectedCurrencyCode()!,
+        );
+
+        patchState(store, () => ({ recentMonthlyBudgets: data }));
 
         if (store.loadingStore.isLoaded()) {
           store.loadingStore.successUpdating();

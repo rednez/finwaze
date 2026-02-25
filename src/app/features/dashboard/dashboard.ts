@@ -79,6 +79,7 @@ export class Dashboard implements OnInit {
         this.store.loadCashFlow();
         this.store.loadRecentTransactions();
         this.store.loadRecentSavingsGoals();
+        this.store.loadRecentMonthlyBudgets();
       });
   }
 
@@ -87,5 +88,6 @@ export class Dashboard implements OnInit {
     this.store.loadTotalsSummary();
     this.store.loadCashFlow();
     this.store.loadRecentTransactions();
+    this.store.loadRecentMonthlyBudgets();
   }
 }

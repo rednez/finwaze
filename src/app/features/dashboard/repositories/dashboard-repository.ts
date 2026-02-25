@@ -3,7 +3,12 @@ import { TransactionsMapper } from '@core/mappers/transactions-mapper';
 import { Transaction } from '@core/models/transactions';
 import { SupabaseService } from '@core/services/supabase.service';
 import { DashboardMapper } from '../mappers';
-import { MonthlyCashFlow, RecentSavingsGoal, TotalSummaries } from '../models';
+import {
+  MonthlyCashFlow,
+  RecentMonthlyBudget,
+  RecentSavingsGoal,
+  TotalSummaries,
+} from '../models';
 
 @Injectable({
   providedIn: 'root',
@@ -72,5 +77,21 @@ export class DashboardRepository {
     }
 
     return data.map(this.mapper.fromRecentSavingsGoalDto);
+  }
+
+  async getRecentMonthlyBudgets(
+    currencyCode: string,
+  ): Promise<RecentMonthlyBudget[]> {
+    const { data, error } = await this.supabase.client
+      .rpc('get_current_month_budgets_by_category', {
+        p_currency_code: currencyCode,
+      })
+      .select();
+
+    if (error) {
+      throw new Error(error.message);
+    }
+
+    return data.map(this.mapper.fromRecentMonthlyBudgetDto);
   }
 }

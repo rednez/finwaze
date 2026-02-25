@@ -35,6 +35,17 @@ with check (
   (select auth.uid()) = user_id
 );
 
+CREATE POLICY "Enable update their own data only" ON "public"."savings_goals" AS PERMISSIVE
+FOR UPDATE
+  TO authenticated USING (
+    (
+      user_id = (
+        SELECT
+          auth.uid () AS uid
+      )
+    )
+  );
+
 CREATE OR REPLACE FUNCTION get_savings_goal_balances (
   p_limit INTEGER DEFAULT 20
 ) returns TABLE (

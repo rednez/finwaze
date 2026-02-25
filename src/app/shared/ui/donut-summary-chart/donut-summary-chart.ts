@@ -45,8 +45,8 @@ export class DonutSummaryChart {
   private readonly darkModeHelper = inject(DarkModeHelper);
 
   readonly title = input.required<string>();
-  readonly items = input.required<SummaryItem[]>();
-  readonly currency = input.required<string>();
+  readonly items = input<SummaryItem[]>([]);
+  readonly currency = input<string>();
   readonly size = input<'medium' | 'large'>('medium');
 
   private amounts = computed(() => this.items().map((cat) => cat.amount));
