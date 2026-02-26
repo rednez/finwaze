@@ -1,6 +1,24 @@
 <div>
   <div class="flex justify-between gap-4">
-    <app-transactions-filters />
+    <div class="mb-4">
+      <app-transactions-filters
+        [initMonth]="store.month()"
+        [initCurrency]="store.currencyCode()"
+        [initGroup]="store.groupId()"
+        [initCategory]="store.categoryId()"
+        [currencies]="store.currencies()"
+        [groups]="store.groups()"
+        [categories]="store.categories()"
+        (monthChanged)="onMonthChanged($event)"
+        (currencyChanged)="onCurrencyChanged($event)"
+        (groupChanged)="onGroupChanged($event)"
+        (categoryChanged)="onCategoryChanged($event)"
+      />
+
+      <div class="mt-2 text-sm text-muted-color-emphasis">
+        {{ store.transactions().length }} items
+      </div>
+    </div>
 
     <p-button
       icon="pi pi-plus"
@@ -14,7 +32,7 @@
 
   <div class="scrollable-container overflow-auto max-h-[calc(100vh-172px)]">
     <app-transactions-data-table
-      [transactions]="transactions()"
+      [transactions]="store.transactions()"
       [cols]="tableCols"
     />
   </div>

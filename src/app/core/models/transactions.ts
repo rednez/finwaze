@@ -4,6 +4,7 @@ export interface Transaction {
   id: number;
   accountName: string;
   transactedAt: Date;
+  localOffset: string;
   transactionAmount: number;
   transactionCurrency: string;
   chargedAmount: number;

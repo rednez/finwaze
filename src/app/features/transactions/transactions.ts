@@ -1,4 +1,9 @@
-import { ChangeDetectionStrategy, Component, signal } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  inject,
+  signal,
+} from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import {
   TransactionDataTableColumnType,
@@ -9,7 +14,8 @@ import { DatePickerModule } from 'primeng/datepicker';
 import { IftaLabelModule } from 'primeng/iftalabel';
 import { SelectModule } from 'primeng/select';
 import { TableModule } from 'primeng/table';
-import { TransactionsFilters } from './transactions-filters/transactions-filters';
+import { TransactionsStore } from './store/transactions-store';
+import { TransactionsFilters } from './ui/transactions-filters/transactions-filters';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -27,11 +33,7 @@ import { TransactionsFilters } from './transactions-filters/transactions-filters
   styleUrls: ['./transactions.css'],
 })
 export class Transactions {
-  // TODO: ?
-  transactions = signal([]);
-  loading = signal(false);
-  data = signal<number[]>([]);
-  dataError = signal(false);
+  protected readonly store = inject(TransactionsStore);
 
   protected readonly tableCols: TransactionDataTableColumnType[] = [
     'date',
@@ -42,4 +44,30 @@ export class Transactions {
     'exchangeRate',
     'comment',
   ];
+
+  constructor() {
+    if (!this.store.isLoaded()) {
+      this.store.loadTransactions();
+    }
+  }
+
+  onMonthChanged(event: Date) {
+    this.store.updateMonth(event);
+    this.store.loadTransactions();
+  }
+
+  onCurrencyChanged(event: string | null) {
+    this.store.updateCurrency(event);
+    this.store.loadTransactions();
+  }
+
+  onGroupChanged(event: number | null) {
+    this.store.updateGroup(event);
+    this.store.loadTransactions();
+  }
+
+  onCategoryChanged(event: number | null) {
+    this.store.updateCategory(event);
+    this.store.loadTransactions();
+  }
 }

@@ -1,9 +1,10 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
+import { AccountsStore } from '@core/store/accounts-store';
+import { CategoriesStore } from '@core/store/categories-store';
 import { BottomNavBar } from '../bottom-nav-bar';
 import { Sidebar } from '../sidebar';
 import { TopBar } from '../top-bar';
-import { AccountsStore } from '@core/store/accounts-store';
 
 @Component({
   imports: [RouterOutlet, Sidebar, TopBar, BottomNavBar],
@@ -27,9 +28,11 @@ import { AccountsStore } from '@core/store/accounts-store';
 })
 export class AppLayout {
   private readonly accountsStore = inject(AccountsStore);
+  private readonly categoriesStore = inject(CategoriesStore);
 
   constructor() {
     this.initAccountsStore();
+    this.initCategoriesStore();
   }
 
   private initAccountsStore() {
@@ -39,5 +42,9 @@ export class AppLayout {
     if (!this.accountsStore.isLoaded()) {
       this.accountsStore.getAll();
     }
+  }
+
+  private initCategoriesStore() {
+    this.categoriesStore.loadAll();
   }
 }

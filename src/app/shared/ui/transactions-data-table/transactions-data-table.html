@@ -28,10 +28,10 @@
             class="pl-4! pr-1 text-xs lg:text-sm text-muted-color sm:whitespace-nowrap"
           >
             <span class="sm:hidden">
-              {{ row.transactedAt | date: 'shortDate' }}
+              {{ row.transactedAt | date: 'shortDate' : row.localOffset }}
             </span>
             <span class="hidden sm:block">
-              {{ row.transactedAt | date: dateFormat() }}
+              {{ row.transactedAt | date: dateFormat() : row.localOffset }}
             </span>
           </td>
         }

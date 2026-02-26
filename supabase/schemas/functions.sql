@@ -24,8 +24,8 @@ begin
         coalesce(sum(
             case
                 when t.account_amount > 0
-                 and t.transacted_at >= date_trunc('month', now())
-                 and t.transacted_at < date_trunc('month', now()) + interval '1 month'
+                 and (t.transacted_at + t.local_offset) >= date_trunc('month', now())
+                 and (t.transacted_at + t.local_offset) < date_trunc('month', now()) + interval '1 month'
                 then t.account_amount
             end
         ), 0) as monthly_income,
@@ -34,8 +34,8 @@ begin
         coalesce(sum(
             case
                 when t.account_amount < 0
-                 and t.transacted_at >= date_trunc('month', now())
-                 and t.transacted_at < date_trunc('month', now()) + interval '1 month'
+                 and (t.transacted_at + t.local_offset) >= date_trunc('month', now())
+                 and (t.transacted_at + t.local_offset) < date_trunc('month', now()) + interval '1 month'
                 then t.account_amount
             end
         ), 0) as monthly_expense,
@@ -44,7 +44,7 @@ begin
         -- BALANCE (up to previous month end)
         coalesce(sum(
             case
-                when t.transacted_at < date_trunc('month', now())
+                when (t.transacted_at + t.local_offset) < date_trunc('month', now())
                 then t.account_amount
             end
         ), 0) as previous_total_balance,
@@ -53,8 +53,8 @@ begin
         coalesce(sum(
             case
                 when t.account_amount > 0
-                 and t.transacted_at >= date_trunc('month', now()) - interval '1 month'
-                 and t.transacted_at < date_trunc('month', now())
+                 and (t.transacted_at + t.local_offset) >= date_trunc('month', now()) - interval '1 month'
+                 and (t.transacted_at + t.local_offset) < date_trunc('month', now())
                 then t.account_amount
             end
         ), 0) as previous_monthly_income,
@@ -63,8 +63,8 @@ begin
         coalesce(sum(
             case
                 when t.account_amount < 0
-                 and t.transacted_at >= date_trunc('month', now()) - interval '1 month'
-                 and t.transacted_at < date_trunc('month', now())
+                 and (t.transacted_at + t.local_offset) >= date_trunc('month', now()) - interval '1 month'
+                 and (t.transacted_at + t.local_offset) < date_trunc('month', now())
                 then t.account_amount
             end
         ), 0) as previous_monthly_expense
@@ -83,7 +83,7 @@ CREATE OR REPLACE FUNCTION get_monthly_cash_flow (p_currency_code TEXT, p_months
 SET
   search_path = '' AS $$
   select
-    date_trunc('month', t.transacted_at) as month,
+    date_trunc('month', (t.transacted_at + t.local_offset)) as month,
     sum(case when t.account_amount > 0 then t.account_amount else 0 end) as total_income,
     sum(case when t.account_amount < 0 then t.account_amount else 0 end) as total_expense
   from public.transactions t
@@ -91,9 +91,9 @@ SET
     on c.id = t.account_currency_id
   where c.code = p_currency_code
     and t.type <> 'transfer'
-    and t.transacted_at >= date_trunc('month', now()) 
+    and (t.transacted_at + t.local_offset) >= date_trunc('month', now()) 
         - make_interval(months => p_months - 1)
-  group by date_trunc('month', t.transacted_at)
+  group by date_trunc('month', (t.transacted_at + t.local_offset))
   order by month;
 $$;
 
@@ -102,6 +102,7 @@ CREATE OR REPLACE FUNCTION get_recent_transactions (
 ) returns TABLE (
   id BIGINT,
   transacted_at transactions.transacted_at % type,
+  local_offset transactions.local_offset % type,
   transaction_amount transactions.transaction_amount % type,
   transaction_currency_code TEXT,
   account_name TEXT,
@@ -118,6 +119,7 @@ SET
   select
     t.id,
     t.transacted_at,
+    t.local_offset,
     t.transaction_amount,
     tc.code as transaction_currency_code,
     acc.name as account_name,
@@ -140,7 +142,7 @@ SET
   join public.groups cg
     on cg.id = cat.group_id
   where t.type <> 'transfer'
-  order by t.transacted_at desc, t.id desc
+  order by (t.transacted_at + t.local_offset) desc, t.id desc
   limit greatest(coalesce(p_limit, 10), 1);
 $$;
 
@@ -151,10 +153,11 @@ CREATE OR REPLACE FUNCTION get_filtered_transactions (
   p_transaction_currency_codes TEXT[] DEFAULT NULL,
   p_month DATE DEFAULT NULL,
   p_page INTEGER DEFAULT 1,
-  p_page_size INTEGER DEFAULT 10
+  p_page_size INTEGER DEFAULT NULL
 ) returns TABLE (
   id BIGINT,
   transacted_at transactions.transacted_at % type,
+  local_offset transactions.local_offset % type,
   transaction_amount transactions.transaction_amount % type,
   transaction_currency_code TEXT,
   account_name TEXT,
@@ -171,6 +174,7 @@ SET
   select
     t.id,
     t.transacted_at,
+    t.local_offset,
     t.transaction_amount,
     tc.code as transaction_currency_code,
     acc.name as account_name,
@@ -216,13 +220,13 @@ SET
     and (
       p_month is null
       or (
-        t.transacted_at >= date_trunc('month', p_month::timestamp)
-        and t.transacted_at < date_trunc('month', p_month::timestamp) + interval '1 month'
+        (t.transacted_at + t.local_offset) >= date_trunc('month', p_month::timestamp)
+        and (t.transacted_at + t.local_offset) < date_trunc('month', p_month::timestamp) + interval '1 month'
       )
     )
-  order by t.transacted_at desc, t.id desc
-  limit greatest(coalesce(p_page_size, 10), 1)
-  offset (greatest(coalesce(p_page, 1), 1) - 1) * greatest(coalesce(p_page_size, 10), 1);
+  order by (t.transacted_at + t.local_offset) desc, t.id desc
+  limit case when p_page_size is null then null else greatest(p_page_size, 1) end
+  offset case when p_page_size is null then 0 else (greatest(coalesce(p_page, 1), 1) - 1) * greatest(p_page_size, 1) end;
 $$;
 
 CREATE OR REPLACE FUNCTION make_transfer (

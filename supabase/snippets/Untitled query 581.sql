@@ -1,0 +1,1 @@
+select id, name from groups where is_system is not true;

@@ -5,10 +5,11 @@ import { Transaction } from '@core/models/transactions';
   providedIn: 'root',
 })
 export class TransactionsMapper {
-  fromTransactionDto(dto: any): Transaction {
+  fromTransactionDto = (dto: any): Transaction => {
     const {
       id,
       transacted_at,
+      local_offset,
       transaction_amount,
       transaction_currency_code,
       account_name,
@@ -25,6 +26,7 @@ export class TransactionsMapper {
       id,
       accountName: account_name,
       transactedAt: new Date(transacted_at),
+      localOffset: this.parseLocalOffset(local_offset),
       transactionAmount: transaction_amount,
       transactionCurrency: transaction_currency_code,
       chargedAmount: account_amount,
@@ -35,5 +37,20 @@ export class TransactionsMapper {
       categoryName: category_name,
       comment,
     };
-  }
+  };
+
+  private parseLocalOffset = (offset: string): string => {
+    const normalized = offset.trim();
+
+    if (!normalized) {
+      return '+00:00';
+    }
+
+    const withSign =
+      normalized.startsWith('+') || normalized.startsWith('-')
+        ? normalized
+        : `+${normalized}`;
+
+    return withSign.replace(/:00$/, '');
+  };
 }

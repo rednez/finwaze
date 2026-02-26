@@ -1,1 +1,0 @@
-select make_transfer(2, 6, 50000)

@@ -1,6 +1,7 @@
 <p-iftalabel>
   <p-datepicker
-    [(ngModel)]="date"
+    [ngModel]="selectedMonth()"
+    (ngModelChange)="onMonthChange($event)"
     view="month"
     dateFormat="mm/yy"
     [readonlyInput]="true"
@@ -11,9 +12,11 @@
 
 <p-iftalabel>
   <p-select
-    [(ngModel)]="currency"
-    [options]="currencies()"
+    [ngModel]="selectedCurrency()"
+    (ngModelChange)="onCurrencyChange($event)"
+    [options]="currenciesOptions()"
     optionLabel="name"
+    optionValue="name"
     class="pt-3 min-w-20"
     size="small"
     [dt]="selectInputSchema"
@@ -23,9 +26,11 @@
 
 <p-iftalabel>
   <p-select
-    [(ngModel)]="group"
-    [options]="groups()"
+    [ngModel]="selectedGroup()"
+    (ngModelChange)="onGroupChange($event)"
+    [options]="groupsOptions()"
     optionLabel="name"
+    optionValue="id"
     class="pt-3 min-w-20"
     size="small"
     [dt]="selectInputSchema"
@@ -35,9 +40,11 @@
 
 <p-iftalabel>
   <p-select
-    [(ngModel)]="category"
-    [options]="categories()"
+    [ngModel]="selectedCategory()"
+    (ngModelChange)="onCategoryChange($event)"
+    [options]="categoriesOptions()"
     optionLabel="name"
+    optionValue="id"
     class="pt-3 min-w-20"
     size="small"
     [dt]="selectInputSchema"
