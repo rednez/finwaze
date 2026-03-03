@@ -1,17 +1,23 @@
-import { inject, Injectable, signal } from '@angular/core';
+import { computed, inject, Injectable, signal } from '@angular/core';
 import { CurrenciesRepository } from '@core/repositories/currencies-repository';
 import { AccountsStore } from '@core/store/accounts-store';
+import { CurrenciesStore } from '@core/store/currencies-store';
 
 @Injectable({
   providedIn: 'root',
 })
 export class SetupAccountService {
   private readonly accountsStore = inject(AccountsStore);
-  private readonly currenciesRepository = inject(CurrenciesRepository);
+  private readonly currenciesStore = inject(CurrenciesStore);
 
   readonly isLoading = signal(false);
-  readonly isCurrenciesLoading = signal(false);
-  readonly currencies = signal<Array<{ id: number; name: string }>>([]);
+  readonly isCurrenciesLoading = this.currenciesStore.isLoading;
+  readonly currencies = computed(() =>
+    this.currenciesStore.currencies().map((i) => ({
+      id: i.id,
+      name: `${i.code} – ${i.name}`,
+    })),
+  );
 
   async loadAccounts(): Promise<boolean> {
     this.isLoading.set(true);
@@ -23,17 +29,7 @@ export class SetupAccountService {
   }
 
   async loadCurrencies() {
-    this.isCurrenciesLoading.set(true);
-
-    const currencies = await this.currenciesRepository.getAll();
-    this.currencies.set(
-      currencies.map((i) => ({
-        id: i.id,
-        name: `${i.code} – ${i.name}`,
-      })),
-    );
-
-    this.isCurrenciesLoading.set(false);
+    this.currenciesStore.getAll();
   }
 
   async createAccount(name: string, currencyId: number) {

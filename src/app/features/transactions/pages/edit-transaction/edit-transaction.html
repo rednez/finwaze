@@ -1,0 +1,37 @@
+<p-toast />
+
+<div
+  class="md:min-h-screen md:bg-[#FDFDFF] md:dark:bg-[#09090B] text-slate-900 dark:text-zinc-100 overflow-hidden md:p-6"
+>
+  <div
+    class="text-center md:mx-auto w-full max-w-160 bg-white/40 dark:bg-zinc-900/40 backdrop-blur-2xl border border-white dark:border-zinc-800/50 p-4 md:p-12 rounded-[40px] md:shadow-2xl md:shadow-violet-500/12 md:dark:shadow-none pb-8"
+  >
+    <h4 class="text-lg font-semibold mb-4">
+      {{ title() }}
+    </h4>
+
+    <p-selectbutton
+      [(ngModel)]="transactionType"
+      [options]="transactionTypesOptions"
+      optionLabel="name"
+      optionValue="value"
+      aria-labelledby="basic"
+      size="small"
+    />
+
+    @if (transactionType === 'expense') {
+      <app-expense-form
+        [isCreatingMode]="isCreatingMode()"
+        [isSubmitting]="store.isCreating()"
+        [accounts]="accountsStore.accounts()"
+        [groups]="store.groups()"
+        [categories]="store.categories()"
+        [currencies]="store.currencies()"
+        (groupChanged)="updateGroupInStore($event)"
+        (formSubmitted)="submitExpenseForm($event)"
+      />
+    } @else {
+      <app-income-form />
+    }
+  </div>
+</div>

@@ -5,6 +5,7 @@ import { CategoriesStore } from '@core/store/categories-store';
 import { BottomNavBar } from '../bottom-nav-bar';
 import { Sidebar } from '../sidebar';
 import { TopBar } from '../top-bar';
+import { CurrenciesStore } from '@core/store/currencies-store';
 
 @Component({
   imports: [RouterOutlet, Sidebar, TopBar, BottomNavBar],
@@ -28,11 +29,13 @@ import { TopBar } from '../top-bar';
 })
 export class AppLayout {
   private readonly accountsStore = inject(AccountsStore);
+  private readonly currenciesStore = inject(CurrenciesStore);
   private readonly categoriesStore = inject(CategoriesStore);
 
   constructor() {
     this.initAccountsStore();
     this.initCategoriesStore();
+    this.initCurrenciesStore();
   }
 
   private initAccountsStore() {
@@ -46,5 +49,11 @@ export class AppLayout {
 
   private initCategoriesStore() {
     this.categoriesStore.loadAll();
+  }
+
+  private initCurrenciesStore() {
+    if (!this.currenciesStore.isLoaded()) {
+      this.currenciesStore.getAll();
+    }
   }
 }

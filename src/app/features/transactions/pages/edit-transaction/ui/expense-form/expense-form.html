@@ -1,0 +1,236 @@
+<form [formGroup]="form" class="flex flex-col gap-4 text-start mt-6">
+  <div class="w-full">
+    <label class="text-sm font-medium" for="account">From wallet</label>
+    <p-select
+      [options]="accounts()"
+      formControlName="accountId"
+      inputId="account"
+      optionValue="id"
+      placeholder="Select item"
+      class="w-full"
+      [dt]="selectDt"
+    >
+      <ng-template #selectedItem let-selectedOption>
+        <div class="flex items-center gap-2">
+          <div>{{ selectedOption.name }}</div>
+          <div
+            class="text-xs font-medium px-2 py-1 bg-gray-100 dark:bg-gray-800 rounded-lg"
+          >
+            {{ selectedOption.currencyCode }}
+          </div>
+        </div>
+      </ng-template>
+      <ng-template let-account #item>
+        <div class="flex items-center gap-2">
+          <div>{{ account.name }}</div>
+          <div
+            class="text-xs font-medium px-2 py-1 bg-gray-100 dark:bg-gray-800 rounded-lg"
+          >
+            {{ account.currencyCode }}
+          </div>
+        </div>
+      </ng-template>
+    </p-select>
+    @if (form.controls.accountId.invalid && form.controls.accountId.dirty) {
+      <div class="text-xs text-red-500 pl-2 pt-0.5">Should be selected</div>
+    }
+  </div>
+
+  <div class="flex flex-col sm:flex-row gap-4">
+    <div class="w-full">
+      <label class="text-sm font-medium" for="group">Group</label>
+      <p-select
+        [options]="groups()"
+        formControlName="groupId"
+        inputId="group"
+        optionLabel="name"
+        optionValue="id"
+        placeholder="Select item"
+        class="w-full"
+        [dt]="selectDt"
+      >
+      </p-select>
+      @if (form.controls.groupId.invalid && form.controls.groupId.dirty) {
+        <div class="text-xs text-red-500 pl-2 pt-0.5">Should be selected</div>
+      }
+    </div>
+
+    <div class="w-full">
+      <label class="text-sm font-medium" for="category">Category</label>
+      <p-select
+        [options]="categories()"
+        formControlName="categoryId"
+        inputId="category"
+        optionLabel="name"
+        optionValue="id"
+        placeholder="Select item"
+        class="w-full"
+        [dt]="selectDt"
+      >
+      </p-select>
+      @if (form.controls.categoryId.invalid && form.controls.categoryId.dirty) {
+        <div class="text-xs text-red-500 pl-2 pt-0.5">Should be selected</div>
+      }
+    </div>
+  </div>
+
+  <div class="flex flex-col sm:flex-row gap-4">
+    <div class="w-full">
+      <label class="text-sm font-medium" for="transactionAmount">
+        Transaction amount
+      </label>
+      <p-inputnumber
+        formControlName="transactionAmount"
+        inputId="transactionAmount"
+        mode="decimal"
+        [minFractionDigits]="0"
+        [maxFractionDigits]="2"
+        class="w-full"
+        placeholder="Enter amount"
+        [inputStyle]="{ borderRadius: '16px' }"
+      />
+      @if (
+        (form.invalid && form.controls.transactionAmount.dirty) ||
+        (form.controls.transactionAmount.invalid &&
+          form.controls.transactionAmount.dirty)
+      ) {
+        <div class="text-xs text-red-500 pl-2 pt-0.5">
+          @if (form.controls.transactionAmount.hasError('required')) {
+            Amount required
+          } @else if (form.controls.transactionAmount.hasError('min')) {
+            Must be greater than 0
+          } @else if (form.hasError('transactionAndChargedAmountsEquals')) {
+            Should not be equal to charged amount
+          }
+        </div>
+      }
+    </div>
+
+    <div class="w-full">
+      <label class="text-sm font-medium" for="transactionCurrency">
+        Transaction currency
+      </label>
+      <p-select
+        [options]="currenciesOptions()"
+        formControlName="transactionCurrency"
+        inputId="transactionCurrency"
+        optionLabel="name"
+        optionValue="name"
+        placeholder="Select item"
+        class="w-full"
+        [dt]="selectDt"
+      >
+      </p-select>
+      @if (
+        form.controls.transactionCurrency.invalid &&
+        form.controls.transactionCurrency.dirty
+      ) {
+        <div class="text-xs text-red-500 pl-2 pt-0.5">Should be selected</div>
+      }
+    </div>
+  </div>
+
+  @if (shouldShowChargedAmount()) {
+    <div class="flex flex-col sm:flex-row gap-4">
+      <div class="w-full">
+        <div class="flex gap-2 justify-between mb-1">
+          <label class="text-sm font-medium" for="chargedAmount">
+            Charged amount
+          </label>
+
+          <div class="flex gap-1">
+            <div
+              class="text-xs font-medium px-2 py-1 bg-gray-100 dark:bg-gray-800 rounded-lg"
+            >
+              {{ selectedAccount()?.currencyCode }}
+            </div>
+            @if (exchangeRate()) {
+              <div
+                class="text-xs font-medium px-2 py-1 bg-gray-100 dark:bg-gray-800 rounded-lg"
+              >
+                {{ exchangeRate() | number: '1.1-4' }}
+              </div>
+            }
+          </div>
+        </div>
+
+        <p-inputnumber
+          formControlName="chargedAmount"
+          inputId="chargedAmount"
+          mode="decimal"
+          [minFractionDigits]="0"
+          [maxFractionDigits]="2"
+          class="w-full"
+          placeholder="Enter amount"
+          [inputStyle]="{ borderRadius: '16px' }"
+        />
+
+        @if (
+          (form.invalid && form.controls.chargedAmount.dirty) ||
+          (form.controls.chargedAmount.invalid &&
+            form.controls.chargedAmount.dirty)
+        ) {
+          <div class="text-xs text-red-500 pl-2 pt-0.5">
+            <div class="text-xs text-red-500 pl-2 pt-0.5">
+              @if (form.controls.chargedAmount.hasError('min')) {
+                Must be greater than 0
+              } @else if (form.hasError('chargedAmountRequired')) {
+                Amount required
+              } @else if (form.hasError('transactionAndChargedAmountsEquals')) {
+                Should not be equal to transaction amount
+              }
+            </div>
+          </div>
+        }
+      </div>
+    </div>
+  }
+
+  <div class="flex flex-col sm:flex-row gap-4">
+    <div>
+      <label class="text-sm font-medium" for="transactedAt">
+        Date and time
+      </label>
+      <p-datepicker
+        inputId="calendar-24h"
+        formControlName="transactedAt"
+        [showTime]="true"
+        [hourFormat]="'24'"
+        [inputStyle]="{
+          borderRadius: '16px',
+        }"
+        class="w-full"
+      />
+      @if (
+        form.controls.transactedAt.invalid && form.controls.transactedAt.dirty
+      ) {
+        <div class="text-xs text-red-500 pl-2 pt-0.5">Should be selected</div>
+      }
+    </div>
+
+    <div class="w-full">
+      <label class="text-sm font-medium" for="comment"> Comment </label>
+      <input
+        pInputText
+        formControlName="comment"
+        type="text"
+        class="w-full"
+        [dt]="selectDt"
+      />
+      @if (form.controls.comment.invalid && form.controls.comment.dirty) {
+        <div class="text-xs text-red-500 pl-2 pt-0.5">
+          Max length is 100 characters
+        </div>
+      }
+    </div>
+  </div>
+
+  <div class="mt-8">
+    <p-button
+      [label]="submitButtonLabel()"
+      rounded
+      (onClick)="submit()"
+      [loading]="isSubmitting()"
+    />
+  </div>
+</form>

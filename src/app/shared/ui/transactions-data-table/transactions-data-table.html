@@ -22,7 +22,11 @@
   </thead>
   <tbody>
     @for (row of transactions(); track row.id) {
-      <tr class="border-b border-gray-200 dark:border-gray-700">
+      <tr
+        class="border-b border-gray-200 dark:border-gray-700"
+        [class.hoverable]="isHoverable()"
+        (click)="rowClicked.emit(row.id)"
+      >
         @if (hasDateColumn()) {
           <td
             class="pl-4! pr-1 text-xs lg:text-sm text-muted-color sm:whitespace-nowrap"
@@ -37,11 +41,11 @@
         }
         @if (hasGroupColumn()) {
           <td>
-            {{ row.groupName }}
+            {{ row.group.name }}
           </td>
         }
         @if (hasCategoryColumn()) {
-          <td>{{ row.categoryName }}</td>
+          <td>{{ row.category.name }}</td>
         }
         @if (hasTransactionAmountColumn()) {
           <td>

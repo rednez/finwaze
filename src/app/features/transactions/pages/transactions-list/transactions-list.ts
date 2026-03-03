@@ -1,10 +1,6 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  inject,
-  signal,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { Router } from '@angular/router';
 import {
   TransactionDataTableColumnType,
   TransactionsDataTable,
@@ -14,8 +10,8 @@ import { DatePickerModule } from 'primeng/datepicker';
 import { IftaLabelModule } from 'primeng/iftalabel';
 import { SelectModule } from 'primeng/select';
 import { TableModule } from 'primeng/table';
-import { TransactionsStore } from './store/transactions-store';
-import { TransactionsFilters } from './ui/transactions-filters/transactions-filters';
+import { TransactionsStore } from '../../store/transactions-store';
+import { TransactionsFilters } from '../../ui/transactions-filters/transactions-filters';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -29,11 +25,12 @@ import { TransactionsFilters } from './ui/transactions-filters/transactions-filt
     TransactionsFilters,
     ButtonModule,
   ],
-  templateUrl: './transactions.html',
-  styleUrls: ['./transactions.css'],
+  templateUrl: './transactions-list.html',
+  styleUrls: ['./transactions-list.css'],
 })
-export class Transactions {
+export class TransactionsList {
   protected readonly store = inject(TransactionsStore);
+  private readonly router = inject(Router);
 
   protected readonly tableCols: TransactionDataTableColumnType[] = [
     'date',
@@ -51,23 +48,32 @@ export class Transactions {
     }
   }
 
-  onMonthChanged(event: Date) {
+  protected onMonthChanged(event: Date) {
     this.store.updateMonth(event);
     this.store.loadTransactions();
   }
 
-  onCurrencyChanged(event: string | null) {
+  protected onCurrencyChanged(event: string | null) {
     this.store.updateCurrency(event);
     this.store.loadTransactions();
   }
 
-  onGroupChanged(event: number | null) {
+  protected onGroupChanged(event: number | null) {
     this.store.updateGroup(event);
     this.store.loadTransactions();
   }
 
-  onCategoryChanged(event: number | null) {
+  protected onCategoryChanged(event: number | null) {
     this.store.updateCategory(event);
     this.store.loadTransactions();
+  }
+
+  protected gotoEdit($event: number) {
+    this.store.selectTransaction($event);
+    this.router.navigate(['transactions', $event]);
+  }
+
+  protected gotoCreate() {
+    this.router.navigate(['transactions', 'create']);
   }
 }

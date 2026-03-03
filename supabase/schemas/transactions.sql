@@ -11,8 +11,8 @@ CREATE TABLE public.transactions (
   account_id BIGINT NOT NULL,
   transaction_amount NUMERIC NOT NULL,
   transaction_currency_id BIGINT NOT NULL,
-  account_amount NUMERIC NOT NULL,
-  account_currency_id BIGINT NOT NULL,
+  charged_amount NUMERIC NOT NULL,
+  charged_currency_id BIGINT NOT NULL,
   type public.transaction_type NOT NULL DEFAULT 'expense'::transaction_type,
   category_id BIGINT NOT NULL,
   transfer_id uuid NULL,
@@ -20,12 +20,12 @@ CREATE TABLE public.transactions (
   CONSTRAINT transactions_user_id_fkey FOREIGN KEY (user_id) REFERENCES auth.users (id),
   CONSTRAINT transactions_account_id_fkey FOREIGN KEY (account_id) REFERENCES accounts (id),
   CONSTRAINT transactions_transaction_currency_id_fkey FOREIGN KEY (transaction_currency_id) REFERENCES currencies (id),
-  CONSTRAINT transactions_account_currency_id_fkey FOREIGN KEY (account_currency_id) REFERENCES currencies (id),
+  CONSTRAINT transactions_charged_currency_id_fkey FOREIGN KEY (charged_currency_id) REFERENCES currencies (id),
   CONSTRAINT transactions_category_id_fkey FOREIGN KEY (category_id) REFERENCES categories (id),
   CONSTRAINT transactions_amount_currency_check CHECK (
     (
-      (transaction_currency_id <> account_currency_id)
-      OR (transaction_amount = account_amount)
+      (transaction_currency_id <> charged_currency_id)
+      OR (transaction_amount = charged_amount)
     )
   ),
   CONSTRAINT transactions_comment_check CHECK ((LENGTH(comment) <= 100)),
@@ -77,19 +77,19 @@ update on transactions for EACH row
 execute FUNCTION storage.update_updated_at_column ();
 
 
-CREATE OR REPLACE FUNCTION public.set_transaction_account_currency()
+CREATE OR REPLACE FUNCTION public.set_transaction_charged_currency()
 RETURNS TRIGGER 
 security invoker
 set search_path = ''
 AS $$
 BEGIN
   -- Отримуємо валюту акаунта з таблиці accounts
-  SELECT currency_id INTO NEW.account_currency_id
+  SELECT currency_id INTO NEW.charged_currency_id
   FROM public.accounts
   WHERE id = NEW.account_id;
 
   -- Перевірка: якщо акаунт не знайдено (хоча constraint має це відловити раніше)
-  IF NEW.account_currency_id IS NULL THEN
+  IF NEW.charged_currency_id IS NULL THEN
     RAISE EXCEPTION 'Account with id % not found', NEW.account_id;
   END IF;
 
@@ -97,7 +97,7 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql;
 
-CREATE TRIGGER set_account_currency_trigger
+CREATE TRIGGER set_charged_currency_trigger
 BEFORE INSERT ON public.transactions
 FOR EACH ROW
-EXECUTE FUNCTION public.set_transaction_account_currency();
+EXECUTE FUNCTION public.set_transaction_charged_currency();

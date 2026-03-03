@@ -68,7 +68,7 @@ SET
     sg.end_date,
     sg.status,
     sg.amount,
-    coalesce(sum(t.account_amount), 0) as balance
+    coalesce(sum(t.charged_amount), 0) as balance
   from public.accounts acc
   join public.currencies cur
     on cur.id = acc.currency_id

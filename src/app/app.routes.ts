@@ -36,8 +36,8 @@ export const routes: Routes = [
       },
       {
         path: 'transactions',
-        loadComponent: () =>
-          import('./features/transactions').then((c) => c.Transactions),
+        loadChildren: () =>
+          import('./features/transactions').then((c) => c.transactionsRoutes),
       },
       {
         path: 'wallet',

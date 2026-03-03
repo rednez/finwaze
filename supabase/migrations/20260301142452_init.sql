@@ -98,8 +98,8 @@ alter table "public"."savings_goals" enable row level security;
     "account_id" bigint not null,
     "transaction_amount" numeric not null,
     "transaction_currency_id" bigint not null,
-    "account_amount" numeric not null,
-    "account_currency_id" bigint not null,
+    "charged_amount" numeric not null,
+    "charged_currency_id" bigint not null,
     "type" public.transaction_type not null default 'expense'::public.transaction_type,
     "category_id" bigint not null,
     "transfer_id" uuid
@@ -204,21 +204,21 @@ alter table "public"."savings_goals" add constraint "savings_goals_user_id_fkey"
 
 alter table "public"."savings_goals" validate constraint "savings_goals_user_id_fkey";
 
-alter table "public"."transactions" add constraint "transactions_account_currency_id_fkey" FOREIGN KEY (account_currency_id) REFERENCES public.currencies(id) not valid;
-
-alter table "public"."transactions" validate constraint "transactions_account_currency_id_fkey";
-
 alter table "public"."transactions" add constraint "transactions_account_id_fkey" FOREIGN KEY (account_id) REFERENCES public.accounts(id) not valid;
 
 alter table "public"."transactions" validate constraint "transactions_account_id_fkey";
 
-alter table "public"."transactions" add constraint "transactions_amount_currency_check" CHECK (((transaction_currency_id <> account_currency_id) OR (transaction_amount = account_amount))) not valid;
+alter table "public"."transactions" add constraint "transactions_amount_currency_check" CHECK (((transaction_currency_id <> charged_currency_id) OR (transaction_amount = charged_amount))) not valid;
 
 alter table "public"."transactions" validate constraint "transactions_amount_currency_check";
 
 alter table "public"."transactions" add constraint "transactions_category_id_fkey" FOREIGN KEY (category_id) REFERENCES public.categories(id) not valid;
 
 alter table "public"."transactions" validate constraint "transactions_category_id_fkey";
+
+alter table "public"."transactions" add constraint "transactions_charged_currency_id_fkey" FOREIGN KEY (charged_currency_id) REFERENCES public.currencies(id) not valid;
+
+alter table "public"."transactions" validate constraint "transactions_charged_currency_id_fkey";
 
 alter table "public"."transactions" add constraint "transactions_check" CHECK ((((type = 'transfer'::public.transaction_type) AND (transfer_id IS NOT NULL)) OR ((type <> 'transfer'::public.transaction_type) AND (transfer_id IS NULL)))) not valid;
 
@@ -299,25 +299,25 @@ begin
     return query
     select
         -- BALANCE (entire period)
-        coalesce(sum(t.account_amount), 0) as total_balance,
+        coalesce(sum(t.charged_amount), 0) as total_balance,
 
         -- INCOME (current month)
         coalesce(sum(
             case
-                when t.account_amount > 0
+                when t.charged_amount > 0
                  and (t.transacted_at + t.local_offset) >= date_trunc('month', now())
                  and (t.transacted_at + t.local_offset) < date_trunc('month', now()) + interval '1 month'
-                then t.account_amount
+                then t.charged_amount
             end
         ), 0) as monthly_income,
 
         -- EXPENSE (current month)
         coalesce(sum(
             case
-                when t.account_amount < 0
+                when t.charged_amount < 0
                  and (t.transacted_at + t.local_offset) >= date_trunc('month', now())
                  and (t.transacted_at + t.local_offset) < date_trunc('month', now()) + interval '1 month'
-                then t.account_amount
+                then t.charged_amount
             end
         ), 0) as monthly_expense,
 
@@ -326,39 +326,39 @@ begin
         coalesce(sum(
             case
                 when (t.transacted_at + t.local_offset) < date_trunc('month', now())
-                then t.account_amount
+                then t.charged_amount
             end
         ), 0) as previous_total_balance,
 
         -- INCOME (previous month)
         coalesce(sum(
             case
-                when t.account_amount > 0
+                when t.charged_amount > 0
                  and (t.transacted_at + t.local_offset) >= date_trunc('month', now()) - interval '1 month'
                  and (t.transacted_at + t.local_offset) < date_trunc('month', now())
-                then t.account_amount
+                then t.charged_amount
             end
         ), 0) as previous_monthly_income,
 
         -- EXPENSE (previous month)
         coalesce(sum(
             case
-                when t.account_amount < 0
+                when t.charged_amount < 0
                  and (t.transacted_at + t.local_offset) >= date_trunc('month', now()) - interval '1 month'
                  and (t.transacted_at + t.local_offset) < date_trunc('month', now())
-                then t.account_amount
+                then t.charged_amount
             end
         ), 0) as previous_monthly_expense
 
     from public.transactions t
-    where t.account_currency_id = v_currency_id
+    where t.charged_currency_id = v_currency_id
       and t.type <> 'transfer';
 end;
 $function$
 ;
 
-CREATE OR REPLACE FUNCTION public.get_filtered_transactions(p_category_ids bigint[] DEFAULT NULL::bigint[], p_account_ids bigint[] DEFAULT NULL::bigint[], p_account_currency_codes text[] DEFAULT NULL::text[], p_transaction_currency_codes text[] DEFAULT NULL::text[], p_month date DEFAULT NULL::date, p_page integer DEFAULT 1, p_page_size integer DEFAULT NULL::integer)
- RETURNS TABLE(id bigint, transacted_at timestamp with time zone, local_offset interval, transaction_amount numeric, transaction_currency_code text, account_name text, account_amount numeric, account_currency_code text, exchange_rate numeric, type public.transaction_type, category_name text, group_name text, comment text)
+CREATE OR REPLACE FUNCTION public.get_filtered_transactions(p_category_ids bigint[] DEFAULT NULL::bigint[], p_account_ids bigint[] DEFAULT NULL::bigint[], p_charged_currency_codes text[] DEFAULT NULL::text[], p_transaction_currency_codes text[] DEFAULT NULL::text[], p_month date DEFAULT NULL::date, p_page integer DEFAULT 1, p_page_size integer DEFAULT NULL::integer)
+ RETURNS TABLE(id bigint, transacted_at timestamp with time zone, local_offset interval, transaction_amount numeric, transaction_currency_code text, account_id bigint, account_name text, charged_amount numeric, charged_currency_code text, exchange_rate numeric, type public.transaction_type, group_id bigint, group_name text, category_id bigint, category_name text, comment text)
  LANGUAGE sql
  SET search_path TO ''
 AS $function$
@@ -368,19 +368,22 @@ AS $function$
     t.local_offset,
     t.transaction_amount,
     tc.code as transaction_currency_code,
+    acc.id as account_id,
     acc.name as account_name,
-    t.account_amount,
-    ac.code as account_currency_code,
-    (t.account_amount / nullif(t.transaction_amount, 0)) as exchange_rate,
+    t.charged_amount,
+    ac.code as charged_currency_code,
+    (t.charged_amount / nullif(t.transaction_amount, 0)) as exchange_rate,
     t.type,
-    cat.name as category_name,
+    cg.id as group_id,
     cg.name as group_name,
+    cat.id as category_id,
+    cat.name as category_name,
     t.comment
   from public.transactions t
   join public.accounts acc
     on acc.id = t.account_id
   join public.currencies ac
-    on ac.id = t.account_currency_id
+    on ac.id = t.charged_currency_id
   join public.currencies tc
     on tc.id = t.transaction_currency_id
   join public.categories cat
@@ -399,9 +402,9 @@ AS $function$
       or t.account_id = any(p_account_ids)
     )
     and (
-      p_account_currency_codes is null
-      or cardinality(p_account_currency_codes) = 0
-      or ac.code = any(p_account_currency_codes)
+      p_charged_currency_codes is null
+      or cardinality(p_charged_currency_codes) = 0
+      or ac.code = any(p_charged_currency_codes)
     )
     and (
       p_transaction_currency_codes is null
@@ -428,11 +431,11 @@ CREATE OR REPLACE FUNCTION public.get_monthly_cash_flow(p_currency_code text, p_
 AS $function$
   select
     date_trunc('month', (t.transacted_at + t.local_offset)) as month,
-    sum(case when t.account_amount > 0 then t.account_amount else 0 end) as total_income,
-    sum(case when t.account_amount < 0 then t.account_amount else 0 end) as total_expense
+    sum(case when t.charged_amount > 0 then t.charged_amount else 0 end) as total_income,
+    sum(case when t.charged_amount < 0 then t.charged_amount else 0 end) as total_expense
   from public.transactions t
   join public.currencies c
-    on c.id = t.account_currency_id
+    on c.id = t.charged_currency_id
   where c.code = p_currency_code
     and t.type <> 'transfer'
     and (t.transacted_at + t.local_offset) >= date_trunc('month', now()) 
@@ -443,7 +446,7 @@ $function$
 ;
 
 CREATE OR REPLACE FUNCTION public.get_recent_transactions(p_limit integer DEFAULT 10)
- RETURNS TABLE(id bigint, transacted_at timestamp with time zone, local_offset interval, transaction_amount numeric, transaction_currency_code text, account_name text, account_amount numeric, account_currency_code text, exchange_rate numeric, type public.transaction_type, category_name text, group_name text, comment text)
+ RETURNS TABLE(id bigint, transacted_at timestamp with time zone, local_offset interval, transaction_amount numeric, transaction_currency_code text, account_id bigint, account_name text, charged_amount numeric, charged_currency_code text, exchange_rate numeric, type public.transaction_type, group_id bigint, group_name text, category_id bigint, category_name text, comment text)
  LANGUAGE sql
  SET search_path TO ''
 AS $function$
@@ -453,19 +456,22 @@ AS $function$
     t.local_offset,
     t.transaction_amount,
     tc.code as transaction_currency_code,
+    acc.id as account_id,
     acc.name as account_name,
-    t.account_amount,
-    ac.code as account_currency_code,
-    (t.account_amount / nullif(t.transaction_amount, 0)) as exchange_rate,
+    t.charged_amount,
+    ac.code as charged_currency_code,
+    (t.charged_amount / nullif(t.transaction_amount, 0)) as exchange_rate,
     t.type,
-    cat.name as category_name,
+    cg.id as group_id,
     cg.name as group_name,
+    cat.id as category_id,
+    cat.name as category_name,
     t.comment
   from public.transactions t
   join public.accounts acc
     on acc.id = t.account_id
   join public.currencies ac
-    on ac.id = t.account_currency_id
+    on ac.id = t.charged_currency_id
   join public.currencies tc
     on tc.id = t.transaction_currency_id
   join public.categories cat
@@ -491,7 +497,7 @@ AS $function$
     sg.end_date,
     sg.status,
     sg.amount,
-    coalesce(sum(t.account_amount), 0) as balance
+    coalesce(sum(t.charged_amount), 0) as balance
   from public.accounts acc
   join public.currencies cur
     on cur.id = acc.currency_id
@@ -506,7 +512,7 @@ AS $function$
 $function$
 ;
 
-CREATE OR REPLACE FUNCTION public.make_transfer(p_from_account bigint, p_to_account bigint, p_from_amount numeric, p_to_amount numeric DEFAULT NULL::numeric, p_comment text DEFAULT NULL::text)
+CREATE OR REPLACE FUNCTION public.make_transfer(p_from_account_id bigint, p_to_account_id bigint, p_from_amount numeric, p_to_amount numeric DEFAULT NULL::numeric, p_comment text DEFAULT NULL::text)
  RETURNS void
  LANGUAGE plpgsql
  SET search_path TO ''
@@ -522,30 +528,30 @@ BEGIN
     RAISE EXCEPTION 'Transfer amount must be greater than 0';
   END IF;
 
-  IF p_from_account IS NULL OR p_to_account IS NULL THEN
+  IF p_from_account_id IS NULL OR p_to_account_id IS NULL THEN
     RAISE EXCEPTION 'Both source and destination accounts are required';
   END IF;
 
-  IF p_from_account = p_to_account THEN
+  IF p_from_account_id = p_to_account_id THEN
     RAISE EXCEPTION 'Source and destination accounts must be different';
   END IF;
 
   SELECT a.currency_id
   INTO from_currency_id
   FROM public.accounts a
-  WHERE a.id = p_from_account;
+  WHERE a.id = p_from_account_id;
 
   IF from_currency_id IS NULL THEN
-    RAISE EXCEPTION 'Source account % does not exist', p_from_account;
+    RAISE EXCEPTION 'Source account % does not exist', p_from_account_id;
   END IF;
 
   SELECT a.currency_id
   INTO to_currency_id
   FROM public.accounts a
-  WHERE a.id = p_to_account;
+  WHERE a.id = p_to_account_id;
 
   IF to_currency_id IS NULL THEN
-    RAISE EXCEPTION 'Destination account % does not exist', p_to_account;
+    RAISE EXCEPTION 'Destination account % does not exist', p_to_account_id;
   END IF;
 
   SELECT c.id
@@ -564,11 +570,11 @@ BEGIN
     RAISE EXCEPTION 'Destination amount must be greater than 0';
   END IF;
 
-  INSERT INTO public.transactions (account_id, transaction_amount, account_amount, type, category_id, transfer_id, comment, transaction_currency_id)
-  VALUES (p_from_account, -p_from_amount, -p_from_amount, 'transfer', internal_category_id, tid, p_comment, from_currency_id);
+  INSERT INTO public.transactions (account_id, transaction_amount, charged_amount, type, category_id, transfer_id, comment, transaction_currency_id)
+  VALUES (p_from_account_id, -p_from_amount, -p_from_amount, 'transfer', internal_category_id, tid, p_comment, from_currency_id);
 
-  INSERT INTO public.transactions (account_id, transaction_amount, account_amount, type, category_id, transfer_id, comment, transaction_currency_id)
-  VALUES (p_to_account, actual_to_amount, actual_to_amount, 'transfer', internal_category_id, tid, p_comment, to_currency_id);
+  INSERT INTO public.transactions (account_id, transaction_amount, charged_amount, type, category_id, transfer_id, comment, transaction_currency_id)
+  VALUES (p_to_account_id, actual_to_amount, actual_to_amount, 'transfer', internal_category_id, tid, p_comment, to_currency_id);
 END;
 $function$
 ;
@@ -587,19 +593,19 @@ end;
 $function$
 ;
 
-CREATE OR REPLACE FUNCTION public.set_transaction_account_currency()
+CREATE OR REPLACE FUNCTION public.set_transaction_charged_currency()
  RETURNS trigger
  LANGUAGE plpgsql
  SET search_path TO ''
 AS $function$
 BEGIN
   -- Отримуємо валюту акаунта з таблиці accounts
-  SELECT currency_id INTO NEW.account_currency_id
+  SELECT currency_id INTO NEW.charged_currency_id
   FROM public.accounts
   WHERE id = NEW.account_id;
 
   -- Перевірка: якщо акаунт не знайдено (хоча constraint має це відловити раніше)
-  IF NEW.account_currency_id IS NULL THEN
+  IF NEW.charged_currency_id IS NULL THEN
     RAISE EXCEPTION 'Account with id % not found', NEW.account_id;
   END IF;
 
@@ -1065,7 +1071,7 @@ CREATE TRIGGER before_update_monthly_budget_trigger BEFORE UPDATE ON public.mont
 
 CREATE TRIGGER before_update_transaction_trigger BEFORE UPDATE ON public.transactions FOR EACH ROW EXECUTE FUNCTION storage.update_updated_at_column();
 
-CREATE TRIGGER set_account_currency_trigger BEFORE INSERT ON public.transactions FOR EACH ROW EXECUTE FUNCTION public.set_transaction_account_currency();
+CREATE TRIGGER set_charged_currency_trigger BEFORE INSERT ON public.transactions FOR EACH ROW EXECUTE FUNCTION public.set_transaction_charged_currency();
 
 CREATE TRIGGER create_user_trigger AFTER INSERT ON auth.users FOR EACH ROW EXECUTE FUNCTION public.create_default_user_categories();
 

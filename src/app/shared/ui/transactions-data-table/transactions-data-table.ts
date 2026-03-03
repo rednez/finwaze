@@ -4,6 +4,7 @@ import {
   Component,
   computed,
   input,
+  output,
 } from '@angular/core';
 import { Transaction } from '@core/models/transactions';
 
@@ -31,6 +32,10 @@ export type TransactionDataTableColumnType =
     td {
       @apply px-1 sm:px-2 py-3;
     }
+
+    .hoverable:hover {
+      @apply hover:bg-gray-50 dark:hover:bg-gray-900;
+    }
   `,
 })
 export class TransactionsDataTable {
@@ -40,6 +45,8 @@ export class TransactionsDataTable {
     'transactionAmount',
   ]);
   readonly shortDateFormat = input(false);
+  readonly isHoverable = input(false);
+  readonly rowClicked = output<number>();
 
   protected readonly dateFormat = computed(() =>
     this.shortDateFormat() ? 'shortDate' : 'short',

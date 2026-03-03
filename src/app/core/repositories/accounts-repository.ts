@@ -13,7 +13,8 @@ export class AccountsRepository {
   async getAll(): Promise<Account[]> {
     const { data, error } = await this.supabase.client
       .from('accounts')
-      .select(`id, name, currencies(code)`);
+      .select(`id, name, currencies(code)`)
+      .eq('type', 'regular');
 
     if (error) {
       throw new Error(error.message);
@@ -27,7 +28,6 @@ export class AccountsRepository {
       .from('accounts')
       .insert([{ name: accountName, currency_id: currencyId }])
       .select(`id, name, currencies(code)`);
-
     if (error) {
       throw new Error(error.message);
     }

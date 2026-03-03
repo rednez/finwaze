@@ -27,6 +27,7 @@
       size="large"
       class="shrink-0"
       [dt]="{ root: { lg: { fontSize: '14px' } } }"
+      (onClick)="gotoCreate()"
     />
   </div>
 
@@ -34,6 +35,8 @@
     <app-transactions-data-table
       [transactions]="store.transactions()"
       [cols]="tableCols"
+      [isHoverable]="true"
+      (rowClicked)="gotoEdit($event)"
     />
   </div>
 </div>

@@ -2,7 +2,7 @@ export type TransactionType = 'income' | 'expense';
 
 export interface Transaction {
   id: number;
-  accountName: string;
+  account: { id: number; name: string };
   transactedAt: Date;
   localOffset: string;
   transactionAmount: number;
@@ -11,7 +11,7 @@ export interface Transaction {
   chargedCurrency: string;
   exchangeRate: number;
   type: TransactionType;
-  groupName: string;
-  categoryName: string;
+  group: { id: number; name: string };
+  category: { id: number; name: string };
   comment: string | null;
 }

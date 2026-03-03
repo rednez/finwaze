@@ -18,25 +18,25 @@ begin
     return query
     select
         -- BALANCE (entire period)
-        coalesce(sum(t.account_amount), 0) as total_balance,
+        coalesce(sum(t.charged_amount), 0) as total_balance,
 
         -- INCOME (current month)
         coalesce(sum(
             case
-                when t.account_amount > 0
+                when t.charged_amount > 0
                  and (t.transacted_at + t.local_offset) >= date_trunc('month', now())
                  and (t.transacted_at + t.local_offset) < date_trunc('month', now()) + interval '1 month'
-                then t.account_amount
+                then t.charged_amount
             end
         ), 0) as monthly_income,
 
         -- EXPENSE (current month)
         coalesce(sum(
             case
-                when t.account_amount < 0
+                when t.charged_amount < 0
                  and (t.transacted_at + t.local_offset) >= date_trunc('month', now())
                  and (t.transacted_at + t.local_offset) < date_trunc('month', now()) + interval '1 month'
-                then t.account_amount
+                then t.charged_amount
             end
         ), 0) as monthly_expense,
 
@@ -45,32 +45,32 @@ begin
         coalesce(sum(
             case
                 when (t.transacted_at + t.local_offset) < date_trunc('month', now())
-                then t.account_amount
+                then t.charged_amount
             end
         ), 0) as previous_total_balance,
 
         -- INCOME (previous month)
         coalesce(sum(
             case
-                when t.account_amount > 0
+                when t.charged_amount > 0
                  and (t.transacted_at + t.local_offset) >= date_trunc('month', now()) - interval '1 month'
                  and (t.transacted_at + t.local_offset) < date_trunc('month', now())
-                then t.account_amount
+                then t.charged_amount
             end
         ), 0) as previous_monthly_income,
 
         -- EXPENSE (previous month)
         coalesce(sum(
             case
-                when t.account_amount < 0
+                when t.charged_amount < 0
                  and (t.transacted_at + t.local_offset) >= date_trunc('month', now()) - interval '1 month'
                  and (t.transacted_at + t.local_offset) < date_trunc('month', now())
-                then t.account_amount
+                then t.charged_amount
             end
         ), 0) as previous_monthly_expense
 
     from public.transactions t
-    where t.account_currency_id = v_currency_id
+    where t.charged_currency_id = v_currency_id
       and t.type <> 'transfer';
 end;
 $$;
@@ -84,11 +84,11 @@ SET
   search_path = '' AS $$
   select
     date_trunc('month', (t.transacted_at + t.local_offset)) as month,
-    sum(case when t.account_amount > 0 then t.account_amount else 0 end) as total_income,
-    sum(case when t.account_amount < 0 then t.account_amount else 0 end) as total_expense
+    sum(case when t.charged_amount > 0 then t.charged_amount else 0 end) as total_income,
+    sum(case when t.charged_amount < 0 then t.charged_amount else 0 end) as total_expense
   from public.transactions t
   join public.currencies c
-    on c.id = t.account_currency_id
+    on c.id = t.charged_currency_id
   where c.code = p_currency_code
     and t.type <> 'transfer'
     and (t.transacted_at + t.local_offset) >= date_trunc('month', now()) 
@@ -105,13 +105,16 @@ CREATE OR REPLACE FUNCTION get_recent_transactions (
   local_offset transactions.local_offset % type,
   transaction_amount transactions.transaction_amount % type,
   transaction_currency_code TEXT,
+  account_id BIGINT,
   account_name TEXT,
-  account_amount transactions.account_amount % type,
-  account_currency_code TEXT,
+  charged_amount transactions.charged_amount % type,
+  charged_currency_code TEXT,
   exchange_rate NUMERIC,
   type transactions.type % type,
-  category_name TEXT,
+  group_id BIGINT,
   group_name TEXT,
+  category_id BIGINT,
+  category_name TEXT,
   comment transactions.comment % type
 ) language sql
 SET
@@ -122,19 +125,22 @@ SET
     t.local_offset,
     t.transaction_amount,
     tc.code as transaction_currency_code,
+    acc.id as account_id,
     acc.name as account_name,
-    t.account_amount,
-    ac.code as account_currency_code,
-    (t.account_amount / nullif(t.transaction_amount, 0)) as exchange_rate,
+    t.charged_amount,
+    ac.code as charged_currency_code,
+    (t.charged_amount / nullif(t.transaction_amount, 0)) as exchange_rate,
     t.type,
-    cat.name as category_name,
+    cg.id as group_id,
     cg.name as group_name,
+    cat.id as category_id,
+    cat.name as category_name,
     t.comment
   from public.transactions t
   join public.accounts acc
     on acc.id = t.account_id
   join public.currencies ac
-    on ac.id = t.account_currency_id
+    on ac.id = t.charged_currency_id
   join public.currencies tc
     on tc.id = t.transaction_currency_id
   join public.categories cat
@@ -149,7 +155,7 @@ $$;
 CREATE OR REPLACE FUNCTION get_filtered_transactions (
   p_category_ids BIGINT[] DEFAULT NULL,
   p_account_ids BIGINT[] DEFAULT NULL,
-  p_account_currency_codes TEXT[] DEFAULT NULL,
+  p_charged_currency_codes TEXT[] DEFAULT NULL,
   p_transaction_currency_codes TEXT[] DEFAULT NULL,
   p_month DATE DEFAULT NULL,
   p_page INTEGER DEFAULT 1,
@@ -160,13 +166,16 @@ CREATE OR REPLACE FUNCTION get_filtered_transactions (
   local_offset transactions.local_offset % type,
   transaction_amount transactions.transaction_amount % type,
   transaction_currency_code TEXT,
+  account_id BIGINT,
   account_name TEXT,
-  account_amount transactions.account_amount % type,
-  account_currency_code TEXT,
+  charged_amount transactions.charged_amount % type,
+  charged_currency_code TEXT,
   exchange_rate NUMERIC,
   type transactions.type % type,
-  category_name TEXT,
+  group_id BIGINT,
   group_name TEXT,
+  category_id BIGINT,
+  category_name TEXT,
   comment transactions.comment % type
 ) language sql
 SET
@@ -177,19 +186,22 @@ SET
     t.local_offset,
     t.transaction_amount,
     tc.code as transaction_currency_code,
+    acc.id as account_id,
     acc.name as account_name,
-    t.account_amount,
-    ac.code as account_currency_code,
-    (t.account_amount / nullif(t.transaction_amount, 0)) as exchange_rate,
+    t.charged_amount,
+    ac.code as charged_currency_code,
+    (t.charged_amount / nullif(t.transaction_amount, 0)) as exchange_rate,
     t.type,
-    cat.name as category_name,
+    cg.id as group_id,
     cg.name as group_name,
+    cat.id as category_id,
+    cat.name as category_name,
     t.comment
   from public.transactions t
   join public.accounts acc
     on acc.id = t.account_id
   join public.currencies ac
-    on ac.id = t.account_currency_id
+    on ac.id = t.charged_currency_id
   join public.currencies tc
     on tc.id = t.transaction_currency_id
   join public.categories cat
@@ -208,9 +220,9 @@ SET
       or t.account_id = any(p_account_ids)
     )
     and (
-      p_account_currency_codes is null
-      or cardinality(p_account_currency_codes) = 0
-      or ac.code = any(p_account_currency_codes)
+      p_charged_currency_codes is null
+      or cardinality(p_charged_currency_codes) = 0
+      or ac.code = any(p_charged_currency_codes)
     )
     and (
       p_transaction_currency_codes is null
@@ -230,8 +242,8 @@ SET
 $$;
 
 CREATE OR REPLACE FUNCTION make_transfer (
-  p_from_account BIGINT,
-  p_to_account BIGINT,
+  p_from_account_id BIGINT,
+  p_to_account_id BIGINT,
   p_from_amount NUMERIC,
   p_to_amount NUMERIC DEFAULT NULL,
   p_comment TEXT DEFAULT NULL
@@ -249,30 +261,30 @@ BEGIN
     RAISE EXCEPTION 'Transfer amount must be greater than 0';
   END IF;
 
-  IF p_from_account IS NULL OR p_to_account IS NULL THEN
+  IF p_from_account_id IS NULL OR p_to_account_id IS NULL THEN
     RAISE EXCEPTION 'Both source and destination accounts are required';
   END IF;
 
-  IF p_from_account = p_to_account THEN
+  IF p_from_account_id = p_to_account_id THEN
     RAISE EXCEPTION 'Source and destination accounts must be different';
   END IF;
 
   SELECT a.currency_id
   INTO from_currency_id
   FROM public.accounts a
-  WHERE a.id = p_from_account;
+  WHERE a.id = p_from_account_id;
 
   IF from_currency_id IS NULL THEN
-    RAISE EXCEPTION 'Source account % does not exist', p_from_account;
+    RAISE EXCEPTION 'Source account % does not exist', p_from_account_id;
   END IF;
 
   SELECT a.currency_id
   INTO to_currency_id
   FROM public.accounts a
-  WHERE a.id = p_to_account;
+  WHERE a.id = p_to_account_id;
 
   IF to_currency_id IS NULL THEN
-    RAISE EXCEPTION 'Destination account % does not exist', p_to_account;
+    RAISE EXCEPTION 'Destination account % does not exist', p_to_account_id;
   END IF;
 
   SELECT c.id
@@ -291,11 +303,11 @@ BEGIN
     RAISE EXCEPTION 'Destination amount must be greater than 0';
   END IF;
 
-  INSERT INTO public.transactions (account_id, transaction_amount, account_amount, type, category_id, transfer_id, comment, transaction_currency_id)
-  VALUES (p_from_account, -p_from_amount, -p_from_amount, 'transfer', internal_category_id, tid, p_comment, from_currency_id);
+  INSERT INTO public.transactions (account_id, transaction_amount, charged_amount, type, category_id, transfer_id, comment, transaction_currency_id)
+  VALUES (p_from_account_id, -p_from_amount, -p_from_amount, 'transfer', internal_category_id, tid, p_comment, from_currency_id);
 
-  INSERT INTO public.transactions (account_id, transaction_amount, account_amount, type, category_id, transfer_id, comment, transaction_currency_id)
-  VALUES (p_to_account, actual_to_amount, actual_to_amount, 'transfer', internal_category_id, tid, p_comment, to_currency_id);
+  INSERT INTO public.transactions (account_id, transaction_amount, charged_amount, type, category_id, transfer_id, comment, transaction_currency_id)
+  VALUES (p_to_account_id, actual_to_amount, actual_to_amount, 'transfer', internal_category_id, tid, p_comment, to_currency_id);
 END;
 $$ LANGUAGE plpgsql;
 
