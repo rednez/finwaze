@@ -1,7 +1,7 @@
 import { computed, inject } from '@angular/core';
 import { Account } from '@core/models/accounts';
 import { AccountsRepository } from '@core/repositories/accounts-repository';
-import { AccountsLocalStorage } from '@core/services/accounts-local-storage';
+import { AccountsLocalStorage } from '@core/services/local-storage/accounts-local-storage';
 import {
   patchState,
   signalStore,
@@ -15,7 +15,6 @@ export interface AccountsState {
   isLoaded: boolean;
   isError: boolean;
   isCreating: boolean;
-  selectedAccountId: number | undefined;
   selectedCurrencyCode: string | undefined;
   accounts: Account[];
 }
@@ -25,7 +24,6 @@ const initialState: AccountsState = {
   isLoaded: false,
   isError: false,
   isCreating: false,
-  selectedAccountId: undefined,
   selectedCurrencyCode: undefined,
   accounts: [],
 };
