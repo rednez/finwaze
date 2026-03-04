@@ -1,3 +1,5 @@
+import { inject } from '@angular/core';
+import { UiLocalStorage } from '@core/services/local-storage';
 import { patchState, signalStore, withMethods, withState } from '@ngrx/signals';
 
 export interface UiState {
@@ -6,7 +8,7 @@ export interface UiState {
     toAccountId: number | null;
     groupId: number | null;
     categoryId: number | null;
-    currencyCode: number | null;
+    currencyCode: string | null;
   };
 }
 
@@ -24,8 +26,16 @@ export const UiStore = signalStore(
   { providedIn: 'root' },
   withState(initialState),
 
-  withMethods((store) => ({
+  withMethods((store, uiLocalStorage = inject(UiLocalStorage)) => ({
+    restoreFromLocalStorage() {
+      patchState(store, () => ({
+        recentSelection: uiLocalStorage.parsedValue.recentSelection,
+      }));
+    },
+
     updateFromAccountId(id: number) {
+      uiLocalStorage.updateRecentSelection({ fromAccountId: id });
+
       patchState(store, (state) => ({
         recentSelection: {
           ...state.recentSelection,
@@ -33,7 +43,9 @@ export const UiStore = signalStore(
         },
       }));
     },
+
     updateToAccountId(id: number) {
+      uiLocalStorage.updateRecentSelection({ toAccountId: id });
       patchState(store, (state) => ({
         recentSelection: {
           ...state.recentSelection,
@@ -41,7 +53,9 @@ export const UiStore = signalStore(
         },
       }));
     },
+
     updateGroupId(id: number) {
+      uiLocalStorage.updateRecentSelection({ groupId: id });
       patchState(store, (state) => ({
         recentSelection: {
           ...state.recentSelection,
@@ -49,7 +63,9 @@ export const UiStore = signalStore(
         },
       }));
     },
-    updateCategoryId(id: number) {
+
+    updateCategoryId(id: number | null) {
+      uiLocalStorage.updateRecentSelection({ categoryId: id });
       patchState(store, (state) => ({
         recentSelection: {
           ...state.recentSelection,
@@ -57,7 +73,9 @@ export const UiStore = signalStore(
         },
       }));
     },
-    updateCurrencyCode(code: number) {
+
+    updateCurrencyCode(code: string) {
+      uiLocalStorage.updateRecentSelection({ currencyCode: code });
       patchState(store, (state) => ({
         recentSelection: {
           ...state.recentSelection,

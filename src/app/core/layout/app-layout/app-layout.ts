@@ -6,6 +6,7 @@ import { BottomNavBar } from '../bottom-nav-bar';
 import { Sidebar } from '../sidebar';
 import { TopBar } from '../top-bar';
 import { CurrenciesStore } from '@core/store/currencies-store';
+import { UiStore } from '@core/store/ui-store';
 
 @Component({
   imports: [RouterOutlet, Sidebar, TopBar, BottomNavBar],
@@ -28,14 +29,20 @@ import { CurrenciesStore } from '@core/store/currencies-store';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AppLayout {
+  private readonly uiStore = inject(UiStore);
   private readonly accountsStore = inject(AccountsStore);
   private readonly currenciesStore = inject(CurrenciesStore);
   private readonly categoriesStore = inject(CategoriesStore);
 
   constructor() {
+    this.initUiStore();
     this.initAccountsStore();
     this.initCategoriesStore();
     this.initCurrenciesStore();
+  }
+
+  private initUiStore() {
+    this.uiStore.restoreFromLocalStorage();
   }
 
   private initAccountsStore() {
