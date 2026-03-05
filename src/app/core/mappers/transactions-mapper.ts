@@ -42,6 +42,38 @@ export class TransactionsMapper {
     };
   };
 
+  fromTransactionDetailsDto = (dto: any): Transaction => {
+    const {
+      id,
+      transacted_at,
+      local_offset,
+      transaction_amount,
+      charged_amount,
+      type,
+      comment,
+      account,
+      transaction_currency,
+      charged_currency,
+      category,
+    } = dto;
+
+    return {
+      id,
+      account: { id: account.id, name: account.name },
+      transactedAt: new Date(transacted_at),
+      localOffset: this.parseLocalOffset(local_offset),
+      transactionAmount: transaction_amount,
+      transactionCurrency: transaction_currency.code,
+      chargedAmount: charged_amount,
+      chargedCurrency: charged_currency.code,
+      exchangeRate: charged_amount / transaction_amount,
+      type,
+      group: { id: category.group.id, name: category.group.name },
+      category: { id: category.id, name: category.name },
+      comment,
+    };
+  };
+
   private parseLocalOffset = (offset: string): string => {
     const normalized = offset.trim();
 

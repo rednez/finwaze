@@ -17,33 +17,39 @@
     {{ title() }}
   </h4>
 
-  <p-selectbutton
-    [(ngModel)]="transactionType"
-    [options]="transactionTypesOptions"
-    optionLabel="name"
-    optionValue="value"
-    aria-labelledby="basic"
-    size="small"
-  />
-
-  @if (transactionType === 'expense') {
-    <app-expense-form
-      [isCreatingMode]="expenseTransactionStore.isCreatingMode()"
-      [initialValues]="expenseTransactionStore.initialFormValues()"
-      [isSubmitting]="expenseTransactionStore.isCreating()"
-      [accounts]="accountsStore.accounts()"
-      [groups]="expenseTransactionStore.groups()"
-      [categories]="expenseTransactionStore.categories()"
-      [currencies]="expenseTransactionStore.currencies()"
-      (accountChanged)="onAccountChanged($event)"
-      (groupChanged)="onGroupChanged($event)"
-      (categoryChanged)="onCategoryChanged($event)"
-      (transactionCurrencyCodeChanged)="
-        onTransactionCurrencyCodeChanged($event)
-      "
-      (formSubmitted)="submitExpenseForm($event)"
+  @if (
+    expenseTransactionStore.isCreatingMode() ||
+    (!expenseTransactionStore.isCreatingMode() &&
+      !!expenseTransactionStore.selectedTransaction())
+  ) {
+    <p-selectbutton
+      [(ngModel)]="transactionType"
+      [options]="transactionTypesOptions"
+      optionLabel="name"
+      optionValue="value"
+      aria-labelledby="basic"
+      size="small"
     />
-  } @else {
-    <app-income-form />
+
+    @if (transactionType === 'expense') {
+      <app-expense-form
+        [isCreatingMode]="expenseTransactionStore.isCreatingMode()"
+        [initialValues]="expenseTransactionStore.initialFormValues()"
+        [isSubmitting]="expenseTransactionStore.isCreating()"
+        [accounts]="accountsStore.accounts()"
+        [groups]="expenseTransactionStore.groups()"
+        [categories]="expenseTransactionStore.categories()"
+        [currencies]="expenseTransactionStore.currencies()"
+        (accountChanged)="onAccountChanged($event)"
+        (groupChanged)="onGroupChanged($event)"
+        (categoryChanged)="onCategoryChanged($event)"
+        (transactionCurrencyCodeChanged)="
+          onTransactionCurrencyCodeChanged($event)
+        "
+        (formSubmitted)="submitExpenseForm($event)"
+      />
+    } @else {
+      <app-income-form />
+    }
   }
 </div>

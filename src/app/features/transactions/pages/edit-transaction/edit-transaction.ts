@@ -65,6 +65,15 @@ export class EditTransaction implements OnDestroy {
 
   constructor() {
     this.defineMode();
+
+    if (
+      !this.expenseTransactionStore.isCreatingMode() &&
+      !this.expenseTransactionStore.selectedTransaction()
+    ) {
+      this.expenseTransactionStore.loadTransactionDetails(
+        Number(this.route.snapshot.paramMap.get('id')),
+      );
+    }
   }
 
   ngOnDestroy(): void {

@@ -14,6 +14,22 @@ interface ExpenseTransactionData {
   comment: string;
 }
 
+const transactionDetailsSelect = `
+        id,
+        transacted_at,
+        local_offset,
+        transaction_amount,
+        charged_amount,
+        type,
+        comment,
+        account:accounts!transactions_account_id_fkey(id, name),
+        transaction_currency:currencies!transactions_transaction_currency_id_fkey(id, code),
+        charged_currency:currencies!transactions_charged_currency_id_fkey(id, code),
+        category:categories!transactions_category_id_fkey(id, name,
+          group:groups!categories_group_id_fkey(id, name)
+        )
+         `;
+
 @Injectable({
   providedIn: 'root',
 })
@@ -43,6 +59,20 @@ export class TransactionsRepository {
     return data.map(this.mapper.fromTransactionDto);
   }
 
+  async getTransactionDetails(transactionId: number): Promise<Transaction> {
+    const { error, data } = await this.supabase.client
+      .from('transactions')
+      .select(transactionDetailsSelect)
+      .eq('id', transactionId)
+      .single();
+
+    if (error) {
+      throw new Error(error.message);
+    }
+
+    return this.mapper.fromTransactionDetailsDto(data);
+  }
+
   async createExpenseTransaction(
     transactionData: ExpenseTransactionData,
   ): Promise<void> {
@@ -59,23 +89,7 @@ export class TransactionsRepository {
         transaction_currency_id: transactionData.transactionCurrencyId,
         charged_amount: transactionData.chargedAmount,
       })
-      .select(
-        `
-        id,
-        transacted_at,
-        local_offset,
-        transaction_amount,
-        charged_amount,
-        type,
-        comment,
-        category:categories!transactions_category_id_fkey(id, name,
-          group:groups!categories_group_id_fkey(id, name)
-        ),
-        account:accounts!transactions_account_id_fkey(id, name),
-        transaction_currency:currencies!transactions_transaction_currency_id_fkey(id, code),
-        charged_currency:currencies!transactions_charged_currency_id_fkey(id, code)
-         `,
-      )
+      .select(transactionDetailsSelect)
       .single();
 
     if (error) {
@@ -104,23 +118,7 @@ export class TransactionsRepository {
         charged_amount: transactionData.chargedAmount,
       })
       .eq('id', transactionId)
-      .select(
-        `
-        id,
-        transacted_at,
-        local_offset,
-        transaction_amount,
-        charged_amount,
-        type,
-        comment,
-        category:categories!transactions_category_id_fkey(id, name,
-          group:groups!categories_group_id_fkey(id, name)
-        ),
-        account:accounts!transactions_account_id_fkey(id, name),
-        transaction_currency:currencies!transactions_transaction_currency_id_fkey(id, code),
-        charged_currency:currencies!transactions_charged_currency_id_fkey(id, code)
-         `,
-      )
+      .select(transactionDetailsSelect)
       .single();
 
     if (error) {

@@ -1,5 +1,6 @@
 import { inject } from '@angular/core';
 import { Result } from '@core/models/result';
+import { Transaction } from '@core/models/transactions';
 import { AccountsStore } from '@core/store/accounts-store';
 import { CategoriesStore } from '@core/store/categories-store';
 import { CurrenciesStore } from '@core/store/currencies-store';
@@ -10,25 +11,26 @@ import {
   signalStore,
   withComputed,
   withMethods,
-  withState,
   withProps,
+  withState,
 } from '@ngrx/signals';
 import { ExpenseFormData } from '../pages/edit-transaction/ui/expense-form/expense-form';
 import { TransactionsRepository } from '../repositories/transactions-repository';
-import { TransactionsStore } from './transactions-store';
 
 export interface ExpenseTransactionState {
   isCreatingMode: boolean;
+  isLoading: boolean;
   isCreating: boolean;
   isUpdating: boolean;
-  selectedTransactionId: number | null;
+  selectedTransaction: Transaction | null;
 }
 
 const initialState: ExpenseTransactionState = {
   isCreatingMode: false,
+  isLoading: false,
   isCreating: false,
   isUpdating: false,
-  selectedTransactionId: null,
+  selectedTransaction: null,
 };
 
 export const ExpenseTransactionStore = signalStore(
@@ -41,18 +43,13 @@ export const ExpenseTransactionStore = signalStore(
 
   withComputed(
     (
-      store,
+      _,
       accountsStore = inject(AccountsStore),
       categoriesStore = inject(CategoriesStore),
-      transactionsStore = inject(TransactionsStore),
     ) => ({
       currencies: () => accountsStore.myCurrencies(),
       groups: () => categoriesStore.allGroups(),
       categories: () => categoriesStore.allCategories(),
-      selectedTransaction: () =>
-        transactionsStore
-          .transactions()
-          .find((t) => t.id === store.selectedTransactionId()),
     }),
   ),
 
@@ -133,12 +130,12 @@ export const ExpenseTransactionStore = signalStore(
         }));
 
         try {
-          if (!store.selectedTransactionId()) {
+          if (!store.selectedTransaction()) {
             throw new Error('No transaction selected');
           }
 
           await repository.updateExpenseTransaction(
-            store.selectedTransactionId()!,
+            store.selectedTransaction()?.id!,
             {
               transactedAt: formData.transactedAt,
               accountId: formData.accountId,
@@ -166,15 +163,38 @@ export const ExpenseTransactionStore = signalStore(
         }
       },
 
+      async loadTransactionDetails(transactionId: number): Promise<Result> {
+        patchState(store, () => ({
+          isLoading: true,
+        }));
+
+        try {
+          const data = await repository.getTransactionDetails(transactionId);
+
+          patchState(store, () => ({
+            isLoading: false,
+            selectedTransaction: data,
+          }));
+
+          return resultOk();
+        } catch (error: any) {
+          patchState(store, () => ({
+            isLoading: false,
+          }));
+
+          return resultError(error);
+        }
+      },
+
       updateIsCreatingMode(isCreatingMode: boolean): void {
         patchState(store, () => ({
           isCreatingMode,
         }));
       },
 
-      updateSelectedTransaction(id: number): void {
+      updateSelectedTransaction(data: Transaction): void {
         patchState(store, () => ({
-          selectedTransactionId: id,
+          selectedTransaction: data,
         }));
       },
 

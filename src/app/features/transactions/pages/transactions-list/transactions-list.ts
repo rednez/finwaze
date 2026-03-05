@@ -71,7 +71,8 @@ export class TransactionsList {
   }
 
   protected gotoEdit($event: number) {
-    this.expenseTransactionStore.updateSelectedTransaction($event);
+    const transaction = this.store.transactions().find((t) => t.id === $event);
+    this.expenseTransactionStore.updateSelectedTransaction(transaction!);
     this.router.navigate(['transactions', $event]);
   }
 
