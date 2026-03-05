@@ -10,7 +10,6 @@ export const transactionsRoutes: Routes = [
     path: 'create',
     loadComponent: () =>
       import('./pages/edit-transaction').then((c) => c.EditTransaction),
-    data: { isCreating: true },
   },
   {
     path: ':id',

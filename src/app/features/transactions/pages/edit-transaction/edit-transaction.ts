@@ -4,11 +4,12 @@ import {
   Component,
   computed,
   inject,
+  OnDestroy,
 } from '@angular/core';
-import { toSignal } from '@angular/core/rxjs-interop';
 import { FormsModule } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AccountsStore } from '@core/store/accounts-store';
+import { UiStore } from '@core/store/ui-store';
 import { MessageService } from 'primeng/api';
 import { ButtonModule } from 'primeng/button';
 import { DatePickerModule } from 'primeng/datepicker';
@@ -17,7 +18,7 @@ import { InputTextModule } from 'primeng/inputtext';
 import { SelectModule } from 'primeng/select';
 import { SelectButtonModule } from 'primeng/selectbutton';
 import { ToastModule } from 'primeng/toast';
-import { map } from 'rxjs';
+import { ExpenseTransactionStore } from '../../store/expense-transaction-store';
 import { TransactionsStore } from '../../store/transactions-store';
 import { ExpenseForm, ExpenseFormData } from './ui/expense-form/expense-form';
 import { IncomeForm } from './ui/income-form/income-form';
@@ -40,21 +41,21 @@ import { IncomeForm } from './ui/income-form/income-form';
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [MessageService],
 })
-export class EditTransaction {
-  protected readonly store = inject(TransactionsStore);
+export class EditTransaction implements OnDestroy {
+  protected readonly transactionsStore = inject(TransactionsStore);
+  protected readonly expenseTransactionStore = inject(ExpenseTransactionStore);
+  protected readonly uiStore = inject(UiStore);
   protected readonly accountsStore = inject(AccountsStore);
   private readonly route = inject(ActivatedRoute);
   private readonly router = inject(Router);
-  private messageService = inject(MessageService);
+  private readonly messageService = inject(MessageService);
 
   protected transactionType: 'expense' | 'income' = 'expense';
 
-  protected readonly isCreatingMode = toSignal(
-    this.route.data.pipe(map((data) => data['isCreating'])),
-  );
-
   protected readonly title = computed(() =>
-    this.isCreatingMode() ? 'New Transaction' : 'Edit Transaction',
+    this.expenseTransactionStore.isCreatingMode()
+      ? 'New Transaction'
+      : 'Edit Transaction',
   );
 
   protected readonly transactionTypesOptions = [
@@ -62,23 +63,55 @@ export class EditTransaction {
     { name: 'Income', value: 'income' },
   ];
 
-  protected updateGroupInStore($event: number) {
-    this.store.updateGroup($event);
+  constructor() {
+    this.defineMode();
+  }
+
+  ngOnDestroy(): void {
+    this.expenseTransactionStore.reset();
+  }
+
+  protected gotoBack() {
+    this.router.navigate(['..'], { relativeTo: this.route });
+  }
+
+  protected onAccountChanged($event: number) {
+    this.uiStore.updateExpenseTransactionForm({ accountId: $event });
+  }
+
+  protected onGroupChanged($event: number) {
+    this.uiStore.updateExpenseTransactionForm({ groupId: $event });
+  }
+
+  protected onCategoryChanged($event: number | null) {
+    this.uiStore.updateExpenseTransactionForm({ categoryId: $event });
+  }
+
+  onTransactionCurrencyCodeChanged($event: string | null) {
+    this.uiStore.updateExpenseTransactionForm({
+      transactionCurrencyCode: $event,
+    });
   }
 
   protected async submitExpenseForm($event: ExpenseFormData) {
-    if (this.isCreatingMode()) {
+    if (this.expenseTransactionStore.isCreatingMode()) {
       this.createExpenseTransaction($event);
     } else {
-      // TODO
-      throw new Error('Editing transaction is not implemented yet');
+      this.updateExpenseTransaction($event);
     }
+  }
+
+  private defineMode() {
+    this.expenseTransactionStore.updateIsCreatingMode(
+      this.route.snapshot.url[0].path === 'create',
+    );
   }
 
   private async createExpenseTransaction(
     formData: ExpenseFormData,
   ): Promise<void> {
-    const { error } = await this.store.createExpenseTransaction(formData);
+    const { error } =
+      await this.expenseTransactionStore.createTransaction(formData);
 
     if (error) {
       this.messageService.add({
@@ -86,10 +119,30 @@ export class EditTransaction {
         summary: 'Transaction creation failed',
         detail: error.message,
       });
-      return;
+    } else {
+      this.transactionsStore.markAsNotLoaded();
+      await this.router.navigate(['..'], { relativeTo: this.route });
     }
+  }
 
-    this.store.markAsNotLoaded();
-    await this.router.navigate(['..'], { relativeTo: this.route });
+  private async updateExpenseTransaction(
+    formData: ExpenseFormData,
+  ): Promise<void> {
+    const { error } =
+      await this.expenseTransactionStore.updateTransaction(formData);
+
+    if (error) {
+      this.messageService.add({
+        severity: 'error',
+        summary: 'Transaction update failed',
+        detail: error.message,
+      });
+    } else {
+      this.transactionsStore.markAsNotLoaded();
+      this.messageService.add({
+        severity: 'success',
+        summary: 'Transaction updated successfully',
+      });
+    }
   }
 }

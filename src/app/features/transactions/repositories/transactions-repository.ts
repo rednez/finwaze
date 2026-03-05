@@ -84,4 +84,49 @@ export class TransactionsRepository {
 
     return;
   }
+
+  async updateExpenseTransaction(
+    transactionId: number,
+    transactionData: Partial<ExpenseTransactionData>,
+  ): Promise<void> {
+    const { error } = await this.supabase.client
+      .from('transactions')
+      .update({
+        transacted_at: transactionData.transactedAt,
+        local_offset: transactionData.transactedAt
+          ? dayjs(transactionData.transactedAt).format('Z')
+          : undefined,
+        comment: transactionData.comment,
+        account_id: transactionData.accountId,
+        category_id: transactionData.categoryId,
+        transaction_amount: transactionData.transactionAmount,
+        transaction_currency_id: transactionData.transactionCurrencyId,
+        charged_amount: transactionData.chargedAmount,
+      })
+      .eq('id', transactionId)
+      .select(
+        `
+        id,
+        transacted_at,
+        local_offset,
+        transaction_amount,
+        charged_amount,
+        type,
+        comment,
+        category:categories!transactions_category_id_fkey(id, name,
+          group:groups!categories_group_id_fkey(id, name)
+        ),
+        account:accounts!transactions_account_id_fkey(id, name),
+        transaction_currency:currencies!transactions_transaction_currency_id_fkey(id, code),
+        charged_currency:currencies!transactions_charged_currency_id_fkey(id, code)
+         `,
+      )
+      .single();
+
+    if (error) {
+      throw new Error(error.message);
+    }
+
+    return;
+  }
 }

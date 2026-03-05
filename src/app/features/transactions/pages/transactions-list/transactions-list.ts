@@ -10,6 +10,7 @@ import { DatePickerModule } from 'primeng/datepicker';
 import { IftaLabelModule } from 'primeng/iftalabel';
 import { SelectModule } from 'primeng/select';
 import { TableModule } from 'primeng/table';
+import { ExpenseTransactionStore } from '../../store/expense-transaction-store';
 import { TransactionsStore } from '../../store/transactions-store';
 import { TransactionsFilters } from '../../ui/transactions-filters/transactions-filters';
 
@@ -30,6 +31,7 @@ import { TransactionsFilters } from '../../ui/transactions-filters/transactions-
 })
 export class TransactionsList {
   protected readonly store = inject(TransactionsStore);
+  protected readonly expenseTransactionStore = inject(ExpenseTransactionStore);
   private readonly router = inject(Router);
 
   protected readonly tableCols: TransactionDataTableColumnType[] = [
@@ -69,7 +71,7 @@ export class TransactionsList {
   }
 
   protected gotoEdit($event: number) {
-    this.store.selectTransaction($event);
+    this.expenseTransactionStore.updateSelectedTransaction($event);
     this.router.navigate(['transactions', $event]);
   }
 

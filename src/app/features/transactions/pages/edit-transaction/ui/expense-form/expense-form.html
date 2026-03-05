@@ -58,7 +58,7 @@
     <div class="w-full">
       <label class="text-sm font-medium" for="category">Category</label>
       <p-select
-        [options]="categories()"
+        [options]="filteredCategories()"
         formControlName="categoryId"
         inputId="category"
         optionLabel="name"
@@ -107,13 +107,13 @@
     </div>
 
     <div class="w-full">
-      <label class="text-sm font-medium" for="transactionCurrency">
+      <label class="text-sm font-medium" for="transactionCurrencyCode">
         Transaction currency
       </label>
       <p-select
         [options]="currenciesOptions()"
-        formControlName="transactionCurrency"
-        inputId="transactionCurrency"
+        formControlName="transactionCurrencyCode"
+        inputId="transactionCurrencyCode"
         optionLabel="name"
         optionValue="name"
         placeholder="Select item"
@@ -122,15 +122,15 @@
       >
       </p-select>
       @if (
-        form.controls.transactionCurrency.invalid &&
-        form.controls.transactionCurrency.dirty
+        form.controls.transactionCurrencyCode.invalid &&
+        form.controls.transactionCurrencyCode.dirty
       ) {
         <div class="text-xs text-red-500 pl-2 pt-0.5">Should be selected</div>
       }
     </div>
   </div>
 
-  @if (shouldShowChargedAmount()) {
+  @if (shouldShowChargedAmount$ | async) {
     <div class="flex flex-col sm:flex-row gap-4">
       <div class="w-full">
         <div class="flex gap-2 justify-between mb-1">
@@ -142,7 +142,7 @@
             <div
               class="text-xs font-medium px-2 py-1 bg-gray-100 dark:bg-gray-800 rounded-lg"
             >
-              {{ selectedAccount()?.currencyCode }}
+              {{ selectedAccountCurrencyCode$ | async }}
             </div>
             @if (exchangeRate()) {
               <div

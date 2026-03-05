@@ -1,24 +1,15 @@
 import { Injectable } from '@angular/core';
+import { UiExpenseTransactionForm, UiState } from '@core/models/ui-state';
 
 const KEY = 'ui';
 
-export interface UiLocalStorageState {
-  recentSelection: {
-    fromAccountId: number | null;
-    toAccountId: number | null;
-    groupId: number | null;
-    categoryId: number | null;
-    currencyCode: string | null;
-  };
-}
-
-const initialValue: UiLocalStorageState = {
-  recentSelection: {
-    fromAccountId: null,
-    toAccountId: null,
+const initialValue: UiState = {
+  expenseTransactionForm: {
+    accountId: null,
     groupId: null,
     categoryId: null,
-    currencyCode: null,
+    transactionCurrencyCode: null,
+    chargedCurrencyCode: null,
   },
 };
 
@@ -26,34 +17,28 @@ const initialValue: UiLocalStorageState = {
   providedIn: 'root',
 })
 export class UiLocalStorage {
-  updateRecentSelection(data: {
-    fromAccountId?: number;
-    toAccountId?: number;
-    groupId?: number;
-    categoryId?: number | null;
-    currencyCode?: string;
-  }) {
-    const prevValue = this.parsedValue;
+  updateExpenseTransactionForm(data: Partial<UiExpenseTransactionForm>) {
+    const store = this.parsedStore;
 
     localStorage.setItem(
       KEY,
       JSON.stringify({
-        ...prevValue,
-        recentSelection: {
-          ...prevValue.recentSelection,
+        ...store,
+        expenseTransactionForm: {
+          ...store.expenseTransactionForm,
           ...data,
         },
       }),
     );
   }
 
-  get parsedValue(): UiLocalStorageState {
+  get parsedStore(): UiState {
     const item = localStorage.getItem(KEY);
 
     if (item) {
       try {
         const parsed = JSON.parse(item);
-        return parsed as UiLocalStorageState;
+        return parsed as UiState;
       } catch {
         return initialValue;
       }
