@@ -75,9 +75,9 @@ export const ExpenseTransactionStore = signalStore(
             categoryId: transaction.category.id,
             transactedAt: transaction.transactedAt,
             comment: transaction.comment || undefined,
-            transactionAmount: transaction.transactionAmount,
+            transactionAmount: Math.abs(transaction.transactionAmount),
             transactionCurrencyCode: transaction.transactionCurrency,
-            chargedAmount: transaction.chargedAmount,
+            chargedAmount: Math.abs(transaction.chargedAmount),
           };
         } else {
           return undefined;
@@ -102,11 +102,11 @@ export const ExpenseTransactionStore = signalStore(
             transactedAt: formData.transactedAt,
             accountId: formData.accountId,
             categoryId: formData.categoryId,
-            transactionAmount: formData.transactionAmount,
+            transactionAmount: formData.transactionAmount * -1,
             transactionCurrencyId: currenciesStore.findByCode(
               formData.transactionCurrencyCode,
             )!.id,
-            chargedAmount: formData.chargedAmount,
+            chargedAmount: formData.chargedAmount * -1,
             comment: formData.comment,
           });
 
@@ -140,11 +140,11 @@ export const ExpenseTransactionStore = signalStore(
               transactedAt: formData.transactedAt,
               accountId: formData.accountId,
               categoryId: formData.categoryId,
-              transactionAmount: formData.transactionAmount,
+              transactionAmount: formData.transactionAmount * -1,
               transactionCurrencyId: currenciesStore.findByCode(
                 formData.transactionCurrencyCode,
               )!.id,
-              chargedAmount: formData.chargedAmount,
+              chargedAmount: formData.chargedAmount * -1,
               comment: formData.comment,
             },
           );
