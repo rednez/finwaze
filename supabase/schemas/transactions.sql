@@ -22,10 +22,20 @@ CREATE TABLE public.transactions (
   CONSTRAINT transactions_transaction_currency_id_fkey FOREIGN KEY (transaction_currency_id) REFERENCES currencies (id),
   CONSTRAINT transactions_charged_currency_id_fkey FOREIGN KEY (charged_currency_id) REFERENCES currencies (id),
   CONSTRAINT transactions_category_id_fkey FOREIGN KEY (category_id) REFERENCES categories (id),
+  CONSTRAINT transactions_non_zero_amounts_check CHECK (
+    (transaction_amount <> 0)
+    AND (charged_amount <> 0)
+  ),
   CONSTRAINT transactions_amount_currency_check CHECK (
     (
-      (transaction_currency_id <> charged_currency_id)
-      OR (transaction_amount = charged_amount)
+      (
+        (transaction_currency_id = charged_currency_id)
+        AND (transaction_amount = charged_amount)
+      )
+      OR (
+        (transaction_currency_id <> charged_currency_id)
+        AND (transaction_amount <> charged_amount)
+      )
     )
   ),
   CONSTRAINT transactions_comment_check CHECK ((LENGTH(comment) <= 100)),
@@ -96,6 +106,27 @@ BEGIN
   RETURN NEW;
 END;
 $$ LANGUAGE plpgsql;
+
+CREATE OR REPLACE FUNCTION public.normalize_expense_transaction_amounts()
+RETURNS TRIGGER
+security invoker
+set search_path = ''
+AS $$
+BEGIN
+  IF NEW.type = 'expense' THEN
+    NEW.transaction_amount := -ABS(NEW.transaction_amount);
+    NEW.charged_amount := -ABS(NEW.charged_amount);
+  END IF;
+
+  RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+
+
+CREATE TRIGGER normalize_expense_amounts_trigger
+BEFORE INSERT OR UPDATE ON public.transactions
+FOR EACH ROW
+EXECUTE FUNCTION public.normalize_expense_transaction_amounts();
 
 CREATE TRIGGER set_charged_currency_trigger
 BEFORE INSERT ON public.transactions

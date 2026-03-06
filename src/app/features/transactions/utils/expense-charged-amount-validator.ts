@@ -3,9 +3,9 @@ import { AbstractControl, ValidationErrors, ValidatorFn } from '@angular/forms';
 export const expenseChargedAmountValidator: ValidatorFn = (
   control: AbstractControl,
 ): ValidationErrors | null => {
-  const accountCurrency = control.get('_accountCurrency');
+  const accountCurrency = control.get('_accountCurrencyCode');
   const transactionAmount = control.get('transactionAmount');
-  const transactionCurrency = control.get('transactionCurrency');
+  const transactionCurrency = control.get('transactionCurrencyCode');
   const chargedAmount = control.get('chargedAmount');
 
   if (

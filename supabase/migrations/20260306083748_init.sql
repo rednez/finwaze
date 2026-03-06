@@ -208,7 +208,7 @@ alter table "public"."transactions" add constraint "transactions_account_id_fkey
 
 alter table "public"."transactions" validate constraint "transactions_account_id_fkey";
 
-alter table "public"."transactions" add constraint "transactions_amount_currency_check" CHECK (((transaction_currency_id <> charged_currency_id) OR (transaction_amount = charged_amount))) not valid;
+alter table "public"."transactions" add constraint "transactions_amount_currency_check" CHECK ((((transaction_currency_id = charged_currency_id) AND (transaction_amount = charged_amount)) OR ((transaction_currency_id <> charged_currency_id) AND (transaction_amount <> charged_amount)))) not valid;
 
 alter table "public"."transactions" validate constraint "transactions_amount_currency_check";
 
@@ -227,6 +227,10 @@ alter table "public"."transactions" validate constraint "transactions_check";
 alter table "public"."transactions" add constraint "transactions_comment_check" CHECK ((length(comment) <= 100)) not valid;
 
 alter table "public"."transactions" validate constraint "transactions_comment_check";
+
+alter table "public"."transactions" add constraint "transactions_non_zero_amounts_check" CHECK (((transaction_amount <> (0)::numeric) AND (charged_amount <> (0)::numeric))) not valid;
+
+alter table "public"."transactions" validate constraint "transactions_non_zero_amounts_check";
 
 alter table "public"."transactions" add constraint "transactions_transaction_currency_id_fkey" FOREIGN KEY (transaction_currency_id) REFERENCES public.currencies(id) not valid;
 
@@ -575,6 +579,22 @@ BEGIN
 
   INSERT INTO public.transactions (account_id, transaction_amount, charged_amount, type, category_id, transfer_id, comment, transaction_currency_id)
   VALUES (p_to_account_id, actual_to_amount, actual_to_amount, 'transfer', internal_category_id, tid, p_comment, to_currency_id);
+END;
+$function$
+;
+
+CREATE OR REPLACE FUNCTION public.normalize_expense_transaction_amounts()
+ RETURNS trigger
+ LANGUAGE plpgsql
+ SET search_path TO ''
+AS $function$
+BEGIN
+  IF NEW.type = 'expense' THEN
+    NEW.transaction_amount := -ABS(NEW.transaction_amount);
+    NEW.charged_amount := -ABS(NEW.charged_amount);
+  END IF;
+
+  RETURN NEW;
 END;
 $function$
 ;
@@ -1070,6 +1090,8 @@ CREATE TRIGGER before_update_monthly_budget_month_trigger BEFORE UPDATE OF budge
 CREATE TRIGGER before_update_monthly_budget_trigger BEFORE UPDATE ON public.monthly_budgets FOR EACH ROW EXECUTE FUNCTION storage.update_updated_at_column();
 
 CREATE TRIGGER before_update_transaction_trigger BEFORE UPDATE ON public.transactions FOR EACH ROW EXECUTE FUNCTION storage.update_updated_at_column();
+
+CREATE TRIGGER normalize_expense_amounts_trigger BEFORE INSERT OR UPDATE ON public.transactions FOR EACH ROW EXECUTE FUNCTION public.normalize_expense_transaction_amounts();
 
 CREATE TRIGGER set_charged_currency_trigger BEFORE INSERT ON public.transactions FOR EACH ROW EXECUTE FUNCTION public.set_transaction_charged_currency();
 

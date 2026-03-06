@@ -102,11 +102,11 @@ export const ExpenseTransactionStore = signalStore(
             transactedAt: formData.transactedAt,
             accountId: formData.accountId,
             categoryId: formData.categoryId,
-            transactionAmount: formData.transactionAmount * -1,
+            transactionAmount: formData.transactionAmount,
             transactionCurrencyId: currenciesStore.findByCode(
               formData.transactionCurrencyCode,
             )!.id,
-            chargedAmount: formData.chargedAmount * -1,
+            chargedAmount: formData.chargedAmount,
             comment: formData.comment,
           });
 
@@ -140,11 +140,11 @@ export const ExpenseTransactionStore = signalStore(
               transactedAt: formData.transactedAt,
               accountId: formData.accountId,
               categoryId: formData.categoryId,
-              transactionAmount: formData.transactionAmount * -1,
+              transactionAmount: formData.transactionAmount,
               transactionCurrencyId: currenciesStore.findByCode(
                 formData.transactionCurrencyCode,
               )!.id,
-              chargedAmount: formData.chargedAmount * -1,
+              chargedAmount: formData.chargedAmount,
               comment: formData.comment,
             },
           );

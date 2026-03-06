@@ -72,7 +72,7 @@ export class ExpenseForm {
   protected form = this.formBuilder.group(
     {
       accountId: [null as number | null, [Validators.required]],
-      _accountCurrency: [''],
+      _accountCurrencyCode: [''],
       groupId: [null as number | null, [Validators.required]],
       categoryId: [null as number | null, [Validators.required]],
       transactionAmount: [
@@ -215,7 +215,7 @@ export class ExpenseForm {
       .pipe(filter(Boolean), takeUntilDestroyed(this.destroyRef))
       .subscribe((acc) => {
         this.accountChanged.emit(acc.id);
-        this.form.controls._accountCurrency.setValue(acc.currencyCode);
+        this.form.controls._accountCurrencyCode.setValue(acc.currencyCode);
 
         if (
           this.form.controls.transactionCurrencyCode.value !== acc.currencyCode
