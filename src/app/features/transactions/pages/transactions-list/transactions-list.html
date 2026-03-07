@@ -10,6 +10,7 @@
         [groups]="store.groups()"
         [categories]="store.categories()"
         (monthChanged)="onMonthChanged($event)"
+        (typeChanged)="onTransactionTypeChanged($event)"
         (currencyChanged)="onCurrencyChanged($event)"
         (groupChanged)="onGroupChanged($event)"
         (categoryChanged)="onCategoryChanged($event)"

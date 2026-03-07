@@ -1,5 +1,5 @@
 import { inject } from '@angular/core';
-import { Transaction } from '@core/models/transactions';
+import { Transaction, TransactionType } from '@core/models/transactions';
 import { AccountsStore } from '@core/store/accounts-store';
 import { CategoriesStore } from '@core/store/categories-store';
 import {
@@ -18,6 +18,7 @@ export interface TransactionsState {
   isError: boolean;
   transactions: Transaction[];
   month: Date;
+  transactionType: TransactionType | null;
   currencyCode: string | null;
   groupId: number | null;
   categoryId: number | null;
@@ -30,6 +31,7 @@ const initialState: TransactionsState = {
   isError: false,
   transactions: [],
   month: new Date(),
+  transactionType: null,
   currencyCode: null,
   groupId: null,
   categoryId: null,
@@ -76,6 +78,7 @@ export const TransactionsStore = signalStore(
       try {
         const data = await repository.getFilteredTransactions({
           month: store.month(),
+          transactionType: store.transactionType(),
           categoryIds: store._categoryIds(),
           transactionCurrencyCode: store.currencyCode(),
         });
@@ -102,6 +105,10 @@ export const TransactionsStore = signalStore(
 
     updateMonth(month: Date) {
       patchState(store, () => ({ month }));
+    },
+
+    updateTransactionType(value: string | null) {
+      patchState(store, () => ({ transactionType: value as TransactionType }));
     },
 
     updateCurrency(code: string | null) {

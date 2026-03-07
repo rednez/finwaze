@@ -1,6 +1,6 @@
 import { inject, Injectable } from '@angular/core';
 import { TransactionsMapper } from '@core/mappers/transactions-mapper';
-import { Transaction } from '@core/models/transactions';
+import { Transaction, TransactionType } from '@core/models/transactions';
 import { SupabaseService } from '@core/services/supabase.service';
 import dayjs from 'dayjs';
 
@@ -48,12 +48,14 @@ export class TransactionsRepository {
 
   async getFilteredTransactions(filters: {
     month: Date;
+    transactionType: TransactionType | null;
     categoryIds: number[] | null;
     transactionCurrencyCode: string | null;
   }): Promise<Transaction[]> {
     const { data, error } = await this.supabase.client
       .rpc('get_filtered_transactions', {
         p_month: dayjs(filters.month).format('YYYY-MM-DD'),
+        p_transaction_type: filters.transactionType,
         p_category_ids: filters.categoryIds,
         p_transaction_currency_codes: filters.transactionCurrencyCode
           ? [filters.transactionCurrencyCode]

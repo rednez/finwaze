@@ -12,6 +12,20 @@
 
 <p-iftalabel>
   <p-select
+    [ngModel]="selectedType()"
+    (ngModelChange)="onTypeChange($event)"
+    [options]="typesOptions()"
+    optionLabel="name"
+    optionValue="value"
+    class="pt-3 min-w-20"
+    size="small"
+    [dt]="selectInputSchema"
+  />
+  <label for="dd-currency">Type</label>
+</p-iftalabel>
+
+<p-iftalabel>
+  <p-select
     [ngModel]="selectedCurrency()"
     (ngModelChange)="onCurrencyChange($event)"
     [options]="currenciesOptions()"

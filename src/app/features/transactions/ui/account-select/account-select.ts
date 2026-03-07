@@ -46,9 +46,6 @@ export class AccountSelect implements ControlValueAccessor {
   private onTouched?: VoidFunction;
 
   writeValue(accountId: number | null): void {
-    // TODO
-    console.log(accountId);
-
     this.selectedAccount.set(accountId);
   }
 

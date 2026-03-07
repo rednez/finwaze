@@ -157,6 +157,7 @@ CREATE OR REPLACE FUNCTION get_filtered_transactions (
   p_account_ids BIGINT[] DEFAULT NULL,
   p_charged_currency_codes TEXT[] DEFAULT NULL,
   p_transaction_currency_codes TEXT[] DEFAULT NULL,
+  p_transaction_type transactions.type % type DEFAULT NULL,
   p_month DATE DEFAULT NULL,
   p_page INTEGER DEFAULT 1,
   p_page_size INTEGER DEFAULT NULL
@@ -209,6 +210,10 @@ SET
   join public.groups cg
     on cg.id = cat.group_id
   where t.type <> 'transfer'
+    and (
+      p_transaction_type is null
+      or t.type = p_transaction_type
+    )
     and (
       p_category_ids is null
       or cardinality(p_category_ids) = 0

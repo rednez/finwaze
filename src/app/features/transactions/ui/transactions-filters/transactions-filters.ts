@@ -33,6 +33,7 @@ import { TableModule } from 'primeng/table';
 })
 export class TransactionsFilters {
   readonly initMonth = input(new Date());
+  readonly initTransactionType = input<string | null>();
   readonly initCurrency = input<string | null>();
   readonly initGroup = input<number | null>();
   readonly initCategory = input<number | null>();
@@ -40,9 +41,16 @@ export class TransactionsFilters {
   readonly groups = input<Group[]>([]);
   readonly categories = input<Category[]>([]);
   readonly monthChanged = output<Date>();
+  readonly typeChanged = output<string | null>();
   readonly currencyChanged = output<string | null>();
   readonly groupChanged = output<number | null>();
   readonly categoryChanged = output<number | null>();
+
+  protected readonly typesOptions = computed(() => [
+    { value: 'all', name: 'All' },
+    { value: 'income', name: 'Income' },
+    { value: 'expense', name: 'Expense' },
+  ]);
 
   protected readonly currenciesOptions = computed(() => [
     { name: 'All' },
@@ -75,6 +83,9 @@ export class TransactionsFilters {
   };
 
   protected selectedMonth = linkedSignal(() => this.initMonth());
+  protected selectedType = linkedSignal(
+    () => this.initTransactionType() || 'all',
+  );
   protected selectedCurrency = linkedSignal(() => this.initCurrency() || 'All');
   protected selectedGroup = linkedSignal(() => this.initGroup() || 0);
   protected selectedCategory = linkedSignal(() => this.initCategory() || 0);
@@ -82,6 +93,11 @@ export class TransactionsFilters {
   protected onMonthChange(event: Date) {
     this.selectedMonth.set(event);
     this.monthChanged.emit(event);
+  }
+
+  protected onTypeChange(event: string) {
+    this.selectedType.set(event);
+    this.typeChanged.emit(event !== 'all' ? event : null);
   }
 
   protected onCurrencyChange(event: string) {

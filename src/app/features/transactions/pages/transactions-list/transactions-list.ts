@@ -56,6 +56,11 @@ export class TransactionsList {
     this.store.loadTransactions();
   }
 
+  protected onTransactionTypeChanged(event: string | null) {
+    this.store.updateTransactionType(event);
+    this.store.loadTransactions();
+  }
+
   protected onCurrencyChanged(event: string | null) {
     this.store.updateCurrency(event);
     this.store.loadTransactions();
