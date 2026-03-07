@@ -23,10 +23,10 @@ import { InputTextModule } from 'primeng/inputtext';
 import { SelectModule } from 'primeng/select';
 import { SelectButtonModule } from 'primeng/selectbutton';
 import { combineLatest, filter, map, shareReplay, take, tap } from 'rxjs';
-import { expenseChargedAmountValidator } from '../../../../../transactions/utils';
-import { ExpenseFormData } from '../../../../models';
-import { AccountSelect } from '../../../../ui/account-select';
-import { FormActionButtons } from '../../../../ui/form-action-buttons';
+import { ExpenseFormData } from '../../models';
+import { expenseChargedAmountValidator } from '../../utils';
+import { AccountSelect } from '../account-select';
+import { FormActionButtons } from '../form-action-buttons';
 
 @Component({
   selector: 'app-expense-form',

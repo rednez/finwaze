@@ -26,8 +26,8 @@ import {
   SelectedTransactionStore,
   TransactionsStore,
 } from '../../store';
-import { ExpenseForm } from './ui/expense-form/expense-form';
-import { IncomeForm } from './ui/income-form/income-form';
+import { ExpenseForm } from '../../ui/expense-form';
+import { IncomeForm } from '../../ui/income-form';
 
 @Component({
   imports: [
