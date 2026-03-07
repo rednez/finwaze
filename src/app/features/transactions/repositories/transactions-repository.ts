@@ -191,4 +191,17 @@ export class TransactionsRepository {
 
     return;
   }
+
+  async deleteTransaction(transactionId: number): Promise<void> {
+    const { error } = await this.supabase.client
+      .from('transactions')
+      .delete()
+      .eq('id', transactionId);
+
+    if (error) {
+      throw new Error(error.message);
+    }
+
+    return;
+  }
 }

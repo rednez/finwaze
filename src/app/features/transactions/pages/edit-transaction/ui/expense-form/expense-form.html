@@ -225,12 +225,10 @@
     </div>
   </div>
 
-  <div class="mt-8">
-    <p-button
-      [label]="submitButtonLabel()"
-      rounded
-      (onClick)="submit()"
-      [loading]="isSubmitting()"
-    />
-  </div>
+  <app-form-action-buttons
+    [isCreatingMode]="isCreatingMode()"
+    [isSubmitting]="isSubmitting()"
+    (clickSubmit)="submit()"
+    (clickDelete)="clickDelete.emit()"
+  />
 </form>

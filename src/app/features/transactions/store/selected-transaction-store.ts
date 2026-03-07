@@ -15,12 +15,14 @@ import { waitFormMs } from '@shared/utils/wait-for-ms';
 export interface SelectedTransactionState {
   isLoading: boolean;
   isCreatingMode: boolean;
+  isDeleting: boolean;
   transaction: Transaction | null;
 }
 
 const initialState: SelectedTransactionState = {
   isLoading: false,
   isCreatingMode: false,
+  isDeleting: false,
   transaction: null,
 };
 
@@ -54,6 +56,35 @@ export const SelectedTransactionStore = signalStore(
       } catch (error: any) {
         patchState(store, () => ({
           isLoading: false,
+        }));
+
+        return resultError(error);
+      }
+    },
+
+    async deleteTransaction(): Promise<Result> {
+      patchState(store, () => ({
+        isDeleting: true,
+      }));
+
+      try {
+        const transaction = store.transaction();
+
+        if (!transaction) {
+          throw new Error('No transaction selected');
+        }
+
+        await repository.deleteTransaction(transaction.id);
+
+        patchState(store, () => ({
+          isDeleting: false,
+          transaction: null,
+        }));
+
+        return resultOk();
+      } catch (error: any) {
+        patchState(store, () => ({
+          isDeleting: false,
         }));
 
         return resultError(error);

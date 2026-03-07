@@ -17,7 +17,6 @@ import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Account } from '@core/models/accounts';
 import { Category, Group } from '@core/models/categories';
 import { SelectDesignTokens } from '@primeuix/themes/types/select';
-import { ButtonModule } from 'primeng/button';
 import { DatePickerModule } from 'primeng/datepicker';
 import { InputNumberModule } from 'primeng/inputnumber';
 import { InputTextModule } from 'primeng/inputtext';
@@ -26,6 +25,7 @@ import { SelectButtonModule } from 'primeng/selectbutton';
 import { combineLatest, filter, map, shareReplay, take, tap } from 'rxjs';
 import { expenseChargedAmountValidator } from '../../../../../transactions/utils';
 import { ExpenseFormData } from '../../../../models';
+import { FormActionButtons } from '../../../../ui/form-action-buttons';
 
 @Component({
   selector: 'app-expense-form',
@@ -33,11 +33,11 @@ import { ExpenseFormData } from '../../../../models';
     ReactiveFormsModule,
     CommonModule,
     InputTextModule,
-    ButtonModule,
     SelectModule,
     InputNumberModule,
     DatePickerModule,
     SelectButtonModule,
+    FormActionButtons,
   ],
   templateUrl: './expense-form.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -55,6 +55,7 @@ export class ExpenseForm {
   readonly categoryChanged = output<number | null>();
   readonly transactionCurrencyCodeChanged = output<string | null>();
   readonly formSubmitted = output<ExpenseFormData>();
+  readonly clickDelete = output();
 
   private readonly formBuilder = inject(FormBuilder);
   private readonly destroyRef = inject(DestroyRef);
@@ -75,10 +76,6 @@ export class ExpenseForm {
       comment: [null as string | null, [Validators.maxLength(100)]],
     },
     { validators: [expenseChargedAmountValidator] },
-  );
-
-  protected readonly submitButtonLabel = computed(() =>
-    this.isCreatingMode() ? 'Create' : 'Save Changes',
   );
 
   protected readonly selectDt: SelectDesignTokens = {

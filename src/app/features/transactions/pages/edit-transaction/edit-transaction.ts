@@ -156,6 +156,21 @@ export class EditTransaction {
     }
   }
 
+  protected async deleteTransaction(): Promise<void> {
+    const { error } = await this.selectedTransactionStore.deleteTransaction();
+
+    if (error) {
+      this.messageService.add({
+        severity: 'error',
+        summary: 'Transaction deletion failed',
+        detail: error.message,
+      });
+    } else {
+      this.transactionsStore.markAsNotLoaded();
+      this.goBack();
+    }
+  }
+
   private defineMode() {
     this.selectedTransactionStore.updateIsCreatingMode(
       this.route.snapshot.url[0].path === 'create',
@@ -176,7 +191,7 @@ export class EditTransaction {
       });
     } else {
       this.transactionsStore.markAsNotLoaded();
-      await this.router.navigate(['..'], { relativeTo: this.route });
+      this.goBack();
     }
   }
 
@@ -194,7 +209,7 @@ export class EditTransaction {
       });
     } else {
       this.transactionsStore.markAsNotLoaded();
-      await this.router.navigate(['..'], { relativeTo: this.route });
+      this.goBack();
     }
   }
 
@@ -238,5 +253,9 @@ export class EditTransaction {
         summary: 'Transaction updated successfully',
       });
     }
+  }
+
+  private goBack() {
+    this.router.navigate(['..'], { relativeTo: this.route });
   }
 }

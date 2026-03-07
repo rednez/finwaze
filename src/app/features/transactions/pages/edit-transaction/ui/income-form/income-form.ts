@@ -17,7 +17,6 @@ import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Account } from '@core/models/accounts';
 import { Category, Group } from '@core/models/categories';
 import { SelectDesignTokens } from '@primeuix/themes/types/select';
-import { ButtonModule } from 'primeng/button';
 import { DatePickerModule } from 'primeng/datepicker';
 import { InputNumberModule } from 'primeng/inputnumber';
 import { InputTextModule } from 'primeng/inputtext';
@@ -25,6 +24,7 @@ import { SelectModule } from 'primeng/select';
 import { SelectButtonModule } from 'primeng/selectbutton';
 import { combineLatest, filter, map, shareReplay, take, tap } from 'rxjs';
 import { IncomeFormData } from '../../../../models';
+import { FormActionButtons } from '../../../../ui/form-action-buttons';
 
 @Component({
   selector: 'app-income-form',
@@ -32,11 +32,11 @@ import { IncomeFormData } from '../../../../models';
     ReactiveFormsModule,
     CommonModule,
     InputTextModule,
-    ButtonModule,
     SelectModule,
     InputNumberModule,
     DatePickerModule,
     SelectButtonModule,
+    FormActionButtons,
   ],
   templateUrl: './income-form.html',
   styles: ``,
@@ -53,6 +53,7 @@ export class IncomeForm {
   readonly groupChanged = output<number>();
   readonly categoryChanged = output<number | null>();
   readonly formSubmitted = output<IncomeFormData>();
+  readonly clickDelete = output();
 
   private readonly formBuilder = inject(FormBuilder);
   private readonly destroyRef = inject(DestroyRef);
@@ -68,10 +69,6 @@ export class IncomeForm {
     transactedAt: [new Date(), [Validators.required]],
     comment: [null as string | null, [Validators.maxLength(100)]],
   });
-
-  protected readonly submitButtonLabel = computed(() =>
-    this.isCreatingMode() ? 'Create' : 'Save Changes',
-  );
 
   protected readonly selectDt: SelectDesignTokens = {
     root: {

@@ -80,6 +80,14 @@ FOR UPDATE
     )
   );
 
+CREATE POLICY "Enable delete for users based on user_id" ON "public"."transactions" AS PERMISSIVE FOR DELETE TO public USING (
+  (
+    SELECT
+      auth.uid ()
+  ) = user_id
+);
+
+
 create trigger before_update_transaction_trigger BEFORE
 update on transactions for EACH row
 execute FUNCTION storage.update_updated_at_column ();
