@@ -43,6 +43,15 @@ FOR UPDATE
     )
   );
 
+create policy "Enable delete for users based on user_id"
+on "public"."accounts"
+as PERMISSIVE
+for DELETE
+to public
+using (
+  (select auth.uid()) = user_id
+);
+
 create trigger before_update_account_trigger BEFORE
 update on accounts for EACH row
 execute FUNCTION storage.update_updated_at_column ();

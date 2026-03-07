@@ -46,6 +46,16 @@ FOR UPDATE
     )
   );
 
+create policy "Enable delete for users based on user_id"
+on "public"."monthly_budgets"
+as PERMISSIVE
+for DELETE
+to public
+using (
+  (select auth.uid()) = user_id
+);
+
+
 CREATE OR REPLACE FUNCTION public.set_monthly_budget_month_start () returns trigger language plpgsql
 SET
   search_path = '' AS $$

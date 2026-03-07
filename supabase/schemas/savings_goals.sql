@@ -44,6 +44,16 @@ FOR UPDATE
     )
   );
 
+create policy "Enable delete for users based on user_id"
+on "public"."savings_goals"
+as PERMISSIVE
+for DELETE
+to public
+using (
+  (select auth.uid()) = user_id
+);
+
+
 CREATE OR REPLACE FUNCTION get_savings_goal_balances (
   p_limit INTEGER DEFAULT 20
 ) returns TABLE (
