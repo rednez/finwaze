@@ -10,39 +10,33 @@
 
   <div class="flex flex-col sm:flex-row gap-4">
     <div class="w-full">
-      <label class="text-sm font-medium" for="group">Group</label>
-      <p-select
-        [options]="groups()"
+      <app-select
         formControlName="groupId"
+        [options]="groups()"
+        label="Group"
         inputId="group"
         optionLabel="name"
         optionValue="id"
-        placeholder="Select item"
-        class="w-full"
-        [dt]="selectDt"
-      >
-      </p-select>
-      @if (form.controls.groupId.invalid && form.controls.groupId.dirty) {
-        <div class="text-xs text-red-500 pl-2 pt-0.5">Should be selected</div>
-      }
+        [hasAddButton]="true"
+        [isInvalid]="
+          form.controls.groupId.invalid && form.controls.groupId.dirty
+        "
+      />
     </div>
 
     <div class="w-full">
-      <label class="text-sm font-medium" for="category">Category</label>
-      <p-select
-        [options]="filteredCategories()"
+      <app-select
         formControlName="categoryId"
+        [options]="filteredCategories()"
+        label="Category"
         inputId="category"
         optionLabel="name"
         optionValue="id"
-        placeholder="Select item"
-        class="w-full"
-        [dt]="selectDt"
-      >
-      </p-select>
-      @if (form.controls.categoryId.invalid && form.controls.categoryId.dirty) {
-        <div class="text-xs text-red-500 pl-2 pt-0.5">Should be selected</div>
-      }
+        [hasAddButton]="true"
+        [isInvalid]="
+          form.controls.categoryId.invalid && form.controls.categoryId.dirty
+        "
+      />
     </div>
   </div>
 
@@ -79,26 +73,18 @@
     </div>
 
     <div class="w-full">
-      <label class="text-sm font-medium" for="transactionCurrencyCode">
-        Transaction currency
-      </label>
-      <p-select
-        [options]="currenciesOptions()"
+      <app-select
         formControlName="transactionCurrencyCode"
+        [options]="currenciesOptions()"
+        label=" Transaction currency"
         inputId="transactionCurrencyCode"
         optionLabel="name"
         optionValue="name"
-        placeholder="Select item"
-        class="w-full"
-        [dt]="selectDt"
-      >
-      </p-select>
-      @if (
-        form.controls.transactionCurrencyCode.invalid &&
-        form.controls.transactionCurrencyCode.dirty
-      ) {
-        <div class="text-xs text-red-500 pl-2 pt-0.5">Should be selected</div>
-      }
+        [isInvalid]="
+          form.controls.transactionCurrencyCode.invalid &&
+          form.controls.transactionCurrencyCode.dirty
+        "
+      />
     </div>
   </div>
 
@@ -187,7 +173,11 @@
         formControlName="comment"
         type="text"
         class="w-full"
-        [dt]="selectDt"
+        [dt]="{
+          root: {
+            borderRadius: '16px',
+          },
+        }"
       />
       @if (form.controls.comment.invalid && form.controls.comment.dirty) {
         <div class="text-xs text-red-500 pl-2 pt-0.5">

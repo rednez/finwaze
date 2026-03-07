@@ -10,39 +10,33 @@
 
   <div class="flex flex-col sm:flex-row gap-4">
     <div class="w-full">
-      <label class="text-sm font-medium" for="group">Group</label>
-      <p-select
-        [options]="groups()"
+      <app-select
         formControlName="groupId"
-        inputId="group"
+        [options]="groups()"
+        label=" Group"
+        inputId="groupId"
         optionLabel="name"
         optionValue="id"
-        placeholder="Select item"
-        class="w-full"
-        [dt]="selectDt"
-      >
-      </p-select>
-      @if (form.controls.groupId.invalid && form.controls.groupId.dirty) {
-        <div class="text-xs text-red-500 pl-2 pt-0.5">Should be selected</div>
-      }
+        [hasAddButton]="true"
+        [isInvalid]="
+          form.controls.groupId.invalid && form.controls.groupId.dirty
+        "
+      />
     </div>
 
     <div class="w-full">
-      <label class="text-sm font-medium" for="category">Category</label>
-      <p-select
-        [options]="filteredCategories()"
+      <app-select
         formControlName="categoryId"
-        inputId="category"
+        [options]="filteredCategories()"
+        label=" Category"
+        inputId="categoryId"
         optionLabel="name"
         optionValue="id"
-        placeholder="Select item"
-        class="w-full"
-        [dt]="selectDt"
-      >
-      </p-select>
-      @if (form.controls.categoryId.invalid && form.controls.categoryId.dirty) {
-        <div class="text-xs text-red-500 pl-2 pt-0.5">Should be selected</div>
-      }
+        [hasAddButton]="true"
+        [isInvalid]="
+          form.controls.categoryId.invalid && form.controls.categoryId.dirty
+        "
+      />
     </div>
   </div>
 

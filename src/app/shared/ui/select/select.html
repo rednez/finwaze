@@ -1,0 +1,31 @@
+<label class="text-sm font-medium" for="group">{{ label() }}</label>
+<p-select
+  [(ngModel)]="selectedOption"
+  [options]="options()"
+  [inputId]="inputId()"
+  [optionLabel]="optionLabel()"
+  [optionValue]="optionValue()"
+  [placeholder]="placeholder()"
+  class="w-full"
+  [dt]="selectDt"
+  [invalid]="isInvalid()"
+  (ngModelChange)="onModelChanges($event)"
+>
+  @if (hasAddButton()) {
+    <ng-template #footer>
+      <div class="p-2">
+        <p-button
+          label="Add New"
+          fluid
+          severity="secondary"
+          text
+          size="small"
+          icon="pi pi-plus"
+        />
+      </div>
+    </ng-template>
+  }
+</p-select>
+@if (isInvalid()) {
+  <div class="text-xs text-red-500 pl-2 pt-0.5">Should be selected</div>
+}

@@ -16,16 +16,15 @@ import {
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Account } from '@core/models/accounts';
 import { Category, Group } from '@core/models/categories';
-import { SelectDesignTokens } from '@primeuix/themes/types/select';
+import { AccountSelect } from '@shared/ui/account-select';
+import { Select } from '@shared/ui/select';
 import { DatePickerModule } from 'primeng/datepicker';
 import { InputNumberModule } from 'primeng/inputnumber';
 import { InputTextModule } from 'primeng/inputtext';
-import { SelectModule } from 'primeng/select';
 import { SelectButtonModule } from 'primeng/selectbutton';
 import { combineLatest, filter, map, shareReplay, take, tap } from 'rxjs';
 import { ExpenseFormData } from '../../models';
 import { expenseChargedAmountValidator } from '../../utils';
-import { AccountSelect } from '../account-select';
 import { FormActionButtons } from '../form-action-buttons';
 
 @Component({
@@ -34,12 +33,12 @@ import { FormActionButtons } from '../form-action-buttons';
     ReactiveFormsModule,
     CommonModule,
     InputTextModule,
-    SelectModule,
     InputNumberModule,
     DatePickerModule,
     SelectButtonModule,
     FormActionButtons,
     AccountSelect,
+    Select,
   ],
   templateUrl: './expense-form.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -79,12 +78,6 @@ export class ExpenseForm {
     },
     { validators: [expenseChargedAmountValidator] },
   );
-
-  protected readonly selectDt: SelectDesignTokens = {
-    root: {
-      borderRadius: '16px',
-    },
-  };
 
   protected readonly filteredCategories = computed(() => {
     return this.categories().filter(
