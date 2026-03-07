@@ -1,5 +1,9 @@
 import { inject } from '@angular/core';
-import { UiExpenseTransactionForm, UiState } from '@core/models/ui-state';
+import {
+  UiExpenseTransactionForm,
+  UiIncomeTransactionForm,
+  UiState,
+} from '@core/models/ui-state';
 import { UiLocalStorage } from '@core/services/local-storage';
 import { patchState, signalStore, withMethods, withState } from '@ngrx/signals';
 
@@ -10,6 +14,11 @@ const initialState: UiState = {
     categoryId: null,
     transactionCurrencyCode: null,
     chargedCurrencyCode: null,
+  },
+  incomeTransactionForm: {
+    accountId: null,
+    groupId: null,
+    categoryId: null,
   },
 };
 
@@ -28,6 +37,17 @@ export const UiStore = signalStore(
       patchState(store, (state) => ({
         expenseTransactionForm: {
           ...state.expenseTransactionForm,
+          ...data,
+        },
+      }));
+    },
+
+    updateIncomeTransactionForm(data: Partial<UiIncomeTransactionForm>) {
+      uiLocalStorage.updateIncomeTransactionForm(data);
+
+      patchState(store, (state) => ({
+        incomeTransactionForm: {
+          ...state.incomeTransactionForm,
           ...data,
         },
       }));

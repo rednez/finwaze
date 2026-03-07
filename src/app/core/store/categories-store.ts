@@ -31,13 +31,23 @@ export const CategoriesStore = signalStore(
     allGroups: computed(() => {
       const uniqueGroups = new Map<number, Group>();
       for (const category of store.allCategories()) {
-        uniqueGroups.set(category.groupId, {
-          id: category.groupId,
-          name: category.groupName,
+        uniqueGroups.set(category.group.id, {
+          id: category.group.id,
+          name: category.group.name,
+          transactionType: category.group.transactionType,
         });
       }
       return Array.from(uniqueGroups.values());
     }),
+  })),
+
+  withComputed((store) => ({
+    expensesGroups: computed(() =>
+      store.allGroups().filter((i) => i.transactionType === 'expense'),
+    ),
+    incomeGroups: computed(() =>
+      store.allGroups().filter((i) => i.transactionType === 'income'),
+    ),
   })),
 
   withMethods((store, repository = inject(CategoriesRepository)) => ({

@@ -1,44 +1,65 @@
 INSERT INTO groups
             (user_id,
-             NAME)
+             NAME,
+             transaction_type)
 VALUES      ( (SELECT id
                FROM   auth.users
                WHERE  email = 'demo@mail.com'),
-              'Різне' ),
+              'Різне',
+              'expense' ),
             ( (SELECT id
                FROM   auth.users
                WHERE  email = 'demo@mail.com'),
-              'Кредити' ),
+              'Кредити',
+              'expense' ),
             ( (SELECT id
                FROM   auth.users
                WHERE  email = 'demo@mail.com'),
-              'Податки' ),
+              'Податки',
+              'expense' ),
             ( (SELECT id
                FROM   auth.users
                WHERE  email = 'demo@mail.com'),
-              'Благодійність' ),
+              'Благодійність',
+              'expense' ),
             ( (SELECT id
                FROM   auth.users
                WHERE  email = 'demo@mail.com'),
-              'Здоровʼя' ),
+              'Здоровʼя',
+              'expense' ),
             ( (SELECT id
                FROM   auth.users
                WHERE  email = 'demo@mail.com'),
-              'Охорона' ),
+              'Охорона',
+              'expense' ),
             ( (SELECT id
                FROM   auth.users
                WHERE  email = 'demo@mail.com'),
-              'Послуги' ),
+              'Послуги',
+              'expense' ),
             ( (SELECT id
                FROM   auth.users
                WHERE  email = 'demo@mail.com'),
-              'Освіта' ),
+              'Освіта',
+              'expense' ),
             ( (SELECT id
                FROM   auth.users
                WHERE  email = 'demo@mail.com'),
-              'Автомобіль' ),
+              'Автомобіль',
+              'expense' ),
             ( (SELECT id
                FROM   auth.users
                WHERE  email = 'demo@mail.com'),
-              'Життя' );
+              'Життя',
+              'expense' ),
+            ( (SELECT id
+               FROM   auth.users
+               WHERE  email = 'demo@mail.com'),
+              'Основний дохід',
+              'income' ),
+            ( (SELECT id
+               FROM   auth.users
+               WHERE  email = 'demo@mail.com'),
+              'Інший дохід',
+              'income' );
             

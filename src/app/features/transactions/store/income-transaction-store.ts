@@ -1,6 +1,6 @@
 import { inject } from '@angular/core';
 import { Result } from '@core/models/result';
-import { AccountsStore } from '@core/store/accounts-store';
+import { Transaction } from '@core/models/transactions';
 import { CategoriesStore } from '@core/store/categories-store';
 import { CurrenciesStore } from '@core/store/currencies-store';
 import { UiStore } from '@core/store/ui-store';
@@ -13,21 +13,23 @@ import {
   withProps,
   withState,
 } from '@ngrx/signals';
-import { ExpenseFormData } from '../models';
+import { IncomeFormData } from '../models';
 import { TransactionsRepository } from '../repositories/transactions-repository';
 import { SelectedTransactionStore } from './selected-transaction-store';
 
-export interface ExpenseTransactionState {
+export interface IncomeTransactionState {
   isCreating: boolean;
   isUpdating: boolean;
+  selectedTransaction: Transaction | null;
 }
 
-const initialState: ExpenseTransactionState = {
+const initialState: IncomeTransactionState = {
   isCreating: false,
   isUpdating: false,
+  selectedTransaction: null,
 };
 
-export const ExpenseTransactionStore = signalStore(
+export const IncomeTransactionStore = signalStore(
   { providedIn: 'root' },
   withState(initialState),
 
@@ -36,30 +38,20 @@ export const ExpenseTransactionStore = signalStore(
     selectedTransactionStore: inject(SelectedTransactionStore),
   })),
 
-  withComputed(
-    (
-      _,
-      accountsStore = inject(AccountsStore),
-      categoriesStore = inject(CategoriesStore),
-    ) => ({
-      currencies: () => accountsStore.myCurrencies(),
-      groups: () => categoriesStore.expensesGroups(),
-      categories: () => categoriesStore.allCategories(),
-    }),
-  ),
+  withComputed((_, categoriesStore = inject(CategoriesStore)) => ({
+    groups: () => categoriesStore.incomeGroups(),
+    categories: () => categoriesStore.allCategories(),
+  })),
 
   withComputed((store) => ({
     initialFormValues: () => {
       if (store.selectedTransactionStore.isCreatingMode()) {
         return {
           accountId:
-            store.uiStore.expenseTransactionForm().accountId || undefined,
-          groupId: store.uiStore.expenseTransactionForm().groupId || undefined,
+            store.uiStore.incomeTransactionForm().accountId || undefined,
+          groupId: store.uiStore.incomeTransactionForm().groupId || undefined,
           categoryId:
-            store.uiStore.expenseTransactionForm().categoryId || undefined,
-          transactionCurrencyCode:
-            store.uiStore.expenseTransactionForm().transactionCurrencyCode ||
-            undefined,
+            store.uiStore.incomeTransactionForm().categoryId || undefined,
         };
       } else {
         const transaction = store.selectedTransactionStore.transaction();
@@ -70,9 +62,7 @@ export const ExpenseTransactionStore = signalStore(
             categoryId: transaction.category.id,
             transactedAt: transaction.transactedAt,
             comment: transaction.comment || undefined,
-            transactionAmount: Math.abs(transaction.transactionAmount),
-            transactionCurrencyCode: transaction.transactionCurrency,
-            chargedAmount: Math.abs(transaction.chargedAmount),
+            amount: transaction.transactionAmount,
           };
         } else {
           return undefined;
@@ -87,21 +77,18 @@ export const ExpenseTransactionStore = signalStore(
       repository = inject(TransactionsRepository),
       currenciesStore = inject(CurrenciesStore),
     ) => ({
-      async createTransaction(formData: ExpenseFormData): Promise<Result> {
+      async createTransaction(formData: IncomeFormData): Promise<Result> {
         patchState(store, () => ({
           isCreating: true,
         }));
 
         try {
-          await repository.createExpenseTransaction({
+          await repository.createIncomeTransaction({
             transactedAt: formData.transactedAt,
             accountId: formData.accountId,
             categoryId: formData.categoryId,
-            transactionAmount: formData.transactionAmount,
-            transactionCurrencyId: currenciesStore.findByCode(
-              formData.transactionCurrencyCode,
-            )!.id,
-            chargedAmount: formData.chargedAmount,
+            amount: formData.amount,
+            currencyId: currenciesStore.findByCode(formData.currencyCode)!.id,
             comment: formData.comment,
           });
 
@@ -119,7 +106,7 @@ export const ExpenseTransactionStore = signalStore(
         }
       },
 
-      async updateTransaction(formData: ExpenseFormData): Promise<Result> {
+      async updateTransaction(formData: IncomeFormData): Promise<Result> {
         patchState(store, () => ({
           isUpdating: true,
         }));
@@ -132,15 +119,12 @@ export const ExpenseTransactionStore = signalStore(
             throw new Error('No transaction selected');
           }
 
-          await repository.updateExpenseTransaction(selectedTransaction.id, {
+          await repository.updateIncomeTransaction(selectedTransaction.id, {
             transactedAt: formData.transactedAt,
             accountId: formData.accountId,
             categoryId: formData.categoryId,
-            transactionAmount: formData.transactionAmount,
-            transactionCurrencyId: currenciesStore.findByCode(
-              formData.transactionCurrencyCode,
-            )!.id,
-            chargedAmount: formData.chargedAmount,
+            amount: formData.amount,
+            currencyId: currenciesStore.findByCode(formData.currencyCode)!.id,
             comment: formData.comment,
           });
 

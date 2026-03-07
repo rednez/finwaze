@@ -13,7 +13,7 @@ export class CategoriesRepository {
   async getCategories(): Promise<Category[]> {
     const { data, error } = await this.supabase.client
       .from('categories')
-      .select(`id, name, groups( id, name )`)
+      .select(`id, name, groups( id, name, transaction_type )`)
       .eq('is_system', false);
 
     if (error) {

@@ -1,5 +1,9 @@
 import { Injectable } from '@angular/core';
-import { UiExpenseTransactionForm, UiState } from '@core/models/ui-state';
+import {
+  UiExpenseTransactionForm,
+  UiIncomeTransactionForm,
+  UiState,
+} from '@core/models/ui-state';
 
 const KEY = 'ui';
 
@@ -10,6 +14,11 @@ const initialValue: UiState = {
     categoryId: null,
     transactionCurrencyCode: null,
     chargedCurrencyCode: null,
+  },
+  incomeTransactionForm: {
+    accountId: null,
+    groupId: null,
+    categoryId: null,
   },
 };
 
@@ -26,6 +35,21 @@ export class UiLocalStorage {
         ...store,
         expenseTransactionForm: {
           ...store.expenseTransactionForm,
+          ...data,
+        },
+      }),
+    );
+  }
+
+  updateIncomeTransactionForm(data: Partial<UiIncomeTransactionForm>) {
+    const store = this.parsedStore;
+
+    localStorage.setItem(
+      KEY,
+      JSON.stringify({
+        ...store,
+        incomeTransactionForm: {
+          ...store.incomeTransactionForm,
           ...data,
         },
       }),

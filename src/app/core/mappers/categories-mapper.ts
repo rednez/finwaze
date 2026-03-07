@@ -9,8 +9,11 @@ export class CategoriesMapper {
     return {
       id: dto.id,
       name: dto.name,
-      groupId: dto.groups.id,
-      groupName: dto.groups.name,
+      group: {
+        id: dto.groups.id,
+        name: dto.groups.name,
+        transactionType: dto.groups.transaction_type,
+      },
     };
   }
 }

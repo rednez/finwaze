@@ -25,17 +25,7 @@ import { SelectModule } from 'primeng/select';
 import { SelectButtonModule } from 'primeng/selectbutton';
 import { combineLatest, filter, map, shareReplay, take, tap } from 'rxjs';
 import { expenseChargedAmountValidator } from '../../../../../transactions/utils';
-
-export interface ExpenseFormData {
-  accountId: number;
-  groupId: number;
-  categoryId: number;
-  transactedAt: Date;
-  comment: string;
-  transactionAmount: number;
-  transactionCurrencyCode: string;
-  chargedAmount: number;
-}
+import { ExpenseFormData } from '../../../../models';
 
 @Component({
   selector: 'app-expense-form',
@@ -69,7 +59,7 @@ export class ExpenseForm {
   private readonly formBuilder = inject(FormBuilder);
   private readonly destroyRef = inject(DestroyRef);
 
-  protected form = this.formBuilder.group(
+  protected readonly form = this.formBuilder.group(
     {
       accountId: [null as number | null, [Validators.required]],
       _accountCurrencyCode: [''],
@@ -99,7 +89,7 @@ export class ExpenseForm {
 
   protected readonly filteredCategories = computed(() => {
     return this.categories().filter(
-      (c) => c.groupId === this.selectedGroupId(),
+      (c) => c.group.id === this.selectedGroupId(),
     );
   });
 

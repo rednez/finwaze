@@ -17,39 +17,57 @@
     {{ title() }}
   </h4>
 
-  @if (
-    expenseTransactionStore.isCreatingMode() ||
-    (!expenseTransactionStore.isCreatingMode() &&
-      !!expenseTransactionStore.selectedTransaction())
-  ) {
+  @if (selectedTransactionStore.isCreatingMode()) {
     <p-selectbutton
-      [(ngModel)]="transactionType"
+      [ngModel]="transactionType()"
+      (ngModelChange)="transactionType.set($event)"
       [options]="transactionTypesOptions"
       optionLabel="name"
       optionValue="value"
       aria-labelledby="basic"
       size="small"
     />
+  }
 
-    @if (transactionType === 'expense') {
+  @if (this.selectedTransactionStore.isLoading()) {
+    <p-progress-spinner
+      ariaLabel="loading"
+      [style]="{ width: '60px', height: '60px' }"
+    />
+  }
+
+  @if (shouldShowForms()) {
+    @if (shouldShowExpenseForm()) {
       <app-expense-form
-        [isCreatingMode]="expenseTransactionStore.isCreatingMode()"
+        [isCreatingMode]="selectedTransactionStore.isCreatingMode()"
         [initialValues]="expenseTransactionStore.initialFormValues()"
         [isSubmitting]="expenseTransactionStore.isCreating()"
         [accounts]="accountsStore.accounts()"
         [groups]="expenseTransactionStore.groups()"
         [categories]="expenseTransactionStore.categories()"
         [currencies]="expenseTransactionStore.currencies()"
-        (accountChanged)="onAccountChanged($event)"
-        (groupChanged)="onGroupChanged($event)"
-        (categoryChanged)="onCategoryChanged($event)"
+        (accountChanged)="onExpenseAccountChanged($event)"
+        (groupChanged)="onExpenseGroupChanged($event)"
+        (categoryChanged)="onExpenseCategoryChanged($event)"
         (transactionCurrencyCodeChanged)="
           onTransactionCurrencyCodeChanged($event)
         "
         (formSubmitted)="submitExpenseForm($event)"
       />
-    } @else {
-      <app-income-form />
+    }
+    @if (shouldShowIncomeForm()) {
+      <app-income-form
+        [isCreatingMode]="selectedTransactionStore.isCreatingMode()"
+        [initialValues]="incomeTransactionStore.initialFormValues()"
+        [isSubmitting]="incomeTransactionStore.isCreating()"
+        [accounts]="accountsStore.accounts()"
+        [groups]="incomeTransactionStore.groups()"
+        [categories]="incomeTransactionStore.categories()"
+        (accountChanged)="onIncomeAccountChanged($event)"
+        (groupChanged)="onIncomeGroupChanged($event)"
+        (categoryChanged)="onIncomeCategoryChanged($event)"
+        (formSubmitted)="submitIncomeForm($event)"
+      />
     }
   }
 </div>

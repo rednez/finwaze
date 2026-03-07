@@ -14,6 +14,15 @@ interface ExpenseTransactionData {
   comment: string;
 }
 
+interface IncomeTransactionData {
+  transactedAt: Date;
+  accountId: number;
+  categoryId: number;
+  amount: number;
+  currencyId: number;
+  comment: string;
+}
+
 const transactionDetailsSelect = `
         id,
         transacted_at,
@@ -99,6 +108,32 @@ export class TransactionsRepository {
     return;
   }
 
+  async createIncomeTransaction(
+    transactionData: IncomeTransactionData,
+  ): Promise<void> {
+    const { error } = await this.supabase.client
+      .from('transactions')
+      .insert({
+        type: 'income',
+        transacted_at: transactionData.transactedAt,
+        local_offset: dayjs(transactionData.transactedAt).format('Z'),
+        comment: transactionData.comment,
+        account_id: transactionData.accountId,
+        category_id: transactionData.categoryId,
+        transaction_amount: transactionData.amount,
+        transaction_currency_id: transactionData.currencyId,
+        charged_amount: transactionData.amount,
+      })
+      .select(transactionDetailsSelect)
+      .single();
+
+    if (error) {
+      throw new Error(error.message);
+    }
+
+    return;
+  }
+
   async updateExpenseTransaction(
     transactionId: number,
     transactionData: Partial<ExpenseTransactionData>,
@@ -116,6 +151,35 @@ export class TransactionsRepository {
         transaction_amount: transactionData.transactionAmount,
         transaction_currency_id: transactionData.transactionCurrencyId,
         charged_amount: transactionData.chargedAmount,
+      })
+      .eq('id', transactionId)
+      .select(transactionDetailsSelect)
+      .single();
+
+    if (error) {
+      throw new Error(error.message);
+    }
+
+    return;
+  }
+
+  async updateIncomeTransaction(
+    transactionId: number,
+    transactionData: Partial<IncomeTransactionData>,
+  ): Promise<void> {
+    const { error } = await this.supabase.client
+      .from('transactions')
+      .update({
+        transacted_at: transactionData.transactedAt,
+        local_offset: transactionData.transactedAt
+          ? dayjs(transactionData.transactedAt).format('Z')
+          : undefined,
+        comment: transactionData.comment,
+        account_id: transactionData.accountId,
+        category_id: transactionData.categoryId,
+        transaction_amount: transactionData.amount,
+        transaction_currency_id: transactionData.currencyId,
+        charged_amount: transactionData.amount,
       })
       .eq('id', transactionId)
       .select(transactionDetailsSelect)

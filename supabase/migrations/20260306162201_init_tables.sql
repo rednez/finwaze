@@ -50,7 +50,8 @@ alter table "public"."currencies" enable row level security;
     "created_at" timestamp with time zone not null default now(),
     "name" text not null,
     "user_id" uuid not null default auth.uid(),
-    "is_system" boolean not null default false
+    "is_system" boolean not null default false,
+    "transaction_type" public.transaction_type not null
       );
 
 
@@ -249,11 +250,12 @@ CREATE OR REPLACE FUNCTION public.create_default_user_categories()
  SET search_path TO ''
 AS $function$
   begin
-    INSERT INTO public.groups (user_id, name, is_system) 
+    INSERT INTO public.groups (user_id, name, is_system, transaction_type) 
     SELECT 
         NEW.id,
         'internal',                                   
-        true;
+        true,
+        'internal';
     INSERT INTO public.categories (user_id, group_id, name, is_system)
     SELECT
         NEW.id, 

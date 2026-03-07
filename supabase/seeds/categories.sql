@@ -300,4 +300,12 @@ VALUES
   'Йога' ),
 ( (SELECT id FROM auth.users WHERE email = 'demo@mail.com'),
   (SELECT id FROM groups WHERE NAME = 'Різне' AND user_id = (SELECT id FROM auth.users WHERE email = 'demo@mail.com')),
-  'Ковзанка' );
+  'Ковзанка' ),
+
+-- INCOME
+( (SELECT id FROM auth.users WHERE email = 'demo@mail.com'),
+  (SELECT id FROM groups WHERE NAME = 'Основний дохід' AND user_id = (SELECT id FROM auth.users WHERE email = 'demo@mail.com')),
+  'Зарплата' ),
+( (SELECT id FROM auth.users WHERE email = 'demo@mail.com'),
+  (SELECT id FROM groups WHERE NAME = 'Інший дохід' AND user_id = (SELECT id FROM auth.users WHERE email = 'demo@mail.com')),
+  'Підробіток' );

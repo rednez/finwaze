@@ -4,6 +4,7 @@ create table public.groups (
   name text not null,
   user_id uuid not null default auth.uid (),
   is_system boolean not null default false,
+  transaction_type public.transaction_type not null,
   constraint groups_pkey primary key (id),
   constraint groups_user_id_fkey foreign KEY (user_id) references auth.users (id),
   constraint groups_name_check check ((length(name) <= 25))
@@ -73,11 +74,12 @@ create function create_default_user_categories()
   set search_path = ''
   as $$
   begin
-    INSERT INTO public.groups (user_id, name, is_system) 
+    INSERT INTO public.groups (user_id, name, is_system, transaction_type) 
     SELECT 
         NEW.id,
         'internal',                                   
-        true;
+        true,
+        'internal';
     INSERT INTO public.categories (user_id, group_id, name, is_system)
     SELECT
         NEW.id, 
