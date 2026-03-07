@@ -1,12 +1,10 @@
-<div class="h-13">
-  @if (store.selectedCurrencyCode()) {
-    <app-dashboard-filters
-      [currencies]="store.myCurrencies()"
-      [initCurrency]="store.selectedCurrencyCode()"
-      (currencyChanged)="updateCurrency($event)"
-    />
-  }
-</div>
+@if (store.selectedCurrencyCode()) {
+  <app-dashboard-filters
+    [currencies]="store.myCurrencies()"
+    [initCurrency]="store.selectedCurrencyCode()"
+    (currencyChanged)="updateCurrency($event)"
+  />
+}
 
 <div class="flex flex-wrap gap-4 min-w-0">
   @for (widget of store.displayedTotalsSummary(); track widget.title) {

@@ -8,13 +8,13 @@ import {
   output,
 } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { IftaLabelModule } from 'primeng/iftalabel';
+import { FloatLabelModule } from 'primeng/floatlabel';
 import { MultiSelectModule } from 'primeng/multiselect';
 import { SelectChangeEvent, SelectModule } from 'primeng/select';
 
 @Component({
   selector: 'app-dashboard-filters',
-  imports: [FormsModule, SelectModule, IftaLabelModule, MultiSelectModule],
+  imports: [FormsModule, SelectModule, FloatLabelModule, MultiSelectModule],
   templateUrl: './dashboard-filters.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   host: {

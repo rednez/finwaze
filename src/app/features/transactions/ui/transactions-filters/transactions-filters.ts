@@ -11,7 +11,7 @@ import { FormsModule } from '@angular/forms';
 import { Category, Group } from '@core/models/categories';
 import { SelectDesignTokens } from '@primeuix/themes/types/select';
 import { DatePickerModule } from 'primeng/datepicker';
-import { IftaLabelModule } from 'primeng/iftalabel';
+import { FloatLabelModule } from 'primeng/floatlabel';
 import { SelectModule } from 'primeng/select';
 import { TableModule } from 'primeng/table';
 
@@ -22,12 +22,12 @@ import { TableModule } from 'primeng/table';
     FormsModule,
     TableModule,
     SelectModule,
-    IftaLabelModule,
     DatePickerModule,
+    FloatLabelModule,
   ],
   templateUrl: './transactions-filters.html',
   host: {
-    class: 'flex gap-2 flex-wrap',
+    class: 'flex gap-x-2 gap-y-4 flex-wrap',
   },
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
@@ -78,7 +78,7 @@ export class TransactionsFilters {
 
   protected readonly selectInputSchema: SelectDesignTokens = {
     root: {
-      borderRadius: '16px',
+      borderRadius: '12px',
     },
   };
 

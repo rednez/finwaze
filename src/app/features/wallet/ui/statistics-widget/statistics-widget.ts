@@ -42,11 +42,9 @@ import { StatisticsByGroups } from './statistics-by-groups/statistics-by-groups'
           view="month"
           dateFormat="mm/yy"
           [readonlyInput]="true"
-          class="w-22"
+          size="small"
           [inputStyle]="{
-            borderRadius: '16px',
-            fontSize: '14px',
-            height: '42px',
+            borderRadius: '12px',
           }"
         />
       </app-card-header>

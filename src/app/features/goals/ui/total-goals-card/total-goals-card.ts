@@ -27,11 +27,9 @@ import { TotalGoalItem } from '../total-goal-item/total-goal-item';
           view="year"
           dateFormat="yy"
           [readonlyInput]="true"
-          class="w-22"
+          size="small"
           [inputStyle]="{
-            borderRadius: '16px',
-            fontSize: '14px',
-            height: '42px',
+            borderRadius: '12px',
           }"
         />
       </app-card-header>

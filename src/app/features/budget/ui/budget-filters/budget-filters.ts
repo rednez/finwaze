@@ -6,10 +6,10 @@ import {
 } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { DatePickerModule } from 'primeng/datepicker';
-import { IftaLabelModule } from 'primeng/iftalabel';
+import { FloatLabelModule } from 'primeng/floatlabel';
+import { MultiSelectModule } from 'primeng/multiselect';
 import { SelectModule } from 'primeng/select';
 import { TableModule } from 'primeng/table';
-import { MultiSelectModule } from 'primeng/multiselect';
 
 interface Group {
   id: number;
@@ -22,9 +22,9 @@ interface Group {
     FormsModule,
     TableModule,
     SelectModule,
-    IftaLabelModule,
     DatePickerModule,
     MultiSelectModule,
+    FloatLabelModule,
   ],
   templateUrl: './budget-filters.html',
   host: {

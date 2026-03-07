@@ -6,7 +6,7 @@ import {
 } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { DatePickerModule } from 'primeng/datepicker';
-import { IftaLabelModule } from 'primeng/iftalabel';
+import { FloatLabelModule } from 'primeng/floatlabel';
 import { SelectModule } from 'primeng/select';
 import { TableModule } from 'primeng/table';
 
@@ -16,8 +16,8 @@ import { TableModule } from 'primeng/table';
     FormsModule,
     TableModule,
     SelectModule,
-    IftaLabelModule,
     DatePickerModule,
+    FloatLabelModule,
   ],
   templateUrl: './goals-filters.html',
   host: {

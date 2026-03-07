@@ -32,11 +32,10 @@ import { BudgetsExpensesChart } from '../budgets-expenses-chart/budgets-expenses
           view="year"
           dateFormat="yy"
           [readonlyInput]="true"
-          class="w-22"
+          class="w-54"
+          size="small"
           [inputStyle]="{
-            borderRadius: '16px',
-            fontSize: '14px',
-            height: '42px',
+            borderRadius: '12px',
           }"
         />
       </app-card-header>

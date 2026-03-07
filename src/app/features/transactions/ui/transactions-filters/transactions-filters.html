@@ -1,67 +1,73 @@
-<p-iftalabel>
+<p-floatlabel class="w-30" variant="on">
   <p-datepicker
     [ngModel]="selectedMonth()"
     (ngModelChange)="onMonthChange($event)"
     view="month"
     dateFormat="mm/yy"
+    inputId="budget-month"
     [readonlyInput]="true"
-    [inputStyle]="{ borderRadius: '16px', fontSize: '14px', height: '50px' }"
+    size="small"
+    [inputStyle]="{ borderRadius: '12px' }"
   />
-  <label for="dd-currency">Budget month</label>
-</p-iftalabel>
+  <label for="budget-month">Budget month</label>
+</p-floatlabel>
 
-<p-iftalabel>
+<p-floatlabel class="w-30" variant="on">
   <p-select
     [ngModel]="selectedType()"
     (ngModelChange)="onTypeChange($event)"
     [options]="typesOptions()"
     optionLabel="name"
     optionValue="value"
-    class="pt-3 min-w-20"
+    inputId="transaction-type"
     size="small"
+    class="w-full"
     [dt]="selectInputSchema"
   />
-  <label for="dd-currency">Type</label>
-</p-iftalabel>
+  <label for="transaction-type">Type</label>
+</p-floatlabel>
 
-<p-iftalabel>
+<p-floatlabel class="w-30" variant="on">
   <p-select
     [ngModel]="selectedCurrency()"
     (ngModelChange)="onCurrencyChange($event)"
     [options]="currenciesOptions()"
     optionLabel="name"
     optionValue="name"
-    class="pt-3 min-w-20"
+    class="w-full"
     size="small"
+    inputId="currency"
     [dt]="selectInputSchema"
   />
-  <label for="dd-currency">Currency</label>
-</p-iftalabel>
+  <label for="currency">Currency</label>
+</p-floatlabel>
 
-<p-iftalabel>
+<p-floatlabel class="w-36" variant="on">
   <p-select
     [ngModel]="selectedGroup()"
     (ngModelChange)="onGroupChange($event)"
     [options]="groupsOptions()"
     optionLabel="name"
     optionValue="id"
-    class="pt-3 min-w-20"
+    class="w-full"
     size="small"
+    inputId="group"
     [dt]="selectInputSchema"
   />
-  <label for="dd-currency">Group</label>
-</p-iftalabel>
+  <label for="group">Group</label>
+</p-floatlabel>
 
-<p-iftalabel>
+<p-floatlabel class="w-36" variant="on">
   <p-select
     [ngModel]="selectedCategory()"
     (ngModelChange)="onCategoryChange($event)"
     [options]="categoriesOptions()"
     optionLabel="name"
     optionValue="id"
-    class="pt-3 min-w-20"
+    class="w-full"
     size="small"
+    inputId="category"
     [dt]="selectInputSchema"
   />
-  <label for="dd-currency">Category</label>
-</p-iftalabel>
+  <label for="category">Category</label>
+</p-floatlabel>

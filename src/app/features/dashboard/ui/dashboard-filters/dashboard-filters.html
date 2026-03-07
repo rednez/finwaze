@@ -1,16 +1,17 @@
-<p-iftalabel>
+<p-floatlabel class="w-30" variant="on">
   <p-select
     [(ngModel)]="selectedCurrency"
     [options]="currenciesOptions()"
     optionLabel="name"
-    class="pt-3 min-w-20"
+    class="w-full"
     size="small"
+    inputId="currency"
     [dt]="{
       root: {
-        borderRadius: '16px',
+        borderRadius: '12px',
       },
     }"
     (onChange)="onChange($event)"
   />
-  <label for="dd-currency">Currency</label>
-</p-iftalabel>
+  <label for="currency">Currency</label>
+</p-floatlabel>

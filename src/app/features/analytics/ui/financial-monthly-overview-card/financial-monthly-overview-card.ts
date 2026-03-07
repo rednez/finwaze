@@ -31,11 +31,10 @@ import { FinancialMonthlyOverviewChart } from '../financial-monthly-overview-cha
           [(ngModel)]="type"
           [options]="types()"
           optionLabel="name"
-          class="pt-1"
           size="small"
           [dt]="{
             root: {
-              borderRadius: '16px',
+              borderRadius: '12px',
             },
           }"
         />

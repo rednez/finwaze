@@ -43,7 +43,7 @@ import { StatisticsByGroups } from './statistics-by-groups/statistics-by-groups'
           size="small"
           [dt]="{
             root: {
-              borderRadius: '16px',
+              borderRadius: '12px',
             },
           }"
         />

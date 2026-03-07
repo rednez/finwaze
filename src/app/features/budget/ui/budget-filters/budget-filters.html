@@ -1,46 +1,50 @@
 <div class="flex gap-2 flex-wrap">
-  <p-iftalabel>
+  <p-floatlabel class="w-30" variant="on">
     <p-datepicker
       [(ngModel)]="month"
       view="month"
       dateFormat="mm/yy"
       [readonlyInput]="true"
-      [inputStyle]="{ borderRadius: '16px', fontSize: '14px', height: '50px' }"
+      inputId="budget-month"
+      size="small"
+      [inputStyle]="{ borderRadius: '12px' }"
     />
-    <label for="dd-month">Month</label>
-  </p-iftalabel>
+    <label for="budget-month">Month</label>
+  </p-floatlabel>
 
-  <p-iftalabel>
+  <p-floatlabel class="w-30" variant="on">
     <p-select
       [(ngModel)]="currency"
       [options]="currencies()"
       optionLabel="name"
-      class="pt-3 min-w-20"
+      class="w-full"
       size="small"
+      inputId="currency"
       [dt]="{
         root: {
-          borderRadius: '16px',
+          borderRadius: '12px',
         },
       }"
     />
-    <label for="dd-currency">Currency</label>
-  </p-iftalabel>
+    <label for="currency">Currency</label>
+  </p-floatlabel>
 
-  <p-iftalabel>
+  <p-floatlabel class="w-40" variant="on">
     <p-select
       [(ngModel)]="status"
       [options]="statuses()"
       optionLabel="name"
-      class="pt-3 min-w-20"
+      class="w-full"
       size="small"
+      inputId="status"
       [dt]="{
         root: {
-          borderRadius: '16px',
+          borderRadius: '12px',
         },
       }"
     />
-    <label for="dd-status">Status</label>
-  </p-iftalabel>
+    <label for="status">Status</label>
+  </p-floatlabel>
 </div>
 
 <p-multiselect
@@ -51,11 +55,11 @@
   [maxSelectedLabels]="3"
   [showClear]="true"
   display="chip"
+  inputId="groups"
   class="text-sm"
   [dt]="{
     root: {
-      borderRadius: '16px',
-      paddingY: '14px',
+      borderRadius: '12px',
     },
     chip: {
       borderRadius: '16px',

@@ -33,11 +33,9 @@ import { TransactionsOverviewChart } from '../transactions-overview-chart/transa
             view="month"
             dateFormat="mm/yy"
             [readonlyInput]="true"
-            class="w-22"
+            size="small"
             [inputStyle]="{
-              borderRadius: '16px',
-              fontSize: '14px',
-              height: '42px',
+              borderRadius: '12px',
             }"
           />
 
@@ -45,11 +43,10 @@ import { TransactionsOverviewChart } from '../transactions-overview-chart/transa
             [(ngModel)]="currency"
             [options]="currencies()"
             optionLabel="name"
-            class="pt-1"
             size="small"
             [dt]="{
               root: {
-                borderRadius: '16px',
+                borderRadius: '12px',
               },
             }"
           />
