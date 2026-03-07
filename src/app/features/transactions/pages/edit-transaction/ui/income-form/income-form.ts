@@ -24,6 +24,7 @@ import { SelectModule } from 'primeng/select';
 import { SelectButtonModule } from 'primeng/selectbutton';
 import { combineLatest, filter, map, shareReplay, take, tap } from 'rxjs';
 import { IncomeFormData } from '../../../../models';
+import { AccountSelect } from '../../../../ui/account-select';
 import { FormActionButtons } from '../../../../ui/form-action-buttons';
 
 @Component({
@@ -37,6 +38,7 @@ import { FormActionButtons } from '../../../../ui/form-action-buttons';
     DatePickerModule,
     SelectButtonModule,
     FormActionButtons,
+    AccountSelect,
   ],
   templateUrl: './income-form.html',
   styles: ``,
