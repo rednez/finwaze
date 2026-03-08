@@ -13,14 +13,12 @@ import { SelectDesignTokens } from '@primeuix/themes/types/select';
 import { DatePickerModule } from 'primeng/datepicker';
 import { FloatLabelModule } from 'primeng/floatlabel';
 import { SelectModule } from 'primeng/select';
-import { TableModule } from 'primeng/table';
 
 @Component({
   selector: 'app-transactions-filters',
   imports: [
     CommonModule,
     FormsModule,
-    TableModule,
     SelectModule,
     DatePickerModule,
     FloatLabelModule,
