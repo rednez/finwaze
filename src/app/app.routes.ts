@@ -40,6 +40,13 @@ export const routes: Routes = [
           import('./features/transactions').then((c) => c.transactionsRoutes),
       },
       {
+        path: 'categories',
+        loadComponent: () =>
+          import('./features/groups-and-categories').then(
+            (c) => c.GroupsAndCategories,
+          ),
+      },
+      {
         path: 'wallet',
         loadComponent: () => import('./features/wallet').then((c) => c.Wallet),
       },

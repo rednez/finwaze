@@ -1,0 +1,39 @@
+<div class="flex justify-between gap-4 mb-4">
+  <app-groups-filters
+    [initTransactionType]="store.filters().transactionType"
+    (transactionTypeChanged)="onTransactionTypeChanged($event)"
+  />
+
+  <p-button
+    icon="pi pi-plus"
+    label="Add group"
+    [rounded]="true"
+    size="large"
+    class="shrink-0"
+    [dt]="{ root: { lg: { fontSize: '14px' } } }"
+    (onClick)="isNewGroupDialogVisible = true"
+  />
+</div>
+
+<div class="flex flex-wrap gap-4">
+  @for (group of store.filteredGroups(); track group.id) {
+    <app-group-card
+      class="grow lg:max-w-97 xl:max-w-129 2xl:max-w-106"
+      [group]="group"
+      (renameGroup)="renameGroup(group.id, $event)"
+      (deleteGroup)="deleteGroup(group.id)"
+      (createCategory)="createCategory($event, group.id)"
+      (renameCategory)="
+        renameCategory($event.newName, $event.categoryId, group.id)
+      "
+      (deleteCategory)="deleteCategory($event, group.id)"
+    />
+  }
+</div>
+
+<p-toast />
+
+<app-new-group-dialog
+  [(visible)]="isNewGroupDialogVisible"
+  (createGroup)="createGroup($event)"
+/>

@@ -1,0 +1,125 @@
+@if (group()) {
+  <app-card>
+    <app-card-header>
+      <app-card-header-title>
+        @if (isEditing()) {
+          <div class="flex items-end gap-1">
+            <input
+              [formControl]="name"
+              type="text"
+              class="h-8 border border-primary-400 dark:border-primary-600 font-normal text-base px-2 rounded-xl w-30 outline-none focus:border-primary-500 dark:focus:border-primary-500 focus:ring-1 focus:ring-primary-100 dark:focus:ring-primary-800 [&.ng-invalid]:border-red-500 [&.ng-invalid]:ring-red-200 dark:[&.ng-invalid]:border-red-400 dark:[&.ng-invalid]:ring-red-900"
+              (keydown.enter)="onUpdate()"
+            />
+            <p-button
+              icon="pi pi-check"
+              severity="primary"
+              rounded
+              text
+              size="small"
+              (onClick)="onUpdate()"
+            />
+            <p-button
+              icon="pi pi-times"
+              severity="primary"
+              rounded
+              text
+              size="small"
+              (onClick)="cancelEdit()"
+            />
+          </div>
+        } @else {
+          <div class="flex items-start gap-1">
+            <div>{{ name.value }}</div>
+
+            <p-button
+              icon="pi pi-pencil"
+              severity="primary"
+              rounded
+              text
+              size="small"
+              (onClick)="isEditing.set(true)"
+            />
+          </div>
+        }
+        <div
+          class="w-fit text-xs font-normal px-2 py-1 rounded-xl mt-1"
+          [class.income]="isIncome()"
+          [class.expense]="isExpense()"
+        >
+          {{ transactionTypeText() }}
+        </div>
+      </app-card-header-title>
+
+      <div append-right>
+        @if (group()!.categories.length > 0) {
+          <div class="text-sm text-muted-color">
+            {{ group()!.categories.length }} categories
+          </div>
+        } @else {
+          <p-button
+            icon="pi pi-trash"
+            severity="danger"
+            rounded
+            variant="outlined"
+            (onClick)="deleteGroup.emit()"
+          />
+        }
+      </div>
+    </app-card-header>
+
+    @if (group()!.categories.length > 0) {
+      <div class="flex gap-2 flex-wrap">
+        @for (cat of group()!.categories; track cat.id) {
+          <app-category-chip
+            [name]="cat.name"
+            [transactionsCount]="cat.transactionsCount"
+            (rename)="onRenameCategory(cat.id, $event)"
+            (delete)="onDeleteCategory(cat.id)"
+          />
+        }
+
+        @if (isCreatingCategory()) {
+          <app-category-chip
+            [initialEditingMode]="true"
+            (rename)="onCreateCategory($event)"
+            (cancelEdit)="isCreatingCategory.set(false)"
+          />
+        } @else {
+          <p-button
+            icon="pi pi-plus"
+            severity="primary"
+            rounded
+            variant="outlined"
+            size="small"
+            (onClick)="isCreatingCategory.set(true)"
+          />
+        }
+      </div>
+    } @else {
+      <div class="flex gap-2">
+        <div
+          class="text-sm text-muted-color-emphasis bg-gray-100 dark:bg-gray-800 w-fit px-3 py-1 rounded-2xl"
+        >
+          No categories
+        </div>
+
+        @if (isCreatingCategory()) {
+          <app-category-chip
+            [initialEditingMode]="true"
+            (rename)="onCreateCategory($event)"
+            (cancelEdit)="isCreatingCategory.set(false)"
+          />
+        } @else {
+          <p-button
+            icon="pi pi-plus"
+            severity="primary"
+            rounded
+            variant="outlined"
+            size="small"
+            (onClick)="isCreatingCategory.set(true)"
+          />
+        }
+      </div>
+    }
+  </app-card>
+}

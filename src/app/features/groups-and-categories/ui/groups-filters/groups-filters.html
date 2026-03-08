@@ -1,0 +1,14 @@
+<p-floatlabel class="w-38" variant="on">
+  <p-select
+    [ngModel]="selectedTransactionType()"
+    (ngModelChange)="onTransactionTypeChange($event)"
+    [options]="transactionTypesOptions"
+    optionLabel="name"
+    optionValue="value"
+    inputId="transaction-type"
+    size="small"
+    class="w-full"
+    [dt]="selectInputSchema"
+  />
+  <label for="transaction-type">Transaction type</label>
+</p-floatlabel>

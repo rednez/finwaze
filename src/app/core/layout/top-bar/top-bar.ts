@@ -41,6 +41,10 @@ export class TopBar {
       title: 'Transactions',
       description: 'View and manage your transactions',
     },
+    categories: {
+      title: 'Groups & Categories',
+      description: 'Organize your transactions with groups and categories',
+    },
     wallet: {
       title: 'Wallet',
       description: 'Manage your accounts and balances',
