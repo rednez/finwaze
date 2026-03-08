@@ -4,6 +4,7 @@ import {
   forwardRef,
   input,
   model,
+  output,
   signal,
 } from '@angular/core';
 import {
@@ -37,6 +38,7 @@ export class Select implements ControlValueAccessor {
   readonly options = input<any[]>([]);
   readonly isInvalid = input(false);
   readonly hasAddButton = input(false);
+  readonly clickAddNew = output();
 
   protected selectedOption = model<number | null>(null);
   protected isDisabled = signal(false);

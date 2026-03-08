@@ -26,6 +26,7 @@ import { SelectButtonModule } from 'primeng/selectbutton';
 import { combineLatest, filter, map, shareReplay, take, tap } from 'rxjs';
 import { IncomeFormData } from '../../models';
 import { FormActionButtons } from '../form-action-buttons';
+import { NamePromptDialog } from '../name-prompt-dialog';
 
 @Component({
   selector: 'app-income-form',
@@ -39,6 +40,7 @@ import { FormActionButtons } from '../form-action-buttons';
     FormActionButtons,
     AccountSelect,
     Select,
+    NamePromptDialog,
   ],
   templateUrl: './income-form.html',
   styles: ``,
@@ -56,6 +58,8 @@ export class IncomeForm {
   readonly categoryChanged = output<number | null>();
   readonly formSubmitted = output<IncomeFormData>();
   readonly clickDelete = output();
+  readonly clickAddGroup = output<string>();
+  readonly clickAddCategory = output<{ name: string; groupId: number }>();
 
   private readonly formBuilder = inject(FormBuilder);
   private readonly destroyRef = inject(DestroyRef);
@@ -80,7 +84,7 @@ export class IncomeForm {
 
   protected readonly filteredCategories = computed(() => {
     return this.categories().filter(
-      (c) => c.group.id === this.selectedGroupId(),
+      (c) => c.groupId === this.selectedGroupId(),
     );
   });
 
@@ -95,6 +99,8 @@ export class IncomeForm {
     { initialValue: '' },
   );
 
+  protected isNewGroupDialogVisible = false;
+  protected isNewCategoryDialogVisible = false;
   private readonly accounts$ = toObservable(this.accounts);
   private readonly groups$ = toObservable(this.groups);
   private readonly categories$ = toObservable(this.categories);

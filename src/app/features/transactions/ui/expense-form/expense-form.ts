@@ -26,6 +26,7 @@ import { combineLatest, filter, map, shareReplay, take, tap } from 'rxjs';
 import { ExpenseFormData } from '../../models';
 import { expenseChargedAmountValidator } from '../../utils';
 import { FormActionButtons } from '../form-action-buttons';
+import { NamePromptDialog } from '../name-prompt-dialog';
 
 @Component({
   selector: 'app-expense-form',
@@ -39,6 +40,7 @@ import { FormActionButtons } from '../form-action-buttons';
     FormActionButtons,
     AccountSelect,
     Select,
+    NamePromptDialog,
   ],
   templateUrl: './expense-form.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -57,6 +59,8 @@ export class ExpenseForm {
   readonly transactionCurrencyCodeChanged = output<string | null>();
   readonly formSubmitted = output<ExpenseFormData>();
   readonly clickDelete = output();
+  readonly clickAddGroup = output<string>();
+  readonly clickAddCategory = output<{ name: string; groupId: number }>();
 
   private readonly formBuilder = inject(FormBuilder);
   private readonly destroyRef = inject(DestroyRef);
@@ -81,7 +85,7 @@ export class ExpenseForm {
 
   protected readonly filteredCategories = computed(() => {
     return this.categories().filter(
-      (c) => c.group.id === this.selectedGroupId(),
+      (c) => c.groupId === this.selectedGroupId(),
     );
   });
 
@@ -127,6 +131,8 @@ export class ExpenseForm {
     })),
   ]);
 
+  protected isNewGroupDialogVisible = false;
+  protected isNewCategoryDialogVisible = false;
   private readonly accounts$ = toObservable(this.accounts);
   private readonly groups$ = toObservable(this.groups);
   private readonly categories$ = toObservable(this.categories);

@@ -54,6 +54,8 @@
         "
         (formSubmitted)="submitExpenseForm($event)"
         (clickDelete)="deleteTransaction()"
+        (clickAddGroup)="createGroup($event, 'expense')"
+        (clickAddCategory)="createCategory($event.name, $event.groupId)"
       />
     }
     @if (shouldShowIncomeForm()) {
@@ -69,6 +71,8 @@
         (categoryChanged)="onIncomeCategoryChanged($event)"
         (formSubmitted)="submitIncomeForm($event)"
         (clickDelete)="deleteTransaction()"
+        (clickAddGroup)="createGroup($event, 'income')"
+        (clickAddCategory)="createCategory($event.name, $event.groupId)"
       />
     }
   }

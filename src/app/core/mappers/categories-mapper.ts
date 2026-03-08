@@ -1,19 +1,23 @@
 import { Injectable } from '@angular/core';
-import { Category } from '@core/models/categories';
+import { Category, Group } from '@core/models/categories';
 
 @Injectable({
   providedIn: 'root',
 })
 export class CategoriesMapper {
+  fromGroupDto(dto: any): Group {
+    return {
+      id: dto.id,
+      name: dto.name,
+      transactionType: dto.transaction_type,
+    };
+  }
+
   fromCategoryDto(dto: any): Category {
     return {
       id: dto.id,
       name: dto.name,
-      group: {
-        id: dto.groups.id,
-        name: dto.groups.name,
-        transactionType: dto.groups.transaction_type,
-      },
+      groupId: dto.group_id,
     };
   }
 }

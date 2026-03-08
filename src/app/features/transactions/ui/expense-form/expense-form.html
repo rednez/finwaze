@@ -21,6 +21,7 @@
         [isInvalid]="
           form.controls.groupId.invalid && form.controls.groupId.dirty
         "
+        (clickAddNew)="isNewGroupDialogVisible = true"
       />
     </div>
 
@@ -32,10 +33,11 @@
         inputId="category"
         optionLabel="name"
         optionValue="id"
-        [hasAddButton]="true"
+        [hasAddButton]="form.controls.groupId.valid"
         [isInvalid]="
           form.controls.categoryId.invalid && form.controls.categoryId.dirty
         "
+        (clickAddNew)="isNewCategoryDialogVisible = true"
       />
     </div>
   </div>
@@ -53,6 +55,7 @@
         [maxFractionDigits]="2"
         class="w-full"
         placeholder="Enter amount"
+        autocomplete="off"
         [inputStyle]="{ borderRadius: '16px' }"
       />
       @if (
@@ -120,6 +123,7 @@
           [maxFractionDigits]="2"
           class="w-full"
           placeholder="Enter amount"
+          autocomplete="off"
           [inputStyle]="{ borderRadius: '16px' }"
         />
 
@@ -194,3 +198,20 @@
     (clickDelete)="clickDelete.emit()"
   />
 </form>
+
+<app-name-prompt-dialog
+  title="New Group"
+  [(visible)]="isNewGroupDialogVisible"
+  (clickSave)="clickAddGroup.emit($event)"
+/>
+
+<app-name-prompt-dialog
+  title="New Category"
+  [(visible)]="isNewCategoryDialogVisible"
+  (clickSave)="
+    clickAddCategory.emit({
+      name: $event,
+      groupId: form.controls.groupId.value!,
+    })
+  "
+/>

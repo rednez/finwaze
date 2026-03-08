@@ -9,5 +9,5 @@ export interface Group {
 export interface Category {
   id: number;
   name: string;
-  group: Group;
+  groupId: number;
 }

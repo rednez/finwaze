@@ -52,7 +52,7 @@ export const TransactionsStore = signalStore(
       categories: () =>
         categoriesStore
           .allCategories()
-          .filter((c) => c.group.id === store.groupId()),
+          .filter((c) => c.groupId === store.groupId()),
     }),
   ),
 

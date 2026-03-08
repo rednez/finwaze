@@ -8,7 +8,9 @@ import {
 } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
+import { TransactionType } from '@core/models/transactions';
 import { AccountsStore } from '@core/store/accounts-store';
+import { CategoriesStore } from '@core/store/categories-store';
 import { UiStore } from '@core/store/ui-store';
 import { MessageService } from 'primeng/api';
 import { ButtonModule } from 'primeng/button';
@@ -57,11 +59,16 @@ export class EditTransaction {
   protected readonly incomeTransactionStore = inject(IncomeTransactionStore);
   protected readonly uiStore = inject(UiStore);
   protected readonly accountsStore = inject(AccountsStore);
+  protected readonly categoriesStore = inject(CategoriesStore);
   private readonly route = inject(ActivatedRoute);
   private readonly router = inject(Router);
   private readonly messageService = inject(MessageService);
 
   protected readonly transactionType = signal<'expense' | 'income'>('expense');
+  protected isNewExpenseGroupDialogVisible = false;
+  protected isNewExpenseCategoryDialogVisible = false;
+  protected isNewIncomeGroupDialogVisible = false;
+  protected isNewIncomeCategoryDialogVisible = false;
 
   protected readonly title = computed(() =>
     this.selectedTransactionStore.isCreatingMode()
@@ -168,6 +175,43 @@ export class EditTransaction {
     } else {
       this.transactionsStore.markAsNotLoaded();
       this.goBack();
+    }
+  }
+
+  protected async createGroup(name: string, transactionType: TransactionType) {
+    const { error } = await this.categoriesStore.createGroup(
+      name,
+      transactionType,
+    );
+
+    if (error) {
+      this.messageService.add({
+        severity: 'error',
+        summary: 'Group creation failed',
+        detail: error.message,
+      });
+    } else {
+      this.messageService.add({
+        severity: 'success',
+        summary: 'Group created successfully',
+      });
+    }
+  }
+
+  protected async createCategory(name: string, groupId: number) {
+    const { error } = await this.categoriesStore.createCategory(name, groupId);
+
+    if (error) {
+      this.messageService.add({
+        severity: 'error',
+        summary: 'Category creation failed',
+        detail: error.message,
+      });
+    } else {
+      this.messageService.add({
+        severity: 'success',
+        summary: 'Category created successfully',
+      });
     }
   }
 
