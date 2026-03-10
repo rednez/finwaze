@@ -15,10 +15,12 @@
   />
 </div>
 
-<div class="flex flex-wrap gap-4">
+<div
+  class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4"
+>
   @for (group of store.filteredGroups(); track group.id) {
     <app-group-card
-      class="grow lg:max-w-97 xl:max-w-129 2xl:max-w-106"
+      class="h-full"
       [group]="group"
       (renameGroup)="renameGroup(group.id, $event)"
       (deleteGroup)="deleteGroup(group.id)"

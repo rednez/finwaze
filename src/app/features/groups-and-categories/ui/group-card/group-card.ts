@@ -35,6 +35,7 @@ import { CategoryChip } from '../category-chip';
     }
   `,
   templateUrl: './group-card.html',
+  host: { class: 'block h-full' },
 })
 export class GroupCard implements OnInit {
   readonly group = input<GroupWithCategories>();
