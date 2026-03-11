@@ -14,14 +14,28 @@ import { ChangeDetectionStrategy, Component, output } from '@angular/core';
     }
 
     button {
-      background-color: #fff;
-      color: black;
-      padding: 16px 48px;
+      background-color: rgba(255, 255, 255, 0.96);
+      padding: 15px 52px;
       border-radius: 50px;
       font-weight: 600;
+      font-size: 0.9375rem;
+      letter-spacing: 0.01em;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.14);
+      transition:
+        transform 0.2s ease,
+        box-shadow 0.2s ease,
+        background-color 0.2s ease;
+
       &:hover {
-        background-color: #f0f0f0;
+        background-color: #ffffff;
         cursor: pointer;
+        transform: translateY(-2px);
+        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.22);
+      }
+
+      &:active {
+        transform: translateY(0);
+        box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
       }
 
       span {

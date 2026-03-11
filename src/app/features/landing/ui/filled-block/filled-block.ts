@@ -7,10 +7,13 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
   styles: `
     :host {
       display: block;
-      border-radius: 24px;
-      border: 1px solid light-dark(#e1e8f1, var(--p-surface-800));
-      background: light-dark(#faf9ff, var(--p-surface-900));
-      padding: 32px 16px;
+      border-radius: 28px;
+      border: 1px solid
+        light-dark(rgba(148, 57, 254, 0.08), rgba(255, 255, 255, 0.06));
+      background: light-dark(#ffffff, var(--p-surface-900));
+      box-shadow: 0 8px 40px
+        light-dark(rgba(94, 35, 233, 0.07), rgba(0, 0, 0, 0.3));
+      padding: 52px 40px;
     }
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,

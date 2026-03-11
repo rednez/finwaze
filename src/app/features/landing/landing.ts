@@ -27,7 +27,7 @@ import { WhiteButton } from './ui/white-button/white-button';
   templateUrl: './landing.html',
   host: {
     class:
-      'flex flex-col items-center gap-10 my-8 mx-2 sm:max-w-210 md:mx-auto',
+      'flex flex-col items-center gap-16 my-14 mx-4 sm:max-w-210 md:mx-auto',
   },
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
