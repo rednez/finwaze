@@ -8,7 +8,7 @@ import { Component } from '@angular/core';
     @reference 'tailwindcss';
 
     :host {
-      @apply block w-50;
+      @apply block w-24 lg:w-32;
     }
   `,
 })
