@@ -33,7 +33,7 @@ export class Sidebar {
   readonly items = [
     { name: 'dashboard', label: 'Dashboard', icon: 'dashboard' },
     { name: 'transactions', label: 'Transactions', icon: 'receipt_long' },
-    { name: 'categories', label: 'Categories', icon: 'graph_4' },
+    { name: 'categories', label: 'Categories', icon: 'group_work' },
     { name: 'wallet', label: 'Wallet', icon: 'account_balance_wallet' },
     { name: 'budget', label: 'Budget', icon: 'donut_small' },
     { name: 'goals', label: 'Goals', icon: 'savings' },

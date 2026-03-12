@@ -7,6 +7,7 @@ import { GroupsAndCategoriesStore } from './store';
 import { GroupCard } from './ui/group-card';
 import { GroupsFilters } from './ui/groups-filters/groups-filters';
 import { NewGroupDialog } from './ui/new-group-dialog';
+import { EmptyState } from '@shared/ui/empty-state';
 
 @Component({
   imports: [
@@ -15,6 +16,7 @@ import { NewGroupDialog } from './ui/new-group-dialog';
     GroupsFilters,
     ButtonModule,
     NewGroupDialog,
+    EmptyState,
   ],
   templateUrl: './groups-and-categories.html',
   changeDetection: ChangeDetectionStrategy.OnPush,

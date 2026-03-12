@@ -16,6 +16,7 @@ export interface GroupsAndCategoriesState {
   isLoading: boolean;
   isError: boolean;
   groups: GroupWithCategories[];
+  hasGroups: boolean;
   filters: {
     transactionType: TransactionType | null;
   };
@@ -25,6 +26,7 @@ const initialState: GroupsAndCategoriesState = {
   isLoading: false,
   isError: false,
   groups: [],
+  hasGroups: false,
   filters: {
     transactionType: null,
   },
@@ -52,11 +54,12 @@ export const GroupsAndCategoriesStore = signalStore(
       }));
 
       try {
-        const data = await repository.getGroups();
+        const groups = await repository.getGroups();
 
         patchState(store, () => ({
           isLoading: false,
-          groups: data,
+          groups,
+          hasGroups: groups.length > 0,
         }));
 
         return resultOk();
@@ -85,6 +88,7 @@ export const GroupsAndCategoriesStore = signalStore(
             },
             ...state.groups,
           ],
+          hasGroups: true,
         }));
 
         return resultOk();
@@ -114,10 +118,11 @@ export const GroupsAndCategoriesStore = signalStore(
 
     async deleteGroup(id: number): Promise<Result> {
       try {
-        await repository.deleteGroup(id);
+        const { hasGroups } = await repository.deleteGroup(id);
 
         patchState(store, (state) => ({
           groups: state.groups.filter((g) => g.id !== id),
+          hasGroups,
         }));
 
         return resultOk();

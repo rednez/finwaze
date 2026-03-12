@@ -50,15 +50,19 @@ export class GroupsAndCategoriesRepository {
     return;
   }
 
-  async deleteGroup(id: number): Promise<void> {
+  async deleteGroup(id: number): Promise<{ hasGroups: boolean }> {
     const { error } = await this.supabase.client
       .from('groups')
       .delete()
       .eq('id', id);
+    const { count } = await this.supabase.client
+      .from('groups')
+      .select('id', { head: true, count: 'exact' });
+
     if (error) {
       throw new Error(error.message);
     }
-    return;
+    return { hasGroups: !!count && count > 0 };
   }
 
   async createCategory(name: string, groupId: number): Promise<Category> {
