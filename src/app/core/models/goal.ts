@@ -1,5 +1,6 @@
 export type GoalStatus = 'notStarted' | 'inProgress' | 'done' | 'cancelled';
 
+// TODO: ?
 export interface Goal {
   id: number;
   name: string;
