@@ -17,6 +17,7 @@ export interface TransactionsState {
   isUpdating: boolean;
   isError: boolean;
   transactions: Transaction[];
+  hasTransactions: boolean;
   month: Date;
   transactionType: TransactionType | null;
   currencyCode: string | null;
@@ -30,6 +31,7 @@ const initialState: TransactionsState = {
   isUpdating: false,
   isError: false,
   transactions: [],
+  hasTransactions: false,
   month: new Date(),
   transactionType: null,
   currencyCode: null,
@@ -76,23 +78,26 @@ export const TransactionsStore = signalStore(
       }
 
       try {
-        const data = await repository.getFilteredTransactions({
-          month: store.month(),
-          transactionType: store.transactionType(),
-          categoryIds: store._categoryIds(),
-          transactionCurrencyCode: store.currencyCode(),
-        });
+        const { transactions, hasTransactions } =
+          await repository.getFilteredTransactions({
+            month: store.month(),
+            transactionType: store.transactionType(),
+            categoryIds: store._categoryIds(),
+            transactionCurrencyCode: store.currencyCode(),
+          });
 
         if (store.isLoaded()) {
           patchState(store, () => ({
             isUpdating: false,
-            transactions: data,
+            transactions,
+            hasTransactions: hasTransactions,
           }));
         } else {
           patchState(store, () => ({
             isLoading: false,
             isLoaded: true,
-            transactions: data,
+            transactions,
+            hasTransactions: hasTransactions,
           }));
         }
       } catch (error) {

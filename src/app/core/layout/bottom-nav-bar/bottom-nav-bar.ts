@@ -40,7 +40,7 @@ export class BottomNavBar {
   readonly currentPath = this.navigatorHelper.currentFeatureName;
   readonly items = [
     { name: 'dashboard', icon: 'dashboard' },
-    { name: 'transactions', icon: 'receipt' },
+    { name: 'transactions', icon: 'receipt_long' },
     { name: 'wallet', icon: 'account_balance_wallet' },
     { name: 'budget', icon: 'donut_small' },
     { name: 'goals', icon: 'savings' },

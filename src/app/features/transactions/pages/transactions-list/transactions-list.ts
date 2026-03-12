@@ -12,6 +12,7 @@ import { SelectModule } from 'primeng/select';
 import { TableModule } from 'primeng/table';
 import { SelectedTransactionStore, TransactionsStore } from '../../store';
 import { TransactionsFilters } from '../../ui/transactions-filters/transactions-filters';
+import { EmptyState } from '@shared/ui/empty-state';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -24,6 +25,7 @@ import { TransactionsFilters } from '../../ui/transactions-filters/transactions-
     DatePickerModule,
     TransactionsFilters,
     ButtonModule,
+    EmptyState,
   ],
   templateUrl: './transactions-list.html',
   styleUrls: ['./transactions-list.css'],

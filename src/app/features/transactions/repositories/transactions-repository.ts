@@ -46,28 +46,51 @@ export class TransactionsRepository {
   private readonly mapper = inject(TransactionsMapper);
   private readonly supabase = inject(SupabaseService);
 
-  async getFilteredTransactions(filters: {
-    month: Date;
-    transactionType: TransactionType | null;
-    categoryIds: number[] | null;
-    transactionCurrencyCode: string | null;
-  }): Promise<Transaction[]> {
-    const { data, error } = await this.supabase.client
-      .rpc('get_filtered_transactions', {
-        p_month: dayjs(filters.month).format('YYYY-MM-DD'),
-        p_transaction_type: filters.transactionType,
-        p_category_ids: filters.categoryIds,
-        p_transaction_currency_codes: filters.transactionCurrencyCode
-          ? [filters.transactionCurrencyCode]
-          : null,
-      })
-      .select();
+  async checkTransactionsExists(): Promise<boolean> {
+    const { count, error } = await this.supabase.client
+      .from('transactions')
+      .select('id', { head: true, count: 'exact' });
 
     if (error) {
       throw new Error(error.message);
     }
 
-    return data.map(this.mapper.fromTransactionDto);
+    return count !== null && count > 0;
+  }
+
+  async getFilteredTransactions(filters: {
+    month: Date;
+    transactionType: TransactionType | null;
+    categoryIds: number[] | null;
+    transactionCurrencyCode: string | null;
+  }): Promise<{ transactions: Transaction[]; hasTransactions: boolean }> {
+    const [
+      { data: transactionsData, error: transactionsError },
+      { count, error: countError },
+    ] = await Promise.all([
+      this.supabase.client
+        .rpc('get_filtered_transactions', {
+          p_month: dayjs(filters.month).format('YYYY-MM-DD'),
+          p_transaction_type: filters.transactionType,
+          p_category_ids: filters.categoryIds,
+          p_transaction_currency_codes: filters.transactionCurrencyCode
+            ? [filters.transactionCurrencyCode]
+            : null,
+        })
+        .select(),
+      this.supabase.client
+        .from('transactions')
+        .select('id', { head: true, count: 'exact' }),
+    ]);
+
+    if (transactionsError || countError) {
+      throw new Error(transactionsError?.message || countError?.message);
+    }
+
+    return {
+      transactions: transactionsData.map(this.mapper.fromTransactionDto),
+      hasTransactions: count !== null && count > 0,
+    };
   }
 
   async getTransactionDetails(transactionId: number): Promise<Transaction> {

@@ -1,4 +1,4 @@
-<div>
+@if (store.hasTransactions()) {
   <div class="flex justify-between gap-4">
     <div class="mb-4">
       <app-transactions-filters
@@ -40,4 +40,12 @@
       (rowClicked)="gotoEdit($event)"
     />
   </div>
-</div>
+} @else {
+  <app-empty-state
+    title="No transactions yet"
+    description="Start tracking your spending by adding your first transaction."
+    buttonText="Add transaction"
+    icon="receipt_long"
+    (actionClicked)="gotoCreate()"
+  />
+}

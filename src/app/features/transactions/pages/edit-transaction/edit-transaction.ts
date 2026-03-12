@@ -163,21 +163,6 @@ export class EditTransaction {
     }
   }
 
-  protected async deleteTransaction(): Promise<void> {
-    const { error } = await this.selectedTransactionStore.deleteTransaction();
-
-    if (error) {
-      this.messageService.add({
-        severity: 'error',
-        summary: 'Transaction deletion failed',
-        detail: error.message,
-      });
-    } else {
-      this.transactionsStore.markAsNotLoaded();
-      this.goBack();
-    }
-  }
-
   protected async createGroup(name: string, transactionType: TransactionType) {
     const { error } = await this.categoriesStore.createGroup(
       name,
@@ -226,6 +211,7 @@ export class EditTransaction {
   ): Promise<void> {
     const { error } =
       await this.expenseTransactionStore.createTransaction(formData);
+    await this.transactionsStore.loadTransactions();
 
     if (error) {
       this.messageService.add({
@@ -244,6 +230,7 @@ export class EditTransaction {
   ): Promise<void> {
     const { error } =
       await this.incomeTransactionStore.createTransaction(formData);
+    await this.transactionsStore.loadTransactions();
 
     if (error) {
       this.messageService.add({
@@ -296,6 +283,22 @@ export class EditTransaction {
         severity: 'success',
         summary: 'Transaction updated successfully',
       });
+    }
+  }
+
+  protected async deleteTransaction(): Promise<void> {
+    const { error } = await this.selectedTransactionStore.deleteTransaction();
+    await this.transactionsStore.loadTransactions();
+
+    if (error) {
+      this.messageService.add({
+        severity: 'error',
+        summary: 'Transaction deletion failed',
+        detail: error.message,
+      });
+    } else {
+      this.transactionsStore.markAsNotLoaded();
+      this.goBack();
     }
   }
 
