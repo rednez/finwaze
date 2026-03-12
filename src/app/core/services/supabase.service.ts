@@ -11,25 +11,37 @@ import {
   providedIn: 'root',
 })
 export class SupabaseService {
-  private supabase: SupabaseClient;
+  private supabase?: SupabaseClient;
 
   constructor() {
-    this.supabase = createClient(
-      environment.supabase.url,
-      environment.supabase.publicKey,
-      {
-        auth: {
-          detectSessionInUrl: true,
+    try {
+      this.supabase = createClient(
+        environment.supabase.url,
+        environment.supabase.publicKey,
+        {
+          auth: {
+            detectSessionInUrl: true,
+          },
         },
-      },
-    );
+      );
+    } catch (error) {
+      console.log('Errro initializing Supabase client:', error);
+    }
   }
 
   get client(): SupabaseClient {
+    if (!this.supabase) {
+      throw new Error('Supabase client is not initialized');
+    }
+
     return this.supabase;
   }
 
   async signInWithGoogle() {
+    if (!this.supabase) {
+      throw new Error('Supabase client is not initialized');
+    }
+
     const { error } = await this.supabase.auth.signInWithOAuth({
       provider: 'google',
       options: { redirectTo: 'http://localhost:4200/dashboard' },
@@ -42,6 +54,10 @@ export class SupabaseService {
   }
 
   async signInWithDemo() {
+    if (!this.supabase) {
+      throw new Error('Supabase client is not initialized');
+    }
+
     const { error } = await this.supabase.auth.signInWithPassword({
       email: 'demo@mail.com',
       password: 'password1234',
@@ -54,6 +70,10 @@ export class SupabaseService {
   }
 
   async signOut() {
+    if (!this.supabase) {
+      throw new Error('Supabase client is not initialized');
+    }
+
     const { error } = await this.supabase.auth.signOut();
     if (error) {
       console.error('Error signing out:', error);
@@ -62,6 +82,10 @@ export class SupabaseService {
   }
 
   async getSession(): Promise<Session | null> {
+    if (!this.supabase) {
+      throw new Error('Supabase client is not initialized');
+    }
+
     const {
       data: { session },
       error,
@@ -74,6 +98,10 @@ export class SupabaseService {
   }
 
   async getUser(): Promise<User | null> {
+    if (!this.supabase) {
+      throw new Error('Supabase client is not initialized');
+    }
+
     const {
       data: { user },
       error,
