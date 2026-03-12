@@ -1,13 +1,13 @@
 import { ChangeDetectionStrategy, Component, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Card } from '@shared/ui/card';
-import { CardHeaderTitle } from '@shared/ui/card-header-title/card-header-title';
+import { CardHeaderTitle } from '@shared/ui/card-header-title';
 import { CardHeader } from '@shared/ui/card-header/card-header';
 import { DatePickerModule } from 'primeng/datepicker';
 import { IftaLabelModule } from 'primeng/iftalabel';
 import { SelectModule } from 'primeng/select';
 import { TableModule } from 'primeng/table';
-import { TransactionsOverviewChart } from '../transactions-overview-chart/transactions-overview-chart';
+import { TransactionsOverviewChart } from '../transactions-overview-chart';
 
 @Component({
   selector: 'app-transactions-overview-widget',
