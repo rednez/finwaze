@@ -19,12 +19,16 @@ import { TransactionsOverviewWidget } from './ui/transactions-overview-widget';
   ],
   template: `
     <div class="flex flex-wrap gap-4">
-      @for (acc of store.accounts(); track acc.id) {
-        <app-account-card
-          [name]="acc.name"
-          [balance]="acc.balance"
-          [currency]="acc.currencyCode"
-        />
+      @if (store.isLoadingAccounts()) {
+        <app-account-card [isLoading]="true" />
+      } @else {
+        @for (acc of store.accounts(); track acc.id) {
+          <app-account-card
+            [name]="acc.name"
+            [balance]="acc.balance"
+            [currency]="acc.currencyCode"
+          />
+        }
       }
     </div>
 

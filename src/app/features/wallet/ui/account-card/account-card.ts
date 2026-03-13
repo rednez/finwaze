@@ -1,21 +1,30 @@
 import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component, input } from '@angular/core';
+import { Skeleton } from 'primeng/skeleton';
 
 @Component({
   selector: 'app-account-card',
-  imports: [CommonModule],
+  imports: [CommonModule, Skeleton],
   template: `
-    <div class="flex flex-col gap-5">
-      <div class="text-2xl font-semibold">
-        {{ balance() | currency: currency() }}
+    @if (isLoading()) {
+      <div class="w-full flex flex-col justify-between">
+        <p-skeleton width="10rem" height="2rem" />
+        <p-skeleton height="1rem" />
+        <p-skeleton width="8rem" class="self-end" />
       </div>
-      <div
-        class="font-light whitespace-nowrap overflow-hidden text-ellipsis max-w-64 sm:whitespace-normal sm:max-w-full"
-      >
-        {{ name() }}
+    } @else {
+      <div class="flex flex-col gap-5">
+        <div class="text-2xl font-semibold">
+          {{ balance() | currency: currency() }}
+        </div>
+        <div
+          class="font-light whitespace-nowrap overflow-hidden text-ellipsis max-w-64 sm:whitespace-normal sm:max-w-full"
+        >
+          {{ name() }}
+        </div>
       </div>
-    </div>
-    <div class="self-end font-semibold">{{ currency() }}</div>
+      <div class="self-end font-semibold">{{ currency() }}</div>
+    }
   `,
   styles: `
     @reference "tailwindcss";
@@ -39,6 +48,7 @@ import { ChangeDetectionStrategy, Component, input } from '@angular/core';
 })
 export class AccountCard {
   readonly balance = input(0);
-  readonly currency = input.required<string>();
-  readonly name = input.required<string>();
+  readonly currency = input<string>();
+  readonly name = input<string>();
+  readonly isLoading = input(false);
 }

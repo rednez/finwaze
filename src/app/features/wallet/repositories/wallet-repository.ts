@@ -2,6 +2,7 @@ import { inject, Injectable } from '@angular/core';
 import { SupabaseService } from '@core/services/supabase.service';
 import { WalletMapper } from '../mappers';
 import { RegularAccount } from '../models';
+import { waitFormMs } from '@shared/utils/wait-for-ms';
 
 @Injectable({
   providedIn: 'root',
@@ -17,6 +18,7 @@ export class WalletRepository {
     if (error) {
       throw new Error(error.message);
     }
+
     return data.map(this.mapper.fromRegularAccountDto);
   }
 }
