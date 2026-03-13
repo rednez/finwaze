@@ -1,24 +1,35 @@
+import { DatePipe } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
   computed,
   inject,
   input,
-  signal,
 } from '@angular/core';
 import { Card } from '@shared/ui/card';
-import { MoneyFlowChart } from '../money-flow-chart/money-flow-chart';
-import { DatePipe } from '@angular/common';
-import { CardHeader } from '@shared/ui/card-header/card-header';
 import { CardHeaderTitle } from '@shared/ui/card-header-title/card-header-title';
+import { CardHeader } from '@shared/ui/card-header/card-header';
+import { TooltipModule } from 'primeng/tooltip';
+import { MoneyFlowChart } from '../money-flow-chart/money-flow-chart';
 
 @Component({
   selector: 'app-money-flow-widget',
-  imports: [Card, MoneyFlowChart, CardHeader, CardHeaderTitle],
+  imports: [Card, MoneyFlowChart, CardHeader, CardHeaderTitle, TooltipModule],
   template: `
     <app-card>
       <app-card-header>
-        <app-card-header-title>Monthly Account Flow</app-card-header-title>
+        <app-card-header-title class="flex items-center gap-2">
+          <div>Monthly Account Flow</div>
+          <span class="material-symbols-rounded" [pTooltip]="tooltipContent">
+            info
+          </span>
+          <ng-template #tooltipContent>
+            <div class="text-sm">
+              The expenses and incomes based on charged amounts for the last
+              month, for selected currencies.
+            </div>
+          </ng-template>
+        </app-card-header-title>
       </app-card-header>
 
       <app-money-flow-chart

@@ -7,6 +7,7 @@ import { DatePickerModule } from 'primeng/datepicker';
 import { IftaLabelModule } from 'primeng/iftalabel';
 import { SelectModule } from 'primeng/select';
 import { TableModule } from 'primeng/table';
+import { TooltipModule } from 'primeng/tooltip';
 import { TransactionsOverviewChart } from '../transactions-overview-chart';
 
 @Component({
@@ -21,11 +22,23 @@ import { TransactionsOverviewChart } from '../transactions-overview-chart';
     DatePickerModule,
     CardHeaderTitle,
     CardHeader,
+    TooltipModule,
   ],
   template: `
     <app-card>
       <app-card-header>
-        <app-card-header-title>Transactions overflow</app-card-header-title>
+        <app-card-header-title class="flex items-center gap-2">
+          <div>Daily Transaction Flow</div>
+          <span class="material-symbols-rounded" [pTooltip]="tooltipContent">
+            info
+          </span>
+          <ng-template #tooltipContent>
+            <div class="text-sm">
+              The expenses and incomes of the selected currency are based on the
+              transaction amounts for each day of the selected month.
+            </div>
+          </ng-template>
+        </app-card-header-title>
 
         <div append-right class="flex gap-2">
           <p-datepicker
