@@ -18,7 +18,7 @@ import { CardHeaderTitle } from '@shared/ui/card-header-title/card-header-title'
   template: `
     <app-card>
       <app-card-header>
-        <app-card-header-title>Money flow</app-card-header-title>
+        <app-card-header-title>Monthly Account Flow</app-card-header-title>
       </app-card-header>
 
       <app-money-flow-chart

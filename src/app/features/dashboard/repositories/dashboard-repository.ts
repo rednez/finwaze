@@ -37,7 +37,7 @@ export class DashboardRepository {
     months: number,
   ): Promise<MonthlyCashFlow[]> {
     const { data, error } = await this.supabase.client
-      .rpc('get_monthly_cash_flow', {
+      .rpc('get_monthly_charged_cash_flow', {
         p_currency_code: currencyCode,
         p_months: months,
       })
