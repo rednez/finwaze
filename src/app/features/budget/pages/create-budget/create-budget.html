@@ -1,0 +1,176 @@
+<p-table
+  [value]="products()"
+  dataKey="id"
+  [tableStyle]="{ 'min-width': '60rem', fontSize: '14px' }"
+  [expandedRowKeys]="expandedRows"
+  size="small"
+  (onRowExpand)="onRowExpand($event)"
+  (onRowCollapse)="onRowCollapse($event)"
+>
+  <ng-template #caption>
+    <div class="flex flex-wrap justify-end gap-2">
+      <p-button
+        label="Expand All"
+        icon="pi pi-plus"
+        text
+        (onClick)="expandAll()"
+      />
+      <p-button
+        label="Collapse All"
+        icon="pi pi-minus"
+        text
+        (onClick)="collapseAll()"
+      />
+    </div>
+  </ng-template>
+  <ng-template #header>
+    <tr>
+      <th style="width: 5rem"></th>
+      <th>Group</th>
+      <!-- <th>Image</th> -->
+      <th>Total budget amount</th>
+      <!-- <th>Category</th> -->
+      <!-- <th>Reviews</th> -->
+      <!-- <th>Status</th> -->
+    </tr>
+  </ng-template>
+  <ng-template #body let-product let-expanded="expanded">
+    <tr>
+      <td>
+        <p-button
+          type="button"
+          pRipple
+          [pRowToggler]="product"
+          [text]="true"
+          severity="secondary"
+          [rounded]="true"
+          [icon]="expanded ? 'pi pi-chevron-down' : 'pi pi-chevron-right'"
+        />
+      </td>
+      <td>
+        <div class="bg-surface-100 w-fit px-3 py-1 rounded-full">
+          {{ product.name }}
+        </div>
+      </td>
+      <!-- <td>
+        <img
+          [src]="
+            'https://primefaces.org/cdn/primeng/images/demo/product/' +
+            product.image
+          "
+          [alt]="product.name"
+          width="50"
+          class="shadow-lg"
+        />
+      </td> -->
+      <td>{{ product.price | currency: 'USD' }}</td>
+      <!-- <td>{{ product.category }}</td> -->
+      <!-- <td>
+        <p-rating [(ngModel)]="product.rating" [readonly]="true" />
+      </td> -->
+      <!-- <td>
+        <p-tag
+          [value]="product.inventoryStatus"
+          [severity]="getSeverity(product.inventoryStatus)"
+        />
+      </td> -->
+    </tr>
+  </ng-template>
+  <ng-template #expandedrow let-product>
+    <tr>
+      <td colspan="5">
+        <div class="p-4">
+          <!-- <h5>Orders for {{ product.name }}</h5> -->
+          <p-table
+            [value]="product.orders"
+            dataKey="id"
+            (onEditComplete)="onEditComplete($event)"
+          >
+            <ng-template #header>
+              <tr>
+                <th>
+                  <div class="flex items-center gap-2">
+                    Category
+                    <!-- <p-sortIcon field="customer" /> -->
+                  </div>
+                </th>
+                <th>
+                  <div class="flex items-center gap-2">
+                    Budget amount
+                    <!-- <p-sortIcon field="amount" /> -->
+                  </div>
+                </th>
+                <th>
+                  <div class="flex items-center gap-2">
+                    Spent Amount
+                    <!-- <p-sortIcon field="amount" /> -->
+                  </div>
+                </th>
+                <th>
+                  <div class="flex items-center gap-2">
+                    Previous budget amount
+                    <!-- <p-sortIcon field="amount" /> -->
+                  </div>
+                </th>
+                <th>
+                  <div class="flex items-center gap-2">
+                    Previous spent Amount
+                    <!-- <p-sortIcon field="amount" /> -->
+                  </div>
+                </th>
+
+                <!-- <th pSortableColumn="status">
+                  <div class="flex items-center gap-2">
+                    Status
+                    <p-sortIcon field="status" />
+                  </div>
+                </th> -->
+                <!-- <th style="width: 4rem"></th> -->
+              </tr>
+            </ng-template>
+            <ng-template #body let-order let-editing="editing">
+              <tr>
+                <td>{{ order.customer }}</td>
+                <td
+                  [pEditableColumn]="order.amount"
+                  pEditableColumnField="amount"
+                >
+                  <p-cellEditor>
+                    <ng-template #input>
+                      <input
+                        pInputText
+                        type="text"
+                        [(ngModel)]="order.amount"
+                        fluid
+                      />
+                    </ng-template>
+                    <ng-template #output>
+                      {{ order.amount | currency: 'USD' }}
+                    </ng-template>
+                  </p-cellEditor>
+                </td>
+                <td>{{ order.amount - 15.32 | currency: 'USD' }}</td>
+                <td>{{ order.amount - 10 | currency: 'USD' }}</td>
+                <td>{{ order.amount - 11.3 | currency: 'USD' }}</td>
+                <!-- <td>
+                  <p-tag
+                    [value]="order.status"
+                    [severity]="getStatusSeverity(order.status)"
+                  />
+                </td> -->
+                <!-- <td>
+                  <p-button type="button" icon="pi pi-search" />
+                </td> -->
+              </tr>
+            </ng-template>
+            <ng-template #emptymessage>
+              <tr>
+                <td colspan="6">There are no order for this product yet.</td>
+              </tr>
+            </ng-template>
+          </p-table>
+        </div>
+      </td>
+    </tr>
+  </ng-template>
+</p-table>

@@ -1,0 +1,45 @@
+@if (isEditing()) {
+  <input
+    [formControl]="nameControl"
+    type="text"
+    class="outline-none border-b border-b-gray-100 dark:border-b-gray-900 text-sm text-primary-700 dark:text-gray-300 w-24 [&.ng-invalid.ng-dirty]:border-red-500 [&.ng-invalid.ng-dirty]:text-red-500"
+    placeholder="New category"
+    (keydown.enter)="onUpdate()"
+  />
+
+  <div
+    class="flex items-center hover:cursor-pointer hover:bg-primary-200 dark:hover:bg-primary-900 rounded-full p-1"
+    (click)="onUpdate()"
+  >
+    <span class="pi pi-check text-primary-700"></span>
+  </div>
+
+  <div
+    class="flex items-center hover:cursor-pointer hover:bg-primary-200 dark:hover:bg-primary-900 rounded-full p-1"
+    (click)="onCancelEdit()"
+  >
+    <span class="pi pi-times text-primary-700"></span>
+  </div>
+} @else {
+  <div
+    class="text-sm text-gray-700 dark:text-gray-300"
+    (click)="isEditing.set(true)"
+  >
+    {{ nameControl.value }}
+  </div>
+
+  <div class="flex gap-2 items-center">
+    @if (transactionsCount() > 0) {
+      <div class="text-xs text-primary-400">
+        {{ transactionsCount() | number }}
+      </div>
+    } @else {
+      <div
+        class="flex items-center hover:cursor-pointer hover:bg-fuchsia-100 dark:hover:bg-fuchsia-900 rounded-full p-1"
+        (click)="delete.emit()"
+      >
+        <span class="pi pi-trash text-primary-500"></span>
+      </div>
+    }
+  </div>
+}

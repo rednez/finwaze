@@ -1,0 +1,133 @@
+<form [formGroup]="form" class="flex flex-col gap-4 text-start mt-6">
+  <app-account-select
+    formControlName="accountId"
+    [accounts]="accounts()"
+    label="To account"
+    [isInvalid]="
+      form.controls.accountId.invalid && form.controls.accountId.dirty
+    "
+  />
+
+  <div class="flex flex-col sm:flex-row gap-4">
+    <div class="w-full">
+      <app-select
+        formControlName="groupId"
+        [options]="groups()"
+        label=" Group"
+        inputId="groupId"
+        optionLabel="name"
+        optionValue="id"
+        [hasAddButton]="true"
+        [isInvalid]="
+          form.controls.groupId.invalid && form.controls.groupId.dirty
+        "
+        (clickAddNew)="isNewGroupDialogVisible = true"
+      />
+    </div>
+
+    <div class="w-full">
+      <app-select
+        formControlName="categoryId"
+        [options]="filteredCategories()"
+        label=" Category"
+        inputId="categoryId"
+        optionLabel="name"
+        optionValue="id"
+        [hasAddButton]="form.controls.groupId.valid"
+        [isInvalid]="
+          form.controls.categoryId.invalid && form.controls.categoryId.dirty
+        "
+        (clickAddNew)="isNewCategoryDialogVisible = true"
+      />
+    </div>
+  </div>
+
+  <div class="flex flex-col sm:flex-row gap-4">
+    <div class="w-full">
+      <label class="text-sm font-medium" for="amount"> Amount </label>
+      <p-inputnumber
+        formControlName="amount"
+        inputId="amount"
+        mode="decimal"
+        [minFractionDigits]="0"
+        [maxFractionDigits]="2"
+        class="w-full"
+        placeholder="Enter amount"
+        [inputStyle]="{ borderRadius: '16px' }"
+      />
+      @if (form.controls.amount.invalid && form.controls.amount.dirty) {
+        <div class="text-xs text-red-500 pl-2 pt-0.5">
+          @if (form.controls.amount.hasError('required')) {
+            Amount required
+          } @else if (form.controls.amount.hasError('min')) {
+            Must be greater than 0
+          }
+        </div>
+      }
+    </div>
+  </div>
+
+  <div class="flex flex-col sm:flex-row gap-4">
+    <div>
+      <label class="text-sm font-medium" for="transactedAt">
+        Date and time
+      </label>
+      <p-datepicker
+        inputId="calendar-24h"
+        formControlName="transactedAt"
+        [showTime]="true"
+        [hourFormat]="'24'"
+        [inputStyle]="{
+          borderRadius: '16px',
+        }"
+        class="w-full"
+      />
+      @if (
+        form.controls.transactedAt.invalid && form.controls.transactedAt.dirty
+      ) {
+        <div class="text-xs text-red-500 pl-2 pt-0.5">Should be selected</div>
+      }
+    </div>
+
+    <div class="w-full">
+      <label class="text-sm font-medium" for="comment"> Comment </label>
+      <input
+        pInputText
+        formControlName="comment"
+        type="text"
+        class="w-full"
+        autocomplete="off"
+        [dt]="selectDt"
+      />
+      @if (form.controls.comment.invalid && form.controls.comment.dirty) {
+        <div class="text-xs text-red-500 pl-2 pt-0.5">
+          Max length is 100 characters
+        </div>
+      }
+    </div>
+  </div>
+
+  <app-form-action-buttons
+    [isCreatingMode]="isCreatingMode()"
+    [isSubmitting]="isSubmitting()"
+    (clickSubmit)="submit()"
+    (clickDelete)="clickDelete.emit()"
+  />
+</form>
+
+<app-name-prompt-dialog
+  title="New Group"
+  [(visible)]="isNewGroupDialogVisible"
+  (clickSave)="clickAddGroup.emit($event)"
+/>
+
+<app-name-prompt-dialog
+  title="New Category"
+  [(visible)]="isNewCategoryDialogVisible"
+  (clickSave)="
+    clickAddCategory.emit({
+      name: $event,
+      groupId: form.controls.groupId.value!,
+    })
+  "
+/>

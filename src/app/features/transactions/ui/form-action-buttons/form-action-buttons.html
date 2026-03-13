@@ -1,0 +1,25 @@
+@if (isCreatingMode()) {
+  <p-button
+    label="Create"
+    rounded
+    icon="pi pi-plus"
+    [loading]="isSubmitting()"
+    (onClick)="clickSubmit.emit()"
+  />
+} @else {
+  <p-button
+    label="Save changes"
+    rounded
+    icon="pi pi-save"
+    [loading]="isSubmitting()"
+    (onClick)="clickSubmit.emit()"
+  />
+  <p-button
+    label="Delete"
+    rounded
+    severity="danger"
+    variant="outlined"
+    icon="pi pi-trash"
+    (onClick)="clickDelete.emit()"
+  />
+}

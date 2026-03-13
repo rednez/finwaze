@@ -1,0 +1,217 @@
+<form [formGroup]="form" class="flex flex-col gap-4 text-start mt-6">
+  <app-account-select
+    formControlName="accountId"
+    [accounts]="accounts()"
+    label="From account"
+    [isInvalid]="
+      form.controls.accountId.invalid && form.controls.accountId.dirty
+    "
+  />
+
+  <div class="flex flex-col sm:flex-row gap-4">
+    <div class="w-full">
+      <app-select
+        formControlName="groupId"
+        [options]="groups()"
+        label="Group"
+        inputId="group"
+        optionLabel="name"
+        optionValue="id"
+        [hasAddButton]="true"
+        [isInvalid]="
+          form.controls.groupId.invalid && form.controls.groupId.dirty
+        "
+        (clickAddNew)="isNewGroupDialogVisible = true"
+      />
+    </div>
+
+    <div class="w-full">
+      <app-select
+        formControlName="categoryId"
+        [options]="filteredCategories()"
+        label="Category"
+        inputId="category"
+        optionLabel="name"
+        optionValue="id"
+        [hasAddButton]="form.controls.groupId.valid"
+        [isInvalid]="
+          form.controls.categoryId.invalid && form.controls.categoryId.dirty
+        "
+        (clickAddNew)="isNewCategoryDialogVisible = true"
+      />
+    </div>
+  </div>
+
+  <div class="flex flex-col sm:flex-row gap-4">
+    <div class="w-full">
+      <label class="text-sm font-medium" for="transactionAmount">
+        Transaction amount
+      </label>
+      <p-inputnumber
+        formControlName="transactionAmount"
+        inputId="transactionAmount"
+        mode="decimal"
+        [minFractionDigits]="0"
+        [maxFractionDigits]="2"
+        class="w-full"
+        placeholder="Enter amount"
+        autocomplete="off"
+        [inputStyle]="{ borderRadius: '16px' }"
+      />
+      @if (
+        (form.invalid && form.controls.transactionAmount.dirty) ||
+        (form.controls.transactionAmount.invalid &&
+          form.controls.transactionAmount.dirty)
+      ) {
+        <div class="text-xs text-red-500 pl-2 pt-0.5">
+          @if (form.controls.transactionAmount.hasError('required')) {
+            Amount required
+          } @else if (form.controls.transactionAmount.hasError('min')) {
+            Must be greater than 0
+          } @else if (form.hasError('transactionAndChargedAmountsEquals')) {
+            Should not be equal to charged amount
+          }
+        </div>
+      }
+    </div>
+
+    <div class="w-full">
+      <app-select
+        formControlName="transactionCurrencyCode"
+        [options]="currenciesOptions()"
+        label=" Transaction currency"
+        inputId="transactionCurrencyCode"
+        optionLabel="name"
+        optionValue="name"
+        [isInvalid]="
+          form.controls.transactionCurrencyCode.invalid &&
+          form.controls.transactionCurrencyCode.dirty
+        "
+      />
+    </div>
+  </div>
+
+  @if (shouldShowChargedAmount$ | async) {
+    <div class="flex flex-col sm:flex-row gap-4">
+      <div class="w-full">
+        <div class="flex gap-2 justify-between mb-1">
+          <label class="text-sm font-medium" for="chargedAmount">
+            Charged amount
+          </label>
+
+          <div class="flex gap-1">
+            <div
+              class="text-xs font-medium px-2 py-1 bg-gray-100 dark:bg-gray-800 rounded-lg"
+            >
+              {{ selectedAccountCurrencyCode$ | async }}
+            </div>
+            @if (exchangeRate()) {
+              <div
+                class="text-xs font-medium px-2 py-1 bg-gray-100 dark:bg-gray-800 rounded-lg"
+              >
+                {{ exchangeRate() | number: '1.1-4' }}
+              </div>
+            }
+          </div>
+        </div>
+
+        <p-inputnumber
+          formControlName="chargedAmount"
+          inputId="chargedAmount"
+          mode="decimal"
+          [minFractionDigits]="0"
+          [maxFractionDigits]="2"
+          class="w-full"
+          placeholder="Enter amount"
+          autocomplete="off"
+          [inputStyle]="{ borderRadius: '16px' }"
+        />
+
+        @if (
+          (form.invalid && form.controls.chargedAmount.dirty) ||
+          (form.controls.chargedAmount.invalid &&
+            form.controls.chargedAmount.dirty)
+        ) {
+          <div class="text-xs text-red-500 pl-2 pt-0.5">
+            <div class="text-xs text-red-500 pl-2 pt-0.5">
+              @if (form.controls.chargedAmount.hasError('min')) {
+                Must be greater than 0
+              } @else if (form.hasError('chargedAmountRequired')) {
+                Amount required
+              } @else if (form.hasError('transactionAndChargedAmountsEquals')) {
+                Should not be equal to transaction amount
+              }
+            </div>
+          </div>
+        }
+      </div>
+    </div>
+  }
+
+  <div class="flex flex-col sm:flex-row gap-4">
+    <div>
+      <label class="text-sm font-medium" for="transactedAt">
+        Date and time
+      </label>
+      <p-datepicker
+        inputId="calendar-24h"
+        formControlName="transactedAt"
+        [showTime]="true"
+        [hourFormat]="'24'"
+        [inputStyle]="{
+          borderRadius: '16px',
+        }"
+        class="w-full"
+      />
+      @if (
+        form.controls.transactedAt.invalid && form.controls.transactedAt.dirty
+      ) {
+        <div class="text-xs text-red-500 pl-2 pt-0.5">Should be selected</div>
+      }
+    </div>
+
+    <div class="w-full">
+      <label class="text-sm font-medium" for="comment"> Comment </label>
+      <input
+        pInputText
+        formControlName="comment"
+        type="text"
+        class="w-full"
+        [dt]="{
+          root: {
+            borderRadius: '16px',
+          },
+        }"
+      />
+      @if (form.controls.comment.invalid && form.controls.comment.dirty) {
+        <div class="text-xs text-red-500 pl-2 pt-0.5">
+          Max length is 100 characters
+        </div>
+      }
+    </div>
+  </div>
+
+  <app-form-action-buttons
+    [isCreatingMode]="isCreatingMode()"
+    [isSubmitting]="isSubmitting()"
+    (clickSubmit)="submit()"
+    (clickDelete)="clickDelete.emit()"
+  />
+</form>
+
+<app-name-prompt-dialog
+  title="New Group"
+  [(visible)]="isNewGroupDialogVisible"
+  (clickSave)="clickAddGroup.emit($event)"
+/>
+
+<app-name-prompt-dialog
+  title="New Category"
+  [(visible)]="isNewCategoryDialogVisible"
+  (clickSave)="
+    clickAddCategory.emit({
+      name: $event,
+      groupId: form.controls.groupId.value!,
+    })
+  "
+/>

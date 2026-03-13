@@ -14,8 +14,7 @@ describe('AmountWidget', () => {
     component = fixture.componentInstance;
 
     fixture.componentRef.setInput('title', 'Test Title');
-    fixture.componentRef.setInput('amount', 123.43);
-    fixture.componentRef.setInput('percent', 12.1);
+    fixture.componentRef.setInput('currency', 'USD');
 
     await fixture.whenStable();
   });

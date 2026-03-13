@@ -1,0 +1,51 @@
+@if (store.hasTransactions()) {
+  <div class="flex justify-between gap-4">
+    <div class="mb-4">
+      <app-transactions-filters
+        [initMonth]="store.month()"
+        [initCurrency]="store.currencyCode()"
+        [initGroup]="store.groupId()"
+        [initCategory]="store.categoryId()"
+        [currencies]="store.currencies()"
+        [groups]="store.groups()"
+        [categories]="store.categories()"
+        (monthChanged)="onMonthChanged($event)"
+        (typeChanged)="onTransactionTypeChanged($event)"
+        (currencyChanged)="onCurrencyChanged($event)"
+        (groupChanged)="onGroupChanged($event)"
+        (categoryChanged)="onCategoryChanged($event)"
+      />
+
+      <div class="mt-2 text-sm text-muted-color-emphasis">
+        {{ store.transactions().length }} items
+      </div>
+    </div>
+
+    <p-button
+      icon="pi pi-plus"
+      label="Add new"
+      [rounded]="true"
+      size="large"
+      class="shrink-0"
+      [dt]="{ root: { lg: { fontSize: '14px' } } }"
+      (onClick)="gotoCreate()"
+    />
+  </div>
+
+  <div class="scrollable-container overflow-auto max-h-[calc(100vh-172px)]">
+    <app-transactions-data-table
+      [transactions]="store.transactions()"
+      [cols]="tableCols"
+      [isHoverable]="true"
+      (rowClicked)="gotoEdit($event)"
+    />
+  </div>
+} @else {
+  <app-empty-state
+    title="No transactions yet"
+    description="Start tracking your spending by adding your first transaction."
+    buttonText="Add transaction"
+    icon="receipt_long"
+    (actionClicked)="gotoCreate()"
+  />
+}

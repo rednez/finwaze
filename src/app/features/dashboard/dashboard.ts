@@ -1,16 +1,21 @@
 import {
   ChangeDetectionStrategy,
   Component,
-  computed,
+  DestroyRef,
   inject,
+  OnInit,
 } from '@angular/core';
-import { AppStore } from '@store/app-store';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { Router } from '@angular/router';
+import { RecentTransactionsWidget } from '@shared/ui/recent-transactions-widget';
 import { CardModule } from 'primeng/card';
 import { TagModule } from 'primeng/tag';
+import { take } from 'rxjs';
+import { DashboardStore } from './store/dashboard-store';
 import { AmountWidget } from './ui/amount-widget/amount-widget';
 import { BudgetWidget } from './ui/budget-widget/budget-widget';
+import { DashboardFilters } from './ui/dashboard-filters';
 import { MoneyFlowWidget } from './ui/money-flow-widget/money-flow-widget';
-import { RecentTransactionsWidget } from '@ui/recent-transactions-widget';
 import { SavingGoalsWidget } from './ui/saving-goals-widget/saving-goals-widget';
 
 @Component({
@@ -22,69 +27,47 @@ import { SavingGoalsWidget } from './ui/saving-goals-widget/saving-goals-widget'
     BudgetWidget,
     RecentTransactionsWidget,
     SavingGoalsWidget,
+    DashboardFilters,
   ],
-  template: `
-    <div class="flex flex-wrap gap-4 min-w-0">
-      @for (widget of amountWidgets; track widget.title) {
-        <app-amount-widget
-          class="grow"
-          [title]="widget.title"
-          [amount]="widget.amount"
-          [percent]="widget.percent"
-          [isPositive]="widget.isPositive"
-          [isGrowth]="widget.isGrowth"
-        />
-      }
-    </div>
-
-    <div class="flex flex-wrap gap-4 min-w-0">
-      <app-money-flow-widget
-        class="grow sm:flex-1 min-w-0 sm:min-w-75 max-w-152 lg:max-w-full"
-      />
-      <app-budget-widget class="grow md:grow-0" />
-    </div>
-
-    <div class="flex flex-wrap gap-4 min-w-0">
-      <app-recent-transactions-widget
-        class="grow overflow-x-auto"
-        [transactions]="recentTransactions()"
-      />
-      <app-saving-goals-widget class="grow" />
-    </div>
-  `,
+  templateUrl: './dashboard.html',
   host: {
     class: 'flex flex-col gap-4',
   },
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class Dashboard {
-  private readonly store = inject(AppStore);
+export class Dashboard implements OnInit {
+  protected readonly store = inject(DashboardStore);
+  private readonly destroyRef = inject(DestroyRef);
+  private router = inject(Router);
 
-  readonly amountWidgets = [
-    {
-      title: 'Total balance',
-      amount: 34123.43,
-      percent: 12.1,
-      isPositive: true,
-      isGrowth: true,
-    },
-    {
-      title: 'Income',
-      amount: 8500.43,
-      percent: 8.6,
-      isPositive: false,
-      isGrowth: false,
-    },
-    {
-      title: 'Expenses',
-      amount: 4200.1,
-      percent: 5.2,
-      isPositive: false,
-      isGrowth: true,
-    },
-  ];
+  ngOnInit(): void {
+    this.store.currencyCode$
+      .pipe(take(1), takeUntilDestroyed(this.destroyRef))
+      .subscribe(() => {
+        this.store.loadTotalsSummary();
+        this.store.loadCashFlow();
+        this.store.loadRecentTransactions();
+        this.store.loadRecentSavingsGoals();
+        this.store.loadRecentMonthlyBudgets();
+      });
+  }
 
-  protected readonly recentTransactions = computed(() =>
-    this.store.transactions().slice(0, 3),
-  );
+  protected updateCurrency(e: string) {
+    this.store.accountsStore.updateSelectedCurrencyCode(e);
+    this.store.loadTotalsSummary();
+    this.store.loadCashFlow();
+    this.store.loadRecentMonthlyBudgets();
+  }
+
+  protected gotoTransactions() {
+    this.router.navigate(['transactions']);
+  }
+
+  protected gotoBudget() {
+    this.router.navigate(['budget']);
+  }
+
+  protected gotoGoals() {
+    this.router.navigate(['goals']);
+  }
 }

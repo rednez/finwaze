@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, signal } from '@angular/core';
-import { Goal } from '@models/goal';
+import { Goal } from '@core/models/goal';
 import { GoalCard } from './ui/goal-card/goal-card';
 import { GoalsFilters } from './ui/goals-filters/goals-filters';
 import { SavingsOverviewWidget } from './ui/savings-overview-widget/savings-overview-widget';

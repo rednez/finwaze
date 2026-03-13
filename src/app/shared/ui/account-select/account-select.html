@@ -1,0 +1,36 @@
+<label class="text-sm font-medium" for="account">{{ label() }}</label>
+<p-select
+  [(ngModel)]="selectedAccount"
+  [options]="accounts()"
+  inputId="account"
+  optionValue="id"
+  placeholder="Select item"
+  class="w-full"
+  [dt]="selectDt"
+  [invalid]="isInvalid()"
+  (ngModelChange)="onModelChanges($event)"
+>
+  <ng-template #selectedItem let-selectedOption>
+    <div class="flex items-center gap-2">
+      <div>{{ selectedOption.name }}</div>
+      <div
+        class="text-xs font-medium px-2 py-1 bg-gray-100 dark:bg-gray-800 rounded-lg"
+      >
+        {{ selectedOption.currencyCode }}
+      </div>
+    </div>
+  </ng-template>
+  <ng-template let-account #item>
+    <div class="flex items-center gap-2">
+      <div>{{ account.name }}</div>
+      <div
+        class="text-xs font-medium px-2 py-1 bg-gray-100 dark:bg-gray-800 rounded-lg"
+      >
+        {{ account.currencyCode }}
+      </div>
+    </div>
+  </ng-template>
+</p-select>
+@if (isInvalid()) {
+  <div class="text-xs text-red-500 pl-2 pt-0.5">Should be selected</div>
+}

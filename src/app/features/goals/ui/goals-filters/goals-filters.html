@@ -1,26 +1,30 @@
-<p-iftalabel>
+<p-floatlabel class="w-60" variant="on">
   <p-datepicker
     [(ngModel)]="year"
     view="year"
     dateFormat="yy"
+    class="w-full"
     [readonlyInput]="true"
-    [inputStyle]="{ borderRadius: '16px', fontSize: '14px', height: '50px' }"
+    inputId="year"
+    size="small"
+    [inputStyle]="{ borderRadius: '12px' }"
   />
-  <label for="dd-currency">Year</label>
-</p-iftalabel>
+  <label for="year">Year</label>
+</p-floatlabel>
 
-<p-iftalabel>
+<p-floatlabel class="w-30" variant="on">
   <p-select
     [(ngModel)]="status"
     [options]="statuses()"
     optionLabel="name"
-    class="pt-3 min-w-20"
+    class="w-full"
     size="small"
+    inputId="status"
     [dt]="{
       root: {
-        borderRadius: '16px',
+        borderRadius: '12px',
       },
     }"
   />
-  <label for="dd-currency">Status</label>
-</p-iftalabel>
+  <label for="status">Status</label>
+</p-floatlabel>

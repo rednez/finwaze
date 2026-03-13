@@ -1,0 +1,48 @@
+<p-floatlabel class="w-30" variant="on">
+  <p-datepicker
+    [(ngModel)]="month"
+    view="month"
+    dateFormat="mm/yy"
+    inputId="month"
+    size="small"
+    [readonlyInput]="true"
+    [inputStyle]="{ borderRadius: '12px' }"
+  />
+  <label for="month">Month</label>
+</p-floatlabel>
+
+<p-floatlabel class="w-30" variant="on">
+  <p-select
+    [(ngModel)]="currency"
+    [options]="currencies()"
+    optionLabel="name"
+    class="w-full"
+    size="small"
+    [dt]="{
+      root: {
+        borderRadius: '12px',
+      },
+    }"
+  />
+  <label for="dd-currency">Currency</label>
+</p-floatlabel>
+
+<p-multiselect
+  [options]="accounts()"
+  [(ngModel)]="selectedAccount"
+  optionLabel="name"
+  placeholder="Select accounts"
+  [maxSelectedLabels]="3"
+  [showClear]="true"
+  display="chip"
+  class="text-sm"
+  [dt]="{
+    root: {
+      borderRadius: '12px',
+      
+    },
+    chip: {
+      borderRadius: '12px',
+    },
+  }"
+/>

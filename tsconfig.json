@@ -16,12 +16,17 @@
     "module": "preserve",
     "baseUrl": "./",
     "paths": {
-      "@ui/*": ["src/app/ui/*"],
-      "@layout/*": ["src/app/layout/*"],
-      "@services/*": ["src/app/services/*"],
-      "@store/*": ["src/app/store/*"],
-      "@models/*": ["src/app/models/*"],
-      "@repositories/*": ["src/app/repositories/*"],
+      "@core/services/*": ["src/app/core/services/*"],
+      "@core/layout/*": ["src/app/core/layout/*"],
+      "@core/store/*": ["src/app/core/store/*"],
+      "@shared/ui/*": ["src/app/shared/ui/*"],
+      "@shared/utils/*": ["src/app/shared/utils/*"],
+      "@core/models/*": ["src/app/core/models/*"],
+      "@core/utils/*": ["src/app/core/utils/*"],
+      "@core/mappers/*": ["src/app/core/mappers/*"],
+      "@core/repositories/*": ["src/app/core/repositories/*"],
+      "@core/guards": ["src/app/core/guards/index.ts"],
+      "@core/configs": ["src/app/core/configs/index.ts"],
       "@env": ["src/environments/environment.ts"]
     }
   },

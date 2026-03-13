@@ -1,0 +1,17 @@
+<p-floatlabel class="w-30" variant="on">
+  <p-select
+    [(ngModel)]="selectedCurrency"
+    [options]="currenciesOptions()"
+    optionLabel="name"
+    class="w-full"
+    size="small"
+    inputId="currency"
+    [dt]="{
+      root: {
+        borderRadius: '12px',
+      },
+    }"
+    (onChange)="onChange($event)"
+  />
+  <label for="currency">Currency</label>
+</p-floatlabel>

@@ -1,15 +1,20 @@
+import { registerLocaleData } from '@angular/common';
+import localeCs from '@angular/common/locales/cs';
+import localeUk from '@angular/common/locales/uk';
 import {
   ApplicationConfig,
   LOCALE_ID,
   provideBrowserGlobalErrorListeners,
 } from '@angular/core';
-import { provideRouter } from '@angular/router';
+import {
+  provideRouter,
+  withComponentInputBinding,
+  withRouterConfig,
+} from '@angular/router';
+import { APP_CONFIG } from '@core/configs';
 import { providePrimeNG } from 'primeng/config';
 import { routes } from './app.routes';
 import { CustomPreset } from './custom-theme';
-import { registerLocaleData } from '@angular/common';
-import localeUk from '@angular/common/locales/uk';
-import localeCs from '@angular/common/locales/cs';
 
 registerLocaleData(localeUk);
 registerLocaleData(localeCs);
@@ -17,7 +22,11 @@ registerLocaleData(localeCs);
 export const appConfig: ApplicationConfig = {
   providers: [
     provideBrowserGlobalErrorListeners(),
-    provideRouter(routes),
+    provideRouter(
+      routes,
+      withComponentInputBinding(),
+      withRouterConfig({ onSameUrlNavigation: 'reload' }),
+    ),
     providePrimeNG({
       ripple: true,
       theme: {
@@ -30,6 +39,12 @@ export const appConfig: ApplicationConfig = {
         ['uk', 'cs'].includes(navigator.language)
           ? navigator.language
           : 'en-US',
+    },
+    {
+      provide: APP_CONFIG,
+      useValue: {
+        isUnderDevelopment: true,
+      },
     },
   ],
 };

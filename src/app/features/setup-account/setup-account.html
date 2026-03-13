@@ -1,0 +1,85 @@
+<p-toast />
+
+@if (isLoading()) {
+  <div class="card flex justify-center">
+    <p-progress-spinner ariaLabel="loading" />
+  </div>
+} @else {
+  <div
+    class="min-h-screen bg-[#FDFDFF] dark:bg-[#09090B] text-slate-900 dark:text-zinc-100 transition-colors duration-500 overflow-hidden"
+  >
+    <div class="relative mt-10 flex flex-col items-center justify-center p-6">
+      <div
+        class="w-full max-w-110 bg-white/40 dark:bg-zinc-900/40 backdrop-blur-2xl border border-white dark:border-zinc-800/50 p-12 rounded-[40px] shadow-2xl shadow-violet-500/12 dark:shadow-none"
+      >
+        <div class="text-center mb-4">
+          <h1 class="text-2xl font-semibold tracking-tight leading-tight">
+            Setup your first account
+          </h1>
+          <p
+            class="text-slate-500 dark:text-zinc-400 mt-3 font-light leading-relaxed"
+          >
+            Later you can add more accounts in different currencies
+          </p>
+
+          <form [formGroup]="form" class="text-start mt-8">
+            <div class="text-sm font-medium mb-1">Name</div>
+            <input
+              pInputText
+              formControlName="name"
+              type="text"
+              placeholder="Enter account name"
+              class="w-full"
+              [dt]="{
+                root: {
+                  borderRadius: '16px',
+                },
+              }"
+            />
+            @if (form.controls.name.invalid && form.controls.name.dirty) {
+              <div class="text-xs text-red-500 pl-2 pt-0.5">
+                Should be between 3 and 30 characters
+              </div>
+            }
+
+            <div class="text-sm font-medium mt-6 mb-1">Currency</div>
+            <p-select
+              [options]="currencies()"
+              formControlName="currency"
+              optionLabel="name"
+              optionValue="id"
+              [filter]="true"
+              filterBy="name"
+              [showClear]="true"
+              [loading]="isCurrenciesLoading()"
+              placeholder="Select a currency"
+              class="w-full"
+              [dt]="{
+                root: {
+                  borderRadius: '16px',
+                },
+              }"
+            >
+            </p-select>
+            @if (
+              form.controls.currency.invalid && form.controls.currency.dirty
+            ) {
+              <div class="text-xs text-red-500 pl-2 pt-0.5">
+                Should be selected
+              </div>
+            }
+
+            <div class="mt-8">
+              <p-button
+                [style]="{ width: '100%' }"
+                label="Create"
+                rounded
+                (onClick)="createAccount()"
+              />
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+}

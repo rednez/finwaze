@@ -1,0 +1,79 @@
+<p-toast />
+
+<div
+  class="text-center md:mx-auto w-full max-w-160 p-2 sm:p-4 md:p-8 sm:bg-white/40 sm:dark:bg-zinc-900/40 backdrop-blur-2xl sm:border sm:border-gray-50 sm:dark:border-zinc-800/50 rounded-[40px] sm:shadow-2xl sm:shadow-violet-500/16 sm:dark:shadow-none"
+>
+  <div class="absolute">
+    <p-button
+      icon="pi pi-arrow-left"
+      [rounded]="true"
+      [text]="true"
+      size="large"
+      (onClick)="gotoBack()"
+    />
+  </div>
+
+  <h4 class="text-lg font-semibold mb-4">
+    {{ title() }}
+  </h4>
+
+  @if (selectedTransactionStore.isCreatingMode()) {
+    <p-selectbutton
+      [ngModel]="transactionType()"
+      (ngModelChange)="transactionType.set($event)"
+      [options]="transactionTypesOptions"
+      optionLabel="name"
+      optionValue="value"
+      aria-labelledby="basic"
+      size="small"
+    />
+  }
+
+  @if (this.selectedTransactionStore.isLoading()) {
+    <p-progress-spinner
+      ariaLabel="loading"
+      [style]="{ width: '60px', height: '60px' }"
+    />
+  }
+
+  @if (shouldShowForms()) {
+    @if (shouldShowExpenseForm()) {
+      <app-expense-form
+        [isCreatingMode]="selectedTransactionStore.isCreatingMode()"
+        [initialValues]="expenseTransactionStore.initialFormValues()"
+        [isSubmitting]="expenseTransactionStore.isCreating()"
+        [accounts]="accountsStore.accounts()"
+        [groups]="expenseTransactionStore.groups()"
+        [categories]="expenseTransactionStore.categories()"
+        [currencies]="expenseTransactionStore.currencies()"
+        (accountChanged)="onExpenseAccountChanged($event)"
+        (groupChanged)="onExpenseGroupChanged($event)"
+        (categoryChanged)="onExpenseCategoryChanged($event)"
+        (transactionCurrencyCodeChanged)="
+          onTransactionCurrencyCodeChanged($event)
+        "
+        (formSubmitted)="submitExpenseForm($event)"
+        (clickDelete)="deleteTransaction()"
+        (clickAddGroup)="createGroup($event, 'expense')"
+        (clickAddCategory)="createCategory($event.name, $event.groupId)"
+      />
+    }
+    @if (shouldShowIncomeForm()) {
+      <app-income-form
+        [isCreatingMode]="selectedTransactionStore.isCreatingMode()"
+        [initialValues]="incomeTransactionStore.initialFormValues()"
+        [isSubmitting]="incomeTransactionStore.isCreating()"
+        [accounts]="accountsStore.accounts()"
+        [groups]="incomeTransactionStore.groups()"
+        [categories]="incomeTransactionStore.categories()"
+        (accountChanged)="onIncomeAccountChanged($event)"
+        (groupChanged)="onIncomeGroupChanged($event)"
+        (categoryChanged)="onIncomeCategoryChanged($event)"
+        (formSubmitted)="submitIncomeForm($event)"
+        (clickDelete)="deleteTransaction()"
+        (clickAddGroup)="createGroup($event, 'income')"
+        (clickAddCategory)="createCategory($event.name, $event.groupId)"
+      />
+    }
+  }
+</div>

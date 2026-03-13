@@ -5,13 +5,12 @@ import {
   signal,
 } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { Card } from '@ui/card';
-import { CardHeaderTitle } from '@ui/card-header-title/card-header-title';
-import { CardHeader } from '@ui/card-header/card-header';
+import { Card } from '@shared/ui/card';
+import { CardHeaderTitle } from '@shared/ui/card-header-title/card-header-title';
+import { CardHeader } from '@shared/ui/card-header/card-header';
 import { DatePickerModule } from 'primeng/datepicker';
 import { IftaLabelModule } from 'primeng/iftalabel';
 import { SelectModule } from 'primeng/select';
-import { TableModule } from 'primeng/table';
 import { SavingsOverviewChart } from '../savings-overview-chart/savings-overview-chart';
 
 @Component({
@@ -20,7 +19,6 @@ import { SavingsOverviewChart } from '../savings-overview-chart/savings-overview
     Card,
     SavingsOverviewChart,
     FormsModule,
-    TableModule,
     SelectModule,
     IftaLabelModule,
     DatePickerModule,
@@ -32,17 +30,15 @@ import { SavingsOverviewChart } from '../savings-overview-chart/savings-overview
       <app-card-header class="flex items-center justify-between">
         <app-card-header-title>Savings overview</app-card-header-title>
 
-        <div class="flex gap-2">
+        <div append-right class="flex gap-2">
           <p-datepicker
             [(ngModel)]="date"
             view="year"
             dateFormat="yy"
             [readonlyInput]="true"
-            class="w-22"
+            size="small"
             [inputStyle]="{
-              borderRadius: '16px',
-              fontSize: '14px',
-              height: '42px',
+              borderRadius: '12px',
             }"
           />
 
@@ -50,11 +46,10 @@ import { SavingsOverviewChart } from '../savings-overview-chart/savings-overview
             [(ngModel)]="currency"
             [options]="currencies()"
             optionLabel="name"
-            class="pt-1"
             size="small"
             [dt]="{
               root: {
-                borderRadius: '16px',
+                borderRadius: '12px',
               },
             }"
           />
@@ -68,7 +63,6 @@ import { SavingsOverviewChart } from '../savings-overview-chart/savings-overview
       />
     </app-card>
   `,
-  styles: ``,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SavingsOverviewWidget {

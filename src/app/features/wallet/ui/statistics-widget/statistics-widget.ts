@@ -6,20 +6,20 @@ import {
   signal,
 } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { Card } from '@ui/card';
-import { DonutSummaryChart } from '@ui/donut-summary-chart';
+import { Card } from '@shared/ui/card';
+import { CardHeaderTitle } from '@shared/ui/card-header-title/card-header-title';
+import { CardHeader } from '@shared/ui/card-header/card-header';
+import { DonutSummaryChart } from '@shared/ui/donut-summary-chart';
+import { generateAnalogColors } from '@core/utils/colors';
 import { DatePickerModule } from 'primeng/datepicker';
 import { IftaLabelModule } from 'primeng/iftalabel';
 import { SelectModule } from 'primeng/select';
 import { SelectButtonModule } from 'primeng/selectbutton';
-import { generateAnalogColors } from 'src/app/utils/colors';
 import { v4 } from 'uuid';
-import { StatisticsByGroups } from '../statistics-by-groups/statistics-by-groups';
-import { CardHeader } from '@ui/card-header/card-header';
-import { CardHeaderTitle } from '@ui/card-header-title/card-header-title';
+import { StatisticsByGroups } from './statistics-by-groups/statistics-by-groups';
 
 @Component({
-  selector: 'app-statistics-widget',
+  selector: 'app-wallet-statistics-widget',
   imports: [
     Card,
     SelectModule,
@@ -37,15 +37,14 @@ import { CardHeaderTitle } from '@ui/card-header-title/card-header-title';
       <app-card-header class="flex items-center justify-between">
         <app-card-header-title>Statistics</app-card-header-title>
         <p-datepicker
+          append-right
           [(ngModel)]="date"
           view="month"
           dateFormat="mm/yy"
           [readonlyInput]="true"
-          class="w-22"
+          size="small"
           [inputStyle]="{
-            borderRadius: '16px',
-            fontSize: '14px',
-            height: '42px',
+            borderRadius: '12px',
           }"
         />
       </app-card-header>
@@ -69,7 +68,7 @@ import { CardHeaderTitle } from '@ui/card-header-title/card-header-title';
           class="py-6 self-center"
         />
 
-        <app-statistics-by-groups [groups]="displayedItems()" />
+        <app-wallet-statistics-by-groups [groups]="displayedItems()" />
       </div>
     </app-card>
   `,

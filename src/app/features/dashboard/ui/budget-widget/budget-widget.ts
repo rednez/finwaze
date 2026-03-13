@@ -2,83 +2,68 @@ import {
   ChangeDetectionStrategy,
   Component,
   computed,
-  signal,
+  input,
+  output,
 } from '@angular/core';
-import { Card } from '@ui/card';
-import { DonutSummaryChart } from '@ui/donut-summary-chart';
-import { generateAnalogColors } from 'src/app/utils/colors';
+import { generateAnalogColors } from '@core/utils/colors';
+import { Card } from '@shared/ui/card';
+import { CardEmptyState } from '@shared/ui/card-empty-state';
+import { CardHeaderTitle } from '@shared/ui/card-header-title/card-header-title';
+import { CardHeader } from '@shared/ui/card-header/card-header';
+import { DonutSummaryChart } from '@shared/ui/donut-summary-chart';
 import { v4 } from 'uuid';
 
 @Component({
   selector: 'app-budget-widget',
-  imports: [Card, DonutSummaryChart],
+  imports: [
+    Card,
+    DonutSummaryChart,
+    CardHeader,
+    CardHeaderTitle,
+    CardEmptyState,
+  ],
   template: `
     <app-card>
-      <div class="text-lg font-medium mb-4">Budget</div>
-      <div class="flex gap-2 items-center">
-        <div>
-          @for (cat of displayedCategories(); track cat.id) {
-            <div class="flex gap-2 items-center">
-              <span
-                class="block rounded-full size-2"
-                [style]="{ backgroundColor: cat.color }"
-              ></span>
-              <span class="text-sm/6">{{ cat.name }}</span>
-            </div>
-          }
-        </div>
+      <app-card-header>
+        <app-card-header-title>Budget</app-card-header-title>
+      </app-card-header>
 
-        <app-donut-summary-chart
-          title="Total for month"
-          [currency]="currency()"
-          [items]="displayedCategories()"
+      @if (categories().length > 0) {
+        <div class="flex gap-2 items-center">
+          <div>
+            @for (cat of displayedCategories(); track cat.id) {
+              <div class="flex gap-2 items-center">
+                <span
+                  class="block rounded-full size-2"
+                  [style]="{ backgroundColor: cat.color }"
+                ></span>
+                <span class="text-sm/6">{{ cat.name }}</span>
+              </div>
+            }
+          </div>
+
+          <app-donut-summary-chart
+            title="Total for month"
+            [currency]="currency()"
+            [items]="displayedCategories()"
+          />
+        </div>
+      } @else {
+        <app-card-empty-state
+          title="No budgets for this month for selected currency"
+          actionText="Create budget to get started."
+          actionBtnLabel="Goto Budget"
+          (actionBtnClicked)="actionClicked.emit()"
         />
-      </div>
+      }
     </app-card>
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class BudgetWidget {
-  readonly categories = signal([
-    {
-      name: 'Taxes',
-      amount: 500,
-    },
-    {
-      name: 'Life',
-      amount: 900,
-    },
-    {
-      name: 'Medicine',
-      amount: 100,
-    },
-    {
-      name: 'Foods',
-      amount: 2400,
-    },
-    {
-      name: 'Credits',
-      amount: 1200,
-    },
-    {
-      name: 'Car',
-      amount: 1000,
-    },
-    {
-      name: 'Stuff',
-      amount: 500,
-    },
-    {
-      name: 'Other',
-      amount: 750,
-    },
-    {
-      name: 'Other2',
-      amount: 790,
-    },
-  ]);
-
-  readonly currency = signal('USD');
+  readonly categories = input<Array<{ name: string; amount: number }>>([]);
+  readonly currency = input<string>();
+  readonly actionClicked = output<void>();
 
   protected readonly displayedCategories = computed(() => {
     const colors = generateAnalogColors(this.categories().length);
