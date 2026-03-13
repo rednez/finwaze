@@ -1,10 +1,10 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { Router } from '@angular/router';
+import { LogoPic } from '@shared/ui/logo-pic';
 import { DescriptionSection } from './ui/description-section/description-section';
 import { GradientBlock } from './ui/gradient-block';
 import { GradientButton } from './ui/gradient-button/gradient-button';
 import { HowItWorksStep } from './ui/how-it-works-step';
-import { LogoPic } from './ui/logo-pic';
 import { SectionBudgetPic } from './ui/section-budget-pic';
 import { SectionSavingsPic } from './ui/section-savings-pic';
 import { SectionSpendingPic } from './ui/section-spending-pic';
