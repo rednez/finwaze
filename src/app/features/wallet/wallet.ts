@@ -4,11 +4,18 @@ import {
   computed,
   inject,
 } from '@angular/core';
+import { Router } from '@angular/router';
+import { AccountsStore } from '@core/store/accounts-store';
 import { RecentTransactionsWidget } from '@shared/ui/recent-transactions-widget';
-import { WalletStore } from './stores';
+import {
+  WalletAccountsStore,
+  WalletRecentTransactionsStore,
+  WalletTransactionsCashFlowStore,
+} from './stores';
 import { AccountCard } from './ui/account-card';
 import { StatisticsWidget } from './ui/statistics-widget';
 import { TransactionsOverviewWidget } from './ui/transactions-overview-widget';
+import { WalletRecentTransactionsCard } from './ui/wallet-recent-transactions-card/wallet-recent-transactions-card';
 
 @Component({
   imports: [
@@ -16,35 +23,9 @@ import { TransactionsOverviewWidget } from './ui/transactions-overview-widget';
     TransactionsOverviewWidget,
     RecentTransactionsWidget,
     StatisticsWidget,
+    WalletRecentTransactionsCard,
   ],
-  template: `
-    <div class="flex flex-wrap gap-4">
-      @if (store.isLoadingAccounts()) {
-        <app-account-card [isLoading]="true" />
-      } @else {
-        @for (acc of store.accounts(); track acc.id) {
-          <app-account-card
-            [name]="acc.name"
-            [balance]="acc.balance"
-            [currency]="acc.currencyCode"
-          />
-        }
-      }
-    </div>
-
-    <div class="grid lg:grid-flow-col lg:grid-rows-2 gap-4">
-      <app-transactions-overview-widget class="lg:col-span-2 min-w-0" />
-
-      <app-recent-transactions-widget
-        class="lg:col-span-2"
-        [transactions]="recentTransactions()"
-      />
-
-      <app-wallet-statistics-widget
-        class="lg:row-span-2 sm:w-fit sm:min-w-85 xl:min-w-100 2xl:min-w-120"
-      />
-    </div>
-  `,
+  templateUrl: './wallet.html',
   styles: `
     @reference "tailwindcss";
     :host {
@@ -54,19 +35,81 @@ import { TransactionsOverviewWidget } from './ui/transactions-overview-widget';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class Wallet {
-  protected readonly store = inject(WalletStore);
-
-  // TODO: ???
-  protected readonly recentTransactions = computed(() =>
-    // this.store.transactions().slice(0, 3),
-    [],
+  protected readonly accountsStore = inject(AccountsStore);
+  protected readonly walletAccountsStore = inject(WalletAccountsStore);
+  protected readonly walletTransactionsCashFlowStore = inject(
+    WalletTransactionsCashFlowStore,
   );
+  protected readonly walletRecentTransactionsStore = inject(
+    WalletRecentTransactionsStore,
+  );
+  private readonly router = inject(Router);
 
   constructor() {
     this.loadData();
   }
 
+  onTransactionsCashFlowIncomesToggled($event: boolean) {
+    this.walletTransactionsCashFlowStore.toggleIncomes($event);
+  }
+
+  onTransactionsCashFlowCurrencyChanged($event: string) {
+    if (this.walletTransactionsCashFlowStore.currencyCode() !== $event) {
+      this.walletTransactionsCashFlowStore.updateCurrencyCode($event);
+      this.walletTransactionsCashFlowStore.loadCashFlow();
+    }
+  }
+
+  onTransactionsCashFlowMonthChanged($event: Date) {
+    if (
+      this.walletTransactionsCashFlowStore.month().getMonth() !==
+      $event.getMonth()
+    ) {
+      this.walletTransactionsCashFlowStore.updateMonth($event);
+      this.walletTransactionsCashFlowStore.loadCashFlow();
+    }
+  }
+
+  onRecentTransactionsChanged($event: string) {
+    if (this.walletRecentTransactionsStore.currencyCode() !== $event) {
+      this.walletRecentTransactionsStore.updateCurrencyCode($event);
+      this.walletRecentTransactionsStore.loadTransactions();
+    }
+  }
+
+  gotoTransactions() {
+    this.router.navigate(['transactions']);
+  }
+
   private loadData() {
-    this.store.loadAccounts();
+    this.walletAccountsStore.loadAccounts();
+    this.loadTransactionsCashFlow();
+    this.loadRecentTransactions();
+  }
+
+  private loadTransactionsCashFlow() {
+    if (this.walletTransactionsCashFlowStore.currencyCode()) {
+      this.walletTransactionsCashFlowStore.loadCashFlow();
+    } else {
+      if (this.accountsStore.selectedCurrencyCode()) {
+        this.walletTransactionsCashFlowStore.updateCurrencyCode(
+          this.accountsStore.selectedCurrencyCode()!,
+        );
+        this.walletTransactionsCashFlowStore.loadCashFlow();
+      }
+    }
+  }
+
+  private loadRecentTransactions() {
+    if (this.walletRecentTransactionsStore.currencyCode()) {
+      this.walletRecentTransactionsStore.loadTransactions();
+    } else {
+      if (this.accountsStore.selectedCurrencyCode()) {
+        this.walletRecentTransactionsStore.updateCurrencyCode(
+          this.accountsStore.selectedCurrencyCode()!,
+        );
+        this.walletRecentTransactionsStore.loadTransactions();
+      }
+    }
   }
 }

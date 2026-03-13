@@ -1,0 +1,44 @@
+<div class="flex flex-wrap gap-4">
+  @if (walletAccountsStore.isLoading()) {
+    <app-account-card [isLoading]="true" />
+  } @else {
+    @for (acc of walletAccountsStore.accounts(); track acc.id) {
+      <app-account-card
+        [name]="acc.name"
+        [balance]="acc.balance"
+        [currency]="acc.currencyCode"
+      />
+    }
+  }
+</div>
+
+<div class="grid lg:grid-flow-col lg:grid-rows-2 gap-4">
+  <app-transactions-overview-widget
+    class="lg:col-span-2 min-w-0"
+    [currencies]="accountsStore.myCurrencies()"
+    [initialCurrency]="
+      walletTransactionsCashFlowStore.currencyCode() || undefined
+    "
+    [initialMonth]="walletTransactionsCashFlowStore.month()"
+    [initialIncomesToggle]="walletTransactionsCashFlowStore.isIncomesIncluded()"
+    [data]="walletTransactionsCashFlowStore.data()"
+    (incomesToggled)="onTransactionsCashFlowIncomesToggled($event)"
+    (monthChanged)="onTransactionsCashFlowMonthChanged($event)"
+    (currencyChanged)="onTransactionsCashFlowCurrencyChanged($event)"
+  />
+
+  <app-wallet-recent-transactions-card
+    class="lg:col-span-2"
+    [transactions]="walletRecentTransactionsStore.data()"
+    [currencies]="accountsStore.myCurrencies()"
+    [initialCurrency]="
+      walletRecentTransactionsStore.currencyCode() || undefined
+    "
+    (backToTransactions)="gotoTransactions()"
+    (currencyChanged)="onRecentTransactionsChanged($event)"
+  />
+
+  <app-wallet-statistics-widget
+    class="lg:row-span-2 sm:w-fit sm:min-w-85 xl:min-w-100 2xl:min-w-120"
+  />
+</div>

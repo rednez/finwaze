@@ -30,6 +30,10 @@ import { CardEmptyState } from '../card-empty-state';
     <app-card>
       <app-card-header>
         <app-card-header-title>Recent Transactions</app-card-header-title>
+
+        <ng-container append-right>
+          <ng-content select="[extra-actions]" />
+        </ng-container>
       </app-card-header>
 
       @if (transactions().length > 0) {

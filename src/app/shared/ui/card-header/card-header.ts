@@ -22,7 +22,7 @@ import { ProgressSpinnerModule } from 'primeng/progressspinner';
     <ng-content select="[append-right]" />
   `,
   host: {
-    class: 'flex justify-between gap-4 mb-4',
+    class: 'flex flex-col md:flex-row justify-between gap-4 mb-4',
   },
   changeDetection: ChangeDetectionStrategy.OnPush,
 })

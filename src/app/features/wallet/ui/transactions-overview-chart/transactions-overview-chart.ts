@@ -21,12 +21,13 @@ import { ChartModule } from 'primeng/chart';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class TransactionsOverviewChart {
+  readonly labels = input<string[]>([]);
+  readonly incomes = input<number[]>([]);
+  readonly expenses = input<number[]>([]);
+  readonly hasIncludeIncome = input(true);
+
   private readonly darkModeHelper = inject(DarkModeHelper);
   private readonly datePipe = inject(DatePipe);
-
-  readonly labels = input.required<string[]>();
-  readonly incomes = input.required<number[]>();
-  readonly expenses = input.required<number[]>();
 
   private readonly isDarkModeSignal = toSignal(
     this.darkModeHelper.isDarkModeChanges$,
@@ -69,7 +70,7 @@ export class TransactionsOverviewChart {
         label: 'Income',
         backgroundColor: this.colors().income,
         borderColor: this.colors().income,
-        data: this.incomes(),
+        data: this.hasIncludeIncome() ? this.incomes() : [],
         borderWidth: 2,
         tension: 0.4,
         pointRadius: 0,
