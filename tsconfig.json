@@ -26,6 +26,7 @@
       "@core/mappers/*": ["src/app/core/mappers/*"],
       "@core/repositories/*": ["src/app/core/repositories/*"],
       "@core/guards": ["src/app/core/guards/index.ts"],
+      "@core/configs": ["src/app/core/configs/index.ts"],
       "@env": ["src/environments/environment.ts"]
     }
   },

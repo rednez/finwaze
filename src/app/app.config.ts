@@ -11,6 +11,7 @@ import {
   withComponentInputBinding,
   withRouterConfig,
 } from '@angular/router';
+import { APP_CONFIG } from '@core/configs';
 import { providePrimeNG } from 'primeng/config';
 import { routes } from './app.routes';
 import { CustomPreset } from './custom-theme';
@@ -38,6 +39,12 @@ export const appConfig: ApplicationConfig = {
         ['uk', 'cs'].includes(navigator.language)
           ? navigator.language
           : 'en-US',
+    },
+    {
+      provide: APP_CONFIG,
+      useValue: {
+        isUnderDevelopment: true,
+      },
     },
   ],
 };

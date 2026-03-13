@@ -1,8 +1,27 @@
 import { Routes } from '@angular/router';
-import { authGuard, guestGuard, hasAccountsGuard } from '@core/guards';
+import {
+  authGuard,
+  guestGuard,
+  hasAccountsGuard,
+  underDevelopmentGuard,
+} from '@core/guards';
 import { PageNotFound } from './features/page-not-found';
 
 export const routes: Routes = [
+  {
+    path: '',
+    canMatch: [underDevelopmentGuard],
+    children: [
+      {
+        path: '',
+        loadComponent: () =>
+          import('./features/under-construction').then(
+            (c) => c.UnderConstruction,
+          ),
+      },
+      { path: '**', redirectTo: '/' },
+    ],
+  },
   {
     path: '',
     canMatch: [guestGuard],
