@@ -45,16 +45,16 @@ export class SetupAccount {
     accountName: string;
     currencyId: number;
   }) {
-    const isCreated = await this.service.createAccount(accountName, currencyId);
+    const { error } = await this.service.createAccount(accountName, currencyId);
 
-    if (isCreated) {
-      this.router.navigate(['dashboard']);
-    } else {
+    if (error) {
       this.messageService.add({
         severity: 'error',
         summary: 'Failed to create account',
-        detail: 'An error occurred while creating the account.',
+        detail: error.message,
       });
+    } else {
+      this.router.navigate(['dashboard']);
     }
   }
 

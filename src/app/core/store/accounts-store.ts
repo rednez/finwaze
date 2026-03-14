@@ -1,7 +1,9 @@
 import { computed, inject } from '@angular/core';
 import { Account } from '@core/models/accounts';
+import { Result } from '@core/models/result';
 import { AccountsRepository } from '@core/repositories/accounts-repository';
 import { AccountsLocalStorage } from '@core/services/local-storage/accounts-local-storage';
+import { resultError, resultOk } from '@core/utils/result-factory';
 import {
   patchState,
   signalStore,
@@ -85,7 +87,7 @@ export const AccountsStore = signalStore(
         }
       },
 
-      async create(name: string, currencyId: number): Promise<boolean> {
+      async create(name: string, currencyId: number): Promise<Result> {
         patchState(store, () => ({
           isCreating: true,
         }));
@@ -104,13 +106,13 @@ export const AccountsStore = signalStore(
             accounts: [...state.accounts, data],
           }));
 
-          return true;
-        } catch (error) {
-          patchState(store, (state) => ({
+          return resultOk();
+        } catch (error: any) {
+          patchState(store, () => ({
             isCreating: false,
           }));
 
-          return false;
+          return resultError(error);
         }
       },
 
