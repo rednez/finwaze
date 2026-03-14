@@ -2,16 +2,19 @@ import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { Router } from '@angular/router';
 import { AccountsStore } from '@core/store/accounts-store';
 import dayjs from 'dayjs';
+import { ButtonModule } from 'primeng/button';
 import {
   WalletAccountsStore,
   WalletMonthlySummaryStore,
   WalletRecentTransactionsStore,
   WalletTransactionsCashFlowStore,
-} from './stores';
-import { AccountCard } from './ui/account-card';
-import { StatisticsWidget } from './ui/statistics-widget';
-import { TransactionsOverviewWidget } from './ui/transactions-overview-widget';
-import { WalletRecentTransactionsCard } from './ui/wallet-recent-transactions-card';
+} from '../../stores';
+import {
+  AccountCard,
+  StatisticsWidget,
+  TransactionsOverviewWidget,
+  WalletRecentTransactionsCard,
+} from '../../ui';
 
 @Component({
   imports: [
@@ -19,6 +22,7 @@ import { WalletRecentTransactionsCard } from './ui/wallet-recent-transactions-ca
     TransactionsOverviewWidget,
     StatisticsWidget,
     WalletRecentTransactionsCard,
+    ButtonModule,
   ],
   templateUrl: './wallet.html',
   styles: `
@@ -96,6 +100,10 @@ export class Wallet {
 
   gotoTransactions() {
     this.router.navigate(['transactions']);
+  }
+
+  gotoNewAccount() {
+    this.router.navigate(['wallet', 'create']);
   }
 
   private loadData() {

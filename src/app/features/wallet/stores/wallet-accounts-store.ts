@@ -7,12 +7,16 @@ import { WalletRepository } from '../repositories';
 
 interface WalletAccountsState {
   isLoading: boolean;
+  isUpdating: boolean;
+  isLoaded: boolean;
   isError: boolean;
   accounts: RegularAccount[];
 }
 
 const initialState: WalletAccountsState = {
   isLoading: false,
+  isLoaded: false,
+  isUpdating: false,
   isError: false,
   accounts: [],
 };
@@ -23,17 +27,31 @@ export const WalletAccountsStore = signalStore(
 
   withMethods((store, repository = inject(WalletRepository)) => ({
     async loadAccounts(): Promise<Result> {
-      patchState(store, () => ({
-        isLoading: true,
-      }));
+      if (store.isLoaded()) {
+        patchState(store, () => ({
+          isUpdating: true,
+        }));
+      } else {
+        patchState(store, () => ({
+          isLoading: true,
+        }));
+      }
 
       try {
         const data = await repository.getRegularAccounts();
 
-        patchState(store, () => ({
-          isLoading: false,
-          accounts: data,
-        }));
+        if (store.isLoaded()) {
+          patchState(store, () => ({
+            isUpdating: false,
+            accounts: data,
+          }));
+        } else {
+          patchState(store, () => ({
+            isLoading: false,
+            isLoaded: true,
+            accounts: data,
+          }));
+        }
 
         return resultOk();
       } catch (error: any) {

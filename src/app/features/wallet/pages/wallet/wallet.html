@@ -1,3 +1,15 @@
+<div class="text-end">
+  <p-button
+    icon="pi pi-plus"
+    label="Add account"
+    [rounded]="true"
+    size="large"
+    class="shrink-0"
+    [dt]="{ root: { lg: { fontSize: '14px' } } }"
+    (onClick)="gotoNewAccount()"
+  />
+</div>
+
 <div class="flex flex-wrap gap-4">
   @if (walletAccountsStore.isLoading()) {
     <app-account-card [isLoading]="true" />
