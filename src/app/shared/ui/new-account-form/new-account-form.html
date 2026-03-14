@@ -1,0 +1,52 @@
+<form [formGroup]="form" class="text-start mt-8">
+  <div class="text-sm font-medium mb-1">Name</div>
+  <input
+    pInputText
+    formControlName="name"
+    type="text"
+    placeholder="Enter account name"
+    class="w-full"
+    [dt]="{
+      root: {
+        borderRadius: '16px',
+      },
+    }"
+  />
+  @if (form.controls.name.invalid && form.controls.name.dirty) {
+    <div class="text-xs text-red-500 pl-2 pt-0.5">
+      Should be between 3 and 30 characters
+    </div>
+  }
+
+  <div class="text-sm font-medium mt-6 mb-1">Currency</div>
+  <p-select
+    [options]="currenciesOptions()"
+    formControlName="currencyId"
+    optionLabel="name"
+    optionValue="id"
+    [filter]="true"
+    filterBy="name"
+    [showClear]="true"
+    [loading]="isCurrenciesLoading()"
+    placeholder="Select a currency"
+    class="w-full"
+    [dt]="{
+      root: {
+        borderRadius: '16px',
+      },
+    }"
+  >
+  </p-select>
+  @if (form.controls.currencyId.invalid && form.controls.currencyId.dirty) {
+    <div class="text-xs text-red-500 pl-2 pt-0.5">Should be selected</div>
+  }
+
+  <div class="mt-8">
+    <p-button
+      [style]="{ width: '100%' }"
+      label="Create"
+      rounded
+      (onClick)="onSubmit()"
+    />
+  </div>
+</form>
