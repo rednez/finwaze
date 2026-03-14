@@ -3,7 +3,11 @@ import { Transaction } from '@core/models/transactions';
 import { SupabaseService } from '@core/services/supabase.service';
 import dayjs from 'dayjs';
 import { WalletMapper } from '../mappers';
-import { RegularAccount, TransactionCashFlowItem } from '../models';
+import {
+  MonthlySummary,
+  RegularAccount,
+  TransactionCashFlowItem,
+} from '../models';
 import { TransactionsMapper } from '@core/mappers/transactions-mapper';
 
 @Injectable({
@@ -58,5 +62,23 @@ export class WalletRepository {
     }
 
     return data.map(this.transactionsMapper.fromTransactionDto);
+  }
+
+  async getMonthlySummary(
+    month: Date,
+    transactionCurrencyCode: string,
+  ): Promise<MonthlySummary[]> {
+    const { data, error } = await this.supabase.client
+      .rpc('get_monthly_transaction_amounts_by_group', {
+        p_month: dayjs(month).format('YYYY-MM-DD'),
+        p_currency_code: transactionCurrencyCode,
+      })
+      .select();
+
+    if (error) {
+      throw new Error(error.message);
+    }
+
+    return data.map(this.mapper.fromMonthlySummaryDto);
   }
 }

@@ -1,0 +1,1 @@
+select * from get_monthly_transaction_amounts_by_group('2026-01-01', 'UAH');

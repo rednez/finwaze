@@ -2,21 +2,25 @@ import {
   ChangeDetectionStrategy,
   Component,
   computed,
+  input,
+  linkedSignal,
   model,
+  output,
   signal,
 } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { generateAnalogColors } from '@core/utils/colors';
 import { Card } from '@shared/ui/card';
 import { CardHeaderTitle } from '@shared/ui/card-header-title/card-header-title';
 import { CardHeader } from '@shared/ui/card-header/card-header';
 import { DonutSummaryChart } from '@shared/ui/donut-summary-chart';
-import { generateAnalogColors } from '@core/utils/colors';
 import { DatePickerModule } from 'primeng/datepicker';
 import { IftaLabelModule } from 'primeng/iftalabel';
 import { SelectModule } from 'primeng/select';
 import { SelectButtonModule } from 'primeng/selectbutton';
 import { v4 } from 'uuid';
 import { StatisticsByGroups } from './statistics-by-groups/statistics-by-groups';
+import { MonthlySummary } from '../../models';
 
 @Component({
   selector: 'app-wallet-statistics-widget',
@@ -36,17 +40,34 @@ import { StatisticsByGroups } from './statistics-by-groups/statistics-by-groups'
     <app-card>
       <app-card-header class="flex items-center justify-between">
         <app-card-header-title>Statistics</app-card-header-title>
-        <p-datepicker
-          append-right
-          [(ngModel)]="date"
-          view="month"
-          dateFormat="mm/yy"
-          [readonlyInput]="true"
-          size="small"
-          [inputStyle]="{
-            borderRadius: '12px',
-          }"
-        />
+        <div append-right class="flex gap-2">
+          <p-datepicker
+            [ngModel]="month()"
+            (ngModelChange)="monthChanged.emit($event)"
+            dateFormat="mm/yy"
+            [readonlyInput]="true"
+            size="small"
+            view="month"
+            class="w-21"
+            [inputStyle]="{
+              borderRadius: '12px',
+            }"
+          />
+
+          <p-select
+            [ngModel]="currency()"
+            (ngModelChange)="onCurrencyChange($event)"
+            [options]="currenciesOptions()"
+            optionLabel="name"
+            optionValue="name"
+            size="small"
+            [dt]="{
+              root: {
+                borderRadius: '12px',
+              },
+            }"
+          />
+        </div>
       </app-card-header>
 
       <p-selectbutton
@@ -75,60 +96,41 @@ import { StatisticsByGroups } from './statistics-by-groups/statistics-by-groups'
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class StatisticsWidget {
-  protected readonly date = model(new Date());
+  readonly data = input<MonthlySummary[]>([]);
+  readonly currencies = input<string[]>([]);
+  readonly initialCurrency = input<string>();
+  readonly initialMonth = input(new Date());
+  readonly monthChanged = output<Date>();
+  readonly currencyChanged = output<string>();
+
+  protected readonly month = linkedSignal(() => this.initialMonth());
+  protected readonly currency = linkedSignal(() => this.initialCurrency());
+  protected readonly currenciesOptions = computed(() =>
+    this.currencies().map((c) => ({ name: c })),
+  );
   protected readonly typeOptions = [
     { value: 'expense', label: 'Expense' },
     { value: 'income', label: 'Income' },
   ];
   protected readonly selectedType = model('expense');
 
-  readonly incomes = signal([
-    {
-      name: 'Salary',
-      amount: 500,
-    },
-    {
-      name: 'Взятки',
-      amount: 900,
-    },
-    {
-      name: 'Допомога',
-      amount: 100,
-    },
-  ]);
+  readonly incomes = computed(() =>
+    this.data()
+      .filter((i) => i.totalIncome > 0)
+      .map((i) => ({
+        name: i.groupName,
+        amount: i.totalIncome,
+      })),
+  );
 
-  readonly expenses = signal([
-    {
-      name: 'Taxes',
-      amount: 500,
-    },
-    {
-      name: 'Life',
-      amount: 900,
-    },
-    {
-      name: 'Medicine',
-      amount: 100,
-    },
-    {
-      name: 'Foods',
-      amount: 2400,
-    },
-    {
-      name: 'Credits',
-      amount: 1200,
-    },
-    {
-      name: 'Car',
-      amount: 1000,
-    },
-    {
-      name: 'Stuff',
-      amount: 500,
-    },
-  ]);
-
-  readonly currency = signal('UAH');
+  readonly expenses = computed(() =>
+    this.data()
+      .filter((i) => i.totalExpense > 0)
+      .map((i) => ({
+        name: i.groupName,
+        amount: i.totalExpense,
+      })),
+  );
 
   protected readonly displayedItems = computed(() =>
     this.selectedType() === 'income'
@@ -139,6 +141,11 @@ export class StatisticsWidget {
   protected readonly chartLabel = computed(() =>
     this.selectedType() === 'income' ? 'Total income' : 'Total expenses',
   );
+
+  protected onCurrencyChange(event: string) {
+    this.currencyChanged.emit(event);
+    this.currency.set(event);
+  }
 
   private readonly displayedIncomes = computed(() => {
     const colors = generateAnalogColors(this.incomes().length);

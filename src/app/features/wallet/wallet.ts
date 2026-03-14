@@ -1,27 +1,22 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  computed,
-  inject,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { Router } from '@angular/router';
 import { AccountsStore } from '@core/store/accounts-store';
-import { RecentTransactionsWidget } from '@shared/ui/recent-transactions-widget';
+import dayjs from 'dayjs';
 import {
   WalletAccountsStore,
+  WalletMonthlySummaryStore,
   WalletRecentTransactionsStore,
   WalletTransactionsCashFlowStore,
 } from './stores';
 import { AccountCard } from './ui/account-card';
 import { StatisticsWidget } from './ui/statistics-widget';
 import { TransactionsOverviewWidget } from './ui/transactions-overview-widget';
-import { WalletRecentTransactionsCard } from './ui/wallet-recent-transactions-card/wallet-recent-transactions-card';
+import { WalletRecentTransactionsCard } from './ui/wallet-recent-transactions-card';
 
 @Component({
   imports: [
     AccountCard,
     TransactionsOverviewWidget,
-    RecentTransactionsWidget,
     StatisticsWidget,
     WalletRecentTransactionsCard,
   ],
@@ -43,6 +38,10 @@ export class Wallet {
   protected readonly walletRecentTransactionsStore = inject(
     WalletRecentTransactionsStore,
   );
+  protected readonly walletMonthlySummaryStore = inject(
+    WalletMonthlySummaryStore,
+  );
+
   private readonly router = inject(Router);
 
   constructor() {
@@ -62,18 +61,36 @@ export class Wallet {
 
   onTransactionsCashFlowMonthChanged($event: Date) {
     if (
-      this.walletTransactionsCashFlowStore.month().getMonth() !==
-      $event.getMonth()
+      !dayjs($event).isSame(
+        this.walletTransactionsCashFlowStore.month(),
+        'month',
+      )
     ) {
       this.walletTransactionsCashFlowStore.updateMonth($event);
       this.walletTransactionsCashFlowStore.loadCashFlow();
     }
   }
 
-  onRecentTransactionsChanged($event: string) {
+  onRecentTransactionsCurrencyChanged($event: string) {
     if (this.walletRecentTransactionsStore.currencyCode() !== $event) {
       this.walletRecentTransactionsStore.updateCurrencyCode($event);
       this.walletRecentTransactionsStore.loadTransactions();
+    }
+  }
+
+  onMonthlySummaryCurrencyChanged($event: string) {
+    if (this.walletMonthlySummaryStore.currencyCode() !== $event) {
+      this.walletMonthlySummaryStore.updateCurrencyCode($event);
+      this.walletMonthlySummaryStore.loadMonthlySummary();
+    }
+  }
+
+  onMonthlySummaryMonthChanged($event: Date) {
+    if (
+      !dayjs($event).isSame(this.walletMonthlySummaryStore.month(), 'month')
+    ) {
+      this.walletMonthlySummaryStore.updateMonth($event);
+      this.walletMonthlySummaryStore.loadMonthlySummary();
     }
   }
 
@@ -85,6 +102,7 @@ export class Wallet {
     this.walletAccountsStore.loadAccounts();
     this.loadTransactionsCashFlow();
     this.loadRecentTransactions();
+    this.loadMonthlySummary();
   }
 
   private loadTransactionsCashFlow() {
@@ -109,6 +127,19 @@ export class Wallet {
           this.accountsStore.selectedCurrencyCode()!,
         );
         this.walletRecentTransactionsStore.loadTransactions();
+      }
+    }
+  }
+
+  private loadMonthlySummary() {
+    if (this.walletMonthlySummaryStore.currencyCode()) {
+      this.walletMonthlySummaryStore.loadMonthlySummary();
+    } else {
+      if (this.accountsStore.selectedCurrencyCode()) {
+        this.walletMonthlySummaryStore.updateCurrencyCode(
+          this.accountsStore.selectedCurrencyCode()!,
+        );
+        this.walletMonthlySummaryStore.loadMonthlySummary();
       }
     }
   }

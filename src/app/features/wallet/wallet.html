@@ -35,10 +35,16 @@
       walletRecentTransactionsStore.currencyCode() || undefined
     "
     (backToTransactions)="gotoTransactions()"
-    (currencyChanged)="onRecentTransactionsChanged($event)"
+    (currencyChanged)="onRecentTransactionsCurrencyChanged($event)"
   />
 
   <app-wallet-statistics-widget
     class="lg:row-span-2 sm:w-fit sm:min-w-85 xl:min-w-100 2xl:min-w-120"
+    [currencies]="accountsStore.myCurrencies()"
+    [data]="walletMonthlySummaryStore.data()"
+    [initialCurrency]="walletMonthlySummaryStore.currencyCode() || undefined"
+    [initialMonth]="walletMonthlySummaryStore.month()"
+    (monthChanged)="onMonthlySummaryMonthChanged($event)"
+    (currencyChanged)="onMonthlySummaryCurrencyChanged($event)"
   />
 </div>
