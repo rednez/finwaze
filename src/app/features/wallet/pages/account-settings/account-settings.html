@@ -1,7 +1,7 @@
 <p-toast />
 
 <app-form-page-layout header="Acount settings" class="max-w-110!">
-  @if (!selectedAccount()!.canDelete) {
+  @if (!selectedAccount()?.canDelete) {
     <p-message
       severity="info"
       icon="pi pi-info-circle"
@@ -18,7 +18,7 @@
     [initialCurrencyId]="selectedAccount()?.currency?.id"
     [initialBalance]="selectedAccount()?.balance"
     [hasBalance]="true"
-    [isCurrencyDisabled]="!selectedAccount()!.canDelete"
+    [isCurrencyDisabled]="!selectedAccount()?.canDelete"
     submitBtnLabel="Update"
     (submit)="updateAccount($event)"
   />
