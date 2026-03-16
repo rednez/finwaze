@@ -29,6 +29,87 @@ export class WalletRepository {
     return data.map(this.mapper.fromRegularAccountDto);
   }
 
+  async getRegularAccountDetails(accountId: number): Promise<RegularAccount> {
+    const { data, error } = await this.supabase.client
+      .rpc('get_regular_account_with_balance', { p_account_id: accountId })
+      .select()
+      .single();
+
+    if (error) {
+      throw new Error(error.message);
+    }
+
+    return this.mapper.fromRegularAccountDto(data);
+  }
+
+  async deleteRegularAccount(accountId: number): Promise<boolean> {
+    const { error: transactionsError } = await this.supabase.client
+      .from('transactions')
+      .delete()
+      .eq('account_id', accountId)
+      .eq('type', 'internal');
+    if (transactionsError) {
+      throw new Error(transactionsError.message);
+    }
+
+    const { error: accountsError } = await this.supabase.client
+      .from('accounts')
+      .delete()
+      .eq('id', accountId);
+    if (accountsError) {
+      throw new Error(accountsError.message);
+    }
+
+    return true;
+  }
+
+  async updateRegularAccount({
+    accountId,
+    accountName,
+    currencyId,
+  }: {
+    accountId: number;
+    accountName: string;
+    currencyId?: number;
+  }): Promise<boolean> {
+    const updateData: { name: string; currency_id?: number } = {
+      name: accountName,
+    };
+    if (currencyId) {
+      updateData.currency_id = currencyId;
+    }
+
+    const { error } = await this.supabase.client
+      .from('accounts')
+      .update(updateData)
+      .eq('id', accountId);
+    if (error) {
+      throw new Error(error.message);
+    }
+
+    return true;
+  }
+
+  async adjustRegularAccountBalance(
+    accountId: number,
+    targetBalance: number,
+  ): Promise<boolean> {
+    const { error } = await this.supabase.client
+      .rpc('adjust_account_balance', {
+        p_account_id: accountId,
+        p_target_balance: targetBalance,
+        p_local_offset: dayjs(new Date()).format('Z'),
+      })
+      .select()
+      .single();
+
+    if (error) {
+      throw new Error(error.message);
+    }
+
+    return true;
+  }
+
   async getDailyTransactionCashFlow(
     currencyCode: string,
     month: Date,

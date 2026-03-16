@@ -106,6 +106,11 @@ export class Wallet {
     this.router.navigate(['wallet', 'create']);
   }
 
+  gotoAccountSettings(accountId: number) {
+    this.walletAccountsStore.updateSelectedAccountId(accountId);
+    this.router.navigate(['wallet', accountId]);
+  }
+
   private loadData() {
     this.walletAccountsStore.loadAccounts();
     this.loadTransactionsCashFlow();

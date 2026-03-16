@@ -1,10 +1,19 @@
-<div class="text-end">
+<div class="flex gap-4 justify-end">
+  <!-- TODO -->
+  <p-button
+    icon="pi pi-arrow-right-arrow-left"
+    label="Transfer"
+    [rounded]="true"
+    size="large"
+    [dt]="{ root: { lg: { fontSize: '14px' } } }"
+    (onClick)="gotoNewAccount()"
+  />
+
   <p-button
     icon="pi pi-plus"
     label="Add account"
     [rounded]="true"
     size="large"
-    class="shrink-0"
     [dt]="{ root: { lg: { fontSize: '14px' } } }"
     (onClick)="gotoNewAccount()"
   />
@@ -18,7 +27,8 @@
       <app-account-card
         [name]="acc.name"
         [balance]="acc.balance"
-        [currency]="acc.currencyCode"
+        [currency]="acc.currency.code"
+        (click)="gotoAccountSettings(acc.id)"
       />
     }
   }

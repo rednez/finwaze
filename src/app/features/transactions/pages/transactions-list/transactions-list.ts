@@ -48,9 +48,7 @@ export class TransactionsList {
   ];
 
   constructor() {
-    if (!this.store.isLoaded()) {
-      this.store.loadTransactions();
-    }
+    this.store.loadTransactions();
   }
 
   protected onMonthChanged(event: Date) {

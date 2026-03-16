@@ -10,4 +10,9 @@ export const walletRoutes: Routes = [
     loadComponent: () =>
       import('./pages/new-account').then((c) => c.NewAccount),
   },
+  {
+    path: ':id',
+    loadComponent: () =>
+      import('./pages/account-settings').then((c) => c.AccountSettings),
+  },
 ];

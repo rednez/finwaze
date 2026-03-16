@@ -13,8 +13,9 @@ export class WalletMapper {
     return {
       id: dto.id,
       name: dto.name,
-      currencyCode: dto.currency_code,
+      currency: { id: dto.currency_id, code: dto.currency_code },
       balance: dto.balance,
+      canDelete: dto.can_delete,
     };
   }
 

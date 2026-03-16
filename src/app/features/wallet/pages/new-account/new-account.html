@@ -17,6 +17,11 @@
 
   <app-new-account-form
     [currencies]="currenciesStore.currencies()"
-    (submit)="createAccount($event)"
+    (submit)="
+      createAccount({
+        accountName: $event.accountName,
+        currencyId: $event.currencyId!,
+      })
+    "
   />
 </div>

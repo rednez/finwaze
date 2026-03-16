@@ -132,6 +132,34 @@ export const AccountsStore = signalStore(
           }));
         }
       },
+
+      removeAccount(accountId: number) {
+        patchState(store, (state) => ({
+          accounts: state.accounts.filter((i) => i.id !== accountId),
+        }));
+      },
+
+      // TODO
+      patchAccountInStore(updatedAccount: {
+        id: number;
+        accountName: string;
+        currencyCode: string;
+      }) {
+        const accountIndex = store
+          .accounts()
+          .findIndex((i) => i.id === updatedAccount.id);
+
+        if (accountIndex !== -1) {
+          const accounts = [...store.accounts()];
+          accounts[accountIndex] = {
+            ...accounts[accountIndex],
+            name: updatedAccount.accountName,
+            currencyCode: updatedAccount.currencyCode,
+          };
+
+          patchState(store, () => ({ accounts }));
+        }
+      },
     }),
   ),
 );

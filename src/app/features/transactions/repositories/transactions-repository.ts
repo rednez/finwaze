@@ -80,7 +80,8 @@ export class TransactionsRepository {
         .select(),
       this.supabase.client
         .from('transactions')
-        .select('id', { head: true, count: 'exact' }),
+        .select('id', { head: true, count: 'exact' })
+        .neq('type', 'internal'),
     ]);
 
     if (transactionsError || countError) {
