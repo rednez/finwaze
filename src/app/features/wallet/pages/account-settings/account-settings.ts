@@ -8,9 +8,16 @@ import { ButtonModule } from 'primeng/button';
 import { MessageModule } from 'primeng/message';
 import { ToastModule } from 'primeng/toast';
 import { WalletAccountsStore } from '../../stores';
+import { FormPageLayout } from '@core/layout/form-page-layout';
 
 @Component({
-  imports: [ButtonModule, ToastModule, NewAccountForm, MessageModule],
+  imports: [
+    ButtonModule,
+    ToastModule,
+    NewAccountForm,
+    MessageModule,
+    FormPageLayout,
+  ],
   templateUrl: './account-settings.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [MessageService],

@@ -1,0 +1,50 @@
+import {
+  ChangeDetectionStrategy,
+  Component,
+  inject,
+  input,
+} from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
+import { ButtonModule } from 'primeng/button';
+
+@Component({
+  selector: 'app-form-page-layout',
+  imports: [ButtonModule],
+  template: `
+    <div class="absolute top-2 left-3">
+      <p-button
+        icon="pi pi-arrow-left"
+        [rounded]="true"
+        [text]="true"
+        size="large"
+        (onClick)="gotoBack()"
+      />
+    </div>
+
+    <h4 class="text-lg font-semibold mb-4">{{ header() }}</h4>
+
+    <ng-content />
+  `,
+  styles: `
+    @reference 'tailwindcss';
+
+    :host {
+      @apply block text-center md:mx-auto w-full max-w-160 p-5 
+        sm:bg-white/40 sm:dark:bg-zinc-900/40 backdrop-blur-2xl 
+        sm:border sm:border-gray-50 sm:dark:border-zinc-800/50 
+        rounded-[40px] sm:shadow-2xl sm:shadow-violet-500/16
+        sm:dark:shadow-none;
+    }
+  `,
+  changeDetection: ChangeDetectionStrategy.OnPush,
+})
+export class FormPageLayout {
+  readonly header = input<string>();
+
+  private readonly router = inject(Router);
+  private readonly route = inject(ActivatedRoute);
+
+  gotoBack() {
+    this.router.navigate(['..'], { relativeTo: this.route });
+  }
+}

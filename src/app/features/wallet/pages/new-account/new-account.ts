@@ -6,9 +6,10 @@ import { NewAccountForm } from '@shared/ui/new-account-form';
 import { MessageService } from 'primeng/api';
 import { ButtonModule } from 'primeng/button';
 import { ToastModule } from 'primeng/toast';
+import { FormPageLayout } from '@core/layout/form-page-layout';
 
 @Component({
-  imports: [ButtonModule, ToastModule, NewAccountForm],
+  imports: [ButtonModule, ToastModule, NewAccountForm, FormPageLayout],
   templateUrl: './new-account.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [MessageService],
