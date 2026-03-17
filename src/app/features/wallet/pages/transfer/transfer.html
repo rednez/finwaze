@@ -1,0 +1,97 @@
+<p-toast />
+
+<app-form-page-layout
+  header="Transfer money"
+  subheader="Move money between your accounts"
+  class="max-w-110!"
+>
+  <form [formGroup]="form" class="flex flex-col justify-center">
+    <div class="flex flex-col text-start">
+      <div class="flex flex-col gap-4">
+        <app-account-select
+          formControlName="fromAccountId"
+          [accounts]="accountsStore.accounts()"
+          label="Pay from"
+          [isInvalid]="
+            form.controls.fromAccountId.invalid &&
+            form.controls.fromAccountId.dirty
+          "
+        />
+
+        <div class="text-start">
+          <label class="text-sm font-medium mb-1">Amount to send</label>
+          <p-inputnumber
+            formControlName="fromAmount"
+            inputId="fromAmount"
+            mode="decimal"
+            [minFractionDigits]="0"
+            [maxFractionDigits]="2"
+            class="w-full"
+            placeholder="Enter amount to send"
+            autocomplete="off"
+            [inputStyle]="{ borderRadius: '16px' }"
+          />
+          @if (
+            form.controls.fromAmount.invalid && form.controls.fromAmount.dirty
+          ) {
+            <div class="text-xs text-red-500 pl-2 pt-0.5">
+              @if (form.controls.fromAmount.hasError('required')) {
+                Amount required
+              } @else if (form.controls.fromAmount.hasError('min')) {
+                Must be greater than 0
+              }
+            </div>
+          }
+        </div>
+      </div>
+
+      <app-transfer-direction-pic class="self-center mt-4" />
+
+      <div class="flex flex-col gap-4">
+        <app-account-select
+          formControlName="toAccountId"
+          [accounts]="toAccounts()"
+          label="Destination Account"
+          [isInvalid]="
+            form.controls.toAccountId.invalid && form.controls.toAccountId.dirty
+          "
+        />
+
+        @if (shouldShowToAmount()) {
+          <div class="text-start">
+            <div class="flex items-center justify-between mb-1">
+              <label class="text-sm font-medium">Received amount</label>
+              <app-exchange-rate-chip [exchangeRate]="exchangeRate()" />
+            </div>
+            <p-inputnumber
+              formControlName="toAmount"
+              inputId="toAmount"
+              mode="decimal"
+              [minFractionDigits]="0"
+              [maxFractionDigits]="2"
+              class="w-full"
+              placeholder="Enter received amount"
+              autocomplete="off"
+              [inputStyle]="{ borderRadius: '16px' }"
+            />
+            @if (
+              form.controls.toAmount.invalid && form.controls.toAmount.dirty
+            ) {
+              <div class="text-xs text-red-500 pl-2 pt-0.5">
+                @if (form.controls.toAmount.hasError('required')) {
+                  Amount required
+                } @else if (form.controls.toAmount.hasError('min')) {
+                  Must be greater than 0
+                }
+              </div>
+            }
+          </div>
+        }
+      </div>
+    </div>
+
+    <div class="mt-6 w-full sm:w-1/2 self-center">
+      <p-button label="Move Money" rounded fluid (onClick)="submit()" />
+    </div>
+  </form>
+</app-form-page-layout>

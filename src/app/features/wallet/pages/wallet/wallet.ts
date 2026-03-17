@@ -111,6 +111,10 @@ export class Wallet {
     this.router.navigate(['wallet', accountId]);
   }
 
+  gotoTransfer() {
+    this.router.navigate(['wallet', 'transfer']);
+  }
+
   private loadData() {
     this.walletAccountsStore.loadAccounts();
     this.loadTransactionsCashFlow();

@@ -99,19 +99,11 @@
             Charged amount
           </label>
 
-          <div class="flex gap-1">
-            <div
-              class="text-xs font-medium px-2 py-1 bg-gray-100 dark:bg-gray-800 rounded-lg"
-            >
-              {{ selectedAccountCurrencyCode$ | async }}
-            </div>
-            @if (exchangeRate()) {
-              <div
-                class="text-xs font-medium px-2 py-1 bg-gray-100 dark:bg-gray-800 rounded-lg"
-              >
-                {{ exchangeRate() | number: '1.1-4' }}
-              </div>
-            }
+          <div class="flex gap-2">
+            <app-currency-code-chip
+              [currencyCode]="selectedAccountCurrencyCode$ | async"
+            />
+            <app-exchange-rate-chip [exchangeRate]="exchangeRate()" />
           </div>
         </div>
 

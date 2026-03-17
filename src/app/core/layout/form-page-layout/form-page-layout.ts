@@ -21,7 +21,14 @@ import { ButtonModule } from 'primeng/button';
       />
     </div>
 
-    <h4 class="text-lg font-semibold mb-4">{{ header() }}</h4>
+    <div class="mb-4">
+      <h4 class="text-lg font-semibold">{{ header() }}</h4>
+      @if (subheader()) {
+        <div class="text-sm text-muted-color">
+          {{ subheader() }}
+        </div>
+      }
+    </div>
 
     <ng-content />
   `,
@@ -40,6 +47,7 @@ import { ButtonModule } from 'primeng/button';
 })
 export class FormPageLayout {
   readonly header = input<string>();
+  readonly subheader = input<string>();
 
   private readonly router = inject(Router);
   private readonly route = inject(ActivatedRoute);

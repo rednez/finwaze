@@ -4,8 +4,9 @@
   [options]="accounts()"
   inputId="account"
   optionValue="id"
-  placeholder="Select item"
+  [placeholder]="placeholder()"
   class="w-full"
+  emptyMessage="No accounts to select"
   [dt]="selectDt"
   [invalid]="isInvalid()"
   (ngModelChange)="onModelChanges($event)"
@@ -13,11 +14,7 @@
   <ng-template #selectedItem let-selectedOption>
     <div class="flex items-center gap-2">
       <div>{{ selectedOption.name }}</div>
-      <div
-        class="text-xs font-medium px-2 py-1 bg-gray-100 dark:bg-gray-800 rounded-lg"
-      >
-        {{ selectedOption.currencyCode }}
-      </div>
+      <app-currency-code-chip [currencyCode]="selectedOption.currencyCode" />
     </div>
   </ng-template>
   <ng-template let-account #item>

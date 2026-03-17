@@ -162,4 +162,32 @@ export class WalletRepository {
 
     return data.map(this.mapper.fromMonthlySummaryDto);
   }
+
+  async makeTransfer({
+    fromAccountId,
+    toAccountId,
+    fromAmount,
+    toAmount,
+  }: {
+    fromAccountId: number;
+    toAccountId: number;
+    fromAmount: number;
+    toAmount?: number | null;
+  }): Promise<void> {
+    const { data, error } = await this.supabase.client
+      .rpc('make_transfer', {
+        p_from_account_id: fromAccountId,
+        p_to_account_id: toAccountId,
+        p_from_amount: fromAmount,
+        p_to_amount: toAmount,
+        p_local_offset: dayjs(new Date()).format('Z'),
+      })
+      .select();
+
+    if (error) {
+      throw new Error(error.message);
+    }
+
+    return;
+  }
 }

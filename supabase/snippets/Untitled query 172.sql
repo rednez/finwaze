@@ -1,1 +1,1 @@
-select * from adjust_account_balance(2, 3500, '01:00', 'because I want');
+select * from make_transfer(1, 8, 120)
