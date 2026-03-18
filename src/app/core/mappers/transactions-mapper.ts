@@ -23,6 +23,7 @@ export class TransactionsMapper {
       group_id,
       group_name,
       comment,
+      transfer_id,
     } = dto;
 
     return {
@@ -39,6 +40,7 @@ export class TransactionsMapper {
       group: { id: group_id, name: group_name },
       category: { id: category_id, name: category_name },
       comment,
+      transferId: transfer_id,
     };
   };
 
@@ -55,6 +57,7 @@ export class TransactionsMapper {
       transaction_currency,
       charged_currency,
       category,
+      transfer_id,
     } = dto;
 
     return {
@@ -71,6 +74,7 @@ export class TransactionsMapper {
       group: { id: category.group.id, name: category.group.name },
       category: { id: category.id, name: category.name },
       comment,
+      transferId: transfer_id,
     };
   };
 

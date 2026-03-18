@@ -41,20 +41,47 @@
         }
         @if (hasGroupColumn()) {
           <td>
-            {{ row.group.name }}
+            @if (row.type === 'transfer') {
+              <span class="chip transfer">Transfer</span>
+            } @else {
+              {{ row.group.name }}
+            }
           </td>
         }
         @if (hasCategoryColumn()) {
-          <td>{{ row.category.name }}</td>
+          <td>
+            @if (row.type === 'transfer') {
+              <span class="chip transfer small">
+                {{ row.transactionAmount > 0 ? 'to ' : 'from ' }}
+                {{ row.account.name }}
+              </span>
+            } @else {
+              {{ row.category.name }}
+            }
+          </td>
         }
         @if (hasTransactionAmountColumn()) {
           <td>
-            {{ row.transactionAmount | currency: row.transactionCurrency }}
+            <span
+              class="chip"
+              [class.income]="row.type === 'income'"
+              [class.expense]="row.type === 'expense'"
+              [class.transfer]="row.type === 'transfer'"
+            >
+              {{ row.transactionAmount | currency: row.transactionCurrency }}
+            </span>
           </td>
         }
         @if (hasChargedAmountColumn()) {
           <td>
-            {{ row.chargedAmount | currency: row.chargedCurrency }}
+            <span
+              class="chip"
+              [class.income]="row.type === 'income'"
+              [class.expense]="row.type === 'expense'"
+              [class.transfer]="row.type === 'transfer'"
+            >
+              {{ row.chargedAmount | currency: row.chargedCurrency }}
+            </span>
           </td>
         }
         @if (hasExchangeRateColumn()) {
@@ -64,7 +91,7 @@
         }
         @if (hasCommentColumn()) {
           <td class="text-muted-color min-w-60">
-            {{ row.comment || '–' }}
+            {{ row.comment }}
           </td>
         }
       </tr>

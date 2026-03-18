@@ -1,1 +1,0 @@
-drop function adjust_account_balance

@@ -13,6 +13,7 @@ import { FormPageLayout } from '@core/layout/form-page-layout';
 import { AccountsStore } from '@core/store/accounts-store';
 import { AccountSelect } from '@shared/ui/account-select';
 import { ExchangeRateChip } from '@shared/ui/exchange-rate-chip';
+import { TransferDirectionPic } from '@shared/ui/transfer-direction-pic';
 import { MessageService } from 'primeng/api';
 import { ButtonModule } from 'primeng/button';
 import { InputNumberModule } from 'primeng/inputnumber';
@@ -21,7 +22,6 @@ import { SelectModule } from 'primeng/select';
 import { ToastModule } from 'primeng/toast';
 import { combineLatest, distinctUntilChanged, map } from 'rxjs';
 import { WalletRepository } from '../../repositories';
-import { TransferDirectionPic } from '../../ui/transfer-direction-pic';
 
 @Component({
   imports: [

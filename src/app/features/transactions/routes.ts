@@ -12,6 +12,11 @@ export const transactionsRoutes: Routes = [
       import('./pages/edit-transaction').then((c) => c.EditTransaction),
   },
   {
+    path: 'transfer/:id',
+    loadComponent: () =>
+      import('./pages/transfer-details').then((c) => c.TransferDetails),
+  },
+  {
     path: ':id',
     loadComponent: () =>
       import('./pages/edit-transaction').then((c) => c.EditTransaction),

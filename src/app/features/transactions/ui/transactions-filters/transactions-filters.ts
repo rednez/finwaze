@@ -48,6 +48,7 @@ export class TransactionsFilters {
     { value: 'all', name: 'All' },
     { value: 'income', name: 'Income' },
     { value: 'expense', name: 'Expense' },
+    { value: 'transfer', name: 'Transfer' },
   ]);
 
   protected readonly currenciesOptions = computed(() => [

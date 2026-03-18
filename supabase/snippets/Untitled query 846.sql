@@ -1,1 +1,0 @@
-select * from make_transfer(8, 1, 120, 999)

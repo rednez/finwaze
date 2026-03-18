@@ -1,10 +1,9 @@
 import {
   ChangeDetectionStrategy,
   Component,
-  inject,
   input,
+  output,
 } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
 import { ButtonModule } from 'primeng/button';
 
 @Component({
@@ -17,7 +16,7 @@ import { ButtonModule } from 'primeng/button';
         [rounded]="true"
         [text]="true"
         size="large"
-        (onClick)="gotoBack()"
+        (onClick)="back.emit()"
       />
     </div>
 
@@ -48,11 +47,5 @@ import { ButtonModule } from 'primeng/button';
 export class FormPageLayout {
   readonly header = input<string>();
   readonly subheader = input<string>();
-
-  private readonly router = inject(Router);
-  private readonly route = inject(ActivatedRoute);
-
-  gotoBack() {
-    this.router.navigate(['..'], { relativeTo: this.route });
-  }
+  readonly back = output<void>();
 }

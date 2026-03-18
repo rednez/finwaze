@@ -37,7 +37,7 @@
       [transactions]="store.transactions()"
       [cols]="tableCols"
       [isHoverable]="true"
-      (rowClicked)="gotoEdit($event)"
+      (rowClicked)="onClickTransaction($event)"
     />
   </div>
 } @else {
