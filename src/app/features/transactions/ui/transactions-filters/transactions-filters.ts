@@ -24,9 +24,12 @@ import { SelectModule } from 'primeng/select';
     FloatLabelModule,
   ],
   templateUrl: './transactions-filters.html',
-  host: {
-    class: 'flex gap-x-2 gap-y-4 flex-wrap',
-  },
+  styles: `
+    @reference 'tailwindcss';
+    :host {
+      @apply flex gap-x-2 gap-y-4 flex-wrap;
+    }
+  `,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class TransactionsFilters {
