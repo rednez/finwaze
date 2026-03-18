@@ -34,7 +34,9 @@ import { TransactionsOverviewChart } from '../transactions-overview-chart';
     <app-card>
       <div class="flex flex-col xl:flex-row xl:justify-between gap-3 mb-4">
         <div class="flex items-center gap-2">
-          <div>Daily Transaction Flow</div>
+          <div class="font-display font-semibold text-lg">
+            Daily Transaction Flow
+          </div>
           <span class="material-symbols-rounded" [pTooltip]="tooltipContent">
             info
           </span>

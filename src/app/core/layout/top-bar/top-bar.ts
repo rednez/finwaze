@@ -10,7 +10,7 @@ import { UserAvatar, UserData } from './user-avatar/user-avatar';
   template: `
     <div>
       @if (hasTitle()) {
-        <h1 class="text-2xl font-medium">{{ title() }}</h1>
+        <h1 class="text-2xl font-display font-medium">{{ title() }}</h1>
         <div class="hidden sm:block text-sm text-muted-color">
           {{ description() }}
         </div>

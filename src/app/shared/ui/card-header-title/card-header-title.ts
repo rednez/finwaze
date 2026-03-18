@@ -6,7 +6,7 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
   template: ` <ng-content /> `,
   changeDetection: ChangeDetectionStrategy.OnPush,
   host: {
-    class: 'text-lg font-semibold',
+    class: 'font-display text-lg font-semibold',
   },
 })
 export class CardHeaderTitle {}
