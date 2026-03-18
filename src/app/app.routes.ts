@@ -67,7 +67,8 @@ export const routes: Routes = [
       },
       {
         path: 'wallet',
-        loadComponent: () => import('./features/wallet').then((c) => c.Wallet),
+        loadChildren: () =>
+          import('./features/wallet').then((c) => c.walletRoutes),
       },
       {
         path: 'budget',

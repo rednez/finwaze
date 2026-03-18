@@ -1,48 +1,82 @@
-import { ChangeDetectionStrategy, Component, signal } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  computed,
+  input,
+  linkedSignal,
+  output,
+} from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Card } from '@shared/ui/card';
-import { CardHeaderTitle } from '@shared/ui/card-header-title';
-import { CardHeader } from '@shared/ui/card-header/card-header';
 import { DatePickerModule } from 'primeng/datepicker';
-import { IftaLabelModule } from 'primeng/iftalabel';
 import { SelectModule } from 'primeng/select';
 import { TableModule } from 'primeng/table';
+import { ToggleButtonModule } from 'primeng/togglebutton';
+import { TooltipModule } from 'primeng/tooltip';
+import { TransactionCashFlowItem } from '../../models';
 import { TransactionsOverviewChart } from '../transactions-overview-chart';
 
 @Component({
   selector: 'app-transactions-overview-widget',
   imports: [
+    CommonModule,
     Card,
     TransactionsOverviewChart,
     FormsModule,
     TableModule,
     SelectModule,
-    IftaLabelModule,
     DatePickerModule,
-    CardHeaderTitle,
-    CardHeader,
+    TooltipModule,
+    ToggleButtonModule,
   ],
   template: `
     <app-card>
-      <app-card-header>
-        <app-card-header-title>Transactions overflow</app-card-header-title>
+      <div class="flex flex-col xl:flex-row xl:justify-between gap-3 mb-4">
+        <div class="flex items-center gap-2">
+          <div class="font-display font-semibold text-lg">
+            Daily Transaction Flow
+          </div>
+          <span class="material-symbols-rounded" [pTooltip]="tooltipContent">
+            info
+          </span>
+          <ng-template #tooltipContent>
+            <div class="text-sm">
+              The expenses and incomes of the selected currency are based on the
+              transaction amounts for each day of the selected month.
+            </div>
+          </ng-template>
+        </div>
 
-        <div append-right class="flex gap-2">
+        <div class="flex gap-2">
+          <p-togglebutton
+            [ngModel]="includeIncomes()"
+            (ngModelChange)="incomesToggled.emit($event)"
+            onLabel="Incomes On"
+            offLabel="Incomes Off"
+            class="w-29"
+            size="small"
+          />
+
           <p-datepicker
-            [(ngModel)]="date"
-            view="month"
+            [ngModel]="month()"
+            (ngModelChange)="monthChanged.emit($event)"
             dateFormat="mm/yy"
             [readonlyInput]="true"
             size="small"
+            view="month"
+            class="w-21"
             [inputStyle]="{
               borderRadius: '12px',
             }"
           />
 
           <p-select
-            [(ngModel)]="currency"
-            [options]="currencies()"
+            [ngModel]="currency()"
+            (ngModelChange)="currencyChanged.emit($event)"
+            [options]="currenciesOptions()"
             optionLabel="name"
+            optionValue="name"
             size="small"
             [dt]="{
               root: {
@@ -51,12 +85,13 @@ import { TransactionsOverviewChart } from '../transactions-overview-chart';
             }"
           />
         </div>
-      </app-card-header>
+      </div>
 
       <app-transactions-overview-chart
-        [labels]="labels"
-        [incomes]="incomes"
-        [expenses]="expenses"
+        [labels]="labels()"
+        [incomes]="incomes()"
+        [expenses]="expenses()"
+        [hasIncludeIncome]="includeIncomes()"
       />
     </app-card>
   `,
@@ -64,58 +99,28 @@ import { TransactionsOverviewChart } from '../transactions-overview-chart';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class TransactionsOverviewWidget {
-  labels = [
-    '2025-01-01',
-    '2025-01-02',
-    '2025-01-03',
-    '2025-01-04',
-    '2025-01-05',
-    '2025-01-06',
-    '2025-01-07',
-    '2025-01-08',
-    '2025-01-09',
-    '2025-01-10',
-    '2025-01-11',
-    '2025-01-12',
-    '2025-01-13',
-    '2025-01-14',
-    '2025-01-15',
-    '2025-01-16',
-    '2025-01-17',
-    '2025-01-18',
-    '2025-01-19',
-    '2025-01-20',
-    '2025-01-21',
-    '2025-01-22',
-    '2025-01-23',
-    '2025-01-24',
-    '2025-01-25',
-    '2025-01-26',
-    '2025-01-27',
-    '2025-01-28',
-    '2025-01-29',
-    '2025-01-30',
-    '2025-01-31',
-  ];
+  readonly currencies = input<string[]>([]);
+  readonly initialIncomesToggle = input(true);
+  readonly initialCurrency = input<string>();
+  readonly initialMonth = input(new Date());
+  readonly data = input<TransactionCashFlowItem[]>([]);
+  readonly incomesToggled = output<boolean>();
+  readonly monthChanged = output<Date>();
+  readonly currencyChanged = output<string>();
 
-  incomes = [
-    1200, 1800, 3720, 2100, 1500, 1900, 1820, 4200, 2000, 2300, 2500, 2400,
-    2600, 2700, 3000, 3200, 3100, 3300, 3400, 2100, 2300, 3000, 3100, 4100,
-    1800, 3900, 1900, 2600, 3800, 3200, 2800,
-  ];
+  protected readonly includeIncomes = linkedSignal(() =>
+    this.initialIncomesToggle(),
+  );
+  protected readonly month = linkedSignal(() => this.initialMonth());
+  protected readonly currency = linkedSignal(() => this.initialCurrency());
 
-  expenses = [
-    1000, 900, 2700, 1900, 2100, 4000, 1920, 2000, 1700, 2000, 2950, 1000, 800,
-    2000, 3000, 3000, 1100, 1100, 1200, 1970, 2900, 3100, 1200, 4100, 1830,
-    1900, 2900, 1600, 1800, 1200, 2800,
-  ];
+  protected readonly currenciesOptions = computed(() =>
+    this.currencies().map((c) => ({ name: c })),
+  );
 
-  protected readonly currencies = signal([
-    { name: 'USD' },
-    { name: 'EUR' },
-    { name: 'UAH' },
-  ]);
-
-  protected date = new Date();
-  protected currency?: { name: string } = { name: 'USD' };
+  protected readonly labels = computed(() => this.data().map((d) => d.label));
+  protected readonly incomes = computed(() => this.data().map((d) => d.income));
+  protected readonly expenses = computed(() =>
+    this.data().map((d) => d.expense),
+  );
 }

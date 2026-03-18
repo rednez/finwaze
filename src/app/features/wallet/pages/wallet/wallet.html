@@ -1,0 +1,72 @@
+<div class="flex gap-4 justify-end">
+  <!-- TODO -->
+  <p-button
+    icon="pi pi-arrow-right-arrow-left"
+    label="Transfer money"
+    [rounded]="true"
+    size="large"
+    [dt]="{ root: { lg: { fontSize: '14px' } } }"
+    (onClick)="gotoTransfer()"
+  />
+
+  <p-button
+    icon="pi pi-plus"
+    label="Add account"
+    [rounded]="true"
+    size="large"
+    [dt]="{ root: { lg: { fontSize: '14px' } } }"
+    (onClick)="gotoNewAccount()"
+  />
+</div>
+
+<div class="flex flex-wrap gap-4">
+  @if (walletAccountsStore.isLoading()) {
+    <app-account-card [isLoading]="true" />
+  } @else {
+    @for (acc of walletAccountsStore.accounts(); track acc.id) {
+      <app-account-card
+        [name]="acc.name"
+        [balance]="acc.balance"
+        [currency]="acc.currency.code"
+        (click)="gotoAccountSettings(acc.id)"
+      />
+    }
+  }
+</div>
+
+<div class="grid lg:grid-flow-col lg:grid-rows-2 gap-4">
+  <app-transactions-overview-widget
+    class="lg:col-span-2 min-w-0"
+    [currencies]="accountsStore.myCurrencies()"
+    [initialCurrency]="
+      walletTransactionsCashFlowStore.currencyCode() || undefined
+    "
+    [initialMonth]="walletTransactionsCashFlowStore.month()"
+    [initialIncomesToggle]="walletTransactionsCashFlowStore.isIncomesIncluded()"
+    [data]="walletTransactionsCashFlowStore.data()"
+    (incomesToggled)="onTransactionsCashFlowIncomesToggled($event)"
+    (monthChanged)="onTransactionsCashFlowMonthChanged($event)"
+    (currencyChanged)="onTransactionsCashFlowCurrencyChanged($event)"
+  />
+
+  <app-wallet-recent-transactions-card
+    class="lg:col-span-2"
+    [transactions]="walletRecentTransactionsStore.data()"
+    [currencies]="accountsStore.myCurrencies()"
+    [initialCurrency]="
+      walletRecentTransactionsStore.currencyCode() || undefined
+    "
+    (backToTransactions)="gotoTransactions()"
+    (currencyChanged)="onRecentTransactionsCurrencyChanged($event)"
+  />
+
+  <app-wallet-statistics-widget
+    class="lg:row-span-2 sm:w-fit sm:min-w-85 xl:min-w-100 2xl:min-w-120"
+    [currencies]="accountsStore.myCurrencies()"
+    [data]="walletMonthlySummaryStore.data()"
+    [initialCurrency]="walletMonthlySummaryStore.currencyCode() || undefined"
+    [initialMonth]="walletMonthlySummaryStore.month()"
+    (monthChanged)="onMonthlySummaryMonthChanged($event)"
+    (currencyChanged)="onMonthlySummaryCurrencyChanged($event)"
+  />
+</div>

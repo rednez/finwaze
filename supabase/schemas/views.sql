@@ -40,7 +40,14 @@ SELECT
   a.id,
   a.name,
   c.code AS currency_code,
-  COALESCE(SUM(t.charged_amount), 0) AS balance
+  c.id AS currency_id,
+  COALESCE(SUM(t.charged_amount), 0) AS balance,
+   NOT EXISTS (
+      SELECT 1
+      FROM public.transactions t
+      WHERE t.account_id = a.id
+        AND t.type <> 'internal'
+    ) AS can_delete
 FROM
   accounts a
   JOIN currencies c ON c.id = a.currency_id
@@ -50,6 +57,7 @@ WHERE
 GROUP BY
   a.id,
   a.name,
-  c.code
+  c.code,
+  c.id
 ORDER BY
   a.name;

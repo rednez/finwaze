@@ -30,6 +30,7 @@ import {
 } from '../../store';
 import { ExpenseForm } from '../../ui/expense-form';
 import { IncomeForm } from '../../ui/income-form';
+import { FormPageLayout } from '@core/layout/form-page-layout';
 
 @Component({
   imports: [
@@ -45,6 +46,7 @@ import { IncomeForm } from '../../ui/income-form';
     IncomeForm,
     ToastModule,
     ProgressSpinnerModule,
+    FormPageLayout,
   ],
   templateUrl: './edit-transaction.html',
   changeDetection: ChangeDetectionStrategy.OnPush,

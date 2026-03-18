@@ -48,9 +48,7 @@ export class TransactionsList {
   ];
 
   constructor() {
-    if (!this.store.isLoaded()) {
-      this.store.loadTransactions();
-    }
+    this.store.loadTransactions();
   }
 
   protected onMonthChanged(event: Date) {
@@ -78,10 +76,17 @@ export class TransactionsList {
     this.store.loadTransactions();
   }
 
-  protected gotoEdit($event: number) {
+  protected onClickTransaction($event: number) {
     const transaction = this.store.transactions().find((t) => t.id === $event);
-    this.selectedTransactionStore.updateTransaction(transaction!);
-    this.router.navigate(['transactions', $event]);
+
+    if (transaction) {
+      if (transaction.type === 'transfer') {
+        this.router.navigate(['transactions', 'transfer', $event]);
+      } else {
+        this.selectedTransactionStore.updateTransaction(transaction);
+        this.router.navigate(['transactions', $event]);
+      }
+    }
   }
 
   protected gotoCreate() {

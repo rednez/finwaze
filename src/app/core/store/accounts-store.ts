@@ -1,7 +1,9 @@
 import { computed, inject } from '@angular/core';
 import { Account } from '@core/models/accounts';
+import { Result } from '@core/models/result';
 import { AccountsRepository } from '@core/repositories/accounts-repository';
 import { AccountsLocalStorage } from '@core/services/local-storage/accounts-local-storage';
+import { resultError, resultOk } from '@core/utils/result-factory';
 import {
   patchState,
   signalStore,
@@ -85,7 +87,7 @@ export const AccountsStore = signalStore(
         }
       },
 
-      async create(name: string, currencyId: number): Promise<boolean> {
+      async create(name: string, currencyId: number): Promise<Result> {
         patchState(store, () => ({
           isCreating: true,
         }));
@@ -104,13 +106,13 @@ export const AccountsStore = signalStore(
             accounts: [...state.accounts, data],
           }));
 
-          return true;
-        } catch (error) {
-          patchState(store, (state) => ({
+          return resultOk();
+        } catch (error: any) {
+          patchState(store, () => ({
             isCreating: false,
           }));
 
-          return false;
+          return resultError(error);
         }
       },
 
@@ -128,6 +130,34 @@ export const AccountsStore = signalStore(
           patchState(store, () => ({
             selectedCurrencyCode,
           }));
+        }
+      },
+
+      removeAccount(accountId: number) {
+        patchState(store, (state) => ({
+          accounts: state.accounts.filter((i) => i.id !== accountId),
+        }));
+      },
+
+      // TODO
+      patchAccountInStore(updatedAccount: {
+        id: number;
+        accountName: string;
+        currencyCode: string;
+      }) {
+        const accountIndex = store
+          .accounts()
+          .findIndex((i) => i.id === updatedAccount.id);
+
+        if (accountIndex !== -1) {
+          const accounts = [...store.accounts()];
+          accounts[accountIndex] = {
+            ...accounts[accountIndex],
+            name: updatedAccount.accountName,
+            currencyCode: updatedAccount.currencyCode,
+          };
+
+          patchState(store, () => ({ accounts }));
         }
       },
     }),

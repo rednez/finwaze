@@ -36,6 +36,23 @@ export type TransactionDataTableColumnType =
     .hoverable:hover {
       @apply hover:bg-gray-50 dark:hover:bg-gray-900;
     }
+
+    .chip {
+      @apply p-1 rounded-lg;
+
+      &.transfer {
+        @apply bg-gray-100 text-gray-600 dark:bg-gray-800/50 dark:text-gray-300;
+      }
+      &.expense {
+        @apply bg-rose-50 text-rose-600 dark:bg-rose-800/50 dark:text-gray-300;
+      }
+      &.income {
+        @apply bg-green-50 text-green-600 dark:bg-green-800/50 dark:text-gray-300;
+      }
+      &.small {
+        @apply text-xs;
+      }
+    }
   `,
 })
 export class TransactionsDataTable {

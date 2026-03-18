@@ -1,0 +1,99 @@
+<p-toast />
+
+<app-form-page-layout
+  header="Transfer Details"
+  class="max-w-140!"
+  (back)="gotoBack()"
+>
+  <div class="flex flex-col items-center gap-7">
+    @if (fromTransaction(); as fromTransaction) {
+      <div class="font-mono text-sm">
+        {{ fromTransaction.transactedAt | date: 'short' }}
+      </div>
+    } @else {
+      <p-skeleton width="10rem" />
+    }
+
+    @if (fromTransaction(); as fromTransaction) {
+      <div class="flex flex-col items-center gap-2">
+        <div
+          class="text-sm bg-gray-100 text-gray-700 dark:bg-gray-800 dark:text-gray-300 px-2 py-1 rounded-xl"
+        >
+          Sent
+        </div>
+        <div class="text-2xl font-semibold">
+          {{
+            fromTransactionAmount()
+              | currency: fromTransaction.transactionCurrency
+          }}
+        </div>
+        <div
+          class="text-sm bg-gray-100 text-gray-700 dark:bg-gray-800 dark:text-gray-300 px-2 py-1 rounded-xl"
+        >
+          <span>From </span>
+          <span class="font-medium">{{ fromTransaction.account.name }}</span>
+        </div>
+      </div>
+    } @else {
+      <div class="flex flex-col items-center gap-2">
+        <p-skeleton height="1.3rem" width="4rem" />
+        <p-skeleton height="2.5rem" width="11rem" />
+        <p-skeleton height="1.3rem" width="11rem" />
+      </div>
+    }
+
+    <app-transfer-direction-pic />
+
+    @if (toTransaction(); as toTransaction) {
+      <div class="flex flex-col items-center gap-2">
+        <div
+          class="text-sm bg-gray-100 text-gray-700 dark:bg-gray-800 dark:text-gray-300 px-2 py-1 rounded-xl"
+        >
+          Received
+        </div>
+        <div>
+          <div class="text-2xl font-semibold">
+            {{
+              toTransaction.transactionAmount
+                | currency: toTransaction.transactionCurrency
+            }}
+          </div>
+
+          @if (exchangeRate() && exchangeRate() !== 1) {
+            <div class="text-xs">
+              <span class="text-muted-color">Exchange rate: </span>
+              <span class="font-mono font-medium">{{
+                exchangeRate() | number: '1.4-4'
+              }}</span>
+            </div>
+          }
+        </div>
+        <div
+          class="text-sm bg-gray-100 text-gray-700 dark:bg-gray-800 dark:text-gray-300 px-2 py-1 rounded-xl"
+        >
+          <span>To </span>
+          <span class="font-medium">{{ toTransaction.account.name }}</span>
+        </div>
+      </div>
+    } @else {
+      <div class="flex flex-col items-center gap-2">
+        <p-skeleton height="1.3rem" width="4rem" />
+        <p-skeleton height="2.5rem" width="11rem" />
+        <p-skeleton height="1.3rem" width="11rem" />
+      </div>
+    }
+  </div>
+
+  @if (hasTransaction()) {
+    <div class="mt-10">
+      <p-button
+        label="Delete"
+        rounded
+        severity="danger"
+        variant="outlined"
+        icon="pi pi-trash"
+        (onClick)="deleteTransfer()"
+      />
+    </div>
+  }
+</app-form-page-layout>

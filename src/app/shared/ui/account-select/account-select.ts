@@ -14,10 +14,11 @@ import {
 import { Account } from '@core/models/accounts';
 import { SelectDesignTokens } from '@primeuix/themes/types/select';
 import { SelectModule } from 'primeng/select';
+import { CurrencyCodeChip } from '../currency-code-chip';
 
 @Component({
   selector: 'app-account-select',
-  imports: [SelectModule, FormsModule],
+  imports: [SelectModule, FormsModule, CurrencyCodeChip],
   templateUrl: './account-select.html',
   host: { class: 'w-full' },
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -31,6 +32,7 @@ import { SelectModule } from 'primeng/select';
 })
 export class AccountSelect implements ControlValueAccessor {
   readonly label = input<string>();
+  readonly placeholder = input<string>('Select account');
   readonly accounts = input<Account[]>([]);
   readonly isInvalid = input(false);
 

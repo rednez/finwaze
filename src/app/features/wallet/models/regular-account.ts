@@ -1,5 +1,7 @@
-import { Account } from '@core/models/accounts';
-
-export interface RegularAccount extends Account {
+export interface RegularAccount {
+  id: number;
+  name: string;
+  currency: { id: number; code: string };
   balance: number;
+  canDelete: boolean;
 }

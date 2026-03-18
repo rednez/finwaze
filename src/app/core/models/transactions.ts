@@ -1,4 +1,4 @@
-export type TransactionType = 'income' | 'expense';
+export type TransactionType = 'income' | 'expense' | 'transfer';
 
 export interface Transaction {
   id: number;
@@ -14,4 +14,5 @@ export interface Transaction {
   group: { id: number; name: string };
   category: { id: number; name: string };
   comment: string | null;
+  transferId: string | null;
 }

@@ -20,7 +20,7 @@ import { LogoPic } from '@shared/ui/logo-pic';
       </p>
 
       <h1
-        class="text-4xl sm:text-5xl font-extrabold tracking-tight text-gray-900 dark:text-gray-50 leading-[1.1] mt-6 mb-6"
+        class="font-display text-4xl sm:text-5xl font-extrabold tracking-tight text-gray-900 dark:text-gray-50 mt-6 mb-6"
       >
         Finwaze is in active<br class="hidden sm:block" />
         development

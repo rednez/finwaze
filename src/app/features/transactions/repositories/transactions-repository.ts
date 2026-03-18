@@ -31,6 +31,7 @@ const transactionDetailsSelect = `
         charged_amount,
         type,
         comment,
+        transfer_id,
         account:accounts!transactions_account_id_fkey(id, name),
         transaction_currency:currencies!transactions_transaction_currency_id_fkey(id, code),
         charged_currency:currencies!transactions_charged_currency_id_fkey(id, code),
@@ -80,7 +81,8 @@ export class TransactionsRepository {
         .select(),
       this.supabase.client
         .from('transactions')
-        .select('id', { head: true, count: 'exact' }),
+        .select('id', { head: true, count: 'exact' })
+        .neq('type', 'internal'),
     ]);
 
     if (transactionsError || countError) {
@@ -222,6 +224,31 @@ export class TransactionsRepository {
       .from('transactions')
       .delete()
       .eq('id', transactionId);
+
+    if (error) {
+      throw new Error(error.message);
+    }
+
+    return;
+  }
+
+  async getTransferTransactions(transactionId: number): Promise<Transaction[]> {
+    const { error, data } = await this.supabase.client
+      .rpc('get_transfer_transactions', { p_transaction_id: transactionId })
+      .select();
+
+    if (error) {
+      throw new Error(error.message);
+    }
+
+    return data.map(this.mapper.fromTransactionDto);
+  }
+
+  async deleteTransferTransactions(transferId: string): Promise<void> {
+    const { error } = await this.supabase.client
+      .from('transactions')
+      .delete()
+      .eq('transfer_id', transferId);
 
     if (error) {
       throw new Error(error.message);

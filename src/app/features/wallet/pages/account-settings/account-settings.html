@@ -1,0 +1,42 @@
+<p-toast />
+
+<app-form-page-layout
+  header="Acount settings"
+  class="max-w-110!"
+  (back)="gotoBack()"
+>
+  @if (!selectedAccount()?.canDelete) {
+    <p-message
+      severity="info"
+      icon="pi pi-info-circle"
+      size="small"
+      styleClass="text-start mt-8"
+    >
+      To change account currency or delete it, delete all related transactions.
+    </p-message>
+  }
+
+  <app-new-account-form
+    [currencies]="currenciesStore.currencies()"
+    [initialAccountName]="selectedAccount()?.name"
+    [initialCurrencyId]="selectedAccount()?.currency?.id"
+    [initialBalance]="selectedAccount()?.balance"
+    [hasBalance]="true"
+    [isCurrencyDisabled]="!selectedAccount()?.canDelete"
+    submitBtnLabel="Update"
+    (submit)="updateAccount($event)"
+  />
+
+  <div class="mt-4">
+    <p-button
+      icon="pi pi-trash"
+      [rounded]="true"
+      severity="danger"
+      variant="outlined"
+      label="Delete"
+      fluid
+      [disabled]="!selectedAccount()?.canDelete"
+      (onClick)="deleteAccount()"
+    />
+  </div>
+</app-form-page-layout>

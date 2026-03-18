@@ -1,0 +1,17 @@
+<p-toast />
+
+<app-form-page-layout
+  header="Create account"
+  class="max-w-110!"
+  (back)="gotoBack()"
+>
+  <app-new-account-form
+    [currencies]="currenciesStore.currencies()"
+    (submit)="
+      createAccount({
+        accountName: $event.accountName,
+        currencyId: $event.currencyId!,
+      })
+    "
+  />
+</app-form-page-layout>

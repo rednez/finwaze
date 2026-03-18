@@ -138,5 +138,13 @@ export const TransactionsStore = signalStore(
         isLoaded: false,
       }));
     },
+
+    removeTransactions(transactionsIds: number[]): void {
+      patchState(store, (state) => ({
+        transactions: state.transactions.filter(
+          (t) => !transactionsIds.includes(t.id),
+        ),
+      }));
+    },
   })),
 );

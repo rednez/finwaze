@@ -61,6 +61,7 @@ schema_paths = [
   "./schemas/groups_and_categories.sql",
   "./schemas/accounts.sql",
   "./schemas/transactions.sql",
+  './schemas/views.sql',
   "./schemas/*.sql",
 ]
 

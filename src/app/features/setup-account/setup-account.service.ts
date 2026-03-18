@@ -1,5 +1,4 @@
 import { computed, inject, Injectable, signal } from '@angular/core';
-import { CurrenciesRepository } from '@core/repositories/currencies-repository';
 import { AccountsStore } from '@core/store/accounts-store';
 import { CurrenciesStore } from '@core/store/currencies-store';
 
@@ -12,12 +11,7 @@ export class SetupAccountService {
 
   readonly isLoading = signal(false);
   readonly isCurrenciesLoading = this.currenciesStore.isLoading;
-  readonly currencies = computed(() =>
-    this.currenciesStore.currencies().map((i) => ({
-      id: i.id,
-      name: `${i.code} – ${i.name}`,
-    })),
-  );
+  readonly currencies = this.currenciesStore.currencies;
 
   async loadAccounts(): Promise<boolean> {
     this.isLoading.set(true);
