@@ -60,7 +60,7 @@
     "@angular/compiler-cli": "^21.2.4",
     "jsdom": "^27.1.0",
     "prettier": "^3.8.1",
-    "supabase": "^2.78.1",
+    "supabase": "^2.82.0",
     "typescript": "~5.9.2",
     "vitest": "^4.1.0"
   }

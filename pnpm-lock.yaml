@@ -85,8 +85,8 @@ importers:
         specifier: ^3.8.1
         version: 3.8.1
       supabase:
-        specifier: ^2.78.1
-        version: 2.78.1
+        specifier: ^2.82.0
+        version: 2.82.0
       typescript:
         specifier: ~5.9.2
         version: 5.9.3
@@ -2807,8 +2807,8 @@ packages:
     resolution: {integrity: sha512-yDPMNjp4WyfYBkHnjIRLfca1i6KMyGCtsVgoKe/z1+6vukgaENdgGBZt+ZmKPc4gavvEZ5OgHfHdrazhgNyG7w==}
     engines: {node: '>=12'}
 
-  supabase@2.78.1:
-    resolution: {integrity: sha512-fCIE/LTTr1IGrrYLqYBI3w89QU1qW+mRVtUi/Dmrtj+oXtDX4E8VgfFlXZpoYsXy86cfE9RZXUJVAGgvdNfTPg==}
+  supabase@2.82.0:
+    resolution: {integrity: sha512-QvdD3DvK+5blmc0ysvhFaOyWeJe1RwIcyaftadaLY4lB43VqBCqYVUL+O8HcL235GArDXDBDQgIczEIp1rLtRg==}
     engines: {npm: '>=8'}
     hasBin: true
 
@@ -5805,7 +5805,7 @@ snapshots:
     dependencies:
       ansi-regex: 6.2.2
 
-  supabase@2.78.1:
+  supabase@2.82.0:
     dependencies:
       bin-links: 6.0.0
       https-proxy-agent: 7.0.6
