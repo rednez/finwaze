@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { NavigatorHelper } from '@core/services/navigator-helper';
 import { ResponsiveHelper } from '@core/services/responsive-helper';
 import { AuthStore } from '@core/store/auth-store';
+import { ThemeSwitcher } from '@shared/ui/theme-switcher';
 import { ButtonModule } from 'primeng/button';
 import { Logo } from './logo';
 import { SidebarNavItem } from './sidebar-nav-item/sidebar-nav-item';
@@ -11,7 +12,13 @@ import { SidebarToggleBtn } from './sidebar-toggle-btn/sidebar-toggle-btn';
 
 @Component({
   selector: 'app-sidebar',
-  imports: [ButtonModule, SidebarToggleBtn, SidebarNavItem, Logo],
+  imports: [
+    ButtonModule,
+    SidebarToggleBtn,
+    SidebarNavItem,
+    Logo,
+    ThemeSwitcher,
+  ],
   templateUrl: './sidebar.html',
   styleUrl: './sidebar.css',
 })

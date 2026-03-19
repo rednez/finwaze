@@ -31,6 +31,9 @@ export const appConfig: ApplicationConfig = {
       ripple: true,
       theme: {
         preset: CustomPreset,
+        options: {
+          darkModeSelector: '.dark',
+        },
       },
     }),
     {
@@ -43,7 +46,7 @@ export const appConfig: ApplicationConfig = {
     {
       provide: APP_CONFIG,
       useValue: {
-        isUnderDevelopment: false,
+        isUnderDevelopment: true,
       },
     },
   ],

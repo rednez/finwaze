@@ -54,7 +54,7 @@ export class FinancialTrendBadge {
       return 'text-red-600 bg-red-100 dark:text-red-500 dark:bg-red-950';
     }
 
-    return 'text-gray-600 bg-gray-100';
+    return 'text-gray-600 bg-gray-100 dark:text-gray-300 dark:bg-gray-800';
   });
 
   private readonly isPositiveTrend = computed(() =>

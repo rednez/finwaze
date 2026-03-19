@@ -24,7 +24,7 @@
     @for (row of transactions(); track row.id) {
       <tr
         class="border-b border-gray-200 dark:border-gray-700"
-        [class.hoverable]="isHoverable()"
+        [class]="isHoverable() ? 'hover:bg-gray-50 dark:hover:bg-gray-900' : ''"
         (click)="rowClicked.emit(row.id)"
       >
         @if (hasDateColumn()) {
@@ -42,7 +42,9 @@
         @if (hasGroupColumn()) {
           <td>
             @if (row.type === 'transfer') {
-              <span class="chip transfer">Transfer</span>
+              <app-transaction-type-chip type="transfer">
+                Transfer
+              </app-transaction-type-chip>
             } @else {
               {{ row.group.name }}
             }
@@ -51,10 +53,10 @@
         @if (hasCategoryColumn()) {
           <td>
             @if (row.type === 'transfer') {
-              <span class="chip transfer small">
+              <app-transaction-type-chip type="transfer" [isSmall]="true">
                 {{ row.transactionAmount > 0 ? 'to ' : 'from ' }}
                 {{ row.account.name }}
-              </span>
+              </app-transaction-type-chip>
             } @else {
               {{ row.category.name }}
             }
@@ -62,26 +64,16 @@
         }
         @if (hasTransactionAmountColumn()) {
           <td>
-            <span
-              class="chip"
-              [class.income]="row.type === 'income'"
-              [class.expense]="row.type === 'expense'"
-              [class.transfer]="row.type === 'transfer'"
-            >
+            <app-transaction-type-chip [type]="row.type">
               {{ row.transactionAmount | currency: row.transactionCurrency }}
-            </span>
+            </app-transaction-type-chip>
           </td>
         }
         @if (hasChargedAmountColumn()) {
           <td>
-            <span
-              class="chip"
-              [class.income]="row.type === 'income'"
-              [class.expense]="row.type === 'expense'"
-              [class.transfer]="row.type === 'transfer'"
-            >
+            <app-transaction-type-chip [type]="row.type">
               {{ row.chargedAmount | currency: row.chargedCurrency }}
-            </span>
+            </app-transaction-type-chip>
           </td>
         }
         @if (hasExchangeRateColumn()) {

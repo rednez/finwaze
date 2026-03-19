@@ -6,8 +6,7 @@ import {
   inject,
   input,
 } from '@angular/core';
-import { toSignal } from '@angular/core/rxjs-interop';
-import { DarkModeHelper } from '@core/services/dark-mode-helper';
+import { ThemeService } from '@core/services/theme.service';
 import { ChartModule } from 'primeng/chart';
 
 @Component({
@@ -26,12 +25,8 @@ export class TransactionsOverviewChart {
   readonly expenses = input<number[]>([]);
   readonly hasIncludeIncome = input(true);
 
-  private readonly darkModeHelper = inject(DarkModeHelper);
+  private readonly isDarkModeSignal = inject(ThemeService).isDark;
   private readonly datePipe = inject(DatePipe);
-
-  private readonly isDarkModeSignal = toSignal(
-    this.darkModeHelper.isDarkModeChanges$,
-  );
 
   protected readonly colors = computed(() => {
     const documentStyle = getComputedStyle(document.documentElement);
