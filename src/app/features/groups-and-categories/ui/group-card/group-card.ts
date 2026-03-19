@@ -13,6 +13,7 @@ import { CardHeaderTitle } from '@shared/ui/card-header-title';
 import { ButtonModule } from 'primeng/button';
 import { GroupWithCategories } from '../../models';
 import { CategoryChip } from '../category-chip';
+import { GroupTransactionTypeChip } from '../group-transaction-type-chip';
 
 @Component({
   selector: 'app-group-card',
@@ -23,17 +24,8 @@ import { CategoryChip } from '../category-chip';
     CardHeaderTitle,
     ButtonModule,
     CategoryChip,
+    GroupTransactionTypeChip,
   ],
-  styles: `
-    @reference "tailwindcss";
-
-    .income {
-      @apply text-green-500 dark:text-green-600 bg-green-100 dark:bg-gray-800;
-    }
-    .expense {
-      @apply text-orange-500 dark:text-orange-600 bg-orange-100 dark:bg-gray-800;
-    }
-  `,
   templateUrl: './group-card.html',
   host: { class: 'block h-full' },
 })
@@ -57,14 +49,6 @@ export class GroupCard implements OnInit {
 
   protected readonly transactionTypeText = computed(() =>
     this.group()?.transactionType === 'expense' ? 'Expense' : 'Income',
-  );
-
-  protected readonly isIncome = computed(
-    () => this.group()?.transactionType === 'income',
-  );
-
-  protected readonly isExpense = computed(
-    () => this.group()?.transactionType === 'expense',
   );
 
   ngOnInit() {

@@ -13,6 +13,12 @@
 @import 'tailwindcss-primeui';
 @import 'primeicons/primeicons.css';
 
+/* Override Tailwind's dark variant to use our .app-dark class instead of
+   the system media query, so manual theme switching works for dark: utilities */
+
+/* @custom-variant dark (&:where(html.app-dark, html.app-dark *)); */
+@custom-variant dark (&:where(.dark, .dark *));
+
 :root {
   --text-color: light-dark(var(--p-surface-800), var(--p-surface-200));
 }

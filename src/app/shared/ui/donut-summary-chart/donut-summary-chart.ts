@@ -5,8 +5,7 @@ import {
   inject,
   input,
 } from '@angular/core';
-import { toSignal } from '@angular/core/rxjs-interop';
-import { DarkModeHelper } from '@core/services/dark-mode-helper';
+import { ThemeService } from '@core/services/theme.service';
 import { StyledAmount } from '@shared/ui/styled-amount';
 import { ChartModule } from 'primeng/chart';
 
@@ -42,7 +41,7 @@ type SummaryItem = {
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class DonutSummaryChart {
-  private readonly darkModeHelper = inject(DarkModeHelper);
+  private readonly themeService = inject(ThemeService);
 
   readonly title = input.required<string>();
   readonly items = input<SummaryItem[]>([]);
@@ -102,7 +101,5 @@ export class DonutSummaryChart {
     },
   }));
 
-  private readonly isDarkModeSignal = toSignal(
-    this.darkModeHelper.isDarkModeChanges$,
-  );
+  private readonly isDarkModeSignal = this.themeService.isDark;
 }

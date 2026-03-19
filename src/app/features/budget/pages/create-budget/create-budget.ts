@@ -7,7 +7,6 @@ import {
   signal,
 } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { MessageService } from 'primeng/api';
 import { ButtonModule } from 'primeng/button';
 import { RatingModule } from 'primeng/rating';
 import { RippleModule } from 'primeng/ripple';
@@ -34,10 +33,10 @@ import { ProductService } from './products.service';
   ],
   templateUrl: './create-budget.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  providers: [MessageService, ProductService],
+  providers: [ProductService],
 })
 export class CreateBudget implements OnInit {
-  private messageService = inject(MessageService);
+  // TODO: temp
   private productService = inject(ProductService);
 
   products = signal<any[]>([]);

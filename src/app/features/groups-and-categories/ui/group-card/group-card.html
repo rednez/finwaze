@@ -40,13 +40,8 @@
           />
         </div>
       }
-      <div
-        class="w-fit text-xs font-normal px-2 py-1 rounded-xl mt-1"
-        [class.income]="isIncome()"
-        [class.expense]="isExpense()"
-      >
-        {{ transactionTypeText() }}
-      </div>
+
+      <app-group-transaction-type-chip [type]="group()?.transactionType" />
     </app-card-header-title>
 
     <div append-right>

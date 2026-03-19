@@ -5,8 +5,7 @@ import {
   inject,
   input,
 } from '@angular/core';
-import { toSignal } from '@angular/core/rxjs-interop';
-import { DarkModeHelper } from '@core/services/dark-mode-helper';
+import { ThemeService } from '@core/services/theme.service';
 import { ChartModule } from 'primeng/chart';
 
 @Component({
@@ -18,15 +17,11 @@ import { ChartModule } from 'primeng/chart';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class MoneyFlowChart {
-  private readonly darkModeHelper = inject(DarkModeHelper);
+  private readonly isDarkModeSignal = inject(ThemeService).isDark;
 
   readonly labels = input.required<string[]>();
   readonly incomes = input.required<number[]>();
   readonly expenses = input.required<number[]>();
-
-  private readonly isDarkModeSignal = toSignal(
-    this.darkModeHelper.isDarkModeChanges$,
-  );
 
   protected readonly chartColors = computed(() => {
     const documentStyle = getComputedStyle(document.documentElement);

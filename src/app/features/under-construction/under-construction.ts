@@ -1,10 +1,12 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { LogoPic } from '@shared/ui/logo-pic';
+import { ThemeSwitcher } from '@shared/ui/theme-switcher';
 
 @Component({
   template: `
     <header class="flex items-center justify-between w-full px-4 lg:px-0">
       <app-logo-pic />
+      <app-theme-switcher />
     </header>
 
     <section class="w-full text-center relative pt-4 pb-2 mt-16">
@@ -45,6 +47,6 @@ import { LogoPic } from '@shared/ui/logo-pic';
   host: {
     class: 'flex flex-col items-center mt-8 mx-4 lg:max-w-210 lg:mx-auto',
   },
-  imports: [LogoPic],
+  imports: [LogoPic, ThemeSwitcher],
 })
 export class UnderConstruction {}

@@ -10,6 +10,7 @@ import { SectionSavingsPic } from './ui/section-savings-pic';
 import { SectionSpendingPic } from './ui/section-spending-pic';
 import { TestimonialCard } from './ui/testimonial-card';
 import { WhiteButton } from './ui/white-button/white-button';
+import { ThemeSwitcher } from '@shared/ui/theme-switcher';
 
 @Component({
   imports: [
@@ -23,6 +24,7 @@ import { WhiteButton } from './ui/white-button/white-button';
     WhiteButton,
     HowItWorksStep,
     TestimonialCard,
+    ThemeSwitcher,
   ],
   templateUrl: './landing.html',
   host: {

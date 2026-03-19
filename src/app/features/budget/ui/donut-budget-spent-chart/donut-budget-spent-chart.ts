@@ -6,8 +6,7 @@ import {
   inject,
   input,
 } from '@angular/core';
-import { toSignal } from '@angular/core/rxjs-interop';
-import { DarkModeHelper } from '@core/services/dark-mode-helper';
+import { ThemeService } from '@core/services/theme.service';
 import { StyledAmount } from '@shared/ui/styled-amount';
 import { ChartModule } from 'primeng/chart';
 
@@ -47,10 +46,7 @@ import { ChartModule } from 'primeng/chart';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class DonutBudgetSpentChart {
-  private readonly darkModeHelper = inject(DarkModeHelper);
-  private readonly isDarkModeSignal = toSignal(
-    this.darkModeHelper.isDarkModeChanges$,
-  );
+  private readonly isDarkModeSignal = inject(ThemeService).isDark;
 
   readonly budgetAmount = input(0);
   readonly spentAmount = input(0);

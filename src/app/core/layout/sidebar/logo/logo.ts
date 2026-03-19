@@ -13,7 +13,7 @@ import { LogoShortLightPic } from './short-light-pic/short-light-pic';
     LogoShortLightPic,
   ],
   template: `
-    <div class="light">
+    <div class="dark:hidden">
       <app-logo-full-light-pic
         [class.logo-shown]="!closed()"
         [class.logo-hidden]="closed()"
@@ -25,7 +25,7 @@ import { LogoShortLightPic } from './short-light-pic/short-light-pic';
       />
     </div>
 
-    <div class="dark">
+    <div class="hidden dark:block">
       <app-logo-full-dark-pic
         [class.logo-shown]="!closed()"
         [class.logo-hidden]="closed()"
@@ -43,14 +43,6 @@ import { LogoShortLightPic } from './short-light-pic/short-light-pic';
     :host {
       display: block;
       margin-bottom: 58px;
-    }
-
-    .light {
-      @apply dark:hidden;
-    }
-
-    .dark {
-      @apply hidden dark:block;
     }
 
     .logo-shown {

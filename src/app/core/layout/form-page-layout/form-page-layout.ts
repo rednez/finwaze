@@ -31,17 +31,10 @@ import { ButtonModule } from 'primeng/button';
 
     <ng-content />
   `,
-  styles: `
-    @reference 'tailwindcss';
-
-    :host {
-      @apply block text-center md:mx-auto w-full max-w-160 p-5 
-        sm:bg-white/40 sm:dark:bg-zinc-900/40 backdrop-blur-2xl 
-        sm:border sm:border-gray-50 sm:dark:border-zinc-800/50 
-        rounded-[40px] sm:shadow-2xl sm:shadow-violet-500/16
-        sm:dark:shadow-none;
-    }
-  `,
+  host: {
+    class:
+      'block text-center md:mx-auto w-full max-w-160 p-5 sm:bg-white/40 sm:dark:bg-zinc-900/40 backdrop-blur-2xl sm:border sm:border-gray-50 sm:dark:border-zinc-800/50 rounded-[40px] sm:shadow-2xl sm:shadow-violet-500/16 sm:dark:shadow-none',
+  },
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class FormPageLayout {

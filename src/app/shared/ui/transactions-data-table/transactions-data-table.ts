@@ -7,6 +7,7 @@ import {
   output,
 } from '@angular/core';
 import { Transaction } from '@core/models/transactions';
+import { TransactionTypeChip } from '../transaction-type-chip';
 
 export type TransactionDataTableColumnType =
   | 'date'
@@ -19,7 +20,7 @@ export type TransactionDataTableColumnType =
 
 @Component({
   selector: 'app-transactions-data-table',
-  imports: [CommonModule],
+  imports: [CommonModule, TransactionTypeChip],
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './transactions-data-table.html',
   styles: `
@@ -31,27 +32,6 @@ export type TransactionDataTableColumnType =
 
     td {
       @apply px-1 sm:px-2 py-3;
-    }
-
-    .hoverable:hover {
-      @apply hover:bg-gray-50 dark:hover:bg-gray-900;
-    }
-
-    .chip {
-      @apply p-1 rounded-lg;
-
-      &.transfer {
-        @apply bg-gray-100 text-gray-600 dark:bg-gray-800/50 dark:text-gray-300;
-      }
-      &.expense {
-        @apply bg-rose-50 text-rose-600 dark:bg-rose-800/50 dark:text-gray-300;
-      }
-      &.income {
-        @apply bg-green-50 text-green-600 dark:bg-green-800/50 dark:text-gray-300;
-      }
-      &.small {
-        @apply text-xs;
-      }
     }
   `,
 })

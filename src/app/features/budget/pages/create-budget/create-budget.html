@@ -13,12 +13,14 @@
         label="Expand All"
         icon="pi pi-plus"
         text
+        size="small"
         (onClick)="expandAll()"
       />
       <p-button
         label="Collapse All"
         icon="pi pi-minus"
         text
+        size="small"
         (onClick)="collapseAll()"
       />
     </div>
@@ -48,7 +50,9 @@
         />
       </td>
       <td>
-        <div class="bg-surface-100 w-fit px-3 py-1 rounded-full">
+        <div
+          class="bg-surface-100 dark:bg-surface-800 w-fit px-3 py-1 rounded-full"
+        >
           {{ product.name }}
         </div>
       </td>

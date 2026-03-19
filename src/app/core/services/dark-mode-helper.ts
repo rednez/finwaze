@@ -1,4 +1,5 @@
-import { Injectable } from '@angular/core';
+import { Injectable, Signal } from '@angular/core';
+import { toSignal } from '@angular/core/rxjs-interop';
 import { fromEvent, map, Observable, startWith } from 'rxjs';
 
 @Injectable({
@@ -6,6 +7,7 @@ import { fromEvent, map, Observable, startWith } from 'rxjs';
 })
 export class DarkModeHelper {
   readonly isDarkModeChanges$: Observable<boolean>;
+  readonly isDark: Signal<boolean>;
 
   constructor() {
     const darkModeQuery = window.matchMedia('(prefers-color-scheme: dark)');
@@ -17,10 +19,9 @@ export class DarkModeHelper {
       map((e) => e.matches),
       startWith(darkModeQuery.matches),
     );
-  }
 
-  isDarkMode(): boolean {
-    const darkModeQuery = window.matchMedia('(prefers-color-scheme: dark)');
-    return darkModeQuery.matches;
+    this.isDark = toSignal(this.isDarkModeChanges$, {
+      initialValue: darkModeQuery.matches,
+    });
   }
 }

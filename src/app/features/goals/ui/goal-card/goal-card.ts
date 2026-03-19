@@ -47,14 +47,10 @@ import { GoalCardStatus } from '../goal-card-status/goal-card-status';
       </div>
     </div>
   `,
-  styles: `
-    @reference "tailwindcss";
-
-    :host {
-      @apply relative flex flex-col gap-4 border border-gray-200 
-      dark:border-gray-600 rounded-3xl p-4;
-    }
-  `,
+  host: {
+    class:
+      'relative flex flex-col gap-4 border border-gray-200 dark:border-gray-600 rounded-3xl p-4',
+  },
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class GoalCard {
