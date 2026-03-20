@@ -1,6 +1,14 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { ActivatedRoute, provideRouter } from '@angular/router';
 
 import { EditTransaction } from './edit-transaction';
+
+const mockActivatedRoute = {
+  snapshot: {
+    url: [{ path: 'edit' }],
+    paramMap: { get: () => null },
+  },
+};
 
 describe('EditTransaction', () => {
   let component: EditTransaction;
@@ -8,7 +16,11 @@ describe('EditTransaction', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [EditTransaction]
+      imports: [EditTransaction],
+      providers: [
+        provideRouter([]),
+        { provide: ActivatedRoute, useValue: mockActivatedRoute },
+      ],
     })
     .compileComponents();
 

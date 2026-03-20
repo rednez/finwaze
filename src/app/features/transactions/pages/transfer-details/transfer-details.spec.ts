@@ -1,4 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { provideRouter } from '@angular/router';
 
 import { TransferDetails } from './transfer-details';
 
@@ -9,6 +10,7 @@ describe('TransferDetails', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [TransferDetails],
+      providers: [provideRouter([])],
     }).compileComponents();
 
     fixture = TestBed.createComponent(TransferDetails);
