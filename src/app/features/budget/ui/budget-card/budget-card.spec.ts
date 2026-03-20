@@ -2,6 +2,20 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { BudgetCard } from './budget-card';
 
+Object.defineProperty(window, 'matchMedia', {
+  writable: true,
+  value: (query: string) => ({
+    matches: false,
+    media: query,
+    onchange: null,
+    addListener: () => {},
+    removeListener: () => {},
+    addEventListener: () => {},
+    removeEventListener: () => {},
+    dispatchEvent: () => false,
+  }),
+});
+
 describe('BudgetCard', () => {
   let component: BudgetCard;
   let fixture: ComponentFixture<BudgetCard>;

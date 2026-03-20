@@ -13,6 +13,7 @@ describe('Select', () => {
 
     fixture = TestBed.createComponent(Select);
     component = fixture.componentInstance;
+    fixture.componentRef.setInput('inputId', 'test-id');
     await fixture.whenStable();
   });
 
