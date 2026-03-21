@@ -73,7 +73,7 @@ Groups and categories with `is_system = true` are reserved for internal use (tra
 
 ### Component conventions
 
-- Use standalone components (`standalone: true`).
+- Use standalone components (default in Angular 19+, do not set `standalone: true` explicitly).
 - Use `inject()` for dependency injection, not constructor injection.
 - Use `input()` and `output()` signals instead of `@Input()` / `@Output()` decorators.
 - Keep templates free of logic — move conditionals and transforms to computed signals or pipes.
