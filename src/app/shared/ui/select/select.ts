@@ -35,7 +35,7 @@ export class Select implements ControlValueAccessor {
   readonly optionLabel = input('name');
   readonly optionValue = input('value');
   readonly placeholder = input('Select item');
-  readonly options = input<any[]>([]);
+  readonly options = input<unknown[]>([]);
   readonly isInvalid = input(false);
   readonly hasAddButton = input(false);
   readonly clickAddNew = output();
@@ -48,18 +48,18 @@ export class Select implements ControlValueAccessor {
     },
   };
 
-  private onChange?: (value: any) => void;
+  private onChange?: (value: unknown) => void;
   private onTouched?: VoidFunction;
 
   writeValue(accountId: number | null): void {
     this.selectedOption.set(accountId);
   }
 
-  registerOnChange(fn: any): void {
+  registerOnChange(fn: (value: unknown) => void): void {
     this.onChange = fn;
   }
 
-  registerOnTouched(fn: any): void {
+  registerOnTouched(fn: VoidFunction): void {
     this.onTouched = fn;
   }
 
@@ -67,7 +67,7 @@ export class Select implements ControlValueAccessor {
     this.isDisabled.set(isDisabled);
   }
 
-  onModelChanges($event: any) {
+  onModelChanges($event: unknown) {
     this.onChange?.($event);
   }
 }

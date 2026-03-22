@@ -47,7 +47,7 @@ export const AuthStore = signalStore(
           isInitializing: false,
           user,
         }));
-      } catch (error) {
+      } catch {
         patchState(store, () => ({
           isInitializing: false,
         }));

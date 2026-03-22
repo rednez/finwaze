@@ -61,7 +61,7 @@ import { v4 } from 'uuid';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class BudgetWidget {
-  readonly categories = input<Array<{ name: string; amount: number }>>([]);
+  readonly categories = input<{ name: string; amount: number }[]>([]);
   readonly currency = input<string>();
   readonly actionClicked = output<void>();
 

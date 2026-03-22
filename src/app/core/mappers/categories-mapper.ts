@@ -1,11 +1,16 @@
 import { Injectable } from '@angular/core';
-import { Category, Group } from '@core/models/categories';
+import {
+  Category,
+  CategoryDto,
+  Group,
+  GroupDto,
+} from '@core/models/categories';
 
 @Injectable({
   providedIn: 'root',
 })
 export class CategoriesMapper {
-  fromGroupDto(dto: any): Group {
+  fromGroupDto(dto: GroupDto): Group {
     return {
       id: dto.id,
       name: dto.name,
@@ -13,7 +18,7 @@ export class CategoriesMapper {
     };
   }
 
-  fromCategoryDto(dto: any): Category {
+  fromCategoryDto(dto: CategoryDto): Category {
     return {
       id: dto.id,
       name: dto.name,

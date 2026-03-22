@@ -125,7 +125,7 @@ export const DashboardStore = signalStore(
         } else {
           store.loadingStore.successLoading();
         }
-      } catch (error) {
+      } catch {
         if (store.loadingStore.isLoaded()) {
           store.loadingStore.errorUpdating();
         } else {
@@ -158,7 +158,7 @@ export const DashboardStore = signalStore(
         } else {
           store.loadingStore.successLoading();
         }
-      } catch (error) {
+      } catch {
         if (store.loadingStore.isLoaded()) {
           store.loadingStore.errorUpdating();
         } else {
@@ -185,7 +185,7 @@ export const DashboardStore = signalStore(
         } else {
           store.loadingStore.successLoading();
         }
-      } catch (error) {
+      } catch {
         if (store.loadingStore.isLoaded()) {
           store.loadingStore.errorUpdating();
         } else {
@@ -211,7 +211,7 @@ export const DashboardStore = signalStore(
         } else {
           store.loadingStore.successLoading();
         }
-      } catch (error) {
+      } catch {
         if (store.loadingStore.isLoaded()) {
           store.loadingStore.errorUpdating();
         } else {
@@ -243,7 +243,7 @@ export const DashboardStore = signalStore(
         } else {
           store.loadingStore.successLoading();
         }
-      } catch (error) {
+      } catch {
         if (store.loadingStore.isLoaded()) {
           store.loadingStore.errorUpdating();
         } else {

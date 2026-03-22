@@ -1,1 +1,0 @@
-select * from get_transfer_transactions(11);

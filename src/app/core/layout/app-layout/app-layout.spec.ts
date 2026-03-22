@@ -1,6 +1,8 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-
 import { AppLayout } from './app-layout';
+
+// eslint-disable-next-line @typescript-eslint/no-empty-function
+const noop = () => {};
 
 Object.defineProperty(window, 'matchMedia', {
   writable: true,
@@ -8,10 +10,10 @@ Object.defineProperty(window, 'matchMedia', {
     matches: false,
     media: query,
     onchange: null,
-    addListener: () => {},
-    removeListener: () => {},
-    addEventListener: () => {},
-    removeEventListener: () => {},
+    addListener: noop,
+    removeListener: noop,
+    addEventListener: noop,
+    removeEventListener: noop,
     dispatchEvent: () => false,
   }),
 });
@@ -22,9 +24,8 @@ describe('AppLayout', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [AppLayout]
-    })
-    .compileComponents();
+      imports: [AppLayout],
+    }).compileComponents();
 
     fixture = TestBed.createComponent(AppLayout);
     component = fixture.componentInstance;

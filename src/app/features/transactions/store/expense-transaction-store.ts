@@ -31,7 +31,7 @@ export const ExpenseTransactionStore = signalStore(
   { providedIn: 'root' },
   withState(initialState),
 
-  withProps((store) => ({
+  withProps(() => ({
     uiStore: inject(UiStore),
     selectedTransactionStore: inject(SelectedTransactionStore),
   })),
@@ -110,7 +110,7 @@ export const ExpenseTransactionStore = signalStore(
           }));
 
           return resultOk();
-        } catch (error: any) {
+        } catch (error) {
           patchState(store, () => ({
             isCreating: false,
           }));
@@ -149,7 +149,7 @@ export const ExpenseTransactionStore = signalStore(
           }));
 
           return resultOk();
-        } catch (error: any) {
+        } catch (error) {
           patchState(store, () => ({
             isUpdating: false,
           }));

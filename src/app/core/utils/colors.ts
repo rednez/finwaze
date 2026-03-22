@@ -23,7 +23,7 @@ export const generateAnalogColors = (count: number) => {
     const lastColorIndex = colorsList.length - 1;
     let currentColorIndex = 0;
 
-    return Array.from({ length: count }, (_, index) => {
+    return Array.from({ length: count }, () => {
       if (currentColorIndex <= lastColorIndex) {
         return colorsList[currentColorIndex++];
       } else {

@@ -6,10 +6,10 @@ import {
   linkedSignal,
   model,
   output,
-  signal,
 } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { generateAnalogColors } from '@core/utils/colors';
+import { toNameOptions } from '@core/utils/input-transforms';
 import { Card } from '@shared/ui/card';
 import { CardHeaderTitle } from '@shared/ui/card-header-title/card-header-title';
 import { CardHeader } from '@shared/ui/card-header/card-header';
@@ -19,8 +19,8 @@ import { IftaLabelModule } from 'primeng/iftalabel';
 import { SelectModule } from 'primeng/select';
 import { SelectButtonModule } from 'primeng/selectbutton';
 import { v4 } from 'uuid';
-import { StatisticsByGroups } from './statistics-by-groups/statistics-by-groups';
 import { MonthlySummary } from '../../models';
+import { StatisticsByGroups } from './statistics-by-groups/statistics-by-groups';
 
 @Component({
   selector: 'app-wallet-statistics-widget',
@@ -57,7 +57,7 @@ import { MonthlySummary } from '../../models';
           <p-select
             [ngModel]="currency()"
             (ngModelChange)="onCurrencyChange($event)"
-            [options]="currenciesOptions()"
+            [options]="currencies()"
             optionLabel="name"
             optionValue="name"
             size="small"
@@ -97,7 +97,9 @@ import { MonthlySummary } from '../../models';
 })
 export class StatisticsWidget {
   readonly data = input<MonthlySummary[]>([]);
-  readonly currencies = input<string[]>([]);
+  readonly currencies = input<{ name: string }[], string[]>([], {
+    transform: toNameOptions,
+  });
   readonly initialCurrency = input<string>();
   readonly initialMonth = input(new Date());
   readonly monthChanged = output<Date>();
@@ -105,9 +107,6 @@ export class StatisticsWidget {
 
   protected readonly month = linkedSignal(() => this.initialMonth());
   protected readonly currency = linkedSignal(() => this.initialCurrency());
-  protected readonly currenciesOptions = computed(() =>
-    this.currencies().map((c) => ({ name: c })),
-  );
   protected readonly typeOptions = [
     { value: 'expense', label: 'Expense' },
     { value: 'income', label: 'Income' },

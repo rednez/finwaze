@@ -1,13 +1,13 @@
 import {
   ChangeDetectionStrategy,
   Component,
-  computed,
   input,
   linkedSignal,
   output,
 } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Transaction } from '@core/models/transactions';
+import { toNameOptions } from '@core/utils/input-transforms';
 import { RecentTransactionsWidget } from '@shared/ui/recent-transactions-widget';
 import { SelectModule } from 'primeng/select';
 
@@ -24,7 +24,7 @@ import { SelectModule } from 'primeng/select';
         <p-select
           [ngModel]="currency()"
           (ngModelChange)="currencyChanged.emit($event)"
-          [options]="currenciesOptions()"
+          [options]="currencies()"
           optionLabel="name"
           optionValue="name"
           size="small"
@@ -41,14 +41,12 @@ import { SelectModule } from 'primeng/select';
 })
 export class WalletRecentTransactionsCard {
   readonly transactions = input<Transaction[]>([]);
-  readonly currencies = input<string[]>([]);
+  readonly currencies = input<{ name: string }[], string[]>([], {
+    transform: toNameOptions,
+  });
   readonly initialCurrency = input<string>();
   readonly currencyChanged = output<string>();
   readonly backToTransactions = output<void>();
 
   protected readonly currency = linkedSignal(() => this.initialCurrency());
-
-  protected readonly currenciesOptions = computed(() =>
-    this.currencies().map((c) => ({ name: c })),
-  );
 }

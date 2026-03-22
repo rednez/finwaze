@@ -5,12 +5,15 @@ import {
   signal,
 } from '@angular/core';
 import { Router } from '@angular/router';
+import { AccountsStore } from '@core/store/accounts-store';
+import dayjs from 'dayjs';
 import { ButtonModule } from 'primeng/button';
-import { BudgetState } from '../../services/budget-state';
+import { BudgetStore, TotalBudgetStore } from '../../stores';
 import { BudgetCard } from '../../ui/budget-card/budget-card';
 import { BudgetFilters } from '../../ui/budget-filters';
 import { BudgetMostExpensesCard } from '../../ui/budget-most-expenses-card';
 import { MonthlySummaryCard } from '../../ui/monthly-summary-card';
+import { BudgetStatus } from '../../models';
 
 @Component({
   imports: [
@@ -27,59 +30,10 @@ import { MonthlySummaryCard } from '../../ui/monthly-summary-card';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class TotalBudget {
+  protected readonly budgetStore = inject(BudgetStore);
+  protected readonly totalBudgetStore = inject(TotalBudgetStore);
+  protected readonly accountsStore = inject(AccountsStore);
   private readonly router = inject(Router);
-  private readonly budgetState = inject(BudgetState);
-
-  protected readonly groups = signal([
-    {
-      id: 1,
-      name: 'Life',
-      budgetAmount: 12000.32,
-      spentAmount: 11090.98,
-      currency: 'UAH',
-      categoriesCount: 4,
-    },
-    {
-      id: 11,
-      name: 'Life',
-      budgetAmount: 3200.32,
-      spentAmount: 3000.98,
-      currency: 'USD',
-      categoriesCount: 6,
-    },
-    {
-      id: 2,
-      name: 'Medicine',
-      budgetAmount: 500,
-      spentAmount: 450,
-      currency: 'UAH',
-      categoriesCount: 2,
-    },
-    {
-      id: 3,
-      name: 'Entertainment',
-      budgetAmount: 2300,
-      spentAmount: 1200.4,
-      currency: 'USD',
-      categoriesCount: 9,
-    },
-    {
-      id: 4,
-      name: 'Sport and Movies',
-      budgetAmount: 1500,
-      spentAmount: 450,
-      currency: 'USD',
-      categoriesCount: 12,
-    },
-    {
-      id: 5,
-      name: 'Other',
-      budgetAmount: 22500,
-      spentAmount: 82321.76,
-      currency: 'USD',
-      categoriesCount: 5,
-    },
-  ]);
 
   protected readonly mostExpenses = signal([
     {
@@ -134,17 +88,45 @@ export class TotalBudget {
   ]);
 
   constructor() {
-    this.budgetState.selectedGroupName.set('');
+    this.loadData();
   }
 
   protected gotoBudgetByGroup(id: number, name: string) {
-    this.budgetState.selectedCurrency.set('USD');
-    this.budgetState.selectedGroupName.set(name);
+    // TODO
+    console.log({ id, name });
 
-    this.router.navigate([`/budget/groups/${id}`]);
+    // this.budgetState.selectedCurrency.set('USD');
+    // this.budgetState.selectedGroupName.set(name);
+    // this.router.navigate([`/budget/groups/${id}`]);
   }
 
   protected gotoCreateBudget() {
-    this.router.navigate([`/budget/create`]);
+    this.router.navigate(['budget', 'create']);
+  }
+
+  protected onMonthChanged($event: Date) {
+    if (!dayjs($event).isSame(this.budgetStore.month(), 'month')) {
+      this.budgetStore.updateMonth($event);
+      this.totalBudgetStore.loadGroupsMonthlyBudgets();
+    }
+  }
+
+  protected onCurrencyChanged($event: string) {
+    if (this.budgetStore.currencyCode() !== $event) {
+      this.budgetStore.updateCurrencyCode($event);
+      this.totalBudgetStore.loadGroupsMonthlyBudgets();
+    }
+  }
+
+  protected onStatusChanged($event: string) {
+    this.totalBudgetStore.updateStatus($event as 'all' | BudgetStatus);
+  }
+
+  onSelectedGroupsIdsChanged($event: number[]) {
+    this.totalBudgetStore.updateSelectedGroupsIds($event);
+  }
+
+  private loadData() {
+    this.totalBudgetStore.loadGroupsMonthlyBudgets();
   }
 }

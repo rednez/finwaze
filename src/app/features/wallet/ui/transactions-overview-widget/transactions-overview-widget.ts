@@ -16,6 +16,7 @@ import { ToggleButtonModule } from 'primeng/togglebutton';
 import { TooltipModule } from 'primeng/tooltip';
 import { TransactionCashFlowItem } from '../../models';
 import { TransactionsOverviewChart } from '../transactions-overview-chart';
+import { toNameOptions } from '@core/utils/input-transforms';
 
 @Component({
   selector: 'app-transactions-overview-widget',
@@ -74,7 +75,7 @@ import { TransactionsOverviewChart } from '../transactions-overview-chart';
           <p-select
             [ngModel]="currency()"
             (ngModelChange)="currencyChanged.emit($event)"
-            [options]="currenciesOptions()"
+            [options]="currencies()"
             optionLabel="name"
             optionValue="name"
             size="small"
@@ -99,7 +100,9 @@ import { TransactionsOverviewChart } from '../transactions-overview-chart';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class TransactionsOverviewWidget {
-  readonly currencies = input<string[]>([]);
+  readonly currencies = input<{ name: string }[], string[]>([], {
+    transform: toNameOptions,
+  });
   readonly initialIncomesToggle = input(true);
   readonly initialCurrency = input<string>();
   readonly initialMonth = input(new Date());
@@ -113,10 +116,6 @@ export class TransactionsOverviewWidget {
   );
   protected readonly month = linkedSignal(() => this.initialMonth());
   protected readonly currency = linkedSignal(() => this.initialCurrency());
-
-  protected readonly currenciesOptions = computed(() =>
-    this.currencies().map((c) => ({ name: c })),
-  );
 
   protected readonly labels = computed(() => this.data().map((d) => d.label));
   protected readonly incomes = computed(() => this.data().map((d) => d.income));

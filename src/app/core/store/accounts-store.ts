@@ -79,7 +79,7 @@ export const AccountsStore = signalStore(
             selectedCurrencyCode:
               accountsLocalStorage.selectedCurrencyCode || undefined,
           }));
-        } catch (error) {
+        } catch {
           patchState(store, () => ({
             isLoading: false,
             isError: true,
@@ -107,7 +107,7 @@ export const AccountsStore = signalStore(
           }));
 
           return resultOk();
-        } catch (error: any) {
+        } catch (error) {
           patchState(store, () => ({
             isCreating: false,
           }));

@@ -64,7 +64,7 @@ export class GroupCard implements OnInit {
 
   protected cancelEdit() {
     this.isEditing.set(false);
-    this.name.setValue(this.group()?.name!);
+    this.name.setValue(this.group()!.name);
   }
 
   protected onRenameCategory(categoryId: number, newCategoryName: string) {

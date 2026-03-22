@@ -1,12 +1,12 @@
 <section class="flex-1">
-  <div class="flex gap-4 flex-wrap mt-4">
+  <!-- <div class="flex gap-4 flex-wrap mt-4">
     @for (cat of categories(); track cat.id) {
       <app-budget-card
         class="flex-1"
         [name]="cat.name"
-        [budgetAmount]="cat.budgetAmount"
+        [plannedAmount]="cat.plannedAmount"
         [spentAmount]="cat.spentAmount"
-        [currency]="cat.currency"
+        [currencyCode]="'UAH'"
       >
       </app-budget-card>
     }
@@ -21,5 +21,5 @@
     [currency]="'UAH'"
   />
 
-  <app-budget-most-expenses-card [expenses]="mostExpenses()" />
+  <app-budget-most-expenses-card [expenses]="mostExpenses()" /> -->
 </section>

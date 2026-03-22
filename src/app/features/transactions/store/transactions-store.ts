@@ -100,7 +100,7 @@ export const TransactionsStore = signalStore(
             hasTransactions: hasTransactions,
           }));
         }
-      } catch (error) {
+      } catch {
         patchState(store, () => ({
           ...initialState,
           isError: true,

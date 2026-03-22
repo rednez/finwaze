@@ -11,26 +11,26 @@ import { BudgetStatusBadge } from '../../budget-status-badge/budget-status-badge
       <app-styled-amount
         class="hidden sm:block"
         size="lg"
-        [amount]="budgetAmount()"
+        [amount]="plannedAmount()"
         [currency]="currency()"
       />
       <app-styled-amount
         class="sm:hidden"
-        [amount]="budgetAmount()"
+        [amount]="plannedAmount()"
         [currency]="currency()"
       />
     </div>
 
     <app-budget-status-badge
       class="mt-1"
-      [budgetAmount]="budgetAmount()"
+      [plannedAmount]="plannedAmount()"
       [spentAmount]="spentAmount()"
     />
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class MonthlySummaryCardTotalAmount {
-  readonly budgetAmount = input(0);
+  readonly plannedAmount = input(0);
   readonly spentAmount = input(0);
-  readonly currency = input.required<string>();
+  readonly currency = input<string>();
 }

@@ -10,7 +10,14 @@ import {
   providedIn: 'root',
 })
 export class DashboardMapper {
-  fromTotalsSummaryDto(dto: any): TotalSummaries {
+  fromTotalsSummaryDto(dto: {
+    total_balance?: number;
+    monthly_income?: number;
+    monthly_expense?: number;
+    previous_total_balance?: number;
+    previous_monthly_income?: number;
+    previous_monthly_expense?: number;
+  }): TotalSummaries {
     return {
       totalBalance: dto.total_balance ?? 0,
       monthlyIncome: dto.monthly_income ?? 0,
@@ -21,15 +28,25 @@ export class DashboardMapper {
     };
   }
 
-  fromMonthlyCashFlowDto(dto: any): MonthlyCashFlow {
+  fromMonthlyCashFlowDto(dto: {
+    month: string;
+    total_income?: number;
+    total_expense?: number;
+  }): MonthlyCashFlow {
     return {
       month: new Date(dto.month),
       income: dto.total_income ?? 0,
-      expense: Math.abs(dto.total_expense) ?? 0,
+      expense: dto.total_income ? Math.abs(dto.total_expense ?? 0) : 0,
     };
   }
 
-  fromRecentSavingsGoalDto(dto: any): RecentSavingsGoal {
+  fromRecentSavingsGoalDto(dto: {
+    id: number;
+    name: string;
+    amount: number;
+    balance: number;
+    currency_code: string;
+  }): RecentSavingsGoal {
     return {
       id: dto.id,
       name: dto.name,
@@ -39,7 +56,10 @@ export class DashboardMapper {
     };
   }
 
-  fromRecentMonthlyBudgetDto(dto: any): RecentMonthlyBudget {
+  fromRecentMonthlyBudgetDto(dto: {
+    category_name: string;
+    total_budget: number;
+  }): RecentMonthlyBudget {
     return {
       name: dto.category_name,
       amount: dto.total_budget,

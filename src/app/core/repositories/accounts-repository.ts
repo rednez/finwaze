@@ -1,6 +1,6 @@
 import { inject, Injectable } from '@angular/core';
 import { AccountsMapper } from '@core/mappers/accounts-mapper';
-import { Account } from '@core/models/accounts';
+import { Account, AccountDto } from '@core/models/accounts';
 import { SupabaseService } from '@core/services/supabase.service';
 
 @Injectable({
@@ -14,7 +14,8 @@ export class AccountsRepository {
     const { data, error } = await this.supabase.client
       .from('accounts')
       .select(`id, name, currencies(code)`)
-      .eq('type', 'regular');
+      .eq('type', 'regular')
+      .overrideTypes<AccountDto[]>();
 
     if (error) {
       throw new Error(error.message);
@@ -27,7 +28,8 @@ export class AccountsRepository {
     const { data, error } = await this.supabase.client
       .from('accounts')
       .insert([{ name: accountName, currency_id: currencyId }])
-      .select(`id, name, currencies(code)`);
+      .select(`id, name, currencies(code)`)
+      .overrideTypes<AccountDto[]>();
     if (error) {
       throw new Error(error.message);
     }

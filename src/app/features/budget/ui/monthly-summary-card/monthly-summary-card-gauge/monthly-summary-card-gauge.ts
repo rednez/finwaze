@@ -12,7 +12,7 @@ import { StyledAmount } from '@shared/ui/styled-amount';
   imports: [BudgetGauge, StyledAmount],
   template: `
     <app-budget-gauge
-      [totalAmount]="budgetAmount()"
+      [totalAmount]="plannedAmount()"
       [spentAmount]="spentAmount()"
     />
 
@@ -56,21 +56,22 @@ import { StyledAmount } from '@shared/ui/styled-amount';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class MonthlySummaryCardGauge {
-  readonly budgetAmount = input(0);
+  readonly plannedAmount = input(0);
   readonly spentAmount = input(0);
-  readonly currency = input.required<string>();
+  readonly currency = input<string>();
 
   protected readonly spentPercentage = computed(() =>
-    Math.floor((this.spentAmount() / this.budgetAmount()) * 100),
+    Math.floor((this.spentAmount() / this.plannedAmount()) * 100),
   );
 
   protected readonly leftPercentage = computed(() =>
     Math.floor(
-      ((this.budgetAmount() - this.spentAmount()) / this.budgetAmount()) * 100,
+      ((this.plannedAmount() - this.spentAmount()) / this.plannedAmount()) *
+        100,
     ),
   );
 
   protected readonly leftAmount = computed(
-    () => this.budgetAmount() - this.spentAmount(),
+    () => this.plannedAmount() - this.spentAmount(),
   );
 }

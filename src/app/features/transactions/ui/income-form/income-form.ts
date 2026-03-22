@@ -95,7 +95,7 @@ export class IncomeForm {
     );
 
   protected readonly selectedCurrencyCode = toSignal(
-    this.selectedAccount$.pipe(map((acc) => (!!acc ? acc.currencyCode : ''))),
+    this.selectedAccount$.pipe(map((acc) => (acc ? acc.currencyCode : ''))),
     { initialValue: '' },
   );
 

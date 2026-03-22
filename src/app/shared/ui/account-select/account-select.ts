@@ -51,11 +51,11 @@ export class AccountSelect implements ControlValueAccessor {
     this.selectedAccount.set(accountId);
   }
 
-  registerOnChange(fn: any): void {
+  registerOnChange(fn: (value: number) => void): void {
     this.onChange = fn;
   }
 
-  registerOnTouched(fn: any): void {
+  registerOnTouched(fn: VoidFunction): void {
     this.onTouched = fn;
   }
 

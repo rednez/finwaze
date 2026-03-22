@@ -1,13 +1,13 @@
 import {
   ChangeDetectionStrategy,
   Component,
-  computed,
   input,
   model,
   OnInit,
   output,
 } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { toNameOptions } from '@core/utils/input-transforms';
 import { FloatLabelModule } from 'primeng/floatlabel';
 import { MultiSelectModule } from 'primeng/multiselect';
 import { SelectChangeEvent, SelectModule } from 'primeng/select';
@@ -22,15 +22,13 @@ import { SelectChangeEvent, SelectModule } from 'primeng/select';
   },
 })
 export class DashboardFilters implements OnInit {
-  readonly currencies = input<string[]>([]);
+  readonly currencies = input<{ name: string }[], string[]>([], {
+    transform: toNameOptions,
+  });
   readonly initCurrency = input<string>();
   readonly currencyChanged = output<string>();
 
   protected selectedCurrency: { name: string } = model();
-
-  protected readonly currenciesOptions = computed(() =>
-    this.currencies().map((name) => ({ name })),
-  );
 
   ngOnInit(): void {
     if (this.initCurrency()) {

@@ -1,10 +1,4 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  DestroyRef,
-  inject,
-  OnInit,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { Router } from '@angular/router';
 import { RecentTransactionsWidget } from '@shared/ui/recent-transactions-widget';
@@ -35,14 +29,13 @@ import { SavingGoalsWidget } from './ui/saving-goals-widget/saving-goals-widget'
   },
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class Dashboard implements OnInit {
+export class Dashboard {
   protected readonly store = inject(DashboardStore);
-  private readonly destroyRef = inject(DestroyRef);
-  private router = inject(Router);
+  private readonly router = inject(Router);
 
-  ngOnInit(): void {
+  constructor() {
     this.store.currencyCode$
-      .pipe(take(1), takeUntilDestroyed(this.destroyRef))
+      .pipe(take(1), takeUntilDestroyed())
       .subscribe(() => {
         this.store.loadTotalsSummary();
         this.store.loadCashFlow();

@@ -27,15 +27,15 @@ import { BudgetCardSummary } from './budget-card-summary/budget-card-summary';
 
       <div class="flex gap-4 items-end">
         <app-budget-card-chart
-          [budgetAmount]="budgetAmount()"
+          [plannedAmount]="plannedAmount()"
           [spentAmount]="spentAmount()"
-          [currency]="currency()"
+          [currency]="currencyCode()"
         />
 
         <app-budget-card-summary
-          [budgetAmount]="budgetAmount()"
+          [plannedAmount]="plannedAmount()"
           [spentAmount]="spentAmount()"
-          [currency]="currency()"
+          [currency]="currencyCode()"
         />
       </div>
     </app-card>
@@ -44,7 +44,7 @@ import { BudgetCardSummary } from './budget-card-summary/budget-card-summary';
 })
 export class BudgetCard {
   readonly name = input('');
-  readonly budgetAmount = input(0);
+  readonly plannedAmount = input(0);
   readonly spentAmount = input(0);
-  readonly currency = input.required<string>();
+  readonly currencyCode = input<string>();
 }

@@ -21,14 +21,14 @@ import { MonthlySummaryCardTotalAmount } from './monthly-summary-card-total-amou
       </app-card-header>
 
       <app-monthly-summary-card-total-amount
-        [budgetAmount]="budgetAmount()"
+        [plannedAmount]="plannedAmount()"
         [spentAmount]="spentAmount()"
         [currency]="currency()"
       />
 
       <app-monthly-summary-card-gauge
         class="min-w-62 max-w-85 md:w-85 m-auto"
-        [budgetAmount]="budgetAmount()"
+        [plannedAmount]="plannedAmount()"
         [spentAmount]="spentAmount()"
         [currency]="currency()"
       />
@@ -38,7 +38,7 @@ import { MonthlySummaryCardTotalAmount } from './monthly-summary-card-total-amou
 })
 export class MonthlySummaryCard {
   readonly name = input('');
-  readonly budgetAmount = input(0);
+  readonly plannedAmount = input(0);
   readonly spentAmount = input(0);
-  readonly currency = input.required<string>();
+  readonly currency = input<string>();
 }

@@ -9,11 +9,11 @@ import { ThemeService } from '@core/services/theme.service';
 import { StyledAmount } from '@shared/ui/styled-amount';
 import { ChartModule } from 'primeng/chart';
 
-type SummaryItem = {
+interface SummaryItem {
   name: string;
   amount: number;
   color: string;
-};
+}
 
 @Component({
   selector: 'app-donut-summary-chart',

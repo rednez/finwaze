@@ -48,17 +48,17 @@ import { ChartModule } from 'primeng/chart';
 export class DonutBudgetSpentChart {
   private readonly isDarkModeSignal = inject(ThemeService).isDark;
 
-  readonly budgetAmount = input(0);
+  readonly plannedAmount = input(0);
   readonly spentAmount = input(0);
-  readonly currency = input.required<string>();
+  readonly currency = input<string>();
   readonly radiusSize = input<'sm' | 'md'>('md');
 
   protected readonly leftAmount = computed(
-    () => this.budgetAmount() - this.spentAmount(),
+    () => this.plannedAmount() - this.spentAmount(),
   );
 
   protected readonly spentPercentage = computed(() => {
-    const value = this.spentAmount() / this.budgetAmount();
+    const value = this.spentAmount() / this.plannedAmount();
     return this.leftAmount() < 0 ? value * -1 : value;
   });
 

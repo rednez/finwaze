@@ -4,6 +4,7 @@ import {
   computed,
   input,
 } from '@angular/core';
+import { getBudgetStatus } from '../../utils';
 
 @Component({
   selector: 'app-budget-status-badge',
@@ -27,15 +28,11 @@ import {
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class BudgetStatusBadge {
-  readonly budgetAmount = input(0);
+  readonly plannedAmount = input(0);
   readonly spentAmount = input(0);
 
   protected readonly status = computed(() =>
-    this.leftPercentage() >= 20
-      ? 'onTrack'
-      : this.leftPercentage() < 20 && this.leftPercentage() >= 0
-        ? 'attention'
-        : 'overBudget',
+    getBudgetStatus(this.plannedAmount(), this.spentAmount()),
   );
 
   protected readonly icon = computed(() =>
@@ -61,9 +58,5 @@ export class BudgetStatusBadge {
       : this.status() === 'attention'
         ? 'attention'
         : 'over budget',
-  );
-
-  private readonly leftPercentage = computed(
-    () => 100 - (this.spentAmount() / this.budgetAmount()) * 100,
   );
 }

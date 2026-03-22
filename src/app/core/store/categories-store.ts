@@ -62,7 +62,7 @@ export const CategoriesStore = signalStore(
           allGroups: groups,
           allCategories: categories,
         }));
-      } catch (error) {
+      } catch {
         patchState(store, () => ({
           isLoading: false,
           isError: true,
@@ -87,7 +87,7 @@ export const CategoriesStore = signalStore(
         }));
 
         return resultOk();
-      } catch (error: any) {
+      } catch (error) {
         patchState(store, () => ({
           isCreating: false,
         }));
@@ -110,7 +110,7 @@ export const CategoriesStore = signalStore(
         }));
 
         return resultOk();
-      } catch (error: any) {
+      } catch (error) {
         patchState(store, () => ({
           isCreating: false,
         }));

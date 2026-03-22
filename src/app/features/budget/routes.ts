@@ -1,12 +1,10 @@
 import { Routes } from '@angular/router';
-import { budgetByGroupGuard } from './guards/budget-by-group-guard';
-import { categoriesResolver } from './resolvers/categories-resolver';
-import { mostExpensesResolver } from './resolvers/most-expenses-resolver';
 
 export const budgetRoutes: Routes = [
   {
     path: '',
-    loadComponent: () => import('./budget').then((c) => c.Budget),
+    loadComponent: () =>
+      import('./layout/budget-layout').then((c) => c.BudgetLayout),
     children: [
       {
         path: '',
@@ -17,11 +15,6 @@ export const budgetRoutes: Routes = [
         path: 'groups/:id',
         loadComponent: () =>
           import('./pages/budget-by-group').then((c) => c.BudgetByGroup),
-        canActivate: [budgetByGroupGuard],
-        resolve: {
-          categories: categoriesResolver,
-          mostExpenses: mostExpensesResolver,
-        },
       },
       {
         path: 'create',

@@ -1,6 +1,10 @@
 import { inject, Injectable } from '@angular/core';
 import { TransactionsMapper } from '@core/mappers/transactions-mapper';
-import { Transaction, TransactionType } from '@core/models/transactions';
+import {
+  Transaction,
+  TransactionDetailsDto,
+  TransactionType,
+} from '@core/models/transactions';
 import { SupabaseService } from '@core/services/supabase.service';
 import dayjs from 'dayjs';
 
@@ -100,7 +104,7 @@ export class TransactionsRepository {
       .from('transactions')
       .select(transactionDetailsSelect)
       .eq('id', transactionId)
-      .single();
+      .single<TransactionDetailsDto>();
 
     if (error) {
       throw new Error(error.message);

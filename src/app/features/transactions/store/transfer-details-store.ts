@@ -42,7 +42,7 @@ export const TransferDetailsStore = signalStore(
         }));
 
         return resultOk();
-      } catch (error: any) {
+      } catch (error) {
         patchState(store, () => ({
           ...initialState,
           isError: true,
@@ -73,7 +73,7 @@ export const TransferDetailsStore = signalStore(
         }));
 
         return resultOk();
-      } catch (error: any) {
+      } catch (error) {
         patchState(store, () => ({
           isError: true,
         }));

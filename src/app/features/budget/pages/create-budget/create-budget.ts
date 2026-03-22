@@ -39,8 +39,8 @@ export class CreateBudget implements OnInit {
   // TODO: temp
   private productService = inject(ProductService);
 
-  products = signal<any[]>([]);
-  expandedRows: any = {};
+  products = signal<{ id: string }[]>([]);
+  expandedRows: Record<string, boolean> = {};
 
   ngOnInit(): void {
     this.productService.getProductsWithOrdersSmall().then((data) => {
@@ -49,8 +49,8 @@ export class CreateBudget implements OnInit {
   }
 
   expandAll() {
-    this.expandedRows = this.products().reduce(
-      (acc, p) => (acc[p.id] = true) && acc,
+    this.expandedRows = this.products().reduce<Record<string, boolean>>(
+      (acc, p) => ({ ...acc, [p.id]: true }),
       {},
     );
   }
@@ -88,6 +88,9 @@ export class CreateBudget implements OnInit {
   }
 
   onRowExpand(event: TableRowExpandEvent) {
+    // TODO
+    console.log(event);
+
     // this.messageService.add({
     //   severity: 'info',
     //   summary: 'Product Expanded',
@@ -97,6 +100,9 @@ export class CreateBudget implements OnInit {
   }
 
   onRowCollapse(event: TableRowCollapseEvent) {
+    // TODO
+    console.log(event);
+
     // this.messageService.add({
     //   severity: 'success',
     //   summary: 'Product Collapsed',

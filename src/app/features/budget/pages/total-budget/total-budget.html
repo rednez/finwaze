@@ -2,7 +2,18 @@
   <div
     class="flex flex-col-reverse sm:flex-row justify-end sm:justify-between gap-4"
   >
-    <app-budget-filters class="grow" />
+    <app-budget-filters
+      class="grow"
+      [currencies]="accountsStore.myCurrencies()"
+      [initialCurrency]="budgetStore.currencyCode() || undefined"
+      [initialMonth]="budgetStore.month()"
+      [initialGroupsIds]="totalBudgetStore.selectedGroupsIds()"
+      [groups]="totalBudgetStore.groupsMonthlyBudgets()"
+      (monthChanged)="onMonthChanged($event)"
+      (currencyChanged)="onCurrencyChanged($event)"
+      (statusChanged)="onStatusChanged($event)"
+      (groupsIdsChanged)="onSelectedGroupsIdsChanged($event)"
+    />
 
     <p-button
       class="shrink-0 self-end sm:self-auto"
@@ -16,13 +27,13 @@
   </div>
 
   <div class="flex gap-4 flex-wrap mt-4">
-    @for (group of groups(); track group.id) {
+    @for (group of totalBudgetStore.filteredBudgets(); track group.id) {
       <app-budget-card
         class="flex-1"
         [name]="group.name"
-        [budgetAmount]="group.budgetAmount"
+        [plannedAmount]="group.plannedAmount"
         [spentAmount]="group.spentAmount"
-        [currency]="group.currency"
+        [currencyCode]="budgetStore.currencyCode() || undefined"
       >
         <p-button
           card-actions
@@ -42,9 +53,9 @@
 <section class="flex flex-col gap-4 grow md:max-w-100">
   <app-monthly-summary-card
     [name]="'Monthly budget'"
-    [budgetAmount]="4123989"
+    [plannedAmount]="4123989"
     [spentAmount]="323989"
-    [currency]="'UAH'"
+    [currency]="budgetStore.currencyCode() || undefined"
   />
 
   <app-budget-most-expenses-card [expenses]="mostExpenses()" />

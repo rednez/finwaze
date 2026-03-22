@@ -29,12 +29,12 @@ import { BudgetExpenseItem } from './budget-expense-item/budget-expense-item';
 })
 export class BudgetMostExpensesCard {
   readonly expenses = input<
-    Array<{
+    {
       id: number;
       name: string;
       currentAmount: number;
       previousPeriodAmount: number;
       currency: string;
-    }>
+    }[]
   >([]);
 }

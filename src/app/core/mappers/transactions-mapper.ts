@@ -1,11 +1,15 @@
 import { Injectable } from '@angular/core';
-import { Transaction } from '@core/models/transactions';
+import {
+  Transaction,
+  TransactionDetailsDto,
+  TransactionDto,
+} from '@core/models/transactions';
 
 @Injectable({
   providedIn: 'root',
 })
 export class TransactionsMapper {
-  fromTransactionDto = (dto: any): Transaction => {
+  fromTransactionDto = (dto: TransactionDto): Transaction => {
     const {
       id,
       transacted_at,
@@ -44,7 +48,7 @@ export class TransactionsMapper {
     };
   };
 
-  fromTransactionDetailsDto = (dto: any): Transaction => {
+  fromTransactionDetailsDto = (dto: TransactionDetailsDto): Transaction => {
     const {
       id,
       transacted_at,

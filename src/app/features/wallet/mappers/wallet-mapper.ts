@@ -1,15 +1,18 @@
 import { Injectable } from '@angular/core';
 import {
   MonthlySummary,
+  MonthlySummaryDto,
   RegularAccount,
+  RegularAccountDto,
   TransactionCashFlowItem,
+  TransactionCashFlowItemDto,
 } from '../models';
 
 @Injectable({
   providedIn: 'root',
 })
 export class WalletMapper {
-  fromRegularAccountDto(dto: any): RegularAccount {
+  fromRegularAccountDto(dto: RegularAccountDto): RegularAccount {
     return {
       id: dto.id,
       name: dto.name,
@@ -19,7 +22,9 @@ export class WalletMapper {
     };
   }
 
-  fromDailyTransactionCashFlowItemDto(dto: any): TransactionCashFlowItem {
+  fromDailyTransactionCashFlowItemDto(
+    dto: TransactionCashFlowItemDto,
+  ): TransactionCashFlowItem {
     return {
       label: dto.day,
       expense: Math.abs(dto.total_expense),
@@ -27,7 +32,7 @@ export class WalletMapper {
     };
   }
 
-  fromMonthlySummaryDto(dto: any): MonthlySummary {
+  fromMonthlySummaryDto(dto: MonthlySummaryDto): MonthlySummary {
     return {
       groupName: dto.group_name,
       totalExpense: Math.abs(dto.total_expense),

@@ -1,11 +1,9 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { ComponentRef } from '@angular/core';
 
 import { BudgetGauge } from './budget-gauge';
 
 describe('BudgetGauge', () => {
   let component: BudgetGauge;
-  let componentRef: ComponentRef<BudgetGauge>;
   let fixture: ComponentFixture<BudgetGauge>;
 
   beforeEach(async () => {
@@ -15,7 +13,6 @@ describe('BudgetGauge', () => {
 
     fixture = TestBed.createComponent(BudgetGauge);
     component = fixture.componentInstance;
-    componentRef = fixture.componentRef;
     await fixture.whenStable();
   });
 

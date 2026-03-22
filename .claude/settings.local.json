@@ -1,4 +1,12 @@
 {
+  "permissions": {
+    "allow": [
+      "mcp__angular-cli__search_documentation",
+      "mcp__angular-cli__get_best_practices",
+      "mcp__angular-cli__find_examples",
+      "WebSearch"
+    ]
+  },
   "enabledMcpjsonServers": [
     "supabase",
     "angular-cli",
