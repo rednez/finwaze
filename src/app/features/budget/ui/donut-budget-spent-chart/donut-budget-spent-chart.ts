@@ -58,6 +58,9 @@ export class DonutBudgetSpentChart {
   );
 
   protected readonly spentPercentage = computed(() => {
+    if (this.plannedAmount() === 0) {
+      return 1;
+    }
     const value = this.spentAmount() / this.plannedAmount();
     return this.leftAmount() < 0 ? value * -1 : value;
   });

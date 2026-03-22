@@ -4,6 +4,8 @@ import {
   CategoryMonthlyBudgetDto,
   GroupMonthlyBudget,
   GroupMonthlyBudgetDto,
+  MonthlyBudgetTotals,
+  MonthlyBudgetTotalsDto,
 } from '../models';
 
 @Injectable({
@@ -30,6 +32,13 @@ export class BudgetMapper {
       plannedAmount: dto.planned_amount,
       spentAmount: Math.abs(dto.spent_amount),
       isUnplanned: dto.is_unplanned,
+    };
+  }
+
+  fromMonthlyBudgetTotalsDto(dto: MonthlyBudgetTotalsDto): MonthlyBudgetTotals {
+    return {
+      plannedAmount: dto.planned_amount,
+      spentAmount: Math.abs(dto.spent_amount),
     };
   }
 }

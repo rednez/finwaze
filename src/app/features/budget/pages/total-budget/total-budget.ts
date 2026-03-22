@@ -8,12 +8,12 @@ import { Router } from '@angular/router';
 import { AccountsStore } from '@core/store/accounts-store';
 import dayjs from 'dayjs';
 import { ButtonModule } from 'primeng/button';
+import { BudgetStatus } from '../../models';
 import { BudgetStore, TotalBudgetStore } from '../../stores';
 import { BudgetCard } from '../../ui/budget-card/budget-card';
 import { BudgetFilters } from '../../ui/budget-filters';
 import { BudgetMostExpensesCard } from '../../ui/budget-most-expenses-card';
 import { MonthlySummaryCard } from '../../ui/monthly-summary-card';
-import { BudgetStatus } from '../../models';
 
 @Component({
   imports: [
@@ -107,14 +107,14 @@ export class TotalBudget {
   protected onMonthChanged($event: Date) {
     if (!dayjs($event).isSame(this.budgetStore.month(), 'month')) {
       this.budgetStore.updateMonth($event);
-      this.totalBudgetStore.loadGroupsMonthlyBudgets();
+      this.loadData();
     }
   }
 
   protected onCurrencyChanged($event: string) {
     if (this.budgetStore.currencyCode() !== $event) {
       this.budgetStore.updateCurrencyCode($event);
-      this.totalBudgetStore.loadGroupsMonthlyBudgets();
+      this.loadData();
     }
   }
 
@@ -128,5 +128,6 @@ export class TotalBudget {
 
   private loadData() {
     this.totalBudgetStore.loadGroupsMonthlyBudgets();
+    this.totalBudgetStore.loadMonthlyBudgetTotals();
   }
 }

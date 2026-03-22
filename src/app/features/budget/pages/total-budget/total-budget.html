@@ -52,9 +52,9 @@
 
 <section class="flex flex-col gap-4 grow md:max-w-100">
   <app-monthly-summary-card
-    [name]="'Monthly budget'"
-    [plannedAmount]="4123989"
-    [spentAmount]="323989"
+    name="Monthly budget"
+    [plannedAmount]="totalBudgetStore.monthlyBudgetTotals.plannedAmount()"
+    [spentAmount]="totalBudgetStore.monthlyBudgetTotals.spentAmount()"
     [currency]="budgetStore.currencyCode() || undefined"
   />
 
