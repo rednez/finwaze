@@ -43,6 +43,9 @@ export class BudgetFilters {
     transform: toNameOptions,
   });
   readonly groups = input<GroupOption[]>([]);
+  readonly hasStatusFilter = input(true);
+  readonly hasGroupsFilter = input(true);
+
   readonly monthChanged = output<Date>();
   readonly currencyChanged = output<string>();
   readonly statusChanged = output<string>();

@@ -12,6 +12,7 @@ import {
   BudgetStatus,
   GroupMonthlyBudget,
   MonthlyBudgetTotals,
+  MonthlyExpense,
 } from '../models';
 import { BudgetRepository } from '../repositories';
 import { getBudgetStatus } from '../utils';
@@ -26,6 +27,7 @@ interface TotalBudgetState {
   status: 'all' | BudgetStatus;
   selectedGroupsIds: number[];
   monthlyBudgetTotals: MonthlyBudgetTotals;
+  monthlyExpenses: MonthlyExpense[];
 }
 
 const initialState: TotalBudgetState = {
@@ -40,6 +42,7 @@ const initialState: TotalBudgetState = {
     plannedAmount: 0,
     spentAmount: 0,
   },
+  monthlyExpenses: [],
 };
 
 export const TotalBudgetStore = signalStore(
@@ -159,6 +162,51 @@ export const TotalBudgetStore = signalStore(
               isLoading: false,
               isLoaded: true,
               monthlyBudgetTotals: data,
+            }));
+          }
+
+          return resultOk();
+        } catch (error) {
+          patchState(store, () => ({
+            ...initialState,
+            isError: true,
+          }));
+
+          return resultError(error);
+        }
+      },
+
+      async loadMonthlyExpenses(): Promise<Result> {
+        if (store.isLoaded()) {
+          patchState(store, () => ({
+            isUpdating: true,
+          }));
+        } else {
+          patchState(store, () => ({
+            isLoading: true,
+          }));
+        }
+
+        try {
+          if (!budgetStore.currencyCode()) {
+            throw new Error('Currency code is required');
+          }
+
+          const data = await repository.getMonthlyExpensesByGroup({
+            month: budgetStore.month(),
+            currencyCode: budgetStore.currencyCode()!,
+          });
+
+          if (store.isLoaded()) {
+            patchState(store, () => ({
+              isUpdating: false,
+              monthlyExpenses: data,
+            }));
+          } else {
+            patchState(store, () => ({
+              isLoading: false,
+              isLoaded: true,
+              monthlyExpenses: data,
             }));
           }
 

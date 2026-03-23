@@ -32,45 +32,49 @@
     <label for="currency">Currency</label>
   </p-floatlabel>
 
-  <p-floatlabel class="w-40" variant="on">
-    <p-select
-      [(ngModel)]="status"
-      [options]="statuses"
-      optionLabel="name"
-      optionValue="value"
-      class="w-full"
-      size="small"
-      inputId="status"
-      [dt]="{
-        root: {
-          borderRadius: '12px',
-        },
-      }"
-      (onChange)="statusChanged.emit($event.value)"
-    />
-    <label for="status">Status</label>
-  </p-floatlabel>
+  @if (hasStatusFilter()) {
+    <p-floatlabel class="w-40" variant="on">
+      <p-select
+        [(ngModel)]="status"
+        [options]="statuses"
+        optionLabel="name"
+        optionValue="value"
+        class="w-full"
+        size="small"
+        inputId="status"
+        [dt]="{
+          root: {
+            borderRadius: '12px',
+          },
+        }"
+        (onChange)="statusChanged.emit($event.value)"
+      />
+      <label for="status">Status</label>
+    </p-floatlabel>
+  }
 </div>
 
-<p-multiselect
-  [(ngModel)]="selectedGroupsIds"
-  [options]="groups()"
-  optionLabel="name"
-  optionValue="id"
-  placeholder="Select groups"
-  [maxSelectedLabels]="3"
-  [showClear]="true"
-  display="chip"
-  inputId="groups"
-  class="text-sm"
-  [dt]="{
-    root: {
-      borderRadius: '12px',
-    },
-    chip: {
-      borderRadius: '16px',
-    },
-  }"
-  (onChange)="groupsIdsChanged.emit($event.value)"
-  (onClear)="groupsIdsChanged.emit([])"
-/>
+@if (hasGroupsFilter()) {
+  <p-multiselect
+    [(ngModel)]="selectedGroupsIds"
+    [options]="groups()"
+    optionLabel="name"
+    optionValue="id"
+    placeholder="Select groups"
+    [maxSelectedLabels]="3"
+    [showClear]="true"
+    display="chip"
+    inputId="groups"
+    class="text-sm"
+    [dt]="{
+      root: {
+        borderRadius: '12px',
+      },
+      chip: {
+        borderRadius: '16px',
+      },
+    }"
+    (onChange)="groupsIdsChanged.emit($event.value)"
+    (onClear)="groupsIdsChanged.emit([])"
+  />
+}

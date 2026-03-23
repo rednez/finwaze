@@ -1,11 +1,7 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  inject,
-  signal,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { Router } from '@angular/router';
 import { AccountsStore } from '@core/store/accounts-store';
+import { EmptyState } from '@shared/ui/empty-state';
 import dayjs from 'dayjs';
 import { ButtonModule } from 'primeng/button';
 import { BudgetStatus } from '../../models';
@@ -22,6 +18,7 @@ import { MonthlySummaryCard } from '../../ui/monthly-summary-card';
     ButtonModule,
     MonthlySummaryCard,
     BudgetMostExpensesCard,
+    EmptyState,
   ],
   templateUrl: './total-budget.html',
   host: {
@@ -34,58 +31,6 @@ export class TotalBudget {
   protected readonly totalBudgetStore = inject(TotalBudgetStore);
   protected readonly accountsStore = inject(AccountsStore);
   private readonly router = inject(Router);
-
-  protected readonly mostExpenses = signal([
-    {
-      id: 1,
-      name: 'Food',
-      currentAmount: 1200.4,
-      previousPeriodAmount: 1000,
-      currency: 'USD',
-    },
-    {
-      id: 2,
-      name: 'Medicine',
-      currentAmount: 500,
-      previousPeriodAmount: 1100,
-      currency: 'USD',
-    },
-    {
-      id: 3,
-      name: 'Entertainment',
-      currentAmount: 500,
-      previousPeriodAmount: 800,
-      currency: 'USD',
-    },
-    {
-      id: 4,
-      name: 'Sport and Movies',
-      currentAmount: 450,
-      previousPeriodAmount: 1500,
-      currency: 'USD',
-    },
-    {
-      id: 5,
-      name: 'Other',
-      currentAmount: 700,
-      previousPeriodAmount: 750,
-      currency: 'USD',
-    },
-    {
-      id: 6,
-      name: 'Other',
-      currentAmount: 300,
-      previousPeriodAmount: 290,
-      currency: 'USD',
-    },
-    {
-      id: 7,
-      name: 'Other',
-      currentAmount: 500,
-      previousPeriodAmount: 600,
-      currency: 'USD',
-    },
-  ]);
 
   constructor() {
     this.loadData();
@@ -129,5 +74,6 @@ export class TotalBudget {
   private loadData() {
     this.totalBudgetStore.loadGroupsMonthlyBudgets();
     this.totalBudgetStore.loadMonthlyBudgetTotals();
+    this.totalBudgetStore.loadMonthlyExpenses();
   }
 }

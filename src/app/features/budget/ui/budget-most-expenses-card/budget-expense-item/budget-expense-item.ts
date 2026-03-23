@@ -24,8 +24,8 @@ import { FinancialTrendBadge } from '@shared/ui/financial-trend-badge';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class BudgetExpenseItem {
-  readonly name = input.required<string>();
+  readonly name = input<string>();
   readonly currentAmount = input(0);
   readonly previousPeriodAmount = input(0);
-  readonly currency = input.required<string>();
+  readonly currency = input<string>();
 }

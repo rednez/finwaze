@@ -7,6 +7,7 @@ import {
   GroupMonthlyBudget,
   MonthlyBudgetTotals,
   MonthlyBudgetTotalsDto,
+  MonthlyExpense,
 } from '../models';
 
 @Injectable({
@@ -81,5 +82,26 @@ export class BudgetRepository {
     }
 
     return this.mapper.fromMonthlyBudgetTotalsDto(data);
+  }
+
+  async getMonthlyExpensesByGroup({
+    month,
+    currencyCode,
+  }: {
+    month: Date;
+    currencyCode: string;
+  }): Promise<MonthlyExpense[]> {
+    const { data, error } = await this.supabase.client
+      .rpc('get_monthly_expenses_by_group', {
+        p_month: dayjs(month).format('YYYY-MM-DD'),
+        p_currency_code: currencyCode,
+      })
+      .select();
+
+    if (error) {
+      throw new Error(error.message);
+    }
+
+    return data.map(this.mapper.fromMonthlyExpensesByGroupDto);
   }
 }
