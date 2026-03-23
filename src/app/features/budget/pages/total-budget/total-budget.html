@@ -26,49 +26,58 @@
     />
   </div>
 
-  @if (totalBudgetStore.groupsMonthlyBudgets().length !== 0) {
+  @if (totalBudgetStore.isGroupsMonthlyBudgetsLoading()) {
     <div class="flex gap-4 flex-wrap mt-4">
-      @for (group of totalBudgetStore.filteredBudgets(); track group.id) {
-        <app-budget-card
-          class="flex-1"
-          [name]="group.name"
-          [plannedAmount]="group.plannedAmount"
-          [spentAmount]="group.spentAmount"
-          [currencyCode]="budgetStore.currencyCode() || undefined"
-        >
-          <p-button
-            card-actions
-            [label]="`${group.categoriesCount} categories`"
-            severity="primary"
-            variant="outlined"
-            rounded
-            size="small"
-            icon="pi pi-arrow-right"
-            iconPos="right"
-            (onClick)="gotoBudgetByGroup(group.id, group.name)"
-        /></app-budget-card>
-      }
+      <app-budget-card [loading]="true" />
     </div>
   } @else {
-    <app-empty-state
-      title="No budgets for this month in selected currency"
-      description="Start by creating a new budget and assigning it to a group or create a group with categories and assign budgets to them."
-      buttonText="Create budget"
-      icon="donut_small"
-      (actionClicked)="gotoCreateBudget()"
-    />
+    @if (totalBudgetStore.groupsMonthlyBudgets().length !== 0) {
+      <div class="flex gap-4 flex-wrap mt-4">
+        @for (group of totalBudgetStore.filteredBudgets(); track group.id) {
+          <app-budget-card
+            class="flex-1"
+            [name]="group.name"
+            [plannedAmount]="group.plannedAmount"
+            [spentAmount]="group.spentAmount"
+            [currencyCode]="budgetStore.currencyCode() || undefined"
+          >
+            <p-button
+              card-actions
+              [label]="`${group.categoriesCount} categories`"
+              severity="primary"
+              variant="outlined"
+              rounded
+              size="small"
+              icon="pi pi-arrow-right"
+              iconPos="right"
+              (onClick)="gotoBudgetByGroup(group.id, group.name)"
+          /></app-budget-card>
+        }
+      </div>
+    } @else {
+      <app-empty-state
+        title="No budgets for this month in selected currency"
+        description="Start by creating a new budget and assigning it to a group or create a group with categories and assign budgets to them."
+        buttonText="Create budget"
+        icon="donut_small"
+        (actionClicked)="gotoCreateBudget()"
+      />
+    }
   }
 </section>
 
 <section class="flex flex-col gap-4 grow md:max-w-100">
   <app-monthly-summary-card
     name="Monthly budget"
+    [loading]="totalBudgetStore.isMonthlyBudgetTotalsLoading()"
     [plannedAmount]="totalBudgetStore.monthlyBudgetTotals.plannedAmount()"
     [spentAmount]="totalBudgetStore.monthlyBudgetTotals.spentAmount()"
     [currency]="budgetStore.currencyCode() || undefined"
+    (crateBudget)="gotoCreateBudget()"
   />
 
   <app-budget-most-expenses-card
+    [loading]="totalBudgetStore.isMonthlyExpensesLoading()"
     [currency]="budgetStore.currencyCode() || undefined"
     [expenses]="totalBudgetStore.monthlyExpenses()"
   />

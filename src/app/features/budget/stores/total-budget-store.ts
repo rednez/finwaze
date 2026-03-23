@@ -19,10 +19,21 @@ import { getBudgetStatus } from '../utils';
 import { BudgetStore } from './budget-store';
 
 interface TotalBudgetState {
-  isLoading: boolean;
-  isUpdating: boolean;
-  isLoaded: boolean;
-  isError: boolean;
+  isGroupsMonthlyBudgetsLoading: boolean;
+  isGroupsMonthlyBudgetsUpdating: boolean;
+  isGroupsMonthlyBudgetsLoaded: boolean;
+  isGroupsMonthlyBudgetsError: boolean;
+
+  isMonthlyBudgetTotalsLoading: boolean;
+  isMonthlyBudgetTotalsUpdating: boolean;
+  isMonthlyBudgetTotalsLoaded: boolean;
+  isMonthlyBudgetTotalsError: boolean;
+
+  isMonthlyExpensesLoading: boolean;
+  isMonthlyExpensesUpdating: boolean;
+  isMonthlyExpensesLoaded: boolean;
+  isMonthlyExpensesError: boolean;
+
   groupsMonthlyBudgets: GroupMonthlyBudget[];
   status: 'all' | BudgetStatus;
   selectedGroupsIds: number[];
@@ -31,10 +42,21 @@ interface TotalBudgetState {
 }
 
 const initialState: TotalBudgetState = {
-  isLoading: false,
-  isLoaded: false,
-  isUpdating: false,
-  isError: false,
+  isGroupsMonthlyBudgetsLoading: false,
+  isGroupsMonthlyBudgetsUpdating: false,
+  isGroupsMonthlyBudgetsLoaded: false,
+  isGroupsMonthlyBudgetsError: false,
+
+  isMonthlyBudgetTotalsLoading: false,
+  isMonthlyBudgetTotalsUpdating: false,
+  isMonthlyBudgetTotalsLoaded: false,
+  isMonthlyBudgetTotalsError: false,
+
+  isMonthlyExpensesLoading: false,
+  isMonthlyExpensesUpdating: false,
+  isMonthlyExpensesLoaded: false,
+  isMonthlyExpensesError: false,
+
   groupsMonthlyBudgets: [],
   status: 'all',
   selectedGroupsIds: [],
@@ -87,15 +109,12 @@ export const TotalBudgetStore = signalStore(
       budgetStore = inject(BudgetStore),
     ) => ({
       async loadGroupsMonthlyBudgets(): Promise<Result> {
-        if (store.isLoaded()) {
-          patchState(store, () => ({
-            isUpdating: true,
-          }));
+        if (store.isGroupsMonthlyBudgetsLoaded()) {
+          patchState(store, { isGroupsMonthlyBudgetsUpdating: true });
         } else {
-          patchState(store, () => ({
-            isLoading: true,
-          }));
+          patchState(store, { isGroupsMonthlyBudgetsLoading: true });
         }
+        patchState(store, { isGroupsMonthlyBudgetsError: false });
 
         try {
           if (!budgetStore.currencyCode()) {
@@ -107,40 +126,32 @@ export const TotalBudgetStore = signalStore(
             currencyCode: budgetStore.currencyCode()!,
           });
 
-          if (store.isLoaded()) {
-            patchState(store, () => ({
-              isUpdating: false,
-              groupsMonthlyBudgets: data,
-            }));
-          } else {
-            patchState(store, () => ({
-              isLoading: false,
-              isLoaded: true,
-              groupsMonthlyBudgets: data,
-            }));
-          }
+          patchState(store, {
+            isGroupsMonthlyBudgetsLoading: false,
+            isGroupsMonthlyBudgetsUpdating: false,
+            isGroupsMonthlyBudgetsLoaded: true,
+            groupsMonthlyBudgets: data,
+          });
 
           return resultOk();
         } catch (error) {
-          patchState(store, () => ({
-            ...initialState,
-            isError: true,
-          }));
+          patchState(store, {
+            isGroupsMonthlyBudgetsLoading: false,
+            isGroupsMonthlyBudgetsUpdating: false,
+            isGroupsMonthlyBudgetsError: true,
+          });
 
           return resultError(error);
         }
       },
 
       async loadMonthlyBudgetTotals(): Promise<Result> {
-        if (store.isLoaded()) {
-          patchState(store, () => ({
-            isUpdating: true,
-          }));
+        if (store.isMonthlyBudgetTotalsLoaded()) {
+          patchState(store, { isMonthlyBudgetTotalsUpdating: true });
         } else {
-          patchState(store, () => ({
-            isLoading: true,
-          }));
+          patchState(store, { isMonthlyBudgetTotalsLoading: true });
         }
+        patchState(store, { isMonthlyBudgetTotalsError: false });
 
         try {
           if (!budgetStore.currencyCode()) {
@@ -152,40 +163,32 @@ export const TotalBudgetStore = signalStore(
             currencyCode: budgetStore.currencyCode()!,
           });
 
-          if (store.isLoaded()) {
-            patchState(store, () => ({
-              isUpdating: false,
-              monthlyBudgetTotals: data,
-            }));
-          } else {
-            patchState(store, () => ({
-              isLoading: false,
-              isLoaded: true,
-              monthlyBudgetTotals: data,
-            }));
-          }
+          patchState(store, {
+            isMonthlyBudgetTotalsLoading: false,
+            isMonthlyBudgetTotalsUpdating: false,
+            isMonthlyBudgetTotalsLoaded: true,
+            monthlyBudgetTotals: data,
+          });
 
           return resultOk();
         } catch (error) {
-          patchState(store, () => ({
-            ...initialState,
-            isError: true,
-          }));
+          patchState(store, {
+            isMonthlyBudgetTotalsLoading: false,
+            isMonthlyBudgetTotalsUpdating: false,
+            isMonthlyBudgetTotalsError: true,
+          });
 
           return resultError(error);
         }
       },
 
       async loadMonthlyExpenses(): Promise<Result> {
-        if (store.isLoaded()) {
-          patchState(store, () => ({
-            isUpdating: true,
-          }));
+        if (store.isMonthlyExpensesLoaded()) {
+          patchState(store, { isMonthlyExpensesUpdating: true });
         } else {
-          patchState(store, () => ({
-            isLoading: true,
-          }));
+          patchState(store, { isMonthlyExpensesLoading: true });
         }
+        patchState(store, { isMonthlyExpensesError: false });
 
         try {
           if (!budgetStore.currencyCode()) {
@@ -197,25 +200,20 @@ export const TotalBudgetStore = signalStore(
             currencyCode: budgetStore.currencyCode()!,
           });
 
-          if (store.isLoaded()) {
-            patchState(store, () => ({
-              isUpdating: false,
-              monthlyExpenses: data,
-            }));
-          } else {
-            patchState(store, () => ({
-              isLoading: false,
-              isLoaded: true,
-              monthlyExpenses: data,
-            }));
-          }
+          patchState(store, {
+            isMonthlyExpensesLoading: false,
+            isMonthlyExpensesUpdating: false,
+            isMonthlyExpensesLoaded: true,
+            monthlyExpenses: data,
+          });
 
           return resultOk();
         } catch (error) {
-          patchState(store, () => ({
-            ...initialState,
-            isError: true,
-          }));
+          patchState(store, {
+            isMonthlyExpensesLoading: false,
+            isMonthlyExpensesUpdating: false,
+            isMonthlyExpensesError: true,
+          });
 
           return resultError(error);
         }
