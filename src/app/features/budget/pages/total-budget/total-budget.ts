@@ -36,13 +36,8 @@ export class TotalBudget {
     this.loadData();
   }
 
-  protected gotoBudgetByGroup(id: number, name: string) {
-    // TODO
-    console.log({ id, name });
-
-    // this.budgetState.selectedCurrency.set('USD');
-    // this.budgetState.selectedGroupName.set(name);
-    // this.router.navigate([`/budget/groups/${id}`]);
+  protected gotoBudgetByGroup(id: number) {
+    this.router.navigate([`/budget/groups/${id}`]);
   }
 
   protected gotoCreateBudget() {
@@ -72,7 +67,7 @@ export class TotalBudget {
   }
 
   private loadData() {
-    this.totalBudgetStore.loadGroupsMonthlyBudgets();
+    this.totalBudgetStore.loadMonthlyBudgets();
     this.totalBudgetStore.loadMonthlyBudgetTotals();
     this.totalBudgetStore.loadMonthlyExpenses();
   }

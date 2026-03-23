@@ -1,4 +1,4 @@
-export interface MonthlyExpensesByGroupDto {
+export interface MonthlyExpenseByGroupDto {
   group_id: number;
   group_name: string;
   selected_month_amount: number;

@@ -8,7 +8,7 @@
       [initialCurrency]="budgetStore.currencyCode() || undefined"
       [initialMonth]="budgetStore.month()"
       [initialGroupsIds]="totalBudgetStore.selectedGroupsIds()"
-      [groups]="totalBudgetStore.groupsMonthlyBudgets()"
+      [groups]="totalBudgetStore.monthlyBudgets()"
       (monthChanged)="onMonthChanged($event)"
       (currencyChanged)="onCurrencyChanged($event)"
       (statusChanged)="onStatusChanged($event)"
@@ -26,12 +26,12 @@
     />
   </div>
 
-  @if (totalBudgetStore.isGroupsMonthlyBudgetsLoading()) {
+  @if (totalBudgetStore.isMonthlyBudgetsLoading()) {
     <div class="flex gap-4 flex-wrap mt-4">
       <app-budget-card [loading]="true" />
     </div>
   } @else {
-    @if (totalBudgetStore.groupsMonthlyBudgets().length !== 0) {
+    @if (totalBudgetStore.monthlyBudgets().length !== 0) {
       <div class="flex gap-4 flex-wrap mt-4">
         @for (group of totalBudgetStore.filteredBudgets(); track group.id) {
           <app-budget-card
@@ -50,8 +50,9 @@
               size="small"
               icon="pi pi-arrow-right"
               iconPos="right"
-              (onClick)="gotoBudgetByGroup(group.id, group.name)"
-          /></app-budget-card>
+              (onClick)="gotoBudgetByGroup(group.id)"
+            />
+          </app-budget-card>
         }
       </div>
     } @else {

@@ -19,10 +19,10 @@ import { getBudgetStatus } from '../utils';
 import { BudgetStore } from './budget-store';
 
 interface TotalBudgetState {
-  isGroupsMonthlyBudgetsLoading: boolean;
-  isGroupsMonthlyBudgetsUpdating: boolean;
-  isGroupsMonthlyBudgetsLoaded: boolean;
-  isGroupsMonthlyBudgetsError: boolean;
+  isMonthlyBudgetsLoading: boolean;
+  isMonthlyBudgetsUpdating: boolean;
+  isMonthlyBudgetsLoaded: boolean;
+  isMonthlyBudgetsError: boolean;
 
   isMonthlyBudgetTotalsLoading: boolean;
   isMonthlyBudgetTotalsUpdating: boolean;
@@ -34,7 +34,7 @@ interface TotalBudgetState {
   isMonthlyExpensesLoaded: boolean;
   isMonthlyExpensesError: boolean;
 
-  groupsMonthlyBudgets: GroupMonthlyBudget[];
+  monthlyBudgets: GroupMonthlyBudget[];
   status: 'all' | BudgetStatus;
   selectedGroupsIds: number[];
   monthlyBudgetTotals: MonthlyBudgetTotals;
@@ -42,10 +42,10 @@ interface TotalBudgetState {
 }
 
 const initialState: TotalBudgetState = {
-  isGroupsMonthlyBudgetsLoading: false,
-  isGroupsMonthlyBudgetsUpdating: false,
-  isGroupsMonthlyBudgetsLoaded: false,
-  isGroupsMonthlyBudgetsError: false,
+  isMonthlyBudgetsLoading: false,
+  isMonthlyBudgetsUpdating: false,
+  isMonthlyBudgetsLoaded: false,
+  isMonthlyBudgetsError: false,
 
   isMonthlyBudgetTotalsLoading: false,
   isMonthlyBudgetTotalsUpdating: false,
@@ -57,7 +57,7 @@ const initialState: TotalBudgetState = {
   isMonthlyExpensesLoaded: false,
   isMonthlyExpensesError: false,
 
-  groupsMonthlyBudgets: [],
+  monthlyBudgets: [],
   status: 'all',
   selectedGroupsIds: [],
   monthlyBudgetTotals: {
@@ -73,7 +73,7 @@ export const TotalBudgetStore = signalStore(
 
   withComputed((store) => ({
     _budgetsWithStatus: () =>
-      store.groupsMonthlyBudgets().map((i) => ({
+      store.monthlyBudgets().map((i) => ({
         ...i,
         status: getBudgetStatus(i.plannedAmount, i.spentAmount),
       })),
@@ -108,13 +108,13 @@ export const TotalBudgetStore = signalStore(
       repository = inject(BudgetRepository),
       budgetStore = inject(BudgetStore),
     ) => ({
-      async loadGroupsMonthlyBudgets(): Promise<Result> {
-        if (store.isGroupsMonthlyBudgetsLoaded()) {
-          patchState(store, { isGroupsMonthlyBudgetsUpdating: true });
+      async loadMonthlyBudgets(): Promise<Result> {
+        if (store.isMonthlyBudgetsLoaded()) {
+          patchState(store, { isMonthlyBudgetsUpdating: true });
         } else {
-          patchState(store, { isGroupsMonthlyBudgetsLoading: true });
+          patchState(store, { isMonthlyBudgetsLoading: true });
         }
-        patchState(store, { isGroupsMonthlyBudgetsError: false });
+        patchState(store, { isMonthlyBudgetsError: false });
 
         try {
           if (!budgetStore.currencyCode()) {
@@ -127,18 +127,18 @@ export const TotalBudgetStore = signalStore(
           });
 
           patchState(store, {
-            isGroupsMonthlyBudgetsLoading: false,
-            isGroupsMonthlyBudgetsUpdating: false,
-            isGroupsMonthlyBudgetsLoaded: true,
-            groupsMonthlyBudgets: data,
+            isMonthlyBudgetsLoading: false,
+            isMonthlyBudgetsUpdating: false,
+            isMonthlyBudgetsLoaded: true,
+            monthlyBudgets: data,
           });
 
           return resultOk();
         } catch (error) {
           patchState(store, {
-            isGroupsMonthlyBudgetsLoading: false,
-            isGroupsMonthlyBudgetsUpdating: false,
-            isGroupsMonthlyBudgetsError: true,
+            isMonthlyBudgetsLoading: false,
+            isMonthlyBudgetsUpdating: false,
+            isMonthlyBudgetsError: true,
           });
 
           return resultError(error);
@@ -195,7 +195,7 @@ export const TotalBudgetStore = signalStore(
             throw new Error('Currency code is required');
           }
 
-          const data = await repository.getMonthlyExpensesByGroup({
+          const data = await repository.getMonthlyExpensesByGroups({
             month: budgetStore.month(),
             currencyCode: budgetStore.currencyCode()!,
           });

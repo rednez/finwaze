@@ -84,7 +84,7 @@ export class BudgetRepository {
     return this.mapper.fromMonthlyBudgetTotalsDto(data);
   }
 
-  async getMonthlyExpensesByGroup({
+  async getMonthlyExpensesByGroups({
     month,
     currencyCode,
   }: {
@@ -102,6 +102,6 @@ export class BudgetRepository {
       throw new Error(error.message);
     }
 
-    return data.map(this.mapper.fromMonthlyExpensesByGroupDto);
+    return data.map(this.mapper.fromMonthlyExpensesByGroupsDto);
   }
 }
