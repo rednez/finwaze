@@ -14,7 +14,7 @@ import { getBudgetStatus } from '../../utils';
       {{ icon() }}
     </span>
 
-    <span class="text-sm" [class]="textColor()">{{ label() }}</span>
+    <span class="text-sm text-nowrap" [class]="textColor()">{{ label() }}</span>
   `,
   host: {
     class: 'flex items-center gap-2 w-fit py-1 pl-1 pr-3 rounded-full',

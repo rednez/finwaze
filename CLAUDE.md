@@ -186,12 +186,13 @@ chore(db): add index on transactions.transacted_at
 
 ## Critical Rules (do not violate)
 
-1. **Do not use `type` to distinguish income from expense in aggregations** — use the sign of the amount (negative = expense, positive = income). Use `type` only to exclude `transfer` and `internal` rows.
-2. **Do not use raw `transacted_at` for date grouping** — always use `(transacted_at + local_offset)`.
-3. **Do not use `FLOAT` for money** — always `NUMERIC`.
-4. **Do not unqualify identifiers in functions** — always prefix with `public.` / `auth.` and set `search_path = ''`.
-5. **Do not expose system records (`is_system = true`) in the UI** — filter them out at the query level.
-6. **Do not forget enum casts** — `'income'::public.transaction_type`, not just `'income'`.
+1. **Do not apply or run migrations after writing SQL** — after creating or modifying a SQL function or schema file, stop. Never attempt to apply, run, or execute a migration unless the user explicitly asks.
+2. **Do not use `type` to distinguish income from expense in aggregations** — use the sign of the amount (negative = expense, positive = income). Use `type` only to exclude `transfer` and `internal` rows.
+3. **Do not use raw `transacted_at` for date grouping** — always use `(transacted_at + local_offset)`.
+4. **Do not use `FLOAT` for money** — always `NUMERIC`.
+5. **Do not unqualify identifiers in functions** — always prefix with `public.` / `auth.` and set `search_path = ''`.
+6. **Do not expose system records (`is_system = true`) in the UI** — filter them out at the query level.
+7. **Do not forget enum casts** — `'income'::public.transaction_type`, not just `'income'`.
 
 ---
 

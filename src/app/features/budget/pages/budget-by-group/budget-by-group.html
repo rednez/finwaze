@@ -1,25 +1,35 @@
 <section class="flex-1">
-  <!-- <div class="flex gap-4 flex-wrap mt-4">
-    @for (cat of categories(); track cat.id) {
-      <app-budget-card
-        class="flex-1"
-        [name]="cat.name"
-        [plannedAmount]="cat.plannedAmount"
-        [spentAmount]="cat.spentAmount"
-        [currencyCode]="'UAH'"
-      >
-      </app-budget-card>
-    }
-  </div>
+  @if (budgetsByGroupStore.isMonthlyBudgetsLoading()) {
+    <div class="flex gap-4 flex-wrap mt-4">
+      <app-budget-card [loading]="true" />
+    </div>
+  } @else {
+    <div class="flex gap-4 flex-wrap mt-4">
+      @for (cat of budgetsByGroupStore.monthlyBudgets(); track cat.id) {
+        <app-budget-card
+          class="flex-1"
+          [name]="cat.name"
+          [plannedAmount]="cat.plannedAmount"
+          [spentAmount]="cat.spentAmount"
+          [currencyCode]="budgetStore.currencyCode() || undefined"
+        />
+      }
+    </div>
+  }
 </section>
 
 <section class="flex flex-col gap-4 grow md:max-w-100">
   <app-monthly-summary-card
-    [name]="groupName()"
-    [budgetAmount]="3989"
-    [spentAmount]="1989"
-    [currency]="'UAH'"
+    [loading]="budgetsByGroupStore.isMonthlyBudgetTotalsLoading()"
+    [name]="budgetStore.selectedGroupName()"
+    [plannedAmount]="budgetsByGroupStore.monthlyBudgetTotals.plannedAmount()"
+    [spentAmount]="budgetsByGroupStore.monthlyBudgetTotals.spentAmount()"
+    [currency]="budgetStore.currencyCode() || undefined"
   />
 
-  <app-budget-most-expenses-card [expenses]="mostExpenses()" /> -->
+  <app-budget-most-expenses-card
+    [loading]="budgetsByGroupStore.isMonthlyExpensesLoading()"
+    [currency]="budgetStore.currencyCode() || undefined"
+    [expenses]="budgetsByGroupStore.monthlyExpenses()"
+  />
 </section>

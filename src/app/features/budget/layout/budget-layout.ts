@@ -31,6 +31,7 @@ import { BudgetStore } from '../stores';
 })
 export class BudgetLayout {
   private readonly budgetStore = inject(BudgetStore);
+
   private readonly accountsStore = inject(AccountsStore);
   private readonly datePipe = inject(DatePipe);
 

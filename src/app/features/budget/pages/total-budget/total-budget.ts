@@ -33,6 +33,7 @@ export class TotalBudget {
   private readonly router = inject(Router);
 
   constructor() {
+    this.budgetStore.resetSelectedGroup();
     this.loadData();
   }
 

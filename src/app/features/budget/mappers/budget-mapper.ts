@@ -7,6 +7,7 @@ import {
   MonthlyBudgetTotals,
   MonthlyBudgetTotalsDto,
   MonthlyExpense,
+  MonthlyExpenseByCategoryDto,
   MonthlyExpenseByGroupDto,
 } from '../models';
 
@@ -44,12 +45,21 @@ export class BudgetMapper {
     };
   }
 
-  fromMonthlyExpensesByGroupsDto(
-    dto: MonthlyExpenseByGroupDto,
-  ): MonthlyExpense {
+  fromMonthlyExpenseByGroupDto(dto: MonthlyExpenseByGroupDto): MonthlyExpense {
     return {
       id: dto.group_id,
       name: dto.group_name,
+      selectedMonthAmount: dto.selected_month_amount,
+      previousMonthAmount: dto.previous_month_amount,
+    };
+  }
+
+  fromMonthlyExpenseByCategoryDto(
+    dto: MonthlyExpenseByCategoryDto,
+  ): MonthlyExpense {
+    return {
+      id: dto.category_id,
+      name: dto.category_name,
       selectedMonthAmount: dto.selected_month_amount,
       previousMonthAmount: dto.previous_month_amount,
     };
