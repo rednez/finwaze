@@ -21,18 +21,16 @@ import { BudgetCardSummary } from './budget-card-summary/budget-card-summary';
   template: `
     <app-card>
       <app-card-header class="flex gap-2 justify-between">
-        @if (loading()) {
-          <p-skeleton width="7rem" height="1.25rem" />
-        } @else {
-          <ng-container>
-            <app-card-header-title>{{ name() }}</app-card-header-title>
-          </ng-container>
-          <ng-container>
-            <div append-right>
-              <ng-content select="[card-actions]" />
-            </div>
-          </ng-container>
-        }
+        <app-card-header-title>
+          @if (loading()) {
+            <p-skeleton width="7rem" height="1.6rem" class="mt-3" />
+          } @else {
+            <span>{{ name() }}</span>
+          }
+        </app-card-header-title>
+        <div append-right>
+          <ng-content select="[card-actions]" />
+        </div>
       </app-card-header>
 
       @if (loading()) {
@@ -44,8 +42,8 @@ import { BudgetCardSummary } from './budget-card-summary/budget-card-summary';
           <div class="flex flex-col gap-3">
             <div class="flex flex-col gap-1">
               <p-skeleton width="2.8rem" height="0.75rem" />
-              <p-skeleton width="6.5rem" height="1.5rem" />
-              <p-skeleton width="4rem" height="0.875rem" />
+              <p-skeleton width="8rem" height="1.5rem" />
+              <p-skeleton width="5rem" height="0.875rem" />
             </div>
             <p-skeleton width="4.5rem" height="1.5rem" borderRadius="1rem" />
           </div>
