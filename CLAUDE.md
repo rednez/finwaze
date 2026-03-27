@@ -151,36 +151,14 @@ A demo user (`demo@mail.com` / `password1234`) is seeded with 4 accounts (USD, U
 
 ## Git Commits
 
-Follow the **Conventional Commits** specification. All messages in **English**.
+Follow the `git-commits` skill. Project-specific scopes:
 
-### Scope (required)
-
-Use the feature or layer name: `wallet`, `transactions`, `budget`, `dashboard`, `analytics`, `goals`, `groups`, `auth`, `core`, `shared`, `db`, `seed`
+`wallet`, `transactions`, `budget`, `dashboard`, `analytics`, `goals`, `groups`, `auth`, `core`, `shared`, `db`, `seed`
 
 ### Other rules
 
 - **Never add `Co-Authored-By` trailers.**
 - **Always sign commits with GPG.**
-
-### Examples
-
-```
-feat(wallet): add account balance adjustment form
-
-Allows users to manually correct account balance via
-the adjust_account_balance() RPC. Adjustment creates
-an internal transaction and is excluded from analytics.
-
-Closes #17
-```
-
-```
-fix(transactions): correct local_offset applied to date filter
-```
-
-```
-chore(db): add index on transactions.transacted_at
-```
 
 ---
 
