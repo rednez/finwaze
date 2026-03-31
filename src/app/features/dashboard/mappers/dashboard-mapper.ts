@@ -36,7 +36,7 @@ export class DashboardMapper {
     return {
       month: new Date(dto.month),
       income: dto.total_income ?? 0,
-      expense: dto.total_income ? Math.abs(dto.total_expense ?? 0) : 0,
+      expense: dto.total_expense ? Math.abs(dto.total_expense ?? 0) : 0,
     };
   }
 
