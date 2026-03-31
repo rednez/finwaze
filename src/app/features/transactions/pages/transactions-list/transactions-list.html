@@ -46,8 +46,9 @@
   <app-empty-state
     title="No transactions yet"
     description="Start tracking your spending by adding your first transaction."
-    buttonText="Add transaction"
+    primaryButtonText="Add transaction"
+    primaryButtonIcon="add"
     icon="receipt_long"
-    (actionClicked)="gotoCreate()"
+    (primaryActionClicked)="gotoCreate()"
   />
 }

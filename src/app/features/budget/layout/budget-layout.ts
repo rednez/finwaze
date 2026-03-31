@@ -5,9 +5,11 @@ import {
   computed,
   inject,
 } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
+import { toSignal } from '@angular/core/rxjs-interop';
+import { NavigationEnd, Router, RouterOutlet } from '@angular/router';
 import { AccountsStore } from '@core/store/accounts-store';
 import { BreadcrumbModule } from 'primeng/breadcrumb';
+import { filter, map, startWith } from 'rxjs';
 import { BudgetStore } from '../stores';
 
 @Component({
@@ -31,9 +33,16 @@ import { BudgetStore } from '../stores';
 })
 export class BudgetLayout {
   private readonly budgetStore = inject(BudgetStore);
-
   private readonly accountsStore = inject(AccountsStore);
   private readonly datePipe = inject(DatePipe);
+  private readonly router = inject(Router);
+  private readonly currentUrl = toSignal(
+    this.router.events.pipe(
+      filter((e) => e instanceof NavigationEnd),
+      map((e) => (e as NavigationEnd).urlAfterRedirects),
+      startWith(this.router.url),
+    ),
+  );
 
   protected readonly breadcrumbItems = computed(() => {
     const home = ['Budget'];
@@ -47,12 +56,16 @@ export class BudgetLayout {
       home.push(this.budgetStore.currencyCode()!);
     }
 
+    const isCreateOrEditPage =
+      this.currentUrl()?.includes('create') ||
+      this.currentUrl()?.includes('edit');
     const path: { label: string; routerLink?: string }[] = [
       {
         label: home.join(' – '),
-        routerLink: this.budgetStore.selectedGroupName()
-          ? '/budget'
-          : undefined,
+        routerLink:
+          isCreateOrEditPage || this.budgetStore.selectedGroupName()
+            ? '/budget'
+            : undefined,
       },
     ];
 

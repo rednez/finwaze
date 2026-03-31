@@ -21,6 +21,11 @@ export const budgetRoutes: Routes = [
         loadComponent: () =>
           import('./pages/create-budget').then((c) => c.CreateBudget),
       },
+      {
+        path: 'edit',
+        loadComponent: () =>
+          import('./pages/create-budget').then((c) => c.CreateBudget),
+      },
     ],
   },
 ];

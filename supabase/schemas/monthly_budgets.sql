@@ -7,10 +7,12 @@ CREATE TABLE monthly_budgets (
   planned_amount NUMERIC NOT NULL,
   category_id BIGINT NOT NULL,
   currency_id BIGINT NOT NULL,
+  CONSTRAINT monthly_budgets_planned_amount_positive CHECK (planned_amount > 0),
   CONSTRAINT monthly_budgets_pkey PRIMARY KEY (id),
   CONSTRAINT monthly_budgets_category_id_fkey FOREIGN KEY (category_id) REFERENCES categories (id),
   CONSTRAINT monthly_budgets_currency_id_fkey FOREIGN KEY (currency_id) REFERENCES currencies (id),
-  CONSTRAINT monthly_budgets_user_id_fkey FOREIGN KEY (user_id) REFERENCES auth.users (id)
+  CONSTRAINT monthly_budgets_user_id_fkey FOREIGN KEY (user_id) REFERENCES auth.users (id),
+  CONSTRAINT monthly_budgets_user_month_category_currency_key UNIQUE (user_id, budget_month, category_id, currency_id)
 );
 
 ALTER TABLE monthly_budgets ENABLE ROW LEVEL SECURITY;

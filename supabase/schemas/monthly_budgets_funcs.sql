@@ -536,3 +536,252 @@ ORDER BY
   COALESCE(b.group_name, s.group_name),
   COALESCE(b.category_name, s.category_name);
 $$;
+
+-- Merge strategy: UPDATE existing, INSERT new, DELETE missing
+CREATE OR REPLACE FUNCTION public.upsert_monthly_budgets(
+  p_month         date,
+  p_currency_code text,
+  p_categories    jsonb
+)
+RETURNS void
+LANGUAGE plpgsql
+SECURITY INVOKER
+SET search_path TO ''
+AS $$
+DECLARE
+  v_currency_id bigint;
+  v_month_start date;
+BEGIN
+  SELECT id INTO v_currency_id
+  FROM public.currencies
+  WHERE code = p_currency_code
+  LIMIT 1;
+
+  IF v_currency_id IS NULL THEN
+    RAISE EXCEPTION 'Currency not found: %', p_currency_code;
+  END IF;
+
+  v_month_start := date_trunc('month', p_month::timestamp)::date;
+
+  -- DELETE: remove rows not present in the new list (or with planned_amount = 0)
+  DELETE FROM public.monthly_budgets
+  WHERE budget_month = v_month_start
+    AND currency_id  = v_currency_id
+    AND category_id NOT IN (
+      SELECT (item->>'category_id')::bigint
+      FROM jsonb_array_elements(p_categories) AS item
+      WHERE (item->>'planned_amount')::numeric > 0
+    );
+
+  -- INSERT new / UPDATE existing via ON CONFLICT
+  INSERT INTO public.monthly_budgets (budget_month, category_id, currency_id, planned_amount)
+  SELECT
+    v_month_start,
+    (item->>'category_id')::bigint,
+    v_currency_id,
+    (item->>'planned_amount')::numeric
+  FROM jsonb_array_elements(p_categories) AS item
+  WHERE (item->>'planned_amount')::numeric > 0
+  ON CONFLICT (user_id, budget_month, category_id, currency_id)
+  DO UPDATE SET
+    planned_amount = EXCLUDED.planned_amount
+  WHERE public.monthly_budgets.planned_amount IS DISTINCT FROM EXCLUDED.planned_amount;
+  -- updated_at is updated automatically by the existing trigger
+END;
+$$;
+
+-- Generates a budget proposal for p_month based on previous-month data.
+-- planned_amount priority per category:
+--   1. Previous month's planned budget (if > 0)
+--   2. Previous month's actual spending (if > 0, no prev budget)
+--   3. Current month's actual spending (if > 0, no prev budget or spending)
+-- Only categories with a non-zero generated planned_amount are returned.
+CREATE OR REPLACE FUNCTION public.generate_monthly_budgets_from_previous(
+  p_month         DATE,
+  p_currency_code TEXT
+)
+RETURNS TABLE (
+  category_id              BIGINT,
+  category_name            TEXT,
+  group_id                 BIGINT,
+  group_name               TEXT,
+  planned_amount           NUMERIC,
+  previous_planned_amount  NUMERIC,
+  spent_amount             NUMERIC,
+  previous_spent_amount    NUMERIC,
+  is_unplanned             BOOLEAN
+)
+LANGUAGE sql
+STABLE
+SET search_path = ''
+AS $$
+WITH
+  month_start AS (
+    SELECT
+      date_trunc('month', p_month::TIMESTAMP)                      AS val,
+      date_trunc('month', p_month::TIMESTAMP) - INTERVAL '1 month' AS prev_val
+  ),
+
+  -- Budgets for the previous month
+  prev_budgets AS (
+    SELECT
+      cat.id                   AS category_id,
+      cat.name                 AS category_name,
+      g.id                     AS group_id,
+      g.name                   AS group_name,
+      SUM(mb.planned_amount)   AS planned_amount
+    FROM public.monthly_budgets mb
+    JOIN public.categories cat ON cat.id  = mb.category_id
+    JOIN public.groups     g   ON g.id    = cat.group_id
+    JOIN public.currencies cur ON cur.id  = mb.currency_id
+    CROSS JOIN month_start ms
+    WHERE cur.code       = p_currency_code
+      AND mb.budget_month = ms.prev_val::DATE
+      AND g.is_system     = false
+    GROUP BY cat.id, cat.name, g.id, g.name
+  ),
+
+  -- Actual spending for the previous month (as positive numbers)
+  prev_spending AS (
+    SELECT
+      cat.id                             AS category_id,
+      cat.name                           AS category_name,
+      g.id                               AS group_id,
+      g.name                             AS group_name,
+      ABS(SUM(t.transaction_amount))     AS spent_amount
+    FROM public.transactions t
+    JOIN public.categories  cat ON cat.id = t.category_id
+    JOIN public.groups      g   ON g.id   = cat.group_id
+    JOIN public.currencies  cur ON cur.id = t.transaction_currency_id
+    CROSS JOIN month_start  ms
+    WHERE cur.code    = p_currency_code
+      AND t.type      = 'expense'::public.transaction_type
+      AND g.is_system = false
+      AND (t.transacted_at + t.local_offset) >= ms.prev_val
+      AND (t.transacted_at + t.local_offset) <  ms.val
+    GROUP BY cat.id, cat.name, g.id, g.name
+  ),
+
+  -- Actual spending for the selected month (as positive numbers)
+  spending AS (
+    SELECT
+      cat.id                             AS category_id,
+      cat.name                           AS category_name,
+      g.id                               AS group_id,
+      g.name                             AS group_name,
+      ABS(SUM(t.transaction_amount))     AS spent_amount
+    FROM public.transactions t
+    JOIN public.categories  cat ON cat.id = t.category_id
+    JOIN public.groups      g   ON g.id   = cat.group_id
+    JOIN public.currencies  cur ON cur.id = t.transaction_currency_id
+    CROSS JOIN month_start  ms
+    WHERE cur.code    = p_currency_code
+      AND t.type      = 'expense'::public.transaction_type
+      AND g.is_system = false
+      AND (t.transacted_at + t.local_offset) >= ms.val
+      AND (t.transacted_at + t.local_offset) <  ms.val + INTERVAL '1 month'
+    GROUP BY cat.id, cat.name, g.id, g.name
+  ),
+
+  combined AS (
+    SELECT
+      COALESCE(pb.category_id,   ps.category_id,   s.category_id)   AS category_id,
+      COALESCE(pb.category_name, ps.category_name, s.category_name) AS category_name,
+      COALESCE(pb.group_id,      ps.group_id,      s.group_id)      AS group_id,
+      COALESCE(pb.group_name,    ps.group_name,    s.group_name)    AS group_name,
+      COALESCE(
+        NULLIF(pb.planned_amount, 0),
+        NULLIF(ps.spent_amount, 0),
+        s.spent_amount,
+        0
+      )                                                              AS planned_amount,
+      COALESCE(pb.planned_amount, 0)                                 AS previous_planned_amount,
+      COALESCE(s.spent_amount, 0)                                    AS spent_amount,
+      COALESCE(ps.spent_amount, 0)                                   AS previous_spent_amount
+    FROM prev_budgets pb
+    FULL OUTER JOIN prev_spending ps ON ps.category_id = pb.category_id
+    FULL OUTER JOIN spending      s  ON s.category_id  = COALESCE(pb.category_id, ps.category_id)
+  )
+
+SELECT
+  category_id,
+  category_name,
+  group_id,
+  group_name,
+  planned_amount,
+  previous_planned_amount,
+  spent_amount,
+  previous_spent_amount,
+  false AS is_unplanned
+FROM combined
+WHERE planned_amount > 0
+ORDER BY
+  planned_amount DESC,
+  group_name,
+  category_name;
+$$;
+
+-- Returns budget and spending stats for a single category:
+-- previous month's planned amount, current month's spent, and previous month's spent.
+-- All monetary amounts are returned as positive numbers.
+CREATE OR REPLACE FUNCTION public.get_category_budget_stats(
+  p_month         DATE,
+  p_currency_code TEXT,
+  p_category_id   BIGINT
+)
+RETURNS TABLE (
+  previous_planned_amount  NUMERIC,
+  spent_amount             NUMERIC,
+  previous_spent_amount    NUMERIC
+)
+LANGUAGE sql
+STABLE
+SET search_path = ''
+AS $$
+WITH
+  month_start AS (
+    SELECT
+      date_trunc('month', p_month::TIMESTAMP)                      AS val,
+      date_trunc('month', p_month::TIMESTAMP) - INTERVAL '1 month' AS prev_val
+  ),
+
+  prev_budget AS (
+    SELECT COALESCE(SUM(mb.planned_amount), 0) AS amount
+    FROM public.monthly_budgets mb
+    JOIN public.currencies cur ON cur.id = mb.currency_id
+    CROSS JOIN month_start ms
+    WHERE cur.code        = p_currency_code
+      AND mb.budget_month = ms.prev_val::DATE
+      AND mb.category_id  = p_category_id
+  ),
+
+  cur_spending AS (
+    SELECT COALESCE(ABS(SUM(t.transaction_amount)), 0) AS amount
+    FROM public.transactions t
+    JOIN public.currencies cur ON cur.id = t.transaction_currency_id
+    CROSS JOIN month_start ms
+    WHERE cur.code      = p_currency_code
+      AND t.type        = 'expense'::public.transaction_type
+      AND t.category_id = p_category_id
+      AND (t.transacted_at + t.local_offset) >= ms.val
+      AND (t.transacted_at + t.local_offset) <  ms.val + INTERVAL '1 month'
+  ),
+
+  prev_spending AS (
+    SELECT COALESCE(ABS(SUM(t.transaction_amount)), 0) AS amount
+    FROM public.transactions t
+    JOIN public.currencies cur ON cur.id = t.transaction_currency_id
+    CROSS JOIN month_start ms
+    WHERE cur.code      = p_currency_code
+      AND t.type        = 'expense'::public.transaction_type
+      AND t.category_id = p_category_id
+      AND (t.transacted_at + t.local_offset) >= ms.prev_val
+      AND (t.transacted_at + t.local_offset) <  ms.val
+  )
+
+SELECT
+  pb.amount AS previous_planned_amount,
+  cs.amount AS spent_amount,
+  ps.amount AS previous_spent_amount
+FROM prev_budget pb, cur_spending cs, prev_spending ps;
+$$;

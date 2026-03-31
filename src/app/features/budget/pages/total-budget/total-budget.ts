@@ -45,6 +45,10 @@ export class TotalBudget {
     this.router.navigate(['budget', 'create']);
   }
 
+  protected gotoEditBudget() {
+    this.router.navigate(['budget', 'edit']);
+  }
+
   protected onMonthChanged($event: Date) {
     if (!dayjs($event).isSame(this.budgetStore.month(), 'month')) {
       this.budgetStore.updateMonth($event);

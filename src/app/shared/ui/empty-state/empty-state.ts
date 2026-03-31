@@ -99,15 +99,36 @@ import { ButtonModule } from 'primeng/button';
           {{ description() }}
         </p>
 
-        <p-button
-          icon="pi pi-plus"
-          [label]="buttonText()"
-          [rounded]="true"
-          size="large"
-          class="shrink-0"
-          [dt]="{ root: { lg: { fontSize: '14px' } } }"
-          (onClick)="actionClicked.emit()"
-        />
+        <div class="flex gap-2 justify-center">
+          <p-button
+            [rounded]="true"
+            size="large"
+            class="shrink-0"
+            [dt]="{ root: { lg: { fontSize: '14px' } } }"
+            (onClick)="primaryActionClicked.emit()"
+          >
+            <span class="material-symbols-rounded">
+              {{ primaryButtonIcon() }}
+            </span>
+            <span>{{ primaryButtonText() }}</span>
+          </p-button>
+
+          @if (hasSecondaryAction()) {
+            <p-button
+              variant="outlined"
+              [rounded]="true"
+              size="large"
+              class="shrink-0"
+              [dt]="{ root: { lg: { fontSize: '14px' } } }"
+              (onClick)="secondaryActionClicked.emit()"
+            >
+              <span class="material-symbols-rounded">
+                {{ secondaryButtonIcon() }}
+              </span>
+              <span>{{ secondaryButtonText() }}</span>
+            </p-button>
+          }
+        </div>
       </div>
 
       <div
@@ -122,8 +143,13 @@ import { ButtonModule } from 'primeng/button';
 export class EmptyState {
   readonly title = input.required<string>();
   readonly description = input.required<string>();
-  readonly buttonText = input.required<string>();
+  readonly primaryButtonText = input.required<string>();
+  readonly primaryButtonIcon = input.required<string>();
+  readonly secondaryButtonText = input<string>();
+  readonly secondaryButtonIcon = input<string>();
   readonly icon = input<string>();
+  readonly hasSecondaryAction = input(false);
 
-  readonly actionClicked = output<void>();
+  readonly primaryActionClicked = output<void>();
+  readonly secondaryActionClicked = output<void>();
 }

@@ -38,15 +38,12 @@ import { toNameOptions } from '@core/utils/input-transforms';
           <div class="font-display font-semibold text-lg">
             Daily Transaction Flow
           </div>
-          <span class="material-symbols-rounded" [pTooltip]="tooltipContent">
+          <span
+            class="material-symbols-rounded"
+            pTooltip="The expenses and incomes of the selected currency are based on the transaction amounts for each day of the selected month."
+          >
             info
           </span>
-          <ng-template #tooltipContent>
-            <div class="text-sm">
-              The expenses and incomes of the selected currency are based on the
-              transaction amounts for each day of the selected month.
-            </div>
-          </ng-template>
         </div>
 
         <div class="flex gap-2">

@@ -15,15 +15,27 @@
       (groupsIdsChanged)="onSelectedGroupsIdsChanged($event)"
     />
 
-    <p-button
-      class="shrink-0 self-end sm:self-auto"
-      icon="pi pi-plus"
-      label="Add new budget"
-      [rounded]="true"
-      size="large"
-      (onClick)="gotoCreateBudget()"
-      [dt]="{ root: { lg: { fontSize: '14px' } } }"
-    />
+    @if (totalBudgetStore.monthlyBudgets().length > 0) {
+      <p-button
+        class="shrink-0 self-end sm:self-auto"
+        icon="pi pi-pencil"
+        label="Edit budget"
+        [rounded]="true"
+        size="large"
+        (onClick)="gotoEditBudget()"
+        [dt]="{ root: { lg: { fontSize: '14px' } } }"
+      />
+    } @else {
+      <p-button
+        class="shrink-0 self-end sm:self-auto"
+        icon="pi pi-plus"
+        label="Add new budget"
+        [rounded]="true"
+        size="large"
+        (onClick)="gotoCreateBudget()"
+        [dt]="{ root: { lg: { fontSize: '14px' } } }"
+      />
+    }
   </div>
 
   @if (totalBudgetStore.isMonthlyBudgetsLoading()) {
@@ -59,9 +71,10 @@
       <app-empty-state
         title="No budgets for this month in selected currency"
         description="Start by creating a new budget and assigning it to a group or create a group with categories and assign budgets to them."
-        buttonText="Create budget"
+        primaryButtonText="Create budget"
+        primaryButtonIcon="add"
         icon="donut_small"
-        (actionClicked)="gotoCreateBudget()"
+        (primaryActionClicked)="gotoCreateBudget()"
       />
     }
   }
