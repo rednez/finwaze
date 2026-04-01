@@ -100,8 +100,8 @@ importers:
         specifier: ^3.8.1
         version: 3.8.1
       supabase:
-        specifier: ^2.84.4
-        version: 2.84.4
+        specifier: ^2.84.6
+        version: 2.84.6
       typescript:
         specifier: ~5.9.2
         version: 5.9.3
@@ -3200,8 +3200,8 @@ packages:
     resolution: {integrity: sha512-6fPc+R4ihwqP6N/aIv2f1gMH8lOVtWQHoqC4yK6oSDVVocumAsfCqjkXnqiYMhmMwS/mEHLp7Vehlt3ql6lEig==}
     engines: {node: '>=8'}
 
-  supabase@2.84.4:
-    resolution: {integrity: sha512-+WSe/7FFMuEOa1LJr1tZh12WDwW6lpKSmBjiEmf7m9j/ialf2oxeUMlsJCdYpST5kQ7PN0XDyvqnjE0tv/AB2w==}
+  supabase@2.84.6:
+    resolution: {integrity: sha512-JCot1xBtDPzt5Cplr5yOoPuKsag98azw/kITMvzABO6fF7cTj9bX9qWbkTcAaV2iCnmnI6rXesla3WtamZ4Iag==}
     engines: {npm: '>=8'}
     hasBin: true
 
@@ -6675,7 +6675,7 @@ snapshots:
 
   strip-json-comments@3.1.1: {}
 
-  supabase@2.84.4:
+  supabase@2.84.6:
     dependencies:
       bin-links: 6.0.0
       https-proxy-agent: 8.0.0
