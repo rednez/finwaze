@@ -1,5 +1,6 @@
 import { computed, inject } from '@angular/core';
 import { toObservable } from '@angular/core/rxjs-interop';
+import { SavingsGoal } from '@core/models/savings-goal';
 import { Transaction } from '@core/models/transactions';
 import { AccountsStore } from '@core/store/accounts-store';
 import {
@@ -14,7 +15,6 @@ import { filter } from 'rxjs';
 import {
   MonthlyCashFlow,
   RecentMonthlyBudget,
-  RecentSavingsGoal,
   TotalSummaries,
 } from '../models';
 import { DashboardRepository } from '../repositories';
@@ -24,7 +24,7 @@ export interface DashboardState {
   totalsSummary: TotalSummaries;
   _cashFlow: MonthlyCashFlow[];
   recentTransactions: Transaction[];
-  recentSavingsGoals: RecentSavingsGoal[];
+  recentSavingsGoals: SavingsGoal[];
   recentMonthlyBudgets: RecentMonthlyBudget[];
 }
 

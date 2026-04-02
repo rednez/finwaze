@@ -1,12 +1,11 @@
 export type GoalStatus = 'notStarted' | 'inProgress' | 'done' | 'cancelled';
 
-// TODO: ?
-export interface Goal {
+export interface SavingsGoal {
   id: number;
   name: string;
   targetAmount: number;
-  savingAmount: number;
-  dueDate: Date;
-  currency: string;
+  accumulatedAmount: number;
+  targetDate: Date;
+  currencyCode: string;
   status: GoalStatus;
 }

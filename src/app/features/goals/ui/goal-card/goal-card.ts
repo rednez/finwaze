@@ -5,7 +5,7 @@ import {
   computed,
   input,
 } from '@angular/core';
-import { Goal } from '@core/models/goal';
+import { SavingsGoal } from '@core/models/savings-goal';
 import { ProgressBar } from '@shared/ui/progress-bar';
 import { StyledAmount } from '@shared/ui/styled-amount';
 import { GoalCardStatus } from '../goal-card-status/goal-card-status';
@@ -23,14 +23,14 @@ import { GoalCardStatus } from '../goal-card-status/goal-card-status';
         {{ goal().name }}
       </div>
       <div class="text-muted-color">
-        Due date – {{ goal().dueDate | date: 'mediumDate' }}
+        Due date – {{ goal().targetDate | date: 'mediumDate' }}
       </div>
     </div>
 
     <div class="flex items-baseline gap-1">
       <app-styled-amount
-        [amount]="goal().savingAmount"
-        [currency]="goal().currency"
+        [amount]="goal().accumulatedAmount"
+        [currency]="goal().currencyCode"
       />
       <div class="text-primary-500 font-medium">
         / {{ goal().targetAmount | number }}
@@ -42,7 +42,7 @@ import { GoalCardStatus } from '../goal-card-status/goal-card-status';
       <div class="flex justify-between gap-2 text-sm mt-2">
         <div class="text-muted-color">Left to complete the goal</div>
         <div class="font-medium">
-          {{ remainedAmount() | currency: goal().currency }}
+          {{ remainedAmount() | currency: goal().currencyCode }}
         </div>
       </div>
     </div>
@@ -54,13 +54,15 @@ import { GoalCardStatus } from '../goal-card-status/goal-card-status';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class GoalCard {
-  readonly goal = input.required<Goal>();
+  readonly goal = input.required<SavingsGoal>();
 
   protected readonly percents = computed(() =>
-    Math.floor((this.goal().savingAmount / this.goal().targetAmount) * 100),
+    Math.floor(
+      (this.goal().accumulatedAmount / this.goal().targetAmount) * 100,
+    ),
   );
 
   protected readonly remainedAmount = computed(
-    () => this.goal().targetAmount - this.goal().savingAmount,
+    () => this.goal().targetAmount - this.goal().accumulatedAmount,
   );
 }

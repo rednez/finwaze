@@ -2,7 +2,6 @@ import { Injectable } from '@angular/core';
 import {
   MonthlyCashFlow,
   RecentMonthlyBudget,
-  RecentSavingsGoal,
   TotalSummaries,
 } from '../models';
 
@@ -37,22 +36,6 @@ export class DashboardMapper {
       month: new Date(dto.month),
       income: dto.total_income ?? 0,
       expense: dto.total_expense ? Math.abs(dto.total_expense ?? 0) : 0,
-    };
-  }
-
-  fromRecentSavingsGoalDto(dto: {
-    id: number;
-    name: string;
-    amount: number;
-    balance: number;
-    currency_code: string;
-  }): RecentSavingsGoal {
-    return {
-      id: dto.id,
-      name: dto.name,
-      targetAmount: dto.amount,
-      currentAmount: dto.balance,
-      currency: dto.currency_code,
     };
   }
 
