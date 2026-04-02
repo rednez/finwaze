@@ -1,6 +1,7 @@
 <p-floatlabel class="w-60" variant="on">
   <p-datepicker
-    [(ngModel)]="year"
+    [ngModel]="year()"
+    (ngModelChange)="onYearChange($event)"
     view="year"
     dateFormat="yy"
     class="w-full"
@@ -14,9 +15,10 @@
 
 <p-floatlabel class="w-30" variant="on">
   <p-select
-    [(ngModel)]="status"
+    [ngModel]="status()"
+    (ngModelChange)="onStatusChange($event)"
     [options]="statuses()"
-    optionLabel="name"
+    optionLabel="label"
     class="w-full"
     size="small"
     inputId="status"
