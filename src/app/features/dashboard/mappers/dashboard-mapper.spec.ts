@@ -97,26 +97,6 @@ describe('DashboardMapper', () => {
     });
   });
 
-  describe('fromRecentSavingsGoalDto', () => {
-    it('maps all fields from dto', () => {
-      const result = mapper.fromRecentSavingsGoalDto({
-        id: 5,
-        name: 'Vacation',
-        amount: 10000,
-        balance: 3500,
-        currency_code: 'USD',
-      });
-
-      expect(result).toEqual({
-        id: 5,
-        name: 'Vacation',
-        targetAmount: 10000,
-        currentAmount: 3500,
-        currency: 'USD',
-      });
-    });
-  });
-
   describe('fromRecentMonthlyBudgetDto', () => {
     it('maps category_name to name and total_budget to amount', () => {
       const result = mapper.fromRecentMonthlyBudgetDto({

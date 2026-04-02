@@ -5,7 +5,6 @@ import { Transaction } from '@core/models/transactions';
 import {
   MonthlyCashFlow,
   RecentMonthlyBudget,
-  RecentSavingsGoal,
   TotalSummaries,
 } from '../models';
 import { DashboardRepository } from '../repositories';
@@ -45,16 +44,6 @@ const recentTransactions: Transaction[] = [
   },
 ];
 
-const recentGoals: RecentSavingsGoal[] = [
-  {
-    id: 1,
-    name: 'Vacation',
-    targetAmount: 5000,
-    currentAmount: 1500,
-    currency: 'USD',
-  },
-];
-
 const recentBudgets: RecentMonthlyBudget[] = [
   { name: 'Groceries', amount: 300 },
 ];
@@ -70,7 +59,6 @@ function setup(
     getTotals: vi.fn().mockResolvedValue(totalsSummary),
     getMonthlyCashFlow: vi.fn().mockResolvedValue(cashFlow),
     getRecentTransactions: vi.fn().mockResolvedValue(recentTransactions),
-    getRecentSavingsGoals: vi.fn().mockResolvedValue(recentGoals),
     getRecentMonthlyBudgets: vi.fn().mockResolvedValue(recentBudgets),
     ...overrides.repository,
   };
@@ -322,29 +310,6 @@ describe('DashboardStore', () => {
       });
 
       await store.loadRecentTransactions();
-
-      expect(loadingStore.errorLoading).toHaveBeenCalled();
-    });
-  });
-
-  describe('loadRecentSavingsGoals', () => {
-    it('fetches recent goals and patches state', async () => {
-      const { store, repository } = setup();
-
-      await store.loadRecentSavingsGoals();
-
-      expect(repository.getRecentSavingsGoals).toHaveBeenCalled();
-      expect(store.recentSavingsGoals()).toEqual(recentGoals);
-    });
-
-    it('signals error on failure', async () => {
-      const { store, loadingStore } = setup({
-        repository: {
-          getRecentSavingsGoals: vi.fn().mockRejectedValue(new Error('fail')),
-        },
-      });
-
-      await store.loadRecentSavingsGoals();
 
       expect(loadingStore.errorLoading).toHaveBeenCalled();
     });
