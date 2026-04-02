@@ -46,7 +46,7 @@ import { GoalStatus } from '@core/models/savings-goal';
       >
         {{ statusLabel() }}
       </div>
-      <div class="font-medium">3</div>
+      <div class="font-medium">{{ count() }}</div>
     </div>
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,
