@@ -51,7 +51,7 @@ Groups and categories with `is_system = true` are reserved for internal use (tra
 - **Enum casts:** always explicit — `'income'::public.transaction_type`, never plain `'income'`.
 - **Functions:** set `search_path = ''` and qualify all identifiers (`public.`, `auth.`). Mark read-only functions `STABLE`. Prefer `SECURITY INVOKER`.
 - **Aggregates:** use `FILTER (WHERE ...)` instead of `CASE WHEN` inside aggregate functions.
-- **RLS:** all tables have RLS enabled and scoped to `auth.uid()`. Keep it that way.
+- **RLS:** all tables have RLS enabled and scoped to `auth.uid()`. Keep it that way. Do not manually filter by `auth.uid()` inside functions — RLS enforces row-level access automatically. Redundant `WHERE user_id = auth.uid()` checks are noise and can mask policy bugs.
 - **Schema changes:** always read the relevant migration files before suggesting schema modifications — the schema evolves actively.
 
 ---
