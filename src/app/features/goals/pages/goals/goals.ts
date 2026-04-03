@@ -7,7 +7,6 @@ import { ToastModule } from 'primeng/toast';
 import { MessageService } from 'primeng/api';
 import { GoalsListStore } from '../../stores/goals-list-store';
 import { SavingsOverviewStore } from '../../stores/savings-overview-store';
-import { TotalGoalsStore } from '../../stores/total-goals-store';
 import { GoalCard } from '../../ui/goal-card/goal-card';
 import { GoalsFilters } from '../../ui/goals-filters/goals-filters';
 import { SavingsOverviewWidget } from '../../ui/savings-overview-widget/savings-overview-widget';
@@ -118,7 +117,6 @@ import { TransferToGoalDialog } from '../../ui/transfer-to-goal-dialog/transfer-
 })
 export class Goals {
   protected readonly goalsListStore = inject(GoalsListStore);
-  private readonly totalGoalsStore = inject(TotalGoalsStore);
   private readonly savingsOverviewStore = inject(SavingsOverviewStore);
   private readonly messageService = inject(MessageService);
 
@@ -142,7 +140,6 @@ export class Goals {
 
     if (result.ok) {
       this.dialogVisible.set(false);
-      void this.totalGoalsStore.loadGoals();
       void this.savingsOverviewStore.load();
       this.messageService.add({
         severity: 'success',
