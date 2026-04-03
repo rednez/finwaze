@@ -32,7 +32,7 @@ export class GoalsRepository {
     const { data, error } = await this.supabase.client
       .rpc('get_savings_goals', {
         ...(params.year != null && {
-          p_period_to: dayjs(params.year).endOf('year').format('YYYY-MM-DD'),
+          p_period_from: dayjs(params.year).startOf('year').format('YYYY-MM-DD'),
         }),
         ...(params.status != null && {
           p_status: this.toDbStatus(params.status),

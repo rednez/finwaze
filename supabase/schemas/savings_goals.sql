@@ -150,7 +150,7 @@ $$;
 CREATE OR REPLACE FUNCTION get_savings_goals (
   p_limit INTEGER DEFAULT NULL,
   p_status public.savings_goal_status DEFAULT NULL,
-  p_period_to DATE DEFAULT NULL
+  p_period_from DATE DEFAULT NULL
 ) RETURNS TABLE (
   id BIGINT,
   name TEXT,
@@ -177,7 +177,7 @@ SET search_path = '' AS $$
     JOIN public.savings_goals sg ON sg.account_id = acc.id
     LEFT JOIN public.transactions t ON t.account_id = acc.id
     WHERE acc.type = 'savings_goal'::public.account_type
-      AND (p_period_to IS NULL OR sg.target_date <= p_period_to)
+      AND (p_period_from IS NULL OR sg.target_date >= p_period_from)
     GROUP BY acc.id, acc.name, cur.code, sg.target_date, sg.target_amount, sg.is_cancelled, acc.created_at
   ),
   goal_with_status AS (
