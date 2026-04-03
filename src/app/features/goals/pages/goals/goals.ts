@@ -1,14 +1,14 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import { RouterLink } from '@angular/router';
 import { ButtonModule } from 'primeng/button';
 import { SkeletonModule } from 'primeng/skeleton';
-import { GoalsListStore } from './stores/goals-list-store';
-import { GoalCard } from './ui/goal-card/goal-card';
-import { GoalsFilters } from './ui/goals-filters/goals-filters';
-import { SavingsOverviewWidget } from './ui/savings-overview-widget/savings-overview-widget';
-import { TotalGoalsCard } from './ui/total-goals-card/total-goals-card';
+import { GoalsListStore } from '../../stores/goals-list-store';
+import { GoalCard } from '../../ui/goal-card/goal-card';
+import { GoalsFilters } from '../../ui/goals-filters/goals-filters';
+import { SavingsOverviewWidget } from '../../ui/savings-overview-widget/savings-overview-widget';
+import { TotalGoalsCard } from '../../ui/total-goals-card/total-goals-card';
 
 @Component({
-  selector: 'app-goals',
   imports: [
     GoalCard,
     TotalGoalsCard,
@@ -16,6 +16,7 @@ import { TotalGoalsCard } from './ui/total-goals-card/total-goals-card';
     GoalsFilters,
     ButtonModule,
     SkeletonModule,
+    RouterLink,
   ],
   template: `
     <div class="flex justify-between gap-4">
@@ -28,6 +29,7 @@ import { TotalGoalsCard } from './ui/total-goals-card/total-goals-card';
         size="large"
         class="shrink-0"
         [dt]="{ root: { lg: { fontSize: '14px' } } }"
+        [routerLink]="['create']"
       />
     </div>
 
@@ -47,12 +49,20 @@ import { TotalGoalsCard } from './ui/total-goals-card/total-goals-card';
             <div
               class="relative flex items-center justify-center w-16 h-16 rounded-2xl bg-linear-to-br from-violet-100 to-purple-100 dark:from-violet-900/40 dark:to-purple-900/35 border border-violet-100 dark:border-violet-800/40 shadow-lg shadow-violet-200/50 dark:shadow-violet-900/40"
             >
-              <span class="material-symbols-rounded text-violet-500 text-3xl">savings</span>
+              <span class="material-symbols-rounded text-violet-500 text-3xl"
+                >savings</span
+              >
             </div>
           </div>
           <div>
-            <p class="font-semibold text-surface-800 dark:text-surface-100 mb-1">No goals yet</p>
-            <p class="text-sm text-muted-color">Add your first savings goal to start tracking progress.</p>
+            <p
+              class="font-semibold text-surface-800 dark:text-surface-100 mb-1"
+            >
+              No goals yet
+            </p>
+            <p class="text-sm text-muted-color">
+              Add your first savings goal to start tracking progress.
+            </p>
           </div>
           <p-button
             icon="pi pi-plus"
@@ -61,6 +71,7 @@ import { TotalGoalsCard } from './ui/total-goals-card/total-goals-card';
             size="large"
             class="shrink-0"
             [dt]="{ root: { lg: { fontSize: '14px' } } }"
+            [routerLink]="['create']"
           />
         </div>
       } @else {

@@ -69,6 +69,80 @@ export class GoalsRepository {
     }));
   }
 
+  async getGoalById(accountId: number): Promise<SavingsGoal | null> {
+    const { data, error } = await this.supabase.client
+      .rpc('get_savings_goals')
+      .eq('id', accountId)
+      .select();
+
+    if (error) {
+      throw new Error(error.message);
+    }
+
+    return data.length > 0 ? this.mapper.fromSavingsGoalDto(data[0]) : null;
+  }
+
+  async createGoal(params: {
+    name: string;
+    currencyId: number;
+    targetAmount: number;
+    targetDate: Date;
+  }): Promise<number> {
+    const { data, error } = await this.supabase.client.rpc(
+      'create_savings_goal',
+      {
+        p_name: params.name,
+        p_currency_id: params.currencyId,
+        p_target_amount: params.targetAmount,
+        p_target_date: dayjs(params.targetDate).format('YYYY-MM-DD'),
+      },
+    );
+
+    if (error) {
+      throw new Error(error.message);
+    }
+
+    return data as number;
+  }
+
+  async updateGoal(params: {
+    accountId: number;
+    name: string;
+    targetAmount: number;
+    targetDate: Date;
+  }): Promise<void> {
+    const { error } = await this.supabase.client.rpc('update_savings_goal', {
+      p_account_id: params.accountId,
+      p_name: params.name,
+      p_target_amount: params.targetAmount,
+      p_target_date: dayjs(params.targetDate).format('YYYY-MM-DD'),
+    });
+
+    if (error) {
+      throw new Error(error.message);
+    }
+  }
+
+  async cancelGoal(accountId: number): Promise<void> {
+    const { error } = await this.supabase.client.rpc('cancel_savings_goal', {
+      p_account_id: accountId,
+    });
+
+    if (error) {
+      throw new Error(error.message);
+    }
+  }
+
+  async deleteGoal(accountId: number): Promise<void> {
+    const { error } = await this.supabase.client.rpc('delete_savings_goal', {
+      p_account_id: accountId,
+    });
+
+    if (error) {
+      throw new Error(error.message);
+    }
+  }
+
   private toDbStatus(status: GoalStatus): DbGoalStatus {
     const map: Record<GoalStatus, DbGoalStatus> = {
       notStarted: 'not_started',

@@ -3,8 +3,10 @@ import {
   ChangeDetectionStrategy,
   Component,
   computed,
+  inject,
   input,
 } from '@angular/core';
+import { Router } from '@angular/router';
 import { SavingsGoal } from '@core/models/savings-goal';
 import { ProgressBar } from '@shared/ui/progress-bar';
 import { StyledAmount } from '@shared/ui/styled-amount';
@@ -49,12 +51,19 @@ import { GoalCardStatus } from '../goal-card-status/goal-card-status';
   `,
   host: {
     class:
-      'relative flex flex-col gap-4 border border-gray-200 dark:border-gray-600 rounded-3xl p-4',
+      'relative flex flex-col gap-4 border border-gray-200 dark:border-gray-600 rounded-3xl p-4 cursor-pointer hover:border-primary-400 dark:hover:border-primary-500 transition-colors',
+    '(click)': 'navigate()',
   },
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class GoalCard {
   readonly goal = input.required<SavingsGoal>();
+
+  private readonly router = inject(Router);
+
+  navigate() {
+    this.router.navigate(['/goals', this.goal().id]);
+  }
 
   protected readonly percents = computed(() =>
     Math.floor(

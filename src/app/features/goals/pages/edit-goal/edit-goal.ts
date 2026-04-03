@@ -1,0 +1,189 @@
+import {
+  ChangeDetectionStrategy,
+  Component,
+  computed,
+  inject,
+  signal,
+} from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
+import { FormPageLayout } from '@core/layout/form-page-layout';
+import { SavingsGoal } from '@core/models/savings-goal';
+import { CurrenciesStore } from '@core/store/currencies-store';
+import { ConfirmationService, MessageService } from 'primeng/api';
+import { ButtonModule } from 'primeng/button';
+import { ConfirmDialogModule } from 'primeng/confirmdialog';
+import { ProgressSpinnerModule } from 'primeng/progressspinner';
+import { ToastModule } from 'primeng/toast';
+import { GoalsRepository } from '../../repositories/goals-repository';
+import { GoalsListStore } from '../../stores/goals-list-store';
+import { GoalForm, GoalFormData } from '../../ui/goal-form';
+import { GoalNotFound } from './goal-not-found';
+
+@Component({
+  imports: [
+    GoalForm,
+    GoalNotFound,
+    FormPageLayout,
+    ToastModule,
+    ProgressSpinnerModule,
+    ButtonModule,
+    ConfirmDialogModule,
+  ],
+  templateUrl: './edit-goal.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  providers: [MessageService, ConfirmationService],
+})
+export class EditGoal {
+  protected readonly goalsListStore = inject(GoalsListStore);
+  protected readonly currenciesStore = inject(CurrenciesStore);
+  private readonly goalsRepository = inject(GoalsRepository);
+  private readonly route = inject(ActivatedRoute);
+  private readonly router = inject(Router);
+  private readonly messageService = inject(MessageService);
+  private readonly confirmationService = inject(ConfirmationService);
+
+  protected readonly isEditMode = this.route.snapshot.url[0]?.path !== 'create';
+  private readonly goalId = this.isEditMode
+    ? Number(this.route.snapshot.paramMap.get('id'))
+    : null;
+
+  protected readonly goal = signal<SavingsGoal | null>(null);
+  protected readonly isLoading = signal(this.isEditMode);
+  protected readonly isGoalNotFound = signal(false);
+
+  protected readonly title = computed(() =>
+    this.isEditMode ? 'Edit Goal' : 'New Goal',
+  );
+
+  constructor() {
+    if (this.isEditMode && this.goalId) {
+      this.loadGoal(this.goalId);
+    }
+    if (!this.currenciesStore.isLoaded()) {
+      this.currenciesStore.getAll();
+    }
+  }
+
+  protected gotoBack() {
+    this.router.navigate(['..'], { relativeTo: this.route });
+  }
+
+  protected async onSubmit(formData: GoalFormData) {
+    if (this.isEditMode) {
+      await this.updateGoal(formData);
+    } else {
+      await this.createGoal(formData);
+    }
+  }
+
+  protected confirmCancel() {
+    this.confirmationService.confirm({
+      message: 'Mark this goal as cancelled? This action cannot be undone.',
+      header: 'Cancel Goal',
+      icon: 'pi pi-exclamation-triangle',
+      acceptLabel: 'Yes, cancel it',
+      rejectLabel: 'Keep it',
+      accept: () => this.cancelGoal(),
+    });
+  }
+
+  protected confirmDelete() {
+    this.confirmationService.confirm({
+      message:
+        'Delete this goal permanently? All associated transactions will also be deleted.',
+      header: 'Delete Goal',
+      icon: 'pi pi-exclamation-triangle',
+      acceptLabel: 'Yes, delete',
+      rejectLabel: 'Keep it',
+      acceptButtonProps: { severity: 'danger' },
+      accept: () => this.deleteGoal(),
+    });
+  }
+
+  private async loadGoal(goalId: number) {
+    this.isLoading.set(true);
+    try {
+      const goal = await this.goalsRepository.getGoalById(goalId);
+      if (goal) {
+        this.goal.set(goal);
+      } else {
+        this.isGoalNotFound.set(true);
+      }
+    } catch {
+      this.isGoalNotFound.set(true);
+    } finally {
+      this.isLoading.set(false);
+    }
+  }
+
+  private async createGoal(formData: GoalFormData) {
+    const { error } = await this.goalsListStore.createGoal({
+      name: formData.name,
+      currencyId: formData.currencyId!,
+      targetAmount: formData.targetAmount,
+      targetDate: formData.targetDate,
+    });
+
+    if (error) {
+      this.messageService.add({
+        severity: 'error',
+        summary: 'Goal creation failed',
+        detail: error.message,
+      });
+    } else {
+      this.gotoBack();
+    }
+  }
+
+  private async updateGoal(formData: GoalFormData) {
+    const { error } = await this.goalsListStore.updateGoal({
+      accountId: this.goal()!.id,
+      name: formData.name,
+      targetAmount: formData.targetAmount,
+      targetDate: formData.targetDate,
+    });
+
+    if (error) {
+      this.messageService.add({
+        severity: 'error',
+        summary: 'Goal update failed',
+        detail: error.message,
+      });
+    } else {
+      const updated = await this.goalsRepository.getGoalById(this.goal()!.id);
+      if (updated) this.goal.set(updated);
+      this.messageService.add({
+        severity: 'success',
+        summary: 'Goal updated successfully',
+      });
+    }
+  }
+
+  private async cancelGoal() {
+    const { error } = await this.goalsListStore.cancelGoal(this.goal()!.id);
+
+    if (error) {
+      this.messageService.add({
+        severity: 'error',
+        summary: 'Failed to cancel goal',
+        detail: error.message,
+      });
+    } else {
+      this.gotoBack();
+    }
+  }
+
+  private async deleteGoal() {
+    const { error } = await this.goalsListStore.deleteGoal(this.goal()!.id);
+
+    if (error) {
+      this.messageService.add({
+        severity: 'error',
+        summary: 'Failed to delete goal',
+        detail: error.message,
+      });
+    } else {
+      this.gotoBack();
+    }
+  }
+}

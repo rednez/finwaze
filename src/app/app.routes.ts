@@ -77,7 +77,8 @@ export const routes: Routes = [
       },
       {
         path: 'goals',
-        loadComponent: () => import('./features/goals').then((c) => c.Goals),
+        loadChildren: () =>
+          import('./features/goals/routes').then((c) => c.goalsRoutes),
       },
       {
         path: 'analytics',

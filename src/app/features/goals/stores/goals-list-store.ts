@@ -74,6 +74,66 @@ export const GoalsListStore = signalStore(
       patchState(store, { selectedStatus: status }),
   })),
 
+  withMethods((store, repository = inject(GoalsRepository)) => ({
+    async createGoal(params: {
+      name: string;
+      currencyId: number;
+      targetAmount: number;
+      targetDate: Date;
+    }): Promise<Result> {
+      patchState(store, { isUpdating: true, isError: false });
+      try {
+        await repository.createGoal(params);
+        await store.loadGoals();
+        return resultOk();
+      } catch (error) {
+        patchState(store, { isUpdating: false, isError: true });
+        return resultError(error);
+      }
+    },
+
+    async updateGoal(params: {
+      accountId: number;
+      name: string;
+      targetAmount: number;
+      targetDate: Date;
+    }): Promise<Result> {
+      patchState(store, { isUpdating: true, isError: false });
+      try {
+        await repository.updateGoal(params);
+        await store.loadGoals();
+        return resultOk();
+      } catch (error) {
+        patchState(store, { isUpdating: false, isError: true });
+        return resultError(error);
+      }
+    },
+
+    async cancelGoal(accountId: number): Promise<Result> {
+      patchState(store, { isUpdating: true, isError: false });
+      try {
+        await repository.cancelGoal(accountId);
+        await store.loadGoals();
+        return resultOk();
+      } catch (error) {
+        patchState(store, { isUpdating: false, isError: true });
+        return resultError(error);
+      }
+    },
+
+    async deleteGoal(accountId: number): Promise<Result> {
+      patchState(store, { isUpdating: true, isError: false });
+      try {
+        await repository.deleteGoal(accountId);
+        await store.loadGoals();
+        return resultOk();
+      } catch (error) {
+        patchState(store, { isUpdating: false, isError: true });
+        return resultError(error);
+      }
+    },
+  })),
+
   withHooks({
     onInit(store) {
       effect(() => {
