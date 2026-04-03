@@ -1,0 +1,58 @@
+<p-dialog
+  [header]="'Deposit to ' + goal().name"
+  [(visible)]="visible"
+  [modal]="true"
+  [style]="{ width: '24rem' }"
+  [draggable]="false"
+  [resizable]="false"
+>
+  <form [formGroup]="form" class="flex flex-col gap-4 pt-2">
+    <app-account-select
+      formControlName="fromAccountId"
+      [accounts]="accounts()"
+      label="From account"
+      [isInvalid]="form.controls.fromAccountId.invalid && form.controls.fromAccountId.touched"
+    />
+
+    <div class="flex flex-col">
+      <label class="text-sm font-medium mb-1" for="depositAmount">
+        Amount ({{ goal().currencyCode }})
+      </label>
+      <p-inputnumber
+        formControlName="amount"
+        inputId="depositAmount"
+        mode="decimal"
+        [minFractionDigits]="0"
+        [maxFractionDigits]="2"
+        class="w-full"
+        placeholder="Enter amount"
+        autocomplete="off"
+        [inputStyle]="{ borderRadius: '16px' }"
+      />
+      @if (form.controls.amount.invalid && form.controls.amount.touched) {
+        <div class="text-xs text-red-500 pl-2 pt-0.5">
+          @if (form.controls.amount.hasError('required')) {
+            Amount required
+          } @else if (form.controls.amount.hasError('min')) {
+            Must be greater than 0
+          }
+        </div>
+      }
+    </div>
+  </form>
+
+  <ng-template #footer>
+    <p-button
+      label="Cancel"
+      severity="secondary"
+      [text]="true"
+      (onClick)="close()"
+      [disabled]="loading()"
+    />
+    <p-button
+      label="Transfer"
+      (onClick)="submit()"
+      [loading]="loading()"
+    />
+  </ng-template>
+</p-dialog>

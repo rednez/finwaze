@@ -5,16 +5,24 @@ import {
   computed,
   inject,
   input,
+  output,
 } from '@angular/core';
 import { Router } from '@angular/router';
 import { SavingsGoal } from '@core/models/savings-goal';
 import { ProgressBar } from '@shared/ui/progress-bar';
 import { StyledAmount } from '@shared/ui/styled-amount';
+import { ButtonModule } from 'primeng/button';
 import { GoalCardStatus } from '../goal-card-status/goal-card-status';
 
 @Component({
   selector: 'app-goal-card',
-  imports: [CommonModule, StyledAmount, ProgressBar, GoalCardStatus],
+  imports: [
+    CommonModule,
+    StyledAmount,
+    ProgressBar,
+    GoalCardStatus,
+    ButtonModule,
+  ],
   template: `
     <app-goal-card-status [status]="goal().status" />
 
@@ -48,6 +56,17 @@ import { GoalCardStatus } from '../goal-card-status/goal-card-status';
         </div>
       </div>
     </div>
+
+    @if (canDeposit()) {
+      <p-button
+        icon="pi pi-arrow-circle-down"
+        label="Deposit"
+        size="small"
+        severity="success"
+        [rounded]="true"
+        (onClick)="deposit($event)"
+      />
+    }
   `,
   host: {
     class:
@@ -58,12 +77,19 @@ import { GoalCardStatus } from '../goal-card-status/goal-card-status';
 })
 export class GoalCard {
   readonly goal = input.required<SavingsGoal>();
+  readonly depositClicked = output<SavingsGoal>();
 
   private readonly router = inject(Router);
 
   navigate() {
     this.router.navigate(['/goals', this.goal().id]);
   }
+
+  protected readonly canDeposit = computed(
+    () =>
+      this.goal().status === 'notStarted' ||
+      this.goal().status === 'inProgress',
+  );
 
   protected readonly percents = computed(() =>
     Math.floor(
@@ -74,4 +100,9 @@ export class GoalCard {
   protected readonly remainedAmount = computed(
     () => this.goal().targetAmount - this.goal().accumulatedAmount,
   );
+
+  protected deposit(event: Event): void {
+    event.stopPropagation();
+    this.depositClicked.emit(this.goal());
+  }
 }

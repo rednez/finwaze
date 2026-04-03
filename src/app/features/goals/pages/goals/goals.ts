@@ -1,12 +1,18 @@
-import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/core';
 import { RouterLink } from '@angular/router';
+import { SavingsGoal } from '@core/models/savings-goal';
 import { ButtonModule } from 'primeng/button';
 import { SkeletonModule } from 'primeng/skeleton';
+import { ToastModule } from 'primeng/toast';
+import { MessageService } from 'primeng/api';
 import { GoalsListStore } from '../../stores/goals-list-store';
+import { SavingsOverviewStore } from '../../stores/savings-overview-store';
+import { TotalGoalsStore } from '../../stores/total-goals-store';
 import { GoalCard } from '../../ui/goal-card/goal-card';
 import { GoalsFilters } from '../../ui/goals-filters/goals-filters';
 import { SavingsOverviewWidget } from '../../ui/savings-overview-widget/savings-overview-widget';
 import { TotalGoalsCard } from '../../ui/total-goals-card/total-goals-card';
+import { TransferToGoalDialog } from '../../ui/transfer-to-goal-dialog/transfer-to-goal-dialog';
 
 @Component({
   imports: [
@@ -17,8 +23,13 @@ import { TotalGoalsCard } from '../../ui/total-goals-card/total-goals-card';
     ButtonModule,
     SkeletonModule,
     RouterLink,
+    ToastModule,
+    TransferToGoalDialog,
   ],
+  providers: [MessageService],
   template: `
+    <p-toast />
+
     <div class="flex justify-between gap-4">
       <app-goals-filters />
 
@@ -76,7 +87,11 @@ import { TotalGoalsCard } from '../../ui/total-goals-card/total-goals-card';
         </div>
       } @else {
         @for (goal of goalsListStore.goals(); track goal.id) {
-          <app-goal-card [goal]="goal" class="grow sm:max-w-80" />
+          <app-goal-card
+            [goal]="goal"
+            class="grow sm:max-w-80"
+            (depositClicked)="openTransferDialog($event)"
+          />
         }
       }
     </div>
@@ -86,6 +101,15 @@ import { TotalGoalsCard } from '../../ui/total-goals-card/total-goals-card';
 
       <app-savings-overview-widget class="grow lg:flex-1 min-w-0" />
     </div>
+
+    @if (selectedGoal()) {
+      <app-transfer-to-goal-dialog
+        [goal]="selectedGoal()!"
+        [(visible)]="dialogVisible"
+        [loading]="goalsListStore.isUpdating()"
+        (submitted)="handleTransfer($event)"
+      />
+    }
   `,
   host: {
     class: 'flex flex-col gap-4',
@@ -94,4 +118,43 @@ import { TotalGoalsCard } from '../../ui/total-goals-card/total-goals-card';
 })
 export class Goals {
   protected readonly goalsListStore = inject(GoalsListStore);
+  private readonly totalGoalsStore = inject(TotalGoalsStore);
+  private readonly savingsOverviewStore = inject(SavingsOverviewStore);
+  private readonly messageService = inject(MessageService);
+
+  protected readonly selectedGoal = signal<SavingsGoal | null>(null);
+  protected readonly dialogVisible = signal(false);
+
+  protected openTransferDialog(goal: SavingsGoal): void {
+    this.selectedGoal.set(goal);
+    this.dialogVisible.set(true);
+  }
+
+  protected async handleTransfer(params: {
+    fromAccountId: number;
+    amount: number;
+  }): Promise<void> {
+    const result = await this.goalsListStore.transferToGoal({
+      fromAccountId: params.fromAccountId,
+      toAccountId: this.selectedGoal()!.id,
+      amount: params.amount,
+    });
+
+    if (result.ok) {
+      this.dialogVisible.set(false);
+      void this.totalGoalsStore.loadGoals();
+      void this.savingsOverviewStore.load();
+      this.messageService.add({
+        severity: 'success',
+        summary: 'Transfer successful',
+        detail: `Deposited to ${this.selectedGoal()!.name}`,
+      });
+    } else {
+      this.messageService.add({
+        severity: 'error',
+        summary: 'Transfer failed',
+        detail: 'Something went wrong. Please try again.',
+      });
+    }
+  }
 }

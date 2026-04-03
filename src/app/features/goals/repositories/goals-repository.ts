@@ -1,5 +1,6 @@
 import { inject, Injectable } from '@angular/core';
 import { SavingsGoalsMapper } from '@core/mappers/savings-goals-mapper';
+import { Account } from '@core/models/accounts';
 import { GoalStatus, SavingsGoal } from '@core/models/savings-goal';
 import { SupabaseService } from '@core/services/supabase.service';
 import dayjs from 'dayjs';
@@ -136,6 +137,40 @@ export class GoalsRepository {
   async deleteGoal(accountId: number): Promise<void> {
     const { error } = await this.supabase.client.rpc('delete_savings_goal', {
       p_account_id: accountId,
+    });
+
+    if (error) {
+      throw new Error(error.message);
+    }
+  }
+
+  async getRegularAccountsByCurrency(currencyCode: string): Promise<Account[]> {
+    const { data, error } = await this.supabase.client
+      .from('regular_accounts_with_balance')
+      .select()
+      .eq('currency_code', currencyCode);
+
+    if (error) {
+      throw new Error(error.message);
+    }
+
+    return data.map((dto) => ({
+      id: dto.id as number,
+      name: dto.name as string,
+      currencyCode: dto.currency_code as string,
+    }));
+  }
+
+  async transferToGoal(params: {
+    fromAccountId: number;
+    toAccountId: number;
+    amount: number;
+  }): Promise<void> {
+    const { error } = await this.supabase.client.rpc('make_transfer', {
+      p_from_account_id: params.fromAccountId,
+      p_to_account_id: params.toAccountId,
+      p_from_amount: params.amount,
+      p_local_offset: dayjs(new Date()).format('Z'),
     });
 
     if (error) {
