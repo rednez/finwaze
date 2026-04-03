@@ -6,6 +6,18 @@ import dayjs from 'dayjs';
 
 type DbGoalStatus = 'not_started' | 'in_progress' | 'done' | 'cancelled';
 
+export interface MonthlySavingsOverview {
+  month: string;
+  currentYearAmount: number;
+  previousYearAmount: number;
+}
+
+interface MonthlySavingsOverviewDto {
+  month: string;
+  current_year_amount: number;
+  previous_year_amount: number;
+}
+
 @Injectable({
   providedIn: 'root',
 })
@@ -33,6 +45,28 @@ export class GoalsRepository {
     }
 
     return data.map(this.mapper.fromSavingsGoalDto);
+  }
+
+  async getSavingsOverview(params: {
+    year: Date;
+    currencyCode: string;
+  }): Promise<MonthlySavingsOverview[]> {
+    const { data, error } = await this.supabase.client
+      .rpc('get_monthly_savings_overview', {
+        p_year: dayjs(params.year).year(),
+        p_currency_code: params.currencyCode,
+      })
+      .select();
+
+    if (error) {
+      throw new Error(error.message);
+    }
+
+    return (data as MonthlySavingsOverviewDto[]).map((row) => ({
+      month: row.month,
+      currentYearAmount: row.current_year_amount,
+      previousYearAmount: row.previous_year_amount,
+    }));
   }
 
   private toDbStatus(status: GoalStatus): DbGoalStatus {

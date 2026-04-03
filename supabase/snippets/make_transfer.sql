@@ -1,1 +1,1 @@
-select * from make_transfer(2, 6, 2450, 2450, '01:00', 'transfer')
+select * from make_transfer(2, 6, 300, 300, '01:00');
