@@ -49,11 +49,14 @@ import { GoalCardStatus } from '../goal-card-status/goal-card-status';
 
     <div>
       <app-progress-bar [value]="percents()" />
+
       <div class="flex justify-between gap-2 text-sm mt-2">
-        <div class="text-muted-color">Left to complete the goal</div>
-        <div class="font-medium">
-          {{ remainedAmount() | currency: goal().currencyCode }}
-        </div>
+        <div class="text-muted-color">{{ statusLabel() }}</div>
+        @if (goal().status === 'inProgress') {
+          <div class="font-medium">
+            {{ remainedAmount() | currency: goal().currencyCode }}
+          </div>
+        }
       </div>
     </div>
 
@@ -100,6 +103,16 @@ export class GoalCard {
   protected readonly remainedAmount = computed(
     () => this.goal().targetAmount - this.goal().accumulatedAmount,
   );
+
+  protected readonly statusLabel = computed(() => {
+    const labels: Record<string, string> = {
+      notStarted: 'Goal not started',
+      inProgress: 'Left to complete the goal',
+      done: 'Goal completed',
+      cancelled: 'Goal cancelled',
+    };
+    return labels[this.goal().status];
+  });
 
   protected deposit(event: Event): void {
     event.stopPropagation();
