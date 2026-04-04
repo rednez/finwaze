@@ -15,14 +15,14 @@ describe('DashboardMapper', () => {
   });
 
   describe('fromTotalsSummaryDto', () => {
-    it('maps all fields from dto', () => {
+    it('maps all fields from dto and normalizes negative expenses to positive', () => {
       const result = mapper.fromTotalsSummaryDto({
         total_balance: 1000,
         monthly_income: 500,
-        monthly_expense: 300,
+        monthly_expense: -300,
         previous_total_balance: 900,
         previous_monthly_income: 450,
-        previous_monthly_expense: 250,
+        previous_monthly_expense: -250,
       });
 
       expect(result).toEqual({

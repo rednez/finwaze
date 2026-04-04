@@ -20,10 +20,10 @@ export class DashboardMapper {
     return {
       totalBalance: dto.total_balance ?? 0,
       monthlyIncome: dto.monthly_income ?? 0,
-      monthlyExpense: dto.monthly_expense ?? 0,
+      monthlyExpense: Math.abs(dto.monthly_expense ?? 0),
       previousMonthTotalBalance: dto.previous_total_balance ?? 0,
       previousMonthlyIncome: dto.previous_monthly_income ?? 0,
-      previousMonthlyExpense: dto.previous_monthly_expense ?? 0,
+      previousMonthlyExpense: Math.abs(dto.previous_monthly_expense ?? 0),
     };
   }
 

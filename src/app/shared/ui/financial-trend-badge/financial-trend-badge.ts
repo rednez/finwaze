@@ -36,7 +36,7 @@ export class FinancialTrendBadge {
     if (previous === 0) {
       return 0;
     }
-    return (this.currentAmount() - previous) / previous;
+    return (this.currentAmount() - previous) / Math.abs(previous);
   });
 
   protected readonly absDelta = computed(() => Math.abs(this.delta()));
@@ -64,6 +64,4 @@ export class FinancialTrendBadge {
   private readonly isNegativeTrend = computed(() =>
     this.growTrendIsGood() ? this.delta() < 0 : this.delta() > 0,
   );
-
-  private readonly isNeutralTrend = computed(() => this.delta() === 0);
 }

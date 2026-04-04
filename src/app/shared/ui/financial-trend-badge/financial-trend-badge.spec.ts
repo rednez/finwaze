@@ -73,4 +73,36 @@ describe('FinancialTrendBadge', () => {
     expect(classes.contains('text-red-600')).toBe(false);
     expect(classes.contains('bg-red-100')).toBe(false);
   });
+
+  describe('negative amounts (e.g. total balance)', () => {
+    it('marks improvement as good when both amounts are negative and growTrendIsGood is true', () => {
+      setInputs(-500, -1000, true);
+
+      const classes = getBadgeClasses();
+
+      expect(classes.contains('text-green-600')).toBe(true);
+      expect(classes.contains('bg-green-100')).toBe(true);
+      expect(classes.contains('text-red-600')).toBe(false);
+    });
+
+    it('marks worsening as bad when both amounts are negative and growTrendIsGood is true', () => {
+      setInputs(-1000, -500, true);
+
+      const classes = getBadgeClasses();
+
+      expect(classes.contains('text-red-600')).toBe(true);
+      expect(classes.contains('bg-red-100')).toBe(true);
+      expect(classes.contains('text-green-600')).toBe(false);
+    });
+
+    it('marks transition from negative to positive as good when growTrendIsGood is true', () => {
+      setInputs(200, -500, true);
+
+      const classes = getBadgeClasses();
+
+      expect(classes.contains('text-green-600')).toBe(true);
+      expect(classes.contains('bg-green-100')).toBe(true);
+      expect(classes.contains('text-red-600')).toBe(false);
+    });
+  });
 });

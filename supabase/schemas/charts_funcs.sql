@@ -24,6 +24,7 @@ begin
         coalesce(sum(
             case
                 when t.charged_amount > 0
+                 and t.type NOT IN ('transfer'::public.transaction_type, 'internal'::public.transaction_type)
                  and (t.transacted_at + t.local_offset) >= date_trunc('month', now())
                  and (t.transacted_at + t.local_offset) < date_trunc('month', now()) + interval '1 month'
                 then t.charged_amount
@@ -34,6 +35,7 @@ begin
         coalesce(sum(
             case
                 when t.charged_amount < 0
+                 and t.type NOT IN ('transfer'::public.transaction_type, 'internal'::public.transaction_type)
                  and (t.transacted_at + t.local_offset) >= date_trunc('month', now())
                  and (t.transacted_at + t.local_offset) < date_trunc('month', now()) + interval '1 month'
                 then t.charged_amount
@@ -53,6 +55,7 @@ begin
         coalesce(sum(
             case
                 when t.charged_amount > 0
+                 and t.type NOT IN ('transfer'::public.transaction_type, 'internal'::public.transaction_type)
                  and (t.transacted_at + t.local_offset) >= date_trunc('month', now()) - interval '1 month'
                  and (t.transacted_at + t.local_offset) < date_trunc('month', now())
                 then t.charged_amount
@@ -63,6 +66,7 @@ begin
         coalesce(sum(
             case
                 when t.charged_amount < 0
+                 and t.type NOT IN ('transfer'::public.transaction_type, 'internal'::public.transaction_type)
                  and (t.transacted_at + t.local_offset) >= date_trunc('month', now()) - interval '1 month'
                  and (t.transacted_at + t.local_offset) < date_trunc('month', now())
                 then t.charged_amount
@@ -70,8 +74,7 @@ begin
         ), 0) as previous_monthly_expense
 
     from public.transactions t
-    where t.charged_currency_id = v_currency_id
-      and t.type <> 'transfer' and t.type <> 'internal';
+    where t.charged_currency_id = v_currency_id;
 end;
 $$;
 
@@ -174,4 +177,107 @@ SET
                                                + INTERVAL '1 month'
   GROUP BY g.id, g.name
   ORDER BY ABS(SUM(t.transaction_amount)) DESC, g.name;
+$$;
+
+CREATE OR REPLACE FUNCTION public.get_analytics_financial_summary(
+  p_month         DATE,
+  p_currency_code TEXT,
+  p_account_ids   BIGINT[] DEFAULT NULL
+)
+RETURNS TABLE (
+  monthly_income            NUMERIC,
+  previous_monthly_income   NUMERIC,
+  monthly_expense           NUMERIC,
+  previous_monthly_expense  NUMERIC,
+  total_balance             NUMERIC,
+  previous_total_balance    NUMERIC,
+  income_transaction_count  BIGINT,
+  expense_transaction_count BIGINT,
+  income_groups_count       BIGINT,
+  expense_groups_count      BIGINT
+)
+LANGUAGE plpgsql
+STABLE
+SECURITY INVOKER
+SET search_path = ''
+AS $$
+DECLARE
+  v_currency_id BIGINT;
+  v_month_start TIMESTAMP;
+  v_month_end   TIMESTAMP;
+  v_prev_start  TIMESTAMP;
+  v_prev_end    TIMESTAMP;
+BEGIN
+  SELECT id INTO v_currency_id FROM public.currencies WHERE code = p_currency_code;
+
+  v_month_start := date_trunc('month', p_month::TIMESTAMP);
+  v_month_end   := v_month_start + INTERVAL '1 month';
+  v_prev_start  := v_month_start - INTERVAL '1 month';
+  v_prev_end    := v_month_start;
+
+  RETURN QUERY
+  SELECT
+    COALESCE(SUM(t.charged_amount)
+      FILTER (WHERE t.charged_amount > 0
+        AND t.type NOT IN ('transfer'::public.transaction_type, 'internal'::public.transaction_type)
+        AND (t.transacted_at + t.local_offset) >= v_month_start
+        AND (t.transacted_at + t.local_offset) <  v_month_end), 0),
+
+    COALESCE(SUM(t.charged_amount)
+      FILTER (WHERE t.charged_amount > 0
+        AND t.type NOT IN ('transfer'::public.transaction_type, 'internal'::public.transaction_type)
+        AND (t.transacted_at + t.local_offset) >= v_prev_start
+        AND (t.transacted_at + t.local_offset) <  v_prev_end), 0),
+
+    COALESCE(ABS(SUM(t.charged_amount)
+      FILTER (WHERE t.charged_amount < 0
+        AND t.type NOT IN ('transfer'::public.transaction_type, 'internal'::public.transaction_type)
+        AND (t.transacted_at + t.local_offset) >= v_month_start
+        AND (t.transacted_at + t.local_offset) <  v_month_end)), 0),
+
+    COALESCE(ABS(SUM(t.charged_amount)
+      FILTER (WHERE t.charged_amount < 0
+        AND t.type NOT IN ('transfer'::public.transaction_type, 'internal'::public.transaction_type)
+        AND (t.transacted_at + t.local_offset) >= v_prev_start
+        AND (t.transacted_at + t.local_offset) <  v_prev_end)), 0),
+
+    COALESCE(SUM(t.charged_amount)
+      FILTER (WHERE (t.transacted_at + t.local_offset) < v_month_end), 0),
+
+    COALESCE(SUM(t.charged_amount)
+      FILTER (WHERE (t.transacted_at + t.local_offset) < v_prev_end), 0),
+
+    COUNT(*)
+      FILTER (WHERE t.charged_amount > 0
+        AND t.type NOT IN ('transfer'::public.transaction_type, 'internal'::public.transaction_type)
+        AND (t.transacted_at + t.local_offset) >= v_month_start
+        AND (t.transacted_at + t.local_offset) <  v_month_end),
+
+    COUNT(*)
+      FILTER (WHERE t.charged_amount < 0
+        AND t.type NOT IN ('transfer'::public.transaction_type, 'internal'::public.transaction_type)
+        AND (t.transacted_at + t.local_offset) >= v_month_start
+        AND (t.transacted_at + t.local_offset) <  v_month_end),
+
+    COUNT(DISTINCT cat.group_id)
+      FILTER (WHERE t.charged_amount > 0
+        AND t.type NOT IN ('transfer'::public.transaction_type, 'internal'::public.transaction_type)
+        AND (t.transacted_at + t.local_offset) >= v_month_start
+        AND (t.transacted_at + t.local_offset) <  v_month_end),
+
+    COUNT(DISTINCT cat.group_id)
+      FILTER (WHERE t.charged_amount < 0
+        AND t.type NOT IN ('transfer'::public.transaction_type, 'internal'::public.transaction_type)
+        AND (t.transacted_at + t.local_offset) >= v_month_start
+        AND (t.transacted_at + t.local_offset) <  v_month_end)
+
+  FROM public.transactions t
+  JOIN public.categories cat ON cat.id = t.category_id
+  WHERE t.charged_currency_id = v_currency_id
+    AND (
+      p_account_ids IS NULL
+      OR cardinality(p_account_ids) = 0
+      OR t.account_id = ANY(p_account_ids)
+    );
+END;
 $$;

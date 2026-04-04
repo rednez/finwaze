@@ -1,4 +1,7 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import { Card } from '@shared/ui/card';
+import { SkeletonModule } from 'primeng/skeleton';
+import { AnalyticsStore } from './stores';
 import { AnalyticStatisticsCard } from './ui/analytic-statistics-card';
 import { BudgetsExpensesCard } from './ui/budget-expenses-card';
 import { FinancialMonthlyOverviewCard } from './ui/financial-monthly-overview-card';
@@ -12,6 +15,8 @@ import { StatsFilters } from './ui/stats-filters';
     FinancialMonthlyOverviewCard,
     BudgetsExpensesCard,
     AnalyticStatisticsCard,
+    SkeletonModule,
+    Card,
   ],
   templateUrl: './analytics.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -19,4 +24,12 @@ import { StatsFilters } from './ui/stats-filters';
     class: 'flex flex-col gap-4',
   },
 })
-export class Analytics {}
+export class Analytics {
+  protected readonly store = inject(AnalyticsStore);
+
+  constructor() {
+    if (this.store.isLoaded()) {
+      this.store.loadFinancialSummary();
+    }
+  }
+}
