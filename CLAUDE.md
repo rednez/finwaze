@@ -53,6 +53,7 @@ Groups and categories with `is_system = true` are reserved for internal use (tra
 - **Aggregates:** use `FILTER (WHERE ...)` instead of `CASE WHEN` inside aggregate functions.
 - **RLS:** all tables have RLS enabled and scoped to `auth.uid()`. Keep it that way. Do not manually filter by `auth.uid()` inside functions — RLS enforces row-level access automatically. Redundant `WHERE user_id = auth.uid()` checks are noise and can mask policy bugs.
 - **Schema changes:** always read the relevant migration files before suggesting schema modifications — the schema evolves actively.
+- **SQL functions:** when creating or modifying a SQL function, write the change to the appropriate `supabase/schemas/*.sql` file — never create a migration file for function changes.
 
 ---
 
@@ -165,12 +166,13 @@ Follow the `git-commits` skill. Project-specific scopes:
 ## Critical Rules (do not violate)
 
 1. **Do not apply or run migrations after writing SQL** — after creating or modifying a SQL function or schema file, stop. Never attempt to apply, run, or execute a migration unless the user explicitly asks.
-2. **Do not use `type` to distinguish income from expense in aggregations** — use the sign of the amount (negative = expense, positive = income). Use `type` only to exclude `transfer` and `internal` rows.
-3. **Do not use raw `transacted_at` for date grouping** — always use `(transacted_at + local_offset)`.
-4. **Do not use `FLOAT` for money** — always `NUMERIC`.
-5. **Do not unqualify identifiers in functions** — always prefix with `public.` / `auth.` and set `search_path = ''`.
-6. **Do not expose system records (`is_system = true`) in the UI** — filter them out at the query level.
-7. **Do not forget enum casts** — `'income'::public.transaction_type`, not just `'income'`.
+2. **Do not create migration files for SQL functions** — function changes go into the appropriate `supabase/schemas/*.sql` file (e.g. `charts_funcs.sql`, `transactions_funcs.sql`). Migration files are only for schema changes (tables, columns, indexes, enums).
+3. **Do not use `type` to distinguish income from expense in aggregations** — use the sign of the amount (negative = expense, positive = income). Use `type` only to exclude `transfer` and `internal` rows.
+4. **Do not use raw `transacted_at` for date grouping** — always use `(transacted_at + local_offset)`.
+5. **Do not use `FLOAT` for money** — always `NUMERIC`.
+6. **Do not unqualify identifiers in functions** — always prefix with `public.` / `auth.` and set `search_path = ''`.
+7. **Do not expose system records (`is_system = true`) in the UI** — filter them out at the query level.
+8. **Do not forget enum casts** — `'income'::public.transaction_type`, not just `'income'`.
 
 ---
 
