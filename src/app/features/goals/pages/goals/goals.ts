@@ -1,4 +1,9 @@
-import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  inject,
+  signal,
+} from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { SavingsGoal } from '@core/models/savings-goal';
 import { ButtonModule } from 'primeng/button';
@@ -7,6 +12,7 @@ import { ToastModule } from 'primeng/toast';
 import { MessageService } from 'primeng/api';
 import { GoalsListStore } from '../../stores/goals-list-store';
 import { SavingsOverviewStore } from '../../stores/savings-overview-store';
+import { TotalGoalsStore } from '../../stores/total-goals-store';
 import { GoalCard } from '../../ui/goal-card/goal-card';
 import { GoalsFilters } from '../../ui/goals-filters/goals-filters';
 import { SavingsOverviewWidget } from '../../ui/savings-overview-widget/savings-overview-widget';
@@ -59,9 +65,9 @@ import { TransferToGoalDialog } from '../../ui/transfer-to-goal-dialog/transfer-
             <div
               class="relative flex items-center justify-center w-16 h-16 rounded-2xl bg-linear-to-br from-violet-100 to-purple-100 dark:from-violet-900/40 dark:to-purple-900/35 border border-violet-100 dark:border-violet-800/40 shadow-lg shadow-violet-200/50 dark:shadow-violet-900/40"
             >
-              <span class="material-symbols-rounded text-violet-500 text-3xl"
-                >savings</span
-              >
+              <span class="material-symbols-rounded text-violet-500 text-3xl">
+                savings
+              </span>
             </div>
           </div>
           <div>
@@ -117,10 +123,20 @@ import { TransferToGoalDialog } from '../../ui/transfer-to-goal-dialog/transfer-
 })
 export class Goals {
   protected readonly goalsListStore = inject(GoalsListStore);
+  private readonly totalGoalsStore = inject(TotalGoalsStore);
   private readonly savingsOverviewStore = inject(SavingsOverviewStore);
   private readonly messageService = inject(MessageService);
 
   protected readonly selectedGoal = signal<SavingsGoal | null>(null);
+
+  constructor() {
+    if (this.goalsListStore.isLoaded()) {
+      this.goalsListStore.loadGoals();
+    }
+    if (this.totalGoalsStore.isLoaded()) {
+      this.totalGoalsStore.loadGoals();
+    }
+  }
   protected readonly dialogVisible = signal(false);
 
   protected openTransferDialog(goal: SavingsGoal): void {

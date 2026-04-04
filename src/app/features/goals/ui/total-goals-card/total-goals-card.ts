@@ -51,7 +51,7 @@ import { TotalGoalItem } from '../total-goal-item/total-goal-item';
           }
         </div>
       } @else {
-        <div [class.opacity-50]="store.isUpdating()">
+        <div>
           <div class="text-3xl font-semibold mt-6 mb-8">
             {{ store.totalCount() }}
           </div>

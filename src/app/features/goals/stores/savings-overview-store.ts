@@ -14,6 +14,7 @@ import {
 
 interface SavingsOverviewState {
   isLoading: boolean;
+  isUpdating: boolean;
   isLoaded: boolean;
   isError: boolean;
   data: MonthlySavingsOverview[];
@@ -23,6 +24,7 @@ interface SavingsOverviewState {
 
 const initialState: SavingsOverviewState = {
   isLoading: false,
+  isUpdating: false,
   isLoaded: false,
   isError: false,
   data: [],
@@ -46,7 +48,11 @@ export const SavingsOverviewStore = signalStore(
 
   withMethods((store, repository = inject(GoalsRepository)) => ({
     async load(): Promise<void> {
-      patchState(store, { isLoading: true, isError: false });
+      patchState(
+        store,
+        store.isLoaded() ? { isUpdating: true } : { isLoading: true },
+        { isError: false },
+      );
 
       try {
         const data = await repository.getSavingsOverview({
@@ -57,11 +63,13 @@ export const SavingsOverviewStore = signalStore(
         patchState(store, {
           data,
           isLoading: false,
+          isUpdating: false,
           isLoaded: true,
         });
       } catch {
         patchState(store, {
           isLoading: false,
+          isUpdating: false,
           isError: true,
         });
       }
