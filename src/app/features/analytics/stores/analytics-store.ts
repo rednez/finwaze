@@ -6,7 +6,8 @@ import {
   withMethods,
   withState,
 } from '@ngrx/signals';
-import { FinancialSummary } from '../models';
+import dayjs from 'dayjs';
+import { DailyDataPoint, FinancialSummary } from '../models';
 import { AnalyticsRepository } from '../repositories';
 
 interface AnalyticsState {
@@ -18,6 +19,9 @@ interface AnalyticsState {
   selectedCurrencyCode: string;
   selectedAccountIds: number[];
   financialSummary: FinancialSummary | null;
+  dailyOverview: DailyDataPoint[];
+  previousDailyOverview: DailyDataPoint[];
+  isDailyOverviewLoading: boolean;
 }
 
 const initialState: AnalyticsState = {
@@ -29,6 +33,9 @@ const initialState: AnalyticsState = {
   selectedCurrencyCode: '',
   selectedAccountIds: [],
   financialSummary: null,
+  dailyOverview: [],
+  previousDailyOverview: [],
+  isDailyOverviewLoading: false,
 };
 
 export const AnalyticsStore = signalStore(
@@ -65,6 +72,32 @@ export const AnalyticsStore = signalStore(
       }
     },
 
+    async loadDailyOverview(): Promise<void> {
+      patchState(store, { isDailyOverviewLoading: true });
+      try {
+        const prevMonth = dayjs(store.selectedMonth()).subtract(1, 'month').toDate();
+        const [dailyOverview, previousDailyOverview] = await Promise.all([
+          repository.getDailyOverview(
+            store.selectedMonth(),
+            store.selectedCurrencyCode(),
+            store.selectedAccountIds(),
+          ),
+          repository.getDailyOverview(
+            prevMonth,
+            store.selectedCurrencyCode(),
+            store.selectedAccountIds(),
+          ),
+        ]);
+        patchState(store, {
+          dailyOverview,
+          previousDailyOverview,
+          isDailyOverviewLoading: false,
+        });
+      } catch {
+        patchState(store, { isDailyOverviewLoading: false });
+      }
+    },
+
     updateMonth: (month: Date) => patchState(store, { selectedMonth: month }),
 
     updateCurrencyCode: (code: string) =>
@@ -81,7 +114,10 @@ export const AnalyticsStore = signalStore(
         store.selectedCurrencyCode();
         store.selectedAccountIds();
         untracked(() => {
-          if (store.selectedCurrencyCode()) store.loadFinancialSummary();
+          if (store.selectedCurrencyCode()) {
+            store.loadFinancialSummary();
+            store.loadDailyOverview();
+          }
         });
       });
     },

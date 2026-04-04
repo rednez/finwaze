@@ -1,7 +1,14 @@
 import { inject, Injectable } from '@angular/core';
 import { SupabaseService } from '@core/services/supabase.service';
 import dayjs from 'dayjs';
-import { FinancialSummary } from '../models';
+import { DailyDataPoint, FinancialSummary } from '../models';
+
+interface DailyDataPointDto {
+  day: string;
+  daily_income: number;
+  daily_expense: number;
+  running_balance: number;
+}
 
 interface FinancialSummaryDto {
   monthly_income: number;
@@ -52,5 +59,29 @@ export class AnalyticsRepository {
       incomeGroupsCount: row.income_groups_count,
       expenseGroupsCount: row.expense_groups_count,
     };
+  }
+
+  async getDailyOverview(
+    month: Date,
+    currencyCode: string,
+    accountIds: number[],
+  ): Promise<DailyDataPoint[]> {
+    const { data, error } = await this.supabase.client.rpc(
+      'get_daily_financial_overview_for_month',
+      {
+        p_month: dayjs(month).format('YYYY-MM-DD'),
+        p_currency_code: currencyCode,
+        p_account_ids: accountIds.length ? accountIds : null,
+      },
+    );
+
+    if (error) throw new Error(error.message);
+
+    return (data as DailyDataPointDto[]).map((row) => ({
+      day: row.day,
+      dailyIncome: row.daily_income,
+      dailyExpense: row.daily_expense,
+      runningBalance: row.running_balance,
+    }));
   }
 }

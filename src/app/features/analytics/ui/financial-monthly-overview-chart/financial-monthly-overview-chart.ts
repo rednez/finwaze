@@ -25,6 +25,7 @@ export class FinancialMonthlyOverviewChart {
   readonly labels = input<string[]>([]);
   readonly currentAmounts = input<number[]>([]);
   readonly previousAmounts = input<number[]>([]);
+  readonly labelFormat = input<string>('MMM');
 
   private readonly isDarkModeSignal = this.themeService.isDark;
 
@@ -63,7 +64,7 @@ export class FinancialMonthlyOverviewChart {
   });
 
   protected readonly data = computed(() => ({
-    labels: this.labels().map((i) => this.datePipe.transform(i, 'MMM')),
+    labels: this.labels().map((i) => this.datePipe.transform(i, this.labelFormat())),
     datasets: [
       {
         label: 'Selected month',
