@@ -1,4 +1,19 @@
 {
+  "permissions": {
+    "allow": [
+      "mcp__angular-cli__search_documentation",
+      "mcp__angular-cli__get_best_practices",
+      "mcp__angular-cli__find_examples",
+      "WebSearch",
+      "mcp__primeng__get_component_tokens",
+      "mcp__primeng__get_example",
+      "mcp__plugin_context7_context7__query-docs",
+      "Bash(grep:*)",
+      "Bash(pnpm lint:*)",
+      "Bash(pnpm run:*)",
+      "Bash(npx tsc:*)"
+    ]
+  },
   "enabledMcpjsonServers": [
     "supabase",
     "angular-cli",

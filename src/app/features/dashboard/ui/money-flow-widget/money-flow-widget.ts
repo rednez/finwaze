@@ -20,15 +20,12 @@ import { MoneyFlowChart } from '../money-flow-chart/money-flow-chart';
       <app-card-header>
         <app-card-header-title class="flex items-center gap-2">
           <div>Monthly Account Flow</div>
-          <span class="material-symbols-rounded" [pTooltip]="tooltipContent">
+          <span
+            class="material-symbols-rounded"
+            pTooltip="The expenses and incomes based on charged amounts for the last month, for selected currencies."
+          >
             info
           </span>
-          <ng-template #tooltipContent>
-            <div class="text-sm">
-              The expenses and incomes based on charged amounts for the last
-              month, for selected currencies.
-            </div>
-          </ng-template>
         </app-card-header-title>
       </app-card-header>
 

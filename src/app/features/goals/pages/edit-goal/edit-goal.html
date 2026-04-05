@@ -1,0 +1,51 @@
+<p-toast />
+<p-confirmdialog />
+
+<app-form-page-layout class="max-w-110!" [header]="title()" (back)="gotoBack()">
+  @if (isLoading()) {
+    <div class="flex justify-center py-12">
+      <p-progressspinner />
+    </div>
+  } @else if (isGoalNotFound()) {
+    <app-goal-not-found />
+  } @else {
+    <app-goal-form
+      [isEditMode]="isEditMode"
+      [readonly]="goal()?.status === 'cancelled'"
+      [initialName]="goal()?.name"
+      [initialTargetAmount]="goal()?.targetAmount"
+      [initialTargetDate]="goal()?.targetDate"
+      [initialCurrencyCode]="goal()?.currencyCode"
+      [currencies]="currenciesStore.currencies()"
+      [isCurrenciesLoading]="currenciesStore.isLoading()"
+      [submitBtnLabel]="isEditMode ? 'Save Changes' : 'Create Goal'"
+      (submitForm)="onSubmit($event)"
+    />
+
+    @if (isEditMode) {
+      <div
+        class="mt-6 pt-6 border-t border-surface-200 dark:border-surface-700 flex flex-col gap-3"
+      >
+        @if (goal()?.status !== 'cancelled') {
+          <p-button
+            label="Mark as Cancelled"
+            severity="danger"
+            [outlined]="true"
+            [rounded]="true"
+            icon="pi pi-times-circle"
+            [style]="{ width: '100%' }"
+            (onClick)="confirmCancel()"
+          />
+        }
+        <p-button
+          label="Delete Goal"
+          severity="danger"
+          [rounded]="true"
+          icon="pi pi-trash"
+          [style]="{ width: '100%' }"
+          (onClick)="confirmDelete()"
+        />
+      </div>
+    }
+  }
+</app-form-page-layout>

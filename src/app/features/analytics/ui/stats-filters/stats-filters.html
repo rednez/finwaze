@@ -1,6 +1,7 @@
 <p-floatlabel class="w-30" variant="on">
   <p-datepicker
-    [(ngModel)]="month"
+    [ngModel]="month()"
+    (ngModelChange)="onMonthChange($event)"
     view="month"
     dateFormat="mm/yy"
     inputId="month"
@@ -13,7 +14,8 @@
 
 <p-floatlabel class="w-30" variant="on">
   <p-select
-    [(ngModel)]="currency"
+    [ngModel]="currency()"
+    (ngModelChange)="onCurrencyChange($event)"
     [options]="currencies()"
     optionLabel="name"
     class="w-full"
@@ -29,17 +31,18 @@
 
 <p-multiselect
   [options]="accounts()"
-  [(ngModel)]="selectedAccount"
+  [ngModel]="selectedAccounts()"
+  (ngModelChange)="onAccountsChange($event)"
   optionLabel="name"
   placeholder="Select accounts"
   [maxSelectedLabels]="3"
-  [showClear]="true"
+  [showToggleAll]="false"
+  [filter]="false"
   display="chip"
   class="text-sm"
   [dt]="{
     root: {
       borderRadius: '12px',
-      
     },
     chip: {
       borderRadius: '12px',

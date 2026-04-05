@@ -40,14 +40,14 @@ export class FinancialSummaryCard {
   readonly transactionCount = input(0);
   readonly groupsCount = input(0);
 
-  protected readonly diffAmount = computed(
-    () => this.currentAmount() - this.previousAmount(),
+  protected readonly diffAmount = computed(() =>
+    Math.abs(this.currentAmount() - this.previousAmount()),
   );
 
   protected readonly comparedText = computed(() =>
-    this.diffAmount() > 0
+    this.currentAmount() > this.previousAmount()
       ? 'more'
-      : this.diffAmount() === 0
+      : this.currentAmount() === this.previousAmount()
         ? 'The same'
         : 'less',
   );

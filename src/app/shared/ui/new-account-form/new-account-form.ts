@@ -50,7 +50,7 @@ export class NewAccountForm {
   readonly submitBtnLabel = input('Create');
   readonly isCurrencyDisabled = input(false);
   readonly hasBalance = input(false);
-  readonly submit = output<SubmitEvent>();
+  readonly submitForm = output<SubmitEvent>();
 
   private readonly formBuilder = inject(FormBuilder);
 
@@ -94,7 +94,7 @@ export class NewAccountForm {
         submitEvent.currencyId = Number(this.form.controls.currencyId.value);
       }
 
-      this.submit.emit(submitEvent);
+      this.submitForm.emit(submitEvent);
     }
   }
 
@@ -118,7 +118,7 @@ export class NewAccountForm {
             !!initialCurrencyId &&
             (this.hasBalance() ? initialBalance !== undefined : true),
         ),
-        tap(([_, initialAccountName, initialCurrencyId, initialBalance]) => {
+        tap(([, initialAccountName, initialCurrencyId, initialBalance]) => {
           this.form.patchValue({
             name: initialAccountName,
             currencyId: initialCurrencyId,

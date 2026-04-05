@@ -31,14 +31,14 @@ import { BudgetStatusBadge } from '../../budget-status-badge/budget-status-badge
         <div class="text-primary-500 font-medium text-sm">
           <span>/</span>
           <span>{{
-            budgetAmount() | currency: currency() : undefined : '1.0-0'
+            plannedAmount() | currency: currency() : undefined : '1.0-0'
           }}</span>
         </div>
       </div>
     </div>
 
     <app-budget-status-badge
-      [budgetAmount]="budgetAmount()"
+      [plannedAmount]="plannedAmount()"
       [spentAmount]="spentAmount()"
     />
   `,
@@ -48,11 +48,11 @@ import { BudgetStatusBadge } from '../../budget-status-badge/budget-status-badge
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class BudgetCardSummary {
-  readonly budgetAmount = input(0);
+  readonly plannedAmount = input(0);
   readonly spentAmount = input(0);
-  readonly currency = input.required<string>();
+  readonly currency = input<string>();
 
   protected readonly leftAmount = computed(
-    () => this.budgetAmount() - this.spentAmount(),
+    () => this.plannedAmount() - this.spentAmount(),
   );
 }

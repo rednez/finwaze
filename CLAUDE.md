@@ -1,7 +1,7 @@
-# CLAUDE.md — Home Finance App
+# CLAUDE.md — Finwaze
 
-This file provides context and conventions for AI-assisted development on this project.
-Read it fully before making any changes to code or database schema.
+This file provides project-specific context and conventions for AI-assisted development.
+It complements the `angular-expert` skill — read both before making changes.
 
 ---
 
@@ -51,43 +51,25 @@ Groups and categories with `is_system = true` are reserved for internal use (tra
 - **Enum casts:** always explicit — `'income'::public.transaction_type`, never plain `'income'`.
 - **Functions:** set `search_path = ''` and qualify all identifiers (`public.`, `auth.`). Mark read-only functions `STABLE`. Prefer `SECURITY INVOKER`.
 - **Aggregates:** use `FILTER (WHERE ...)` instead of `CASE WHEN` inside aggregate functions.
-- **RLS:** all tables have RLS enabled and scoped to `auth.uid()`. Keep it that way.
+- **RLS:** all tables have RLS enabled and scoped to `auth.uid()`. Keep it that way. Do not manually filter by `auth.uid()` inside functions — RLS enforces row-level access automatically. Redundant `WHERE user_id = auth.uid()` checks are noise and can mask policy bugs.
 - **Schema changes:** always read the relevant migration files before suggesting schema modifications — the schema evolves actively.
+- **SQL functions:** when creating or modifying a SQL function, write the change to the appropriate `supabase/schemas/*.sql` file — never create a migration file for function changes.
 
 ---
 
 ## Frontend: Architecture
 
-### State Management — NgRx SignalStore
+### State Management
 
-- Each feature has its own SignalStore in `features/<feature>/store/`.
-- Store files are named `<feature>.store.ts`.
-- Keep side-effects (API calls) in `withMethods` using `rxMethod` or `effect`.
+- Store files are named `<feature>-store.ts` (e.g. `transactions-store.ts`).
+- Store lives at the level where it's needed — at sub-feature level if used by one, at feature level if shared across multiple sub-features.
 - Do not put business logic in components — delegate to the store.
 
 ### Services
 
-- Supabase client calls live in services (`features/<feature>/services/<feature>.service.ts`).
+- Supabase client calls live in dedicated service files (`<feature>.service.ts`), co-located with the feature or sub-feature they belong to.
 - Services return `Observable` or `Promise` — prefer `Observable` for consistency with NgRx patterns.
 - One service per feature domain.
-
-### Component conventions
-
-- Use standalone components (`standalone: true`).
-- Use `inject()` for dependency injection, not constructor injection.
-- Use `input()` and `output()` signals instead of `@Input()` / `@Output()` decorators.
-- Keep templates free of logic — move conditionals and transforms to computed signals or pipes.
-
-### Naming
-
-| Entity              | Convention                           | Example                          |
-|---------------------|--------------------------------------|----------------------------------|
-| Component (file)    | `kebab-case.ts`                      | `transaction-list.ts`            |
-| Component (class)   | `PascalCase`, no `Component` suffix  | `TransactionList`                |
-| Store               | `kebab-case.store.ts`                | `transactions.store.ts`          |
-| Service             | `kebab-case.service.ts`              | `transactions.service.ts`        |
-| Signal              | `camelCase`, no `$` suffix           | `selectedMonth`                  |
-| Computed            | Descriptive noun phrase              | `filteredTransactions`           |
 
 ### UI / Styling
 
@@ -95,6 +77,17 @@ Groups and categories with `is_system = true` are reserved for internal use (tra
 - Use **Tailwind** utility classes for layout and spacing; avoid custom CSS unless unavoidable.
 - Do not create custom form controls when a PrimeNG equivalent exists.
 - Currency amounts must always be displayed with their currency code or symbol.
+
+### Naming conventions
+
+| Entity           | Convention                          | Example                   |
+|------------------|-------------------------------------|---------------------------|
+| Component (file) | `kebab-case.ts`                     | `transaction-list.ts`     |
+| Component (class)| `PascalCase`, no `Component` suffix | `TransactionList`         |
+| Store (file)     | `kebab-case-store.ts`               | `transactions-store.ts`   |
+| Service (file)   | `kebab-case.service.ts`             | `transactions.service.ts` |
+| Signal           | `camelCase`, no `$` suffix          | `selectedMonth`           |
+| Computed         | Descriptive noun phrase             | `filteredTransactions`    |
 
 ---
 
@@ -159,117 +152,42 @@ A demo user (`demo@mail.com` / `password1234`) is seeded with 4 accounts (USD, U
 
 ## Git Commits
 
-Follow the **Conventional Commits** specification. All messages in **English**.
-
-### Format
-
-```
-<type>(<scope>): <short description>
-
-[optional body]
-
-[optional footer]
-```
-
-### Types
-
-| Type       | When to use                                      |
-|------------|--------------------------------------------------|
-| `feat`     | New feature                                      |
-| `fix`      | Bug fix                                          |
-| `refactor` | Code change that is neither a fix nor a feature  |
-| `style`    | Formatting, missing semicolons, etc. (no logic)  |
-| `test`     | Adding or updating tests                         |
-| `chore`    | Build, tooling, dependency updates               |
-| `docs`     | Documentation only                               |
-| `perf`     | Performance improvement                          |
-
-### Scope (required)
-
-Scope must reflect the part of the codebase being changed. Use the feature or layer name:
+Follow the `git-commits` skill. Project-specific scopes:
 
 `wallet`, `transactions`, `budget`, `dashboard`, `analytics`, `goals`, `groups`, `auth`, `core`, `shared`, `db`, `seed`
 
-### Short description
-
-- Imperative mood: "add", "fix", "remove" — not "added" or "adding"
-- No capital letter at the start
-- No period at the end
-- Max ~72 characters total for the subject line
-
-### Body (when needed)
-
-Add a body when the *why* or *how* is not obvious from the subject. Separate from the subject with a blank line.
-
-### Breaking changes
-
-Add `BREAKING CHANGE:` in the footer, or append `!` after the scope:
-
-```
-feat(transactions)!: remove legacy transfer endpoint
-
-BREAKING CHANGE: clients must use make_transfer() RPC instead
-```
-
-### Referencing issues
-
-Add in the footer:
-
-```
-Closes #42
-Refs #38
-```
-
 ### Other rules
 
-- **Never add `Co-Authored-By` trailers** — not in AI-assisted commits or any other.
+- **Never add `Co-Authored-By` trailers.**
 - **Always sign commits with GPG.**
-
-
-
-```
-feat(wallet): add account balance adjustment form
-
-Allows users to manually correct account balance via
-the adjust_account_balance() RPC. Adjustment creates
-an internal transaction and is excluded from analytics.
-
-Closes #17
-```
-
-```
-fix(transactions): correct local_offset applied to date filter
-```
-
-```
-chore(db): add index on transactions.transacted_at
-```
 
 ---
 
+## Critical Rules (do not violate)
 
-
-1. **Do not use `type` to distinguish income from expense in aggregations** — use the sign of the amount for that (negative = expense, positive = income). Use `type` for a different purpose: to exclude `transfer` and `internal` rows from aggregations entirely.
-2. **Do not use raw `transacted_at` for date grouping.** Always use `(transacted_at + local_offset)`.
-3. **Do not use `FLOAT` for money.** Always `NUMERIC`.
-4. **Do not unqualify identifiers in functions.** Always prefix with `public.` / `auth.` and set `search_path = ''`.
-5. **Do not expose system records (`is_system = true`) in the UI.** Filter them out at the query level.
-6. **Do not forget enum casts.** `'income'::public.transaction_type`, not just `'income'`.
+1. **Do not apply or run migrations after writing SQL** — after creating or modifying a SQL function or schema file, stop. Never attempt to apply, run, or execute a migration unless the user explicitly asks.
+2. **Do not create migration files for SQL functions** — function changes go into the appropriate `supabase/schemas/*.sql` file (e.g. `charts_funcs.sql`, `transactions_funcs.sql`). Migration files are only for schema changes (tables, columns, indexes, enums).
+3. **Do not use `type` to distinguish income from expense in aggregations** — use the sign of the amount (negative = expense, positive = income). Use `type` only to exclude `transfer` and `internal` rows.
+4. **Do not use raw `transacted_at` for date grouping** — always use `(transacted_at + local_offset)`.
+5. **Do not use `FLOAT` for money** — always `NUMERIC`.
+6. **Do not unqualify identifiers in functions** — always prefix with `public.` / `auth.` and set `search_path = ''`.
+7. **Do not expose system records (`is_system = true`) in the UI** — filter them out at the query level.
+8. **Do not forget enum casts** — `'income'::public.transaction_type`, not just `'income'`.
 
 ---
 
 ## Domain Glossary
 
-| Term              | Meaning                                                                 |
-|-------------------|-------------------------------------------------------------------------|
-| Account           | A financial account (bank, cash, wallet). Type: `regular` or `savings_goal` |
-| Group             | Top-level categorisation of transactions (e.g., "Автомобіль", "Послуги") |
-| Category          | Sub-item within a group (e.g., "Бензин" within "Автомобіль")           |
-| Transaction       | A single financial event linked to an account, category, and currency   |
-| Transfer          | A paired movement of funds between two accounts                         |
-| Internal          | A system-generated balance adjustment transaction                        |
-| `transaction_amount` | Amount in the currency the transaction was made in (e.g., 5 EUR for a purchase abroad) |
-| `charged_amount`  | Amount actually debited from the account in its own currency (e.g., 200 UAH debited from a UAH card for that same 5 EUR purchase) |
-| `local_offset`    | The user's UTC offset stored as a PostgreSQL INTERVAL                   |
-| Budget            | A planned spending amount per category per month                        |
-| Savings Goal      | A target amount linked to a dedicated savings account                   |
+| Term                 | Meaning                                                                                     |
+|----------------------|---------------------------------------------------------------------------------------------|
+| Account              | A financial account (bank, cash, wallet). Type: `regular` or `savings_goal`                |
+| Group                | Top-level categorisation of transactions (e.g., "Автомобіль", "Послуги")                   |
+| Category             | Sub-item within a group (e.g., "Бензин" within "Автомобіль")                               |
+| Transaction          | A single financial event linked to an account, category, and currency                       |
+| Transfer             | A paired movement of funds between two accounts                                             |
+| Internal             | A system-generated balance adjustment transaction                                           |
+| `transaction_amount` | Amount in the currency the transaction was made in (e.g., 5 EUR for a purchase abroad)     |
+| `charged_amount`     | Amount debited from the account in its own currency (e.g., 200 UAH for that same 5 EUR)    |
+| `local_offset`       | The user's UTC offset stored as a PostgreSQL INTERVAL                                       |
+| Budget               | A planned spending amount per category per month                                            |
+| Savings Goal         | A target amount linked to a dedicated savings account                                       |

@@ -7,7 +7,7 @@
 >
   <app-new-account-form
     [currencies]="currenciesStore.currencies()"
-    (submit)="
+    (submitForm)="
       createAccount({
         accountName: $event.accountName,
         currencyId: $event.currencyId!,

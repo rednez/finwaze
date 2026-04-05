@@ -17,7 +17,11 @@ export interface UserData {
     <p-menu #menu [model]="items" [popup]="true" />
     <div
       class="flex gap-2 items-center border border-surface-300 dark:border-surface-600 py-1 pl-1 pr-4 rounded-full"
+      role="button"
+      tabindex="0"
       (click)="menu.toggle($event)"
+      (keydown.enter)="menu.toggle($event)"
+      (keydown.space)="menu.toggle($event)"
     >
       @if (user(); as user) {
         <p-avatar

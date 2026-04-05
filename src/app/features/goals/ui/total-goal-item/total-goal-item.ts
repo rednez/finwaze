@@ -4,7 +4,7 @@ import {
   computed,
   input,
 } from '@angular/core';
-import { GoalStatus } from '@core/models/goal';
+import { GoalStatus } from '@core/models/savings-goal';
 
 @Component({
   selector: 'app-total-goal-item',
@@ -46,7 +46,7 @@ import { GoalStatus } from '@core/models/goal';
       >
         {{ statusLabel() }}
       </div>
-      <div class="font-medium">3</div>
+      <div class="font-medium">{{ count() }}</div>
     </div>
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,

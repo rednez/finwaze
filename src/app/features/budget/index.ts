@@ -1,1 +1,1 @@
-export * from './budget.routes';
+export * from './routes';

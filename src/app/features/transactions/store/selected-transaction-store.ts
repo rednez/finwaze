@@ -53,7 +53,7 @@ export const SelectedTransactionStore = signalStore(
         }));
 
         return resultOk();
-      } catch (error: any) {
+      } catch (error) {
         patchState(store, () => ({
           isLoading: false,
         }));
@@ -82,7 +82,7 @@ export const SelectedTransactionStore = signalStore(
         }));
 
         return resultOk();
-      } catch (error: any) {
+      } catch (error) {
         patchState(store, () => ({
           isDeleting: false,
         }));

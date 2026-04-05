@@ -1,0 +1,105 @@
+<form [formGroup]="form" class="flex flex-col gap-4 text-start mt-8">
+  <div>
+    <label class="text-sm font-medium mb-1" for="name">Goal name</label>
+    <input
+      pInputText
+      formControlName="name"
+      inputId="name"
+      type="text"
+      placeholder="Enter goal name"
+      class="w-full"
+      [dt]="{ root: { borderRadius: '16px' } }"
+    />
+    @if (form.controls.name.invalid && form.controls.name.dirty) {
+      <div class="text-xs text-red-500 pl-2 pt-0.5">
+        Should be between 3 and 30 characters
+      </div>
+    }
+  </div>
+
+  <div>
+    <label class="text-sm font-medium mb-1" for="targetAmount"
+      >Target amount</label
+    >
+    <p-inputnumber
+      formControlName="targetAmount"
+      inputId="targetAmount"
+      mode="decimal"
+      [minFractionDigits]="0"
+      [maxFractionDigits]="2"
+      class="w-full"
+      placeholder="Enter target amount"
+      autocomplete="off"
+      [inputStyle]="{ borderRadius: '16px' }"
+    />
+    @if (
+      form.controls.targetAmount.invalid && form.controls.targetAmount.dirty
+    ) {
+      <div class="text-xs text-red-500 pl-2 pt-0.5">
+        Amount must be greater than 0
+      </div>
+    }
+  </div>
+
+  <div>
+    <label class="text-sm font-medium mb-1" for="targetDate">Target date</label>
+    <p-datepicker
+      formControlName="targetDate"
+      inputId="targetDate"
+      class="w-full"
+      placeholder="Select target date"
+      [showIcon]="true"
+      [iconDisplay]="'input'"
+      [minDate]="today"
+      [inputStyle]="{ borderRadius: '16px' }"
+    />
+    @if (form.controls.targetDate.invalid && form.controls.targetDate.dirty) {
+      <div class="text-xs text-red-500 pl-2 pt-0.5">
+        Target date is required
+      </div>
+    }
+  </div>
+
+  <div>
+    <label class="text-sm font-medium mb-1" for="currencyId">Currency</label>
+    @if (isEditMode()) {
+      <input
+        pInputText
+        [value]="initialCurrencyCode()"
+        inputId="currencyId"
+        class="w-full"
+        [disabled]="true"
+        [dt]="{ root: { borderRadius: '16px' } }"
+      />
+    } @else {
+      <p-select
+        [options]="currenciesOptions()"
+        formControlName="currencyId"
+        inputId="currencyId"
+        optionLabel="name"
+        optionValue="id"
+        [filter]="true"
+        filterBy="name"
+        [showClear]="true"
+        [loading]="isCurrenciesLoading()"
+        placeholder="Select a currency"
+        class="w-full"
+        [dt]="{ root: { borderRadius: '16px' } }"
+      />
+      @if (form.controls.currencyId.invalid && form.controls.currencyId.dirty) {
+        <div class="text-xs text-red-500 pl-2 pt-0.5">Should be selected</div>
+      }
+    }
+  </div>
+
+  @if (!readonly()) {
+    <div class="mt-6">
+      <p-button
+        [style]="{ width: '100%' }"
+        [label]="submitBtnLabel()"
+        rounded
+        (onClick)="onSubmit()"
+      />
+    </div>
+  }
+</form>

@@ -1,11 +1,11 @@
 import { Injectable } from '@angular/core';
-import { Currency } from '@core/models/currencies';
+import { Currency, CurrencyDto } from '@core/models/currencies';
 
 @Injectable({
   providedIn: 'root',
 })
 export class CurrenciesMapper {
-  fromCurrencyDto(dto: any): Currency {
+  fromCurrencyDto(dto: CurrencyDto): Currency {
     return {
       id: dto.id,
       code: dto.code,

@@ -63,7 +63,7 @@ export const GroupsAndCategoriesStore = signalStore(
         }));
 
         return resultOk();
-      } catch (error: any) {
+      } catch (error) {
         patchState(store, () => ({
           ...initialState,
           isError: true,
@@ -92,7 +92,7 @@ export const GroupsAndCategoriesStore = signalStore(
         }));
 
         return resultOk();
-      } catch (error: any) {
+      } catch (error) {
         return resultError(error);
       }
     },
@@ -111,7 +111,7 @@ export const GroupsAndCategoriesStore = signalStore(
         patchState(store, () => ({ groups }));
 
         return resultOk();
-      } catch (error: any) {
+      } catch (error) {
         return resultError(error);
       }
     },
@@ -126,7 +126,7 @@ export const GroupsAndCategoriesStore = signalStore(
         }));
 
         return resultOk();
-      } catch (error: any) {
+      } catch (error) {
         return resultError(error);
       }
     },
@@ -148,7 +148,7 @@ export const GroupsAndCategoriesStore = signalStore(
         patchState(store, () => ({ groups }));
 
         return resultOk();
-      } catch (error: any) {
+      } catch (error) {
         return resultError(error);
       }
     },
@@ -177,7 +177,7 @@ export const GroupsAndCategoriesStore = signalStore(
         patchState(store, () => ({ groups }));
 
         return resultOk();
-      } catch (error: any) {
+      } catch (error) {
         return resultError(error);
       }
     },
@@ -198,7 +198,7 @@ export const GroupsAndCategoriesStore = signalStore(
         patchState(store, () => ({ groups }));
 
         return resultOk();
-      } catch (error: any) {
+      } catch (error) {
         return resultError(error);
       }
     },

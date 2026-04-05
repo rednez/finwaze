@@ -1,11 +1,21 @@
 import { Injectable } from '@angular/core';
 import { CategoryWithTxCount, GroupWithCategories } from '../models';
+import { TransactionType } from '@core/models/transactions';
 
 @Injectable({
   providedIn: 'root',
 })
 export class GroupsAndCategoriesMapper {
-  fromGroupWithCategoriesDto = (dto: any): GroupWithCategories => {
+  fromGroupWithCategoriesDto = (dto: {
+    id: number;
+    name: string;
+    transaction_type: TransactionType;
+    categories: {
+      id: number;
+      name: string;
+      transactions_count: number;
+    }[];
+  }): GroupWithCategories => {
     return {
       id: dto.id,
       name: dto.name,
@@ -14,7 +24,11 @@ export class GroupsAndCategoriesMapper {
     };
   };
 
-  private fromCategoryWithTxCountDto = (dto: any): CategoryWithTxCount => {
+  private fromCategoryWithTxCountDto = (dto: {
+    id: number;
+    name: string;
+    transactions_count: number;
+  }): CategoryWithTxCount => {
     return {
       id: dto.id,
       name: dto.name,

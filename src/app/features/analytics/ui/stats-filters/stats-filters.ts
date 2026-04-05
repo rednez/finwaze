@@ -1,21 +1,20 @@
 import {
   ChangeDetectionStrategy,
   Component,
-  model,
-  signal,
+  computed,
+  inject,
+  linkedSignal,
+  OnInit,
 } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { Account } from '@core/models/accounts';
+import { AccountsStore } from '@core/store/accounts-store';
 import { DatePickerModule } from 'primeng/datepicker';
 import { FloatLabelModule } from 'primeng/floatlabel';
 import { MultiSelectModule } from 'primeng/multiselect';
 import { SelectModule } from 'primeng/select';
 import { TableModule } from 'primeng/table';
-
-// TODO: ???
-interface Account {
-  id: number;
-  name: string;
-}
+import { AnalyticsStore } from '../../stores';
 
 @Component({
   selector: 'app-stats-filters',
@@ -33,20 +32,52 @@ interface Account {
     class: 'flex gap-2 flex-wrap',
   },
 })
-export class StatsFilters {
-  protected readonly currencies = signal([
-    { name: 'USD' },
-    { name: 'UAH' },
-    { name: 'EUR' },
-    { name: 'CZK' },
-  ]);
+export class StatsFilters implements OnInit {
+  private readonly accountsStore = inject(AccountsStore);
+  protected readonly analyticsStore = inject(AnalyticsStore);
 
-  protected readonly accounts = signal<Account[]>([
-    { name: 'Account 1', id: 1 },
-    { name: 'Account 2', id: 2 },
-  ]);
+  protected readonly currencies = computed(() =>
+    this.accountsStore.myCurrencies().map((c) => ({ name: c })),
+  );
 
-  protected month = model(new Date());
-  protected currency: { name: string } = model({ name: 'USD' });
-  protected selectedAccount = model<Account[]>([]);
+  protected readonly accounts = computed(() =>
+    this.accountsStore
+      .accounts()
+      .filter((a) => a.currencyCode === this.currency().name),
+  );
+
+  protected month = linkedSignal(() => this.analyticsStore.selectedMonth());
+
+  protected currency = linkedSignal<{ name: string }>(() => ({
+    name: this.analyticsStore.selectedCurrencyCode(),
+  }));
+
+  protected selectedAccounts = linkedSignal<Account[]>(() =>
+    this.accountsStore
+      .accounts()
+      .filter((a) =>
+        this.analyticsStore.selectedAccountIds().includes(a.id),
+      ),
+  );
+
+  ngOnInit(): void {
+    if (!this.analyticsStore.selectedCurrencyCode()) {
+      this.analyticsStore.updateCurrencyCode(
+        this.accountsStore.selectedCurrencyCode()!,
+      );
+    }
+  }
+
+  protected onMonthChange(month: Date): void {
+    this.analyticsStore.updateMonth(month);
+  }
+
+  protected onCurrencyChange(currency: { name: string }): void {
+    this.analyticsStore.updateCurrencyCode(currency.name);
+    this.analyticsStore.updateAccountIds([]);
+  }
+
+  protected onAccountsChange(accounts: Account[]): void {
+    this.analyticsStore.updateAccountIds(accounts.map((a) => a.id));
+  }
 }

@@ -6,12 +6,12 @@ import {
   input,
   output,
 } from '@angular/core';
+import { SavingsGoal } from '@core/models/savings-goal';
 import { Card } from '@shared/ui/card';
 import { CardEmptyState } from '@shared/ui/card-empty-state';
 import { CardHeaderTitle } from '@shared/ui/card-header-title/card-header-title';
 import { CardHeader } from '@shared/ui/card-header/card-header';
 import { ProgressBar } from '@shared/ui/progress-bar';
-import { RecentSavingsGoal } from '../../models';
 
 @Component({
   selector: 'app-saving-goals-widget',
@@ -36,7 +36,7 @@ import { RecentSavingsGoal } from '../../models';
               <div class="flex justify-between gap-1 text-sm mb-1">
                 <div class="font-medium max-w-50 truncate">{{ goal.name }}</div>
                 <div class="text-primary-500">
-                  {{ goal.targetAmount | currency: goal.currency }}
+                  {{ goal.targetAmount | currency: goal.currencyCode }}
                 </div>
               </div>
 
@@ -57,13 +57,15 @@ import { RecentSavingsGoal } from '../../models';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SavingGoalsWidget {
-  readonly goals = input<RecentSavingsGoal[]>([]);
+  readonly goals = input<SavingsGoal[]>([]);
   readonly actionClicked = output<void>();
 
   readonly formattedGoals = computed(() =>
     this.goals().map((i) => ({
       ...i,
-      savedAmountPercent: Math.floor((i.currentAmount / i.targetAmount) * 100),
+      savedAmountPercent: Math.floor(
+        (i.accumulatedAmount / i.targetAmount) * 100,
+      ),
     })),
   );
 }

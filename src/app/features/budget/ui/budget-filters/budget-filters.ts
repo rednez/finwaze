@@ -1,17 +1,19 @@
 import {
   ChangeDetectionStrategy,
   Component,
-  model,
-  signal,
+  input,
+  linkedSignal,
+  output,
 } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { toNameOptions } from '@core/utils/input-transforms';
 import { DatePickerModule } from 'primeng/datepicker';
 import { FloatLabelModule } from 'primeng/floatlabel';
 import { MultiSelectModule } from 'primeng/multiselect';
 import { SelectModule } from 'primeng/select';
 import { TableModule } from 'primeng/table';
 
-interface Group {
+interface GroupOption {
   id: number;
   name: string;
 }
@@ -33,33 +35,31 @@ interface Group {
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class BudgetFilters {
-  protected readonly currencies = signal([
-    { name: 'USD' },
-    { name: 'UAH' },
-    { name: 'EUR' },
-    { name: 'CZK' },
-  ]);
+  readonly initialMonth = input(new Date());
+  readonly initialCurrency = input<string>();
+  readonly initialStatus = input('all');
+  readonly initialGroupsIds = input<number[]>([]);
+  readonly currencies = input<{ name: string }[], string[]>([], {
+    transform: toNameOptions,
+  });
+  readonly groups = input<GroupOption[]>([]);
+  readonly hasStatusFilter = input(true);
+  readonly hasGroupsFilter = input(true);
 
-  protected readonly statuses = signal([
-    { name: 'All' },
-    { name: 'On track' },
-    { name: 'Attention' },
-    { name: 'Over budget' },
-  ]);
+  readonly monthChanged = output<Date>();
+  readonly currencyChanged = output<string>();
+  readonly statusChanged = output<string>();
+  readonly groupsIdsChanged = output<number[]>();
 
-  protected readonly groups = signal<Group[]>([
-    { name: 'Life', id: 1 },
-    { name: 'Medicine', id: 2 },
-    { name: 'Entertainment', id: 3 },
-    { name: 'Sport and Movies', id: 4 },
-    { name: 'Other', id: 5 },
-    { name: 'Stuff', id: 6 },
-    { name: 'Car', id: 7 },
-    { name: 'Study', id: 8 },
-  ]);
+  protected readonly month = linkedSignal(() => this.initialMonth());
+  protected readonly currency = linkedSignal(() => this.initialCurrency());
+  protected readonly status = linkedSignal(() => this.initialStatus());
+  protected selectedGroupsIds = linkedSignal(() => this.initialGroupsIds());
 
-  protected month = model(new Date());
-  protected currency: { name: string } = model({ name: 'USD' });
-  protected status: { name: string } = model({ name: 'All' });
-  protected selectedGroups = model<Group[]>([]);
+  protected readonly statuses = [
+    { name: 'All', value: 'all' },
+    { name: 'On track', value: 'onTrack' },
+    { name: 'Attention', value: 'attention' },
+    { name: 'Over budget', value: 'overBudget' },
+  ];
 }

@@ -1,12 +1,13 @@
 import { inject, Injectable } from '@angular/core';
+import { SavingsGoalsMapper } from '@core/mappers/savings-goals-mapper';
 import { TransactionsMapper } from '@core/mappers/transactions-mapper';
+import { SavingsGoal } from '@core/models/savings-goal';
 import { Transaction } from '@core/models/transactions';
 import { SupabaseService } from '@core/services/supabase.service';
 import { DashboardMapper } from '../mappers';
 import {
   MonthlyCashFlow,
   RecentMonthlyBudget,
-  RecentSavingsGoal,
   TotalSummaries,
 } from '../models';
 
@@ -17,6 +18,7 @@ export class DashboardRepository {
   private readonly supabase = inject(SupabaseService);
   private readonly mapper = inject(DashboardMapper);
   private readonly transactionsMapper = inject(TransactionsMapper);
+  private readonly savingsGoalsMapper = inject(SavingsGoalsMapper);
 
   async getTotals(currencyCode: string): Promise<TotalSummaries> {
     const { data, error } = await this.supabase.client
@@ -64,9 +66,9 @@ export class DashboardRepository {
     return data.map(this.transactionsMapper.fromTransactionDto);
   }
 
-  async getRecentSavingsGoals(): Promise<RecentSavingsGoal[]> {
+  async getRecentSavingsGoals(): Promise<SavingsGoal[]> {
     const { data, error } = await this.supabase.client
-      .rpc('get_savings_goal_balances', {
+      .rpc('get_savings_goals', {
         p_limit: 3,
       })
       .select();
@@ -75,7 +77,7 @@ export class DashboardRepository {
       throw new Error(error.message);
     }
 
-    return data.map(this.mapper.fromRecentSavingsGoalDto);
+    return data.map(this.savingsGoalsMapper.fromSavingsGoalDto);
   }
 
   async getRecentMonthlyBudgets(

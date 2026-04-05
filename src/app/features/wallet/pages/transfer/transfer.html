@@ -20,7 +20,9 @@
         />
 
         <div class="text-start">
-          <label class="text-sm font-medium mb-1">Amount to send</label>
+          <label class="text-sm font-medium mb-1" for="fromAmount"
+            >Amount to send</label
+          >
           <p-inputnumber
             formControlName="fromAmount"
             inputId="fromAmount"
@@ -61,7 +63,9 @@
         @if (shouldShowToAmount()) {
           <div class="text-start">
             <div class="flex items-center justify-between mb-1">
-              <label class="text-sm font-medium">Received amount</label>
+              <label class="text-sm font-medium" for="toAmount">
+                Received amount
+              </label>
               <app-exchange-rate-chip [exchangeRate]="exchangeRate()" />
             </div>
             <p-inputnumber

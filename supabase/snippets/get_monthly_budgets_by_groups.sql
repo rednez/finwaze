@@ -1,0 +1,1 @@
+select * from get_monthly_budgets_by_groups('2026-03-01', 'UAH');

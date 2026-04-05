@@ -35,7 +35,7 @@ export const CurrenciesStore = signalStore(
           isLoaded: true,
           currencies: data,
         }));
-      } catch (error) {
+      } catch {
         patchState(store, () => ({
           isLoading: false,
           isError: true,

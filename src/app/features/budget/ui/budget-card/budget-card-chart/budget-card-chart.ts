@@ -6,14 +6,14 @@ import { DonutBudgetSpentChart } from '../../donut-budget-spent-chart/donut-budg
   imports: [DonutBudgetSpentChart],
   template: `
     <app-donut-budget-spent-chart
-      [budgetAmount]="budgetAmount()"
+      [plannedAmount]="plannedAmount()"
       [spentAmount]="spentAmount()"
       [currency]="currency()"
       radiusSize="sm"
       class="sm:hidden"
     />
     <app-donut-budget-spent-chart
-      [budgetAmount]="budgetAmount()"
+      [plannedAmount]="plannedAmount()"
       [spentAmount]="spentAmount()"
       [currency]="currency()"
       radiusSize="md"
@@ -24,7 +24,7 @@ import { DonutBudgetSpentChart } from '../../donut-budget-spent-chart/donut-budg
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class BudgetCardChart {
-  readonly budgetAmount = input(0);
+  readonly plannedAmount = input(0);
   readonly spentAmount = input(0);
-  readonly currency = input.required<string>();
+  readonly currency = input<string>();
 }

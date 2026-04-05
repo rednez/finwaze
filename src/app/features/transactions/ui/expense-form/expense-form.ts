@@ -100,7 +100,7 @@ export class ExpenseForm {
     );
 
   protected readonly selectedAccountCurrencyCode$ = this.selectedAccount$.pipe(
-    map((acc) => (!!acc ? acc.currencyCode : '')),
+    map((acc) => (acc ? acc.currencyCode : '')),
   );
 
   protected readonly shouldShowChargedAmount$ = combineLatest([

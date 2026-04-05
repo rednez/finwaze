@@ -1,6 +1,8 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-
 import { BudgetCard } from './budget-card';
+
+// eslint-disable-next-line @typescript-eslint/no-empty-function
+const noop = () => {};
 
 Object.defineProperty(window, 'matchMedia', {
   writable: true,
@@ -8,10 +10,10 @@ Object.defineProperty(window, 'matchMedia', {
     matches: false,
     media: query,
     onchange: null,
-    addListener: () => {},
-    removeListener: () => {},
-    addEventListener: () => {},
-    removeEventListener: () => {},
+    addListener: noop,
+    removeListener: noop,
+    addEventListener: noop,
+    removeEventListener: noop,
     dispatchEvent: () => false,
   }),
 });
@@ -27,7 +29,7 @@ describe('BudgetCard', () => {
 
     fixture = TestBed.createComponent(BudgetCard);
     component = fixture.componentInstance;
-    fixture.componentRef.setInput('currency', 'USD');
+    fixture.componentRef.setInput('currencyCode', 'USD');
     fixture.detectChanges();
     await fixture.whenStable();
   });

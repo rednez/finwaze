@@ -7,10 +7,12 @@ CREATE TABLE monthly_budgets (
   planned_amount NUMERIC NOT NULL,
   category_id BIGINT NOT NULL,
   currency_id BIGINT NOT NULL,
+  CONSTRAINT monthly_budgets_planned_amount_positive CHECK (planned_amount > 0),
   CONSTRAINT monthly_budgets_pkey PRIMARY KEY (id),
   CONSTRAINT monthly_budgets_category_id_fkey FOREIGN KEY (category_id) REFERENCES categories (id),
   CONSTRAINT monthly_budgets_currency_id_fkey FOREIGN KEY (currency_id) REFERENCES currencies (id),
-  CONSTRAINT monthly_budgets_user_id_fkey FOREIGN KEY (user_id) REFERENCES auth.users (id)
+  CONSTRAINT monthly_budgets_user_id_fkey FOREIGN KEY (user_id) REFERENCES auth.users (id),
+  CONSTRAINT monthly_budgets_user_month_category_currency_key UNIQUE (user_id, budget_month, category_id, currency_id)
 );
 
 ALTER TABLE monthly_budgets ENABLE ROW LEVEL SECURITY;
@@ -78,26 +80,3 @@ EXECUTE FUNCTION public.set_monthly_budget_month_start ();
 CREATE TRIGGER before_update_monthly_budget_month_trigger BEFORE
 UPDATE OF budget_month ON monthly_budgets FOR EACH ROW
 EXECUTE FUNCTION public.set_monthly_budget_month_start ();
-
-
-CREATE OR REPLACE FUNCTION get_current_month_budgets_by_category (
-  p_currency_code TEXT
-) returns TABLE (
-  category_name TEXT,
-  total_budget NUMERIC
-) language sql
-SET
-  search_path = '' AS $$
-  select
-    cat.name as category_name,
-    sum(mb.planned_amount) as total_budget
-  from public.monthly_budgets mb
-  join public.categories cat
-    on cat.id = mb.category_id
-  join public.currencies cur
-    on cur.id = mb.currency_id
-  where cur.code = p_currency_code
-    and mb.budget_month = date_trunc('month', now()::timestamp)::date
-  group by cat.name
-  order by total_budget desc, category_name asc;
-$$;

@@ -1,0 +1,1 @@
+select * from make_transfer(2, 6, 300, 300, '01:00');

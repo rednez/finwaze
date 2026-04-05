@@ -1,6 +1,5 @@
 import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component, input } from '@angular/core';
-import { Skeleton } from 'primeng/skeleton';
 
 @Component({
   selector: 'app-account-card',

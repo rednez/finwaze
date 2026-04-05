@@ -1,7 +1,8 @@
 <div class="flex gap-2 flex-wrap">
   <p-floatlabel class="w-30" variant="on">
     <p-datepicker
-      [(ngModel)]="month"
+      [ngModel]="month()"
+      (ngModelChange)="monthChanged.emit($event)"
       view="month"
       dateFormat="mm/yy"
       [readonlyInput]="true"
@@ -14,9 +15,11 @@
 
   <p-floatlabel class="w-30" variant="on">
     <p-select
-      [(ngModel)]="currency"
+      [ngModel]="currency()"
+      (ngModelChange)="currencyChanged.emit($event)"
       [options]="currencies()"
       optionLabel="name"
+      optionValue="name"
       class="w-full"
       size="small"
       inputId="currency"
@@ -29,40 +32,49 @@
     <label for="currency">Currency</label>
   </p-floatlabel>
 
-  <p-floatlabel class="w-40" variant="on">
-    <p-select
-      [(ngModel)]="status"
-      [options]="statuses()"
-      optionLabel="name"
-      class="w-full"
-      size="small"
-      inputId="status"
-      [dt]="{
-        root: {
-          borderRadius: '12px',
-        },
-      }"
-    />
-    <label for="status">Status</label>
-  </p-floatlabel>
+  @if (hasStatusFilter()) {
+    <p-floatlabel class="w-40" variant="on">
+      <p-select
+        [(ngModel)]="status"
+        [options]="statuses"
+        optionLabel="name"
+        optionValue="value"
+        class="w-full"
+        size="small"
+        inputId="status"
+        [dt]="{
+          root: {
+            borderRadius: '12px',
+          },
+        }"
+        (onChange)="statusChanged.emit($event.value)"
+      />
+      <label for="status">Status</label>
+    </p-floatlabel>
+  }
 </div>
 
-<p-multiselect
-  [options]="groups()"
-  [(ngModel)]="selectedGroups"
-  optionLabel="name"
-  placeholder="Select groups"
-  [maxSelectedLabels]="3"
-  [showClear]="true"
-  display="chip"
-  inputId="groups"
-  class="text-sm"
-  [dt]="{
-    root: {
-      borderRadius: '12px',
-    },
-    chip: {
-      borderRadius: '16px',
-    },
-  }"
-/>
+@if (hasGroupsFilter()) {
+  <p-multiselect
+    [(ngModel)]="selectedGroupsIds"
+    [options]="groups()"
+    optionLabel="name"
+    optionValue="id"
+    placeholder="Select groups"
+    [maxSelectedLabels]="3"
+    [showClear]="true"
+    display="chip"
+    inputId="groups"
+    class="text-sm"
+    [dt]="{
+      root: {
+        borderRadius: '12px',
+      },
+      chip: {
+        borderRadius: '16px',
+      },
+    }"
+    (onChange)="groupsIdsChanged.emit($event.value)"
+    (onClear)="groupsIdsChanged.emit([])"
+  />
+}

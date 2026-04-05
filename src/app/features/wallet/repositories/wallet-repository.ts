@@ -6,6 +6,7 @@ import { WalletMapper } from '../mappers';
 import {
   MonthlySummary,
   RegularAccount,
+  RegularAccountDto,
   TransactionCashFlowItem,
 } from '../models';
 import { TransactionsMapper } from '@core/mappers/transactions-mapper';
@@ -33,7 +34,7 @@ export class WalletRepository {
     const { data, error } = await this.supabase.client
       .rpc('get_regular_account_with_balance', { p_account_id: accountId })
       .select()
-      .single();
+      .single<RegularAccountDto>();
 
     if (error) {
       throw new Error(error.message);
@@ -174,7 +175,7 @@ export class WalletRepository {
     fromAmount: number;
     toAmount?: number | null;
   }): Promise<void> {
-    const { data, error } = await this.supabase.client
+    const { error } = await this.supabase.client
       .rpc('make_transfer', {
         p_from_account_id: fromAccountId,
         p_to_account_id: toAccountId,

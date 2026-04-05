@@ -1,36 +1,65 @@
 <app-stats-filters />
 
 <div class="flex gap-4 flex-wrap">
-  <app-financial-summary-card
-    title="Total balance"
-    [currentAmount]="11200"
-    [previousAmount]="10000"
-    [currency]="'UAH'"
-    [growTrendIsGood]="true"
-    infoTextPart="You have extra"
-    [transactionCount]="65"
-    [groupsCount]="12"
-  />
-  <app-financial-summary-card
-    title="Income"
-    [currentAmount]="10590"
-    [previousAmount]="10500"
-    [currency]="'UAH'"
-    [growTrendIsGood]="true"
-    infoTextPart="You earn extra"
-    [transactionCount]="2"
-    [groupsCount]="1"
-  />
-  <app-financial-summary-card
-    title="Expense"
-    [currentAmount]="10800.34"
-    [previousAmount]="16700.12"
-    [currency]="'UAH'"
-    [growTrendIsGood]="false"
-    infoTextPart="You have extra"
-    [transactionCount]="195"
-    [groupsCount]="10"
-  />
+  @if (store.isLoading()) {
+    @for (i of [1, 2, 3]; track i) {
+      <app-card class="grow">
+        <div class="flex flex-col gap-8">
+          <p-skeleton height="1.3rem" width="10rem" />
+          <p-skeleton height="2.4rem" width="10rem" />
+          <div class="flex justify-between gap-5">
+            <div class="flex flex-col justify-between gap-4">
+              <p-skeleton height="1rem" width="4rem" />
+              <p-skeleton height="1rem" width="10rem" />
+            </div>
+            <div class="flex flex-col gap-4">
+              <p-skeleton height="1.4rem" width="10rem" />
+              <p-skeleton height="1.4rem" width="10rem" />
+            </div>
+          </div>
+        </div>
+      </app-card>
+    }
+  } @else {
+    <app-financial-summary-card
+      title="Total balance"
+      [currentAmount]="store.financialSummary()?.totalBalance ?? 0"
+      [previousAmount]="store.financialSummary()?.previousTotalBalance ?? 0"
+      [currency]="store.selectedCurrencyCode()"
+      [growTrendIsGood]="true"
+      infoTextPart="You have extra"
+      [transactionCount]="
+        (store.financialSummary()?.incomeTransactionCount ?? 0) +
+        (store.financialSummary()?.expenseTransactionCount ?? 0)
+      "
+      [groupsCount]="
+        (store.financialSummary()?.incomeGroupsCount ?? 0) +
+        (store.financialSummary()?.expenseGroupsCount ?? 0)
+      "
+    />
+    <app-financial-summary-card
+      title="Income"
+      [currentAmount]="store.financialSummary()?.monthlyIncome ?? 0"
+      [previousAmount]="store.financialSummary()?.previousMonthlyIncome ?? 0"
+      [currency]="store.selectedCurrencyCode()"
+      [growTrendIsGood]="true"
+      infoTextPart="You earn extra"
+      [transactionCount]="store.financialSummary()?.incomeTransactionCount ?? 0"
+      [groupsCount]="store.financialSummary()?.incomeGroupsCount ?? 0"
+    />
+    <app-financial-summary-card
+      title="Expense"
+      [currentAmount]="store.financialSummary()?.monthlyExpense ?? 0"
+      [previousAmount]="store.financialSummary()?.previousMonthlyExpense ?? 0"
+      [currency]="store.selectedCurrencyCode()"
+      [growTrendIsGood]="false"
+      infoTextPart="You have extra"
+      [transactionCount]="
+        store.financialSummary()?.expenseTransactionCount ?? 0
+      "
+      [groupsCount]="store.financialSummary()?.expenseGroupsCount ?? 0"
+    />
+  }
 </div>
 
 <div class="flex gap-4 flex-col lg:flex-row">

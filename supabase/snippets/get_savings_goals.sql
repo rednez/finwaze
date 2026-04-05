@@ -1,0 +1,1 @@
+select * from get_savings_goals(null, null, '2027-12-31');

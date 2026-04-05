@@ -77,7 +77,7 @@ export const WalletAccountsStore = signalStore(
           }
 
           return resultOk();
-        } catch (error: any) {
+        } catch (error) {
           patchState(store, () => ({
             ...initialState,
             isError: true,
@@ -101,7 +101,7 @@ export const WalletAccountsStore = signalStore(
           }));
 
           return resultOk();
-        } catch (error: any) {
+        } catch (error) {
           patchState(store, () => ({
             ...initialState,
             isError: true,
@@ -126,7 +126,7 @@ export const WalletAccountsStore = signalStore(
           accountsStore.removeAccount(accountId);
 
           return resultOk();
-        } catch (error: any) {
+        } catch (error) {
           patchState(store, () => ({
             ...initialState,
             isError: true,
@@ -209,7 +209,7 @@ export const WalletAccountsStore = signalStore(
           }
 
           return resultOk();
-        } catch (error: any) {
+        } catch (error) {
           patchState(store, () => ({
             ...initialState,
             isError: true,

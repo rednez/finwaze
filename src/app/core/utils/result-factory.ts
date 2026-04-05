@@ -5,7 +5,7 @@ export const resultOk = (): ResultOk => ({
   error: null,
 });
 
-export const resultError = <E = Error>(error: E): ResultError<E> => ({
+export const resultError = (error: unknown): ResultError<Error> => ({
   ok: false,
-  error,
+  error: error instanceof Error ? error : new Error('Unknown error'),
 });

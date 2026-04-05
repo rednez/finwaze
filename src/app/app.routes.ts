@@ -73,11 +73,12 @@ export const routes: Routes = [
       {
         path: 'budget',
         loadChildren: () =>
-          import('./features/budget/budget.routes').then((c) => c.budgetRoutes),
+          import('./features/budget/routes').then((c) => c.budgetRoutes),
       },
       {
         path: 'goals',
-        loadComponent: () => import('./features/goals').then((c) => c.Goals),
+        loadChildren: () =>
+          import('./features/goals/routes').then((c) => c.goalsRoutes),
       },
       {
         path: 'analytics',

@@ -17,4 +17,9 @@ export const CustomPreset = definePreset(Aura, {
       950: '{violet.950}',
     },
   },
+  components: {
+    tooltip: {
+      css: () => `.p-tooltip .p-tooltip-text { font-size: 14px; }`,
+    },
+  },
 });

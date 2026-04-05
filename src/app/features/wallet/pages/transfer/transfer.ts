@@ -109,11 +109,11 @@ export class Transfer {
         });
 
         this.gotoBack();
-      } catch (error: any) {
+      } catch (error) {
         this.messageService.add({
           severity: 'error',
           summary: 'Account creation failed',
-          detail: error.message,
+          detail: (error as Error).message,
         });
       }
     }

@@ -5,7 +5,6 @@ export type Theme = 'light' | 'system' | 'dark';
 
 const STORAGE_KEY = 'app-theme';
 const DARK_CLASS = 'dark';
-// const DARK_CLASS = 'app-dark';
 
 @Injectable({
   providedIn: 'root',

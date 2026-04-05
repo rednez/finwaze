@@ -1,11 +1,11 @@
 import { Injectable } from '@angular/core';
-import { Account } from '@core/models/accounts';
+import { Account, AccountDto } from '@core/models/accounts';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AccountsMapper {
-  fromAccountDto(dto: any): Account {
+  fromAccountDto(dto: AccountDto): Account {
     return {
       id: dto.id,
       name: dto.name,

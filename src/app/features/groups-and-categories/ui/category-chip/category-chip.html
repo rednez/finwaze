@@ -9,21 +9,33 @@
 
   <div
     class="flex items-center hover:cursor-pointer hover:bg-primary-200 dark:hover:bg-primary-900 rounded-full p-1"
+    role="button"
+    tabindex="0"
     (click)="onUpdate()"
+    (keydown.enter)="onUpdate()"
+    (keydown.space)="onUpdate()"
   >
     <span class="pi pi-check text-primary-700"></span>
   </div>
 
   <div
     class="flex items-center hover:cursor-pointer hover:bg-primary-200 dark:hover:bg-primary-900 rounded-full p-1"
+    role="button"
+    tabindex="0"
     (click)="onCancelEdit()"
+    (keydown.enter)="onCancelEdit()"
+    (keydown.space)="onCancelEdit()"
   >
     <span class="pi pi-times text-primary-700"></span>
   </div>
 } @else {
   <div
     class="text-sm text-gray-700 dark:text-gray-300"
+    role="button"
+    tabindex="0"
     (click)="isEditing.set(true)"
+    (keydown.enter)="isEditing.set(true)"
+    (keydown.space)="isEditing.set(true)"
   >
     {{ nameControl.value }}
   </div>
@@ -36,7 +48,11 @@
     } @else {
       <div
         class="flex items-center hover:cursor-pointer hover:bg-fuchsia-100 dark:hover:bg-fuchsia-900 rounded-full p-1"
+        role="button"
+        tabindex="0"
         (click)="delete.emit()"
+        (keydown.enter)="delete.emit()"
+        (keydown.space)="delete.emit()"
       >
         <span class="pi pi-trash text-primary-500"></span>
       </div>

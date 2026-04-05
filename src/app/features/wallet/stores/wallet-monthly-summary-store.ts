@@ -47,7 +47,7 @@ export const WalletMonthlySummaryStore = signalStore(
         }));
 
         return resultOk();
-      } catch (error: any) {
+      } catch (error) {
         patchState(store, () => ({
           ...initialState,
           isError: true,
