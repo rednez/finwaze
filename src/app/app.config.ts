@@ -46,7 +46,7 @@ export const appConfig: ApplicationConfig = {
     {
       provide: APP_CONFIG,
       useValue: {
-        isUnderDevelopment: false,
+        isUnderDevelopment: true,
       },
     },
   ],
