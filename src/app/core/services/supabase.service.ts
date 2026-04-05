@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { environment } from '@env';
 import {
   createClient,
@@ -6,12 +6,16 @@ import {
   SupabaseClient,
   User,
 } from '@supabase/supabase-js';
+import { DemoModeService } from './demo-mode/demo-mode.service';
+import { DemoSupabaseClient } from './demo-mode/demo-supabase-client';
 
 @Injectable({
   providedIn: 'root',
 })
 export class SupabaseService {
   private supabase?: SupabaseClient;
+  private readonly demoModeService = inject(DemoModeService);
+  private readonly demoClient = new DemoSupabaseClient();
 
   constructor() {
     try {
@@ -30,6 +34,11 @@ export class SupabaseService {
   }
 
   get client(): SupabaseClient {
+    if (this.demoModeService.isDemo()) {
+      // DemoSupabaseClient handles all repository call patterns without hitting the network
+      return this.demoClient as unknown as SupabaseClient;
+    }
+
     if (!this.supabase) {
       throw new Error('Supabase client is not initialized');
     }

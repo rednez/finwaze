@@ -1,5 +1,6 @@
 import { inject } from '@angular/core';
 import { AuthRepository } from '@core/repositories/auth-repository';
+import { DemoModeService } from '@core/services/demo-mode/demo-mode.service';
 import {
   patchState,
   signalStore,
@@ -31,7 +32,11 @@ export const AuthStore = signalStore(
     isAuthorized: () => !!store.user(),
   })),
 
-  withMethods((store, authRepository = inject(AuthRepository)) => ({
+  withMethods((
+    store,
+    authRepository = inject(AuthRepository),
+    demoModeService = inject(DemoModeService),
+  ) => ({
     async init(): Promise<void> {
       if (store.isAuthorized()) {
         return;
@@ -66,6 +71,7 @@ export const AuthStore = signalStore(
     async loginWithDemo() {
       await authRepository.loginWithDemo();
       const user = await authRepository.getUser();
+      demoModeService.enable();
 
       patchState(store, () => ({
         user,
@@ -74,6 +80,7 @@ export const AuthStore = signalStore(
 
     async logOut() {
       await authRepository.logOut();
+      demoModeService.disable();
 
       patchState(store, () => ({
         user: null,
