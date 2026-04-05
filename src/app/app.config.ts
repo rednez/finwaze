@@ -6,12 +6,15 @@ import {
   LOCALE_ID,
   provideBrowserGlobalErrorListeners,
 } from '@angular/core';
+import { getAnalytics, provideAnalytics } from '@angular/fire/analytics';
+import { initializeApp, provideFirebaseApp } from '@angular/fire/app';
 import {
   provideRouter,
   withComponentInputBinding,
   withRouterConfig,
 } from '@angular/router';
 import { APP_CONFIG } from '@core/configs';
+import { environment } from '@env';
 import { providePrimeNG } from 'primeng/config';
 import { routes } from './app.routes';
 import { CustomPreset } from './custom-theme';
@@ -49,5 +52,7 @@ export const appConfig: ApplicationConfig = {
         isUnderDevelopment: false,
       },
     },
+    provideFirebaseApp(() => initializeApp(environment.firebase)),
+    provideAnalytics(() => getAnalytics()),
   ],
 };
