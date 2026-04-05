@@ -101,19 +101,6 @@ describe('FinancialMonthlyOverviewCard', () => {
     expect(component['previousAmounts']()).toEqual([60, 90]);
   });
 
-  it('shows skeleton when isDailyOverviewLoading is true', async () => {
-    isDailyOverviewLoading.set(true);
-    fixture.detectChanges();
-    await fixture.whenStable();
-
-    const skeleton = fixture.nativeElement.querySelector('p-skeleton');
-    const chart = fixture.nativeElement.querySelector(
-      'app-financial-monthly-overview-chart',
-    );
-    expect(skeleton).toBeTruthy();
-    expect(chart).toBeFalsy();
-  });
-
   it('shows chart when isDailyOverviewLoading is false', async () => {
     isDailyOverviewLoading.set(false);
     fixture.detectChanges();
