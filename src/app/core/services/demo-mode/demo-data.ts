@@ -15,23 +15,49 @@ const LOCAL_OFFSET = '+02:00';
 // ─── Static seed data ────────────────────────────────────────────────────────
 
 const ACCOUNTS: RegularAccountDto[] = [
-  { id: 1, name: 'Main Card',  currency_id: 1, currency_code: 'USD', balance: 3200,  can_delete: false },
-  { id: 2, name: 'Cash',       currency_id: 2, currency_code: 'UAH', balance: 18500, can_delete: false },
-  { id: 3, name: 'Savings',    currency_id: 3, currency_code: 'EUR', balance: 5800,  can_delete: false },
+  {
+    id: 1,
+    name: 'Main Card',
+    currency_id: 1,
+    currency_code: 'USD',
+    balance: 3200,
+    can_delete: false,
+  },
+  {
+    id: 2,
+    name: 'Cash',
+    currency_id: 2,
+    currency_code: 'UAH',
+    balance: 18500,
+    can_delete: false,
+  },
+  {
+    id: 3,
+    name: 'Savings',
+    currency_id: 3,
+    currency_code: 'EUR',
+    balance: 5800,
+    can_delete: false,
+  },
 ];
 
 const CURRENCIES = [
-  { id: 1, code: 'USD', name: 'US Dollar',          country_name: 'United States' },
-  { id: 2, code: 'UAH', name: 'Ukrainian Hryvnia',  country_name: 'Ukraine' },
-  { id: 3, code: 'EUR', name: 'Euro',                country_name: 'European Union' },
+  { id: 1, code: 'USD', name: 'US Dollar', country_name: 'United States' },
+  { id: 2, code: 'UAH', name: 'Ukrainian Hryvnia', country_name: 'Ukraine' },
+  { id: 3, code: 'EUR', name: 'Euro', country_name: 'European Union' },
 ];
 
 const GROUPS = [
-  { id: 1, name: 'Food',           transaction_type: 'expense', is_system: false },
-  { id: 2, name: 'Transport',      transaction_type: 'expense', is_system: false },
-  { id: 3, name: 'Entertainment',  transaction_type: 'expense', is_system: false },
-  { id: 4, name: 'Housing',        transaction_type: 'expense', is_system: false },
-  { id: 5, name: 'Salary',         transaction_type: 'income',  is_system: false },
+  { id: 1, name: 'Food', transaction_type: 'expense', is_system: false },
+  { id: 2, name: 'Transport', transaction_type: 'expense', is_system: false },
+  {
+    id: 3,
+    name: 'Entertainment',
+    transaction_type: 'expense',
+    is_system: false,
+  },
+  { id: 4, name: 'Housing', transaction_type: 'expense', is_system: false },
+  { id: 5, name: 'Salary', transaction_type: 'income', is_system: false },
 ];
 
 const CATEGORIES = [
@@ -77,10 +103,10 @@ interface TxDef {
 }
 
 const TX_DEFS: TxDef[] = [
-  { day: 1,  type: 'income',  catId: 8, groupId: 5, amt: 3200 },
-  { day: 3,  type: 'expense', catId: 7, groupId: 4, amt: -1200 },
-  { day: 5,  type: 'expense', catId: 1, groupId: 1, amt: -85 },
-  { day: 8,  type: 'expense', catId: 3, groupId: 2, amt: -15 },
+  { day: 1, type: 'income', catId: 8, groupId: 5, amt: 3200 },
+  { day: 3, type: 'expense', catId: 7, groupId: 4, amt: -1200 },
+  { day: 5, type: 'expense', catId: 1, groupId: 1, amt: -85 },
+  { day: 8, type: 'expense', catId: 3, groupId: 2, amt: -15 },
   { day: 10, type: 'expense', catId: 2, groupId: 1, amt: -45 },
   { day: 12, type: 'expense', catId: 6, groupId: 3, amt: -20 },
   { day: 15, type: 'expense', catId: 1, groupId: 1, amt: -65 },
@@ -112,11 +138,11 @@ function buildTransactionsForMonth(monthStr: string): TransactionDto[] {
       id: id++,
       transacted_at: txDate.toISOString(),
       local_offset: LOCAL_OFFSET,
-      transaction_amount: Math.abs(def.amt),
+      transaction_amount: def.amt,
       transaction_currency_code: 'USD',
       account_id: 1,
       account_name: 'Main Card',
-      charged_amount: Math.abs(def.amt),
+      charged_amount: def.amt,
       charged_currency_code: 'USD',
       exchange_rate: 1,
       type: def.type,
@@ -157,7 +183,13 @@ function buildDailyOverview(month: dayjs.Dayjs) {
 
     const isPayday = d === 1;
     const dailyIncome = isPayday ? 3200 : 0;
-    const dailyExpense = isPayday ? 0 : -(d % 3 === 0 ? 85 : d % 5 === 0 ? 45 : 20);
+    const dailyExpense = isPayday
+      ? 0
+      : d % 3 === 0
+        ? 85
+        : d % 5 === 0
+          ? 45
+          : 20;
     running += dailyIncome + dailyExpense;
 
     result.push({
@@ -196,7 +228,7 @@ function buildYearlyBudgetsVsExpenses(year: number) {
     result.push({
       month: month.format('YYYY-MM-DD'),
       budget_amount: 1800,
-      expense_amount: -(1400 + seed * 20),
+      expense_amount: 1400 + seed * 20,
     });
   }
   return result;
@@ -259,7 +291,9 @@ export function getFakeTableData(table: string): unknown {
     case 'groups':
       return GROUPS;
     case 'transactions':
-      return buildTransactionsForMonth(dayjs().startOf('month').format('YYYY-MM-DD'));
+      return buildTransactionsForMonth(
+        dayjs().startOf('month').format('YYYY-MM-DD'),
+      );
     case 'regular_accounts_with_balance':
       return ACCOUNTS;
     case 'groups_with_categories_tx_counts':
@@ -269,41 +303,47 @@ export function getFakeTableData(table: string): unknown {
   }
 }
 
-export function getFakeRpcData(fn: string, params?: Record<string, unknown>): unknown {
+export function getFakeRpcData(
+  fn: string,
+  params?: Record<string, unknown>,
+): unknown {
   switch (fn) {
-
     // === TRANSACTIONS ===
     case 'get_filtered_transactions':
       return buildTransactionsForMonth(
-        (params?.['p_month'] as string) ?? dayjs().startOf('month').format('YYYY-MM-DD'),
+        (params?.['p_month'] as string) ??
+          dayjs().startOf('month').format('YYYY-MM-DD'),
       );
 
     case 'get_transfer_transactions':
       return [];
 
     case 'get_recent_transactions':
-      return buildTransactionsForMonth(dayjs().startOf('month').format('YYYY-MM-DD'))
-        .slice(0, (params?.['p_limit'] as number) ?? 3);
+      return buildTransactionsForMonth(
+        dayjs().startOf('month').format('YYYY-MM-DD'),
+      ).slice(0, (params?.['p_limit'] as number) ?? 3);
 
     // === DASHBOARD ===
     case 'get_dashboard_totals':
-      return [{
-        total_balance: 27500,
-        monthly_income: 3200,
-        monthly_expense: -1573,
-        previous_total_balance: 25900,
-        previous_monthly_income: 3200,
-        previous_monthly_expense: -1820,
-      }];
+      return [
+        {
+          total_balance: 27500,
+          monthly_income: 3200,
+          monthly_expense: -1573,
+          previous_total_balance: 25900,
+          previous_monthly_income: 3200,
+          previous_monthly_expense: -1820,
+        },
+      ];
 
     case 'get_monthly_charged_cash_flow':
       return buildMonthlyCashFlow((params?.['p_months'] as number) ?? 6);
 
     case 'get_current_month_budgets_by_category':
       return [
-        { category_name: 'Groceries',  total_budget: 250 },
-        { category_name: 'Rent',       total_budget: 1200 },
-        { category_name: 'Transport',  total_budget: 100 },
+        { category_name: 'Groceries', total_budget: 250 },
+        { category_name: 'Rent', total_budget: 1200 },
+        { category_name: 'Transport', total_budget: 100 },
       ];
 
     case 'get_savings_goals':
@@ -311,56 +351,113 @@ export function getFakeRpcData(fn: string, params?: Record<string, unknown>): un
 
     // === ANALYTICS ===
     case 'get_analytics_financial_summary':
-      return [{
-        monthly_income: 3200,
-        previous_monthly_income: 3200,
-        monthly_expense: -1573,
-        previous_monthly_expense: -1820,
-        total_balance: 27500,
-        previous_total_balance: 25900,
-        income_transaction_count: 1,
-        expense_transaction_count: 11,
-        income_groups_count: 1,
-        expense_groups_count: 4,
-      }];
+      return [
+        {
+          monthly_income: 3200,
+          previous_monthly_income: 3200,
+          monthly_expense: -1573,
+          previous_monthly_expense: -1820,
+          total_balance: 27500,
+          previous_total_balance: 25900,
+          income_transaction_count: 1,
+          expense_transaction_count: 11,
+          income_groups_count: 1,
+          expense_groups_count: 4,
+        },
+      ];
 
     case 'get_daily_financial_overview_for_month': {
-      const month = dayjs((params?.['p_month'] as string) ?? dayjs().format('YYYY-MM-DD'));
+      const month = dayjs(
+        (params?.['p_month'] as string) ?? dayjs().format('YYYY-MM-DD'),
+      );
       return buildDailyOverview(month);
     }
 
     case 'get_analytics_amounts_by_groups':
       return [
-        { group_id: 1, group_name: 'Food',          income_amount: 0,    expense_amount: -245 },
-        { group_id: 2, group_name: 'Transport',     income_amount: 0,    expense_amount: -38 },
-        { group_id: 3, group_name: 'Entertainment', income_amount: 0,    expense_amount: -50 },
-        { group_id: 4, group_name: 'Housing',       income_amount: 0,    expense_amount: -1200 },
-        { group_id: 5, group_name: 'Salary',        income_amount: 3200, expense_amount: 0 },
+        {
+          group_id: 1,
+          group_name: 'Food',
+          income_amount: 0,
+          expense_amount: -245,
+        },
+        {
+          group_id: 2,
+          group_name: 'Transport',
+          income_amount: 0,
+          expense_amount: -38,
+        },
+        {
+          group_id: 3,
+          group_name: 'Entertainment',
+          income_amount: 0,
+          expense_amount: -50,
+        },
+        {
+          group_id: 4,
+          group_name: 'Housing',
+          income_amount: 0,
+          expense_amount: -1200,
+        },
+        {
+          group_id: 5,
+          group_name: 'Salary',
+          income_amount: 3200,
+          expense_amount: 0,
+        },
       ];
 
     case 'get_yearly_budgets_vs_expenses':
-      return buildYearlyBudgetsVsExpenses((params?.['p_year'] as number) ?? dayjs().year());
+      return buildYearlyBudgetsVsExpenses(
+        (params?.['p_year'] as number) ?? dayjs().year(),
+      );
 
     // === BUDGET ===
     case 'get_monthly_budgets_by_groups':
       return [
-        { group_id: 1, group_name: 'Food',          planned_amount: 300,  spent_amount: -245,  is_unplanned: false, categories_count: 2 },
-        { group_id: 2, group_name: 'Transport',     planned_amount: 100,  spent_amount: -38,   is_unplanned: false, categories_count: 2 },
-        { group_id: 3, group_name: 'Entertainment', planned_amount: 80,   spent_amount: -50,   is_unplanned: false, categories_count: 2 },
-        { group_id: 4, group_name: 'Housing',       planned_amount: 1300, spent_amount: -1200, is_unplanned: false, categories_count: 1 },
+        {
+          group_id: 1,
+          group_name: 'Food',
+          planned_amount: 300,
+          spent_amount: -245,
+          is_unplanned: false,
+          categories_count: 2,
+        },
+        {
+          group_id: 2,
+          group_name: 'Transport',
+          planned_amount: 100,
+          spent_amount: -38,
+          is_unplanned: false,
+          categories_count: 2,
+        },
+        {
+          group_id: 3,
+          group_name: 'Entertainment',
+          planned_amount: 80,
+          spent_amount: -50,
+          is_unplanned: false,
+          categories_count: 2,
+        },
+        {
+          group_id: 4,
+          group_name: 'Housing',
+          planned_amount: 1300,
+          spent_amount: -1200,
+          is_unplanned: false,
+          categories_count: 1,
+        },
       ];
 
     case 'get_monthly_budgets_by_categories': {
       const gid = params?.['p_group_id'] as number;
-      return CATEGORIES
-        .filter((c) => c.group_id === gid)
-        .map((c) => ({
-          category_id: c.id,
-          category_name: c.name,
-          planned_amount: 150,
-          spent_amount: -80,
-          is_unplanned: false,
-        }));
+      return CATEGORIES.filter((c) => c.group_id === gid).map((c) => ({
+        category_id: c.id,
+        category_name: c.name,
+        planned_amount: 150,
+        spent_amount: -80,
+        is_unplanned: false,
+      }));
     }
 
     case 'get_monthly_budget_totals':
@@ -369,22 +466,40 @@ export function getFakeRpcData(fn: string, params?: Record<string, unknown>): un
 
     case 'get_monthly_expenses_by_groups':
       return [
-        { group_id: 1, group_name: 'Food',          selected_month_amount: -245,  previous_month_amount: -280 },
-        { group_id: 2, group_name: 'Transport',     selected_month_amount: -38,   previous_month_amount: -55 },
-        { group_id: 3, group_name: 'Entertainment', selected_month_amount: -50,   previous_month_amount: -70 },
-        { group_id: 4, group_name: 'Housing',       selected_month_amount: -1200, previous_month_amount: -1200 },
+        {
+          group_id: 1,
+          group_name: 'Food',
+          selected_month_amount: -245,
+          previous_month_amount: -280,
+        },
+        {
+          group_id: 2,
+          group_name: 'Transport',
+          selected_month_amount: -38,
+          previous_month_amount: -55,
+        },
+        {
+          group_id: 3,
+          group_name: 'Entertainment',
+          selected_month_amount: -50,
+          previous_month_amount: -70,
+        },
+        {
+          group_id: 4,
+          group_name: 'Housing',
+          selected_month_amount: -1200,
+          previous_month_amount: -1200,
+        },
       ];
 
     case 'get_monthly_expenses_by_categories': {
       const gid = params?.['p_group_id'] as number;
-      return CATEGORIES
-        .filter((c) => c.group_id === gid)
-        .map((c) => ({
-          category_id: c.id,
-          category_name: c.name,
-          selected_month_amount: -80,
-          previous_month_amount: -90,
-        }));
+      return CATEGORIES.filter((c) => c.group_id === gid).map((c) => ({
+        category_id: c.id,
+        category_name: c.name,
+        selected_month_amount: -80,
+        previous_month_amount: -90,
+      }));
     }
 
     case 'get_monthly_budgets_detailed':
@@ -392,7 +507,13 @@ export function getFakeRpcData(fn: string, params?: Record<string, unknown>): un
       return buildDetailedBudgets();
 
     case 'get_category_budget_stats':
-      return [{ previous_planned_amount: 150, spent_amount: -80, previous_spent_amount: -90 }];
+      return [
+        {
+          previous_planned_amount: 150,
+          spent_amount: -80,
+          previous_spent_amount: -90,
+        },
+      ];
 
     // === WALLET ===
     case 'get_regular_account_with_balance': {
@@ -401,22 +522,26 @@ export function getFakeRpcData(fn: string, params?: Record<string, unknown>): un
     }
 
     case 'get_daily_transactions_cash_flow_for_month': {
-      const month = dayjs((params?.['p_month'] as string) ?? dayjs().format('YYYY-MM-DD'));
+      const month = dayjs(
+        (params?.['p_month'] as string) ?? dayjs().format('YYYY-MM-DD'),
+      );
       return buildDailyCashFlow(month);
     }
 
     case 'get_monthly_transaction_amounts_by_group':
       return [
-        { group_name: 'Food',          total_expense: -245,  total_income: 0 },
-        { group_name: 'Transport',     total_expense: -38,   total_income: 0 },
-        { group_name: 'Entertainment', total_expense: -50,   total_income: 0 },
-        { group_name: 'Housing',       total_expense: -1200, total_income: 0 },
-        { group_name: 'Salary',        total_expense: 0,     total_income: 3200 },
+        { group_name: 'Food', total_expense: -245, total_income: 0 },
+        { group_name: 'Transport', total_expense: -38, total_income: 0 },
+        { group_name: 'Entertainment', total_expense: -50, total_income: 0 },
+        { group_name: 'Housing', total_expense: -1200, total_income: 0 },
+        { group_name: 'Salary', total_expense: 0, total_income: 3200 },
       ];
 
     // === GOALS ===
     case 'get_monthly_savings_overview':
-      return buildSavingsOverview((params?.['p_year'] as number) ?? dayjs().year());
+      return buildSavingsOverview(
+        (params?.['p_year'] as number) ?? dayjs().year(),
+      );
 
     // === WRITE RPCs — silent no-op ===
     case 'create_savings_goal':
