@@ -7,7 +7,7 @@ import {
   withState,
 } from '@ngrx/signals';
 import dayjs from 'dayjs';
-import { DailyDataPoint, FinancialSummary } from '../models';
+import { DailyDataPoint, FinancialSummary, GroupAmount } from '../models';
 import { AnalyticsRepository } from '../repositories';
 
 interface AnalyticsState {
@@ -22,6 +22,10 @@ interface AnalyticsState {
   dailyOverview: DailyDataPoint[];
   previousDailyOverview: DailyDataPoint[];
   isDailyOverviewLoading: boolean;
+  incomeByGroups: GroupAmount[];
+  expenseByGroups: GroupAmount[];
+  budgetByGroups: GroupAmount[];
+  isGroupsStatisticsLoading: boolean;
 }
 
 const initialState: AnalyticsState = {
@@ -36,6 +40,10 @@ const initialState: AnalyticsState = {
   dailyOverview: [],
   previousDailyOverview: [],
   isDailyOverviewLoading: false,
+  incomeByGroups: [],
+  expenseByGroups: [],
+  budgetByGroups: [],
+  isGroupsStatisticsLoading: false,
 };
 
 export const AnalyticsStore = signalStore(
@@ -73,9 +81,13 @@ export const AnalyticsStore = signalStore(
     },
 
     async loadDailyOverview(): Promise<void> {
-      patchState(store, { isDailyOverviewLoading: true });
+      if (!store.isLoaded()) {
+        patchState(store, { isDailyOverviewLoading: true });
+      }
       try {
-        const prevMonth = dayjs(store.selectedMonth()).subtract(1, 'month').toDate();
+        const prevMonth = dayjs(store.selectedMonth())
+          .subtract(1, 'month')
+          .toDate();
         const [dailyOverview, previousDailyOverview] = await Promise.all([
           repository.getDailyOverview(
             store.selectedMonth(),
@@ -98,6 +110,28 @@ export const AnalyticsStore = signalStore(
       }
     },
 
+    async loadGroupsStatistics(): Promise<void> {
+      if (!store.isLoaded()) {
+        patchState(store, { isGroupsStatisticsLoading: true });
+      }
+      try {
+        const { incomeByGroups, expenseByGroups, budgetByGroups } =
+          await repository.getGroupsStatistics(
+            store.selectedMonth(),
+            store.selectedCurrencyCode(),
+            store.selectedAccountIds(),
+          );
+        patchState(store, {
+          incomeByGroups,
+          expenseByGroups,
+          budgetByGroups,
+          isGroupsStatisticsLoading: false,
+        });
+      } catch {
+        patchState(store, { isGroupsStatisticsLoading: false });
+      }
+    },
+
     updateMonth: (month: Date) => patchState(store, { selectedMonth: month }),
 
     updateCurrencyCode: (code: string) =>
@@ -117,6 +151,7 @@ export const AnalyticsStore = signalStore(
           if (store.selectedCurrencyCode()) {
             store.loadFinancialSummary();
             store.loadDailyOverview();
+            store.loadGroupsStatistics();
           }
         });
       });

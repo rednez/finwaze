@@ -1,13 +1,26 @@
 import { inject, Injectable } from '@angular/core';
 import { SupabaseService } from '@core/services/supabase.service';
 import dayjs from 'dayjs';
-import { DailyDataPoint, FinancialSummary } from '../models';
+import { DailyDataPoint, FinancialSummary, GroupAmount } from '../models';
 
 interface DailyDataPointDto {
   day: string;
   daily_income: number;
   daily_expense: number;
   running_balance: number;
+}
+
+interface GroupAmountDto {
+  group_id: number;
+  group_name: string;
+  income_amount: number;
+  expense_amount: number;
+}
+
+interface BudgetByGroupDto {
+  group_id: number;
+  group_name: string;
+  planned_amount: number;
 }
 
 interface FinancialSummaryDto {
@@ -83,5 +96,53 @@ export class AnalyticsRepository {
       dailyExpense: row.daily_expense,
       runningBalance: row.running_balance,
     }));
+  }
+
+  async getGroupsStatistics(
+    month: Date,
+    currencyCode: string,
+    accountIds: number[],
+  ): Promise<{
+    incomeByGroups: GroupAmount[];
+    expenseByGroups: GroupAmount[];
+    budgetByGroups: GroupAmount[];
+  }> {
+    const formattedMonth = dayjs(month).format('YYYY-MM-DD');
+
+    const [amountsResult, budgetsResult] = await Promise.all([
+      this.supabase.client.rpc('get_analytics_amounts_by_groups', {
+        p_month: formattedMonth,
+        p_currency_code: currencyCode,
+        p_account_ids: accountIds.length ? accountIds : null,
+      }),
+      this.supabase.client.rpc('get_monthly_budgets_by_groups', {
+        p_month: formattedMonth,
+        p_currency_code: currencyCode,
+      }),
+    ]);
+
+    if (amountsResult.error) throw new Error(amountsResult.error.message);
+    if (budgetsResult.error) throw new Error(budgetsResult.error.message);
+
+    const amounts = amountsResult.data as GroupAmountDto[];
+    const budgets = budgetsResult.data as BudgetByGroupDto[];
+
+    return {
+      incomeByGroups: amounts.map((row) => ({
+        groupId: row.group_id,
+        groupName: row.group_name,
+        amount: row.income_amount,
+      })),
+      expenseByGroups: amounts.map((row) => ({
+        groupId: row.group_id,
+        groupName: row.group_name,
+        amount: row.expense_amount,
+      })),
+      budgetByGroups: budgets.map((row) => ({
+        groupId: row.group_id,
+        groupName: row.group_name,
+        amount: row.planned_amount,
+      })),
+    };
   }
 }

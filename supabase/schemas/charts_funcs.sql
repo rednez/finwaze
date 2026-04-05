@@ -265,6 +265,55 @@ SET
   ORDER BY ABS(SUM(t.transaction_amount)) DESC, g.name;
 $$;
 
+-- Returns total income and expense amounts per non-system group for a given month,
+-- currency, and optional account filter. Used by the Statistics card donut chart.
+CREATE OR REPLACE FUNCTION public.get_analytics_amounts_by_groups(
+  p_month         DATE,
+  p_currency_code TEXT,
+  p_account_ids   BIGINT[] DEFAULT NULL
+)
+RETURNS TABLE (
+  group_id       BIGINT,
+  group_name     TEXT,
+  income_amount  NUMERIC,
+  expense_amount NUMERIC
+)
+LANGUAGE sql
+STABLE
+SECURITY INVOKER
+SET search_path = ''
+AS $$
+WITH
+  month_start AS (
+    SELECT date_trunc('month', p_month::TIMESTAMP) AS val
+  )
+SELECT
+  g.id                                                                            AS group_id,
+  g.name                                                                          AS group_name,
+  COALESCE(SUM(t.charged_amount)
+    FILTER (WHERE t.charged_amount > 0
+      AND t.type NOT IN ('transfer'::public.transaction_type, 'internal'::public.transaction_type)), 0)        AS income_amount,
+  COALESCE(ABS(SUM(t.charged_amount)
+    FILTER (WHERE t.charged_amount < 0
+      AND t.type NOT IN ('transfer'::public.transaction_type, 'internal'::public.transaction_type))), 0)       AS expense_amount
+FROM public.transactions t
+JOIN public.categories   cat ON cat.id = t.category_id
+JOIN public.groups       g   ON g.id   = cat.group_id
+JOIN public.currencies   cur ON cur.id = t.charged_currency_id
+CROSS JOIN month_start   ms
+WHERE cur.code    = p_currency_code
+  AND g.is_system = false
+  AND (t.transacted_at + t.local_offset) >= ms.val
+  AND (t.transacted_at + t.local_offset) <  ms.val + INTERVAL '1 month'
+  AND (
+    p_account_ids IS NULL
+    OR cardinality(p_account_ids) = 0
+    OR t.account_id = ANY(p_account_ids)
+  )
+GROUP BY g.id, g.name
+ORDER BY expense_amount DESC, g.name;
+$$;
+
 CREATE OR REPLACE FUNCTION public.get_analytics_financial_summary(
   p_month         DATE,
   p_currency_code TEXT,

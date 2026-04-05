@@ -19,7 +19,9 @@ interface SummaryItem {
   selector: 'app-donut-summary-chart',
   imports: [ChartModule, StyledAmount],
   template: `
-    <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
+    <div
+      class="text-center absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"
+    >
       <div class="text-sm text-muted-color text-center">{{ title() }}</div>
       <app-styled-amount
         [currency]="currency()"

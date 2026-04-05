@@ -30,6 +30,8 @@ export class Analytics {
   constructor() {
     if (this.store.isLoaded()) {
       this.store.loadFinancialSummary();
+      this.store.loadDailyOverview();
+      this.store.loadGroupsStatistics();
     }
   }
 }

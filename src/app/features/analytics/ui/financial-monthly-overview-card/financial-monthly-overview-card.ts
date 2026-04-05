@@ -45,16 +45,12 @@ import { FinancialMonthlyOverviewChart } from '../financial-monthly-overview-cha
         />
       </app-card-header>
 
-      @if (store.isDailyOverviewLoading()) {
-        <p-skeleton height="12.5rem" />
-      } @else {
-        <app-financial-monthly-overview-chart
-          [labels]="labels()"
-          [currentAmounts]="currentAmounts()"
-          [previousAmounts]="previousAmounts()"
-          labelFormat="d"
-        />
-      }
+      <app-financial-monthly-overview-chart
+        [labels]="labels()"
+        [currentAmounts]="currentAmounts()"
+        [previousAmounts]="previousAmounts()"
+        labelFormat="d"
+      />
     </app-card>
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -77,7 +73,8 @@ export class FinancialMonthlyOverviewCard {
   protected readonly currentAmounts = computed(() => {
     const overview = this.store.dailyOverview();
     const typeName = this.type().name;
-    if (typeName === 'Total balance') return overview.map((d) => d.runningBalance);
+    if (typeName === 'Total balance')
+      return overview.map((d) => d.runningBalance);
     if (typeName === 'Total income') return overview.map((d) => d.dailyIncome);
     return overview.map((d) => d.dailyExpense);
   });
@@ -85,7 +82,8 @@ export class FinancialMonthlyOverviewCard {
   protected readonly previousAmounts = computed(() => {
     const overview = this.store.previousDailyOverview();
     const typeName = this.type().name;
-    if (typeName === 'Total balance') return overview.map((d) => d.runningBalance);
+    if (typeName === 'Total balance')
+      return overview.map((d) => d.runningBalance);
     if (typeName === 'Total income') return overview.map((d) => d.dailyIncome);
     return overview.map((d) => d.dailyExpense);
   });
