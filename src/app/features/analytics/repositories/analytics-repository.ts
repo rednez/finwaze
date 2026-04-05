@@ -1,7 +1,12 @@
 import { inject, Injectable } from '@angular/core';
 import { SupabaseService } from '@core/services/supabase.service';
 import dayjs from 'dayjs';
-import { DailyDataPoint, FinancialSummary, GroupAmount } from '../models';
+import {
+  DailyDataPoint,
+  FinancialSummary,
+  GroupAmount,
+  MonthlyBudgetExpense,
+} from '../models';
 
 interface DailyDataPointDto {
   day: string;
@@ -21,6 +26,12 @@ interface BudgetByGroupDto {
   group_id: number;
   group_name: string;
   planned_amount: number;
+}
+
+interface YearlyBudgetExpenseDto {
+  month: string;
+  budget_amount: number;
+  expense_amount: number;
 }
 
 interface FinancialSummaryDto {
@@ -144,5 +155,26 @@ export class AnalyticsRepository {
         amount: row.planned_amount,
       })),
     };
+  }
+
+  async getYearlyBudgetsVsExpenses(
+    year: number,
+    currencyCode: string,
+  ): Promise<MonthlyBudgetExpense[]> {
+    const { data, error } = await this.supabase.client.rpc(
+      'get_yearly_budgets_vs_expenses',
+      {
+        p_year: year,
+        p_currency_code: currencyCode,
+      },
+    );
+
+    if (error) throw new Error(error.message);
+
+    return (data as YearlyBudgetExpenseDto[]).map((row) => ({
+      month: row.month,
+      budgetAmount: row.budget_amount,
+      expenseAmount: row.expense_amount,
+    }));
   }
 }
