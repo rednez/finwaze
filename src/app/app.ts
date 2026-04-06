@@ -1,4 +1,5 @@
 import { Component, inject } from '@angular/core';
+import { Analytics } from '@angular/fire/analytics';
 import { RouterOutlet } from '@angular/router';
 import { ThemeService } from '@core/services/theme.service';
 
@@ -8,6 +9,6 @@ import { ThemeService } from '@core/services/theme.service';
   template: ` <router-outlet /> `,
 })
 export class App {
-  // Eagerly instantiate ThemeService so the theme is applied before first render
   readonly _theme = inject(ThemeService);
+  readonly _analytics = inject(Analytics, { optional: true });
 }
