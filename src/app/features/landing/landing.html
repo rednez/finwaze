@@ -178,3 +178,31 @@
 
   <app-white-button class="mt-10" (getStarted)="gotoLogin()" />
 </app-gradient-block>
+
+<footer class="w-full border-t border-gray-100 dark:border-gray-800/50 pt-8 pb-2">
+  <div class="flex flex-col items-center gap-2.5 text-xs text-gray-400 dark:text-gray-500">
+    <div class="flex flex-wrap items-center justify-center gap-x-3 gap-y-1">
+      <span>© {{ currentYear }} Vasyl Yefimenko</span>
+      <span class="text-gray-200 dark:text-gray-700">·</span>
+      <a
+        href="mailto:vasyl@yefimenko.dev"
+        class="hover:text-violet-500 dark:hover:text-violet-400 transition-colors duration-200"
+        >vasyl&#64;yefimenko.dev</a
+      >
+      <span class="text-gray-200 dark:text-gray-700">·</span>
+      <span class="flex items-center gap-1.5"
+        >Made in Ukraine <span role="img" aria-label="Ukrainian flag">🇺🇦</span></span
+      >
+    </div>
+    <p>
+      UI design concept inspired by
+      <a
+        href="https://www.behance.net/gallery/198771803/FinSet-Web-App-for-finance-management-UX-UI-design"
+        target="_blank"
+        rel="noopener noreferrer"
+        class="underline underline-offset-2 hover:text-violet-500 dark:hover:text-violet-400 transition-colors duration-200"
+        >Alvina Hromadetska</a
+      >
+    </p>
+  </div>
+</footer>

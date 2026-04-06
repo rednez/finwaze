@@ -117,6 +117,8 @@ export class Landing {
     },
   ];
 
+  protected readonly currentYear = new Date().getFullYear();
+
   protected gotoLogin() {
     this.router.navigate(['/login']);
   }
