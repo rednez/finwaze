@@ -16,6 +16,7 @@ const mockData: MonthlySavingsOverview[] = Array.from(
 
 function setup(repositoryOverrides: Partial<GoalsRepository> = {}) {
   const repository: Partial<GoalsRepository> = {
+    getGoals: vi.fn().mockResolvedValue([]),
     getSavingsOverview: vi.fn().mockResolvedValue(mockData),
     ...repositoryOverrides,
   };
@@ -59,6 +60,7 @@ describe('SavingsOverviewStore', () => {
 
     it('populates data and sets isLoaded on success', async () => {
       const { store } = setup();
+      store.updateCurrencyCode('USD');
       await store.load();
 
       expect(store.data()).toEqual(mockData);
@@ -72,6 +74,7 @@ describe('SavingsOverviewStore', () => {
         getSavingsOverview: vi.fn().mockRejectedValue(new Error('db error')),
       });
 
+      store.updateCurrencyCode('USD');
       await store.load();
 
       expect(store.isError()).toBe(true);
@@ -82,12 +85,14 @@ describe('SavingsOverviewStore', () => {
   describe('computed signals', () => {
     it('labels returns month strings', async () => {
       const { store } = setup();
+      store.updateCurrencyCode('USD');
       await store.load();
       expect(store.labels()).toEqual(mockData.map((r) => r.month));
     });
 
     it('currentSavings returns current year amounts', async () => {
       const { store } = setup();
+      store.updateCurrencyCode('USD');
       await store.load();
       expect(store.currentSavings()).toEqual(
         mockData.map((r) => r.currentYearAmount),
@@ -96,6 +101,7 @@ describe('SavingsOverviewStore', () => {
 
     it('previousSavings returns previous year amounts', async () => {
       const { store } = setup();
+      store.updateCurrencyCode('USD');
       await store.load();
       expect(store.previousSavings()).toEqual(
         mockData.map((r) => r.previousYearAmount),

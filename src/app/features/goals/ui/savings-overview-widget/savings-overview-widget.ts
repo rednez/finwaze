@@ -4,7 +4,7 @@ import {
   effect,
   inject,
   model,
-  signal,
+  untracked,
 } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Card } from '@shared/ui/card';
@@ -47,7 +47,7 @@ import { SavingsOverviewChart } from '../savings-overview-chart/savings-overview
 
           <p-select
             [(ngModel)]="currency"
-            [options]="currencies()"
+            [options]="store.availableCurrencies()"
             optionLabel="name"
             size="small"
             [dt]="{
@@ -71,14 +71,8 @@ import { SavingsOverviewChart } from '../savings-overview-chart/savings-overview
 export class SavingsOverviewWidget {
   protected readonly store = inject(SavingsOverviewStore);
 
-  protected readonly currencies = signal([
-    { name: 'USD' },
-    { name: 'EUR' },
-    { name: 'UAH' },
-  ]);
-
   protected date = model(new Date());
-  protected currency = model({ name: this.store.selectedCurrencyCode() });
+  protected currency = model<{ name: string } | null>(null);
 
   constructor() {
     effect(() => {
@@ -89,6 +83,14 @@ export class SavingsOverviewWidget {
       const c = this.currency();
       if (c) {
         this.store.updateCurrencyCode(c.name);
+      }
+    });
+
+    effect(() => {
+      const available = this.store.availableCurrencies();
+      const current = untracked(() => this.currency());
+      if (available.length > 0 && !available.some((c) => c.name === current?.name)) {
+        this.currency.set(available[0]);
       }
     });
   }

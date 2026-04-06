@@ -19,7 +19,8 @@ interface SavingsOverviewState {
   isError: boolean;
   data: MonthlySavingsOverview[];
   selectedYear: Date;
-  selectedCurrencyCode: string;
+  selectedCurrencyCode: string | null;
+  goalCurrencies: string[];
 }
 
 const initialState: SavingsOverviewState = {
@@ -29,7 +30,8 @@ const initialState: SavingsOverviewState = {
   isError: false,
   data: [],
   selectedYear: new Date(),
-  selectedCurrencyCode: 'USD',
+  selectedCurrencyCode: null,
+  goalCurrencies: [],
 };
 
 export const SavingsOverviewStore = signalStore(
@@ -44,10 +46,16 @@ export const SavingsOverviewStore = signalStore(
     previousSavings: computed(() =>
       store.data().map((row) => row.previousYearAmount),
     ),
+    availableCurrencies: computed(() =>
+      store.goalCurrencies().map((code) => ({ name: code })),
+    ),
   })),
 
   withMethods((store, repository = inject(GoalsRepository)) => ({
     async load(): Promise<void> {
+      const currencyCode = store.selectedCurrencyCode();
+      if (!currencyCode) return;
+
       patchState(
         store,
         store.isLoaded() ? { isUpdating: true } : { isLoading: true },
@@ -57,7 +65,7 @@ export const SavingsOverviewStore = signalStore(
       try {
         const data = await repository.getSavingsOverview({
           year: store.selectedYear(),
-          currencyCode: store.selectedCurrencyCode(),
+          currencyCode,
         });
 
         patchState(store, {
@@ -78,10 +86,25 @@ export const SavingsOverviewStore = signalStore(
     updateYear: (year: Date) => patchState(store, { selectedYear: year }),
     updateCurrencyCode: (code: string) =>
       patchState(store, { selectedCurrencyCode: code }),
+
+    async loadCurrencies(): Promise<void> {
+      const goals = await repository.getGoals();
+      const unique = [...new Set(goals.map((g) => g.currencyCode))];
+      const currentCode = store.selectedCurrencyCode();
+      patchState(store, {
+        goalCurrencies: unique,
+        selectedCurrencyCode:
+          currentCode != null && unique.includes(currentCode)
+            ? currentCode
+            : (unique[0] ?? null),
+      });
+    },
   })),
 
   withHooks({
     onInit(store) {
+      untracked(() => store.loadCurrencies());
+
       effect(() => {
         store.selectedYear();
         store.selectedCurrencyCode();
