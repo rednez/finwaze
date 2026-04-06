@@ -6,7 +6,11 @@ import {
   LOCALE_ID,
   provideBrowserGlobalErrorListeners,
 } from '@angular/core';
-import { getAnalytics, provideAnalytics } from '@angular/fire/analytics';
+import {
+  getAnalytics,
+  provideAnalytics,
+  ScreenTrackingService,
+} from '@angular/fire/analytics';
 import { initializeApp, provideFirebaseApp } from '@angular/fire/app';
 import {
   provideRouter,
@@ -54,5 +58,6 @@ export const appConfig: ApplicationConfig = {
     },
     provideFirebaseApp(() => initializeApp(environment.firebase)),
     provideAnalytics(() => getAnalytics()),
+    ScreenTrackingService,
   ],
 };
