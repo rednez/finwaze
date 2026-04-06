@@ -15,6 +15,7 @@ import {
 } from '@angular/forms';
 import { Currency } from '@core/models/currencies';
 import { ButtonModule } from 'primeng/button';
+import { DatePickerModule } from 'primeng/datepicker';
 import { InputNumberModule } from 'primeng/inputnumber';
 import { InputTextModule } from 'primeng/inputtext';
 import { ProgressSpinnerModule } from 'primeng/progressspinner';
@@ -25,6 +26,7 @@ interface SubmitEvent {
   accountName: string;
   currencyId?: number;
   balance?: number;
+  balanceDate?: Date | null;
 }
 
 @Component({
@@ -37,6 +39,7 @@ interface SubmitEvent {
     ButtonModule,
     SelectModule,
     InputNumberModule,
+    DatePickerModule,
   ],
   templateUrl: './new-account-form.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -54,6 +57,8 @@ export class NewAccountForm {
 
   private readonly formBuilder = inject(FormBuilder);
 
+  protected readonly today = new Date();
+
   protected form = this.formBuilder.group({
     name: [
       null as string | null,
@@ -61,6 +66,7 @@ export class NewAccountForm {
     ],
     currencyId: [null as number | null, [Validators.required]],
     balance: null as number | null,
+    balanceDate: null as Date | null,
   });
 
   protected readonly currenciesOptions = computed(() =>
@@ -89,6 +95,7 @@ export class NewAccountForm {
 
       if (this.hasBalance()) {
         submitEvent.balance = Number(this.form.controls.balance.value);
+        submitEvent.balanceDate = this.form.controls.balanceDate.value;
       }
       if (!this.isCurrencyDisabled()) {
         submitEvent.currencyId = Number(this.form.controls.currencyId.value);

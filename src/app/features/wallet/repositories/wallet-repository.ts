@@ -94,12 +94,15 @@ export class WalletRepository {
   async adjustRegularAccountBalance(
     accountId: number,
     targetBalance: number,
+    transactedAt?: Date | null,
   ): Promise<boolean> {
+    const date = transactedAt ?? new Date();
     const { error } = await this.supabase.client
       .rpc('adjust_account_balance', {
         p_account_id: accountId,
         p_target_balance: targetBalance,
-        p_local_offset: dayjs(new Date()).format('Z'),
+        p_local_offset: dayjs(date).format('Z'),
+        p_transacted_at: date.toISOString(),
       })
       .select()
       .single();
@@ -169,19 +172,23 @@ export class WalletRepository {
     toAccountId,
     fromAmount,
     toAmount,
+    transactedAt,
   }: {
     fromAccountId: number;
     toAccountId: number;
     fromAmount: number;
     toAmount?: number | null;
+    transactedAt?: Date | null;
   }): Promise<void> {
+    const date = transactedAt ?? new Date();
     const { error } = await this.supabase.client
       .rpc('make_transfer', {
         p_from_account_id: fromAccountId,
         p_to_account_id: toAccountId,
         p_from_amount: fromAmount,
         p_to_amount: toAmount,
-        p_local_offset: dayjs(new Date()).format('Z'),
+        p_local_offset: dayjs(date).format('Z'),
+        p_transacted_at: date.toISOString(),
       })
       .select();
 

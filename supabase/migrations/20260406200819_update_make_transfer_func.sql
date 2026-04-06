@@ -1,14 +1,12 @@
-CREATE OR REPLACE FUNCTION make_transfer (
-  p_from_account_id BIGINT,
-  p_to_account_id BIGINT,
-  p_from_amount NUMERIC,
-  p_to_amount NUMERIC DEFAULT NULL,
-  p_local_offset INTERVAL DEFAULT '00:00',
-  p_comment TEXT DEFAULT NULL,
-  p_transacted_at TIMESTAMPTZ DEFAULT NOW()
-) RETURNS void
-SET
-  search_path = '' AS $$
+drop function if exists "public"."make_transfer"(p_from_account_id bigint, p_to_account_id bigint, p_from_amount numeric, p_to_amount numeric, p_local_offset interval, p_comment text);
+
+set check_function_bodies = off;
+
+CREATE OR REPLACE FUNCTION public.make_transfer(p_from_account_id bigint, p_to_account_id bigint, p_from_amount numeric, p_to_amount numeric DEFAULT NULL::numeric, p_local_offset interval DEFAULT '00:00:00'::interval, p_comment text DEFAULT NULL::text, p_transacted_at timestamp with time zone DEFAULT now())
+ RETURNS void
+ LANGUAGE plpgsql
+ SET search_path TO ''
+AS $function$
 DECLARE
   tid uuid := gen_random_uuid();
   from_currency_id BIGINT;
@@ -72,4 +70,7 @@ BEGIN
   INSERT INTO public.transactions (account_id, transaction_amount, charged_amount, type, category_id, transfer_id, comment, transaction_currency_id, local_offset, transacted_at)
   VALUES (p_to_account_id, actual_to_amount, actual_to_amount, 'transfer', internal_category_id, tid, p_comment, to_currency_id, p_local_offset, p_transacted_at);
 END;
-$$ LANGUAGE plpgsql;
+$function$
+;
+
+

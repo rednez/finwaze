@@ -14,6 +14,7 @@ import { Account } from '@core/models/accounts';
 import { SavingsGoal } from '@core/models/savings-goal';
 import { AccountSelect } from '@shared/ui/account-select';
 import { ButtonModule } from 'primeng/button';
+import { DatePickerModule } from 'primeng/datepicker';
 import { DialogModule } from 'primeng/dialog';
 import { InputNumberModule } from 'primeng/inputnumber';
 import { GoalsRepository } from '../../repositories/goals-repository';
@@ -25,6 +26,7 @@ import { GoalsRepository } from '../../repositories/goals-repository';
     ButtonModule,
     ReactiveFormsModule,
     InputNumberModule,
+    DatePickerModule,
     AccountSelect,
   ],
   templateUrl: './transfer-to-goal-dialog.html',
@@ -37,8 +39,13 @@ export class TransferToGoalDialog {
   readonly goal = input.required<SavingsGoal>();
   readonly visible = model(false);
   readonly loading = input(false);
-  readonly submitted = output<{ fromAccountId: number; amount: number }>();
+  readonly submitted = output<{
+    fromAccountId: number;
+    amount: number;
+    transactedAt?: Date | null;
+  }>();
 
+  protected readonly today = new Date();
   protected readonly accounts = signal<Account[]>([]);
   protected readonly isLoadingAccounts = signal(false);
 
@@ -48,6 +55,7 @@ export class TransferToGoalDialog {
       null as number | null,
       [Validators.required, Validators.min(0.01)],
     ],
+    transactedAt: [null as Date | null],
   });
 
   constructor() {
@@ -76,8 +84,12 @@ export class TransferToGoalDialog {
     this.form.markAllAsTouched();
     if (this.form.invalid) return;
 
-    const { fromAccountId, amount } = this.form.getRawValue();
-    this.submitted.emit({ fromAccountId: fromAccountId!, amount: amount! });
+    const { fromAccountId, amount, transactedAt } = this.form.getRawValue();
+    this.submitted.emit({
+      fromAccountId: fromAccountId!,
+      amount: amount!,
+      transactedAt,
+    });
   }
 
   protected close(): void {

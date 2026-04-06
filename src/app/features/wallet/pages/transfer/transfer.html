@@ -95,6 +95,23 @@
       </div>
     </div>
 
+    <div class="text-start mt-4">
+      <label class="text-sm font-medium mb-1" for="transactedAt">
+        Date & Time
+        <span class="text-xs text-surface-400 font-normal">(optional)</span>
+      </label>
+      <p-datepicker
+        formControlName="transactedAt"
+        inputId="transactedAt"
+        [showTime]="true"
+        [hourFormat]="'24'"
+        [maxDate]="today"
+        class="w-full"
+        placeholder="Now"
+        [inputStyle]="{ borderRadius: '16px' }"
+      />
+    </div>
+
     <div class="mt-6 w-full sm:w-1/2 self-center">
       <p-button label="Move Money" rounded fluid (onClick)="submit()" />
     </div>

@@ -16,6 +16,7 @@ import { ExchangeRateChip } from '@shared/ui/exchange-rate-chip';
 import { TransferDirectionPic } from '@shared/ui/transfer-direction-pic';
 import { MessageService } from 'primeng/api';
 import { ButtonModule } from 'primeng/button';
+import { DatePickerModule } from 'primeng/datepicker';
 import { InputNumberModule } from 'primeng/inputnumber';
 import { InputTextModule } from 'primeng/inputtext';
 import { SelectModule } from 'primeng/select';
@@ -30,6 +31,7 @@ import { WalletRepository } from '../../repositories';
     ButtonModule,
     SelectModule,
     InputNumberModule,
+    DatePickerModule,
     FormPageLayout,
     TransferDirectionPic,
     AccountSelect,
@@ -49,6 +51,8 @@ export class Transfer {
   private readonly repository = inject(WalletRepository);
   private readonly messageService = inject(MessageService);
 
+  protected readonly today = new Date();
+
   protected form = this.formBuilder.group({
     fromAccountId: [null as number | null, [Validators.required]],
     fromAmount: [
@@ -57,6 +61,7 @@ export class Transfer {
     ],
     toAccountId: [null as number | null, [Validators.required]],
     toAmount: [null as number | null],
+    transactedAt: [null as Date | null],
   });
 
   protected readonly shouldShowToAmount = signal(false);
@@ -106,6 +111,7 @@ export class Transfer {
           toAccountId: this.form.value.toAccountId!,
           fromAmount: this.form.value.fromAmount!,
           toAmount: this.form.value.toAmount!,
+          transactedAt: this.form.value.transactedAt,
         });
 
         this.gotoBack();

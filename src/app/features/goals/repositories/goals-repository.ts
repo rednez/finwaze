@@ -165,12 +165,15 @@ export class GoalsRepository {
     fromAccountId: number;
     toAccountId: number;
     amount: number;
+    transactedAt?: Date | null;
   }): Promise<void> {
+    const date = params.transactedAt ?? new Date();
     const { error } = await this.supabase.client.rpc('make_transfer', {
       p_from_account_id: params.fromAccountId,
       p_to_account_id: params.toAccountId,
       p_from_amount: params.amount,
-      p_local_offset: dayjs(new Date()).format('Z'),
+      p_local_offset: dayjs(date).format('Z'),
+      p_transacted_at: date.toISOString(),
     });
 
     if (error) {

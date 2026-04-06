@@ -65,6 +65,23 @@
         <div class="text-xs text-red-500 pl-2 pt-0.5">Amount required</div>
       }
     </div>
+
+    <div>
+      <label class="text-sm font-medium mb-1" for="balanceDate">
+        Balance Date & Time
+        <span class="text-xs text-surface-400 font-normal">(optional)</span>
+      </label>
+      <p-datepicker
+        formControlName="balanceDate"
+        inputId="balanceDate"
+        [showTime]="true"
+        [hourFormat]="'24'"
+        [maxDate]="today"
+        class="w-full"
+        placeholder="Now"
+        [inputStyle]="{ borderRadius: '16px' }"
+      />
+    </div>
   }
 
   <div class="mt-6">

@@ -147,11 +147,13 @@ export class Goals {
   protected async handleTransfer(params: {
     fromAccountId: number;
     amount: number;
+    transactedAt?: Date | null;
   }): Promise<void> {
     const result = await this.goalsListStore.transferToGoal({
       fromAccountId: params.fromAccountId,
       toAccountId: this.selectedGoal()!.id,
       amount: params.amount,
+      transactedAt: params.transactedAt,
     });
 
     if (result.ok) {

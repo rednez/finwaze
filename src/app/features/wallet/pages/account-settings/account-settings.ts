@@ -45,15 +45,18 @@ export class AccountSettings {
     accountName,
     currencyId,
     balance,
+    balanceDate,
   }: {
     accountName: string;
     currencyId?: number;
     balance?: number;
+    balanceDate?: Date | null;
   }) {
     const { error } = await this.walletAccountsStore.updateRegularAccount({
       accountName,
       currencyId,
       balance,
+      balanceDate,
     });
 
     if (error) {

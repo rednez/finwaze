@@ -11,7 +11,11 @@
       formControlName="fromAccountId"
       [accounts]="accounts()"
       label="From account"
-      [isInvalid]="form.controls.fromAccountId.invalid && form.controls.fromAccountId.touched"
+      appendTo="body"
+      [isInvalid]="
+        form.controls.fromAccountId.invalid &&
+        form.controls.fromAccountId.touched
+      "
     />
 
     <div class="flex flex-col">
@@ -39,6 +43,23 @@
         </div>
       }
     </div>
+    <div class="flex flex-col">
+      <label class="text-sm font-medium mb-1" for="transactedAt">
+        Date & Time
+        <span class="text-xs text-surface-400 font-normal">(optional)</span>
+      </label>
+      <p-datepicker
+        formControlName="transactedAt"
+        inputId="transactedAt"
+        [showTime]="true"
+        [hourFormat]="'24'"
+        [maxDate]="today"
+        class="w-full"
+        placeholder="Now"
+        appendTo="body"
+        [inputStyle]="{ borderRadius: '16px' }"
+      />
+    </div>
   </form>
 
   <ng-template #footer>
@@ -49,10 +70,6 @@
       (onClick)="close()"
       [disabled]="loading()"
     />
-    <p-button
-      label="Transfer"
-      (onClick)="submit()"
-      [loading]="loading()"
-    />
+    <p-button label="Transfer" (onClick)="submit()" [loading]="loading()" />
   </ng-template>
 </p-dialog>

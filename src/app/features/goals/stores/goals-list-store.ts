@@ -147,6 +147,7 @@ export const GoalsListStore = signalStore(
         fromAccountId: number;
         toAccountId: number;
         amount: number;
+        transactedAt?: Date | null;
       }): Promise<Result> {
         patchState(store, { isUpdating: true, isError: false });
         try {

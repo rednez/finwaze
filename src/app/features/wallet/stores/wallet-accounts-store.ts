@@ -140,10 +140,12 @@ export const WalletAccountsStore = signalStore(
         accountName,
         currencyId,
         balance,
+        balanceDate,
       }: {
         accountName: string;
         currencyId?: number;
         balance?: number;
+        balanceDate?: Date | null;
       }): Promise<Result> {
         patchState(store, () => ({
           isUpdating: true,
@@ -167,6 +169,7 @@ export const WalletAccountsStore = signalStore(
             await repository.adjustRegularAccountBalance(
               store.selectedAccountId()!,
               balance,
+              balanceDate,
             );
           }
 
