@@ -1,34 +1,12 @@
-CREATE OR REPLACE FUNCTION public.get_regular_account_with_balance (p_account_id BIGINT) RETURNS TABLE (
-  id BIGINT,
-  name TEXT,
-  currency_code TEXT,
-  currency_id BIGINT,
-  balance NUMERIC,
-  can_delete BOOLEAN
-) LANGUAGE sql
-SET
-  search_path = '' AS $$
-  SELECT
-    r.id,
-    r.name,
-    r.currency_code,
-    r.currency_id,
-    r.balance,
-    r.can_delete
-  FROM public.regular_accounts_with_balance r
-  WHERE r.id = p_account_id
-  LIMIT 1;
-$$;
+drop function if exists "public"."adjust_account_balance"(p_account_id bigint, p_target_balance numeric, p_local_offset interval, p_comment text, p_transacted_at timestamp with time zone);
 
-CREATE OR REPLACE FUNCTION public.adjust_account_balance (
-  p_account_id BIGINT,
-  p_target_balance NUMERIC,
-  p_local_offset INTERVAL,
-  p_comment TEXT DEFAULT NULL,
-  p_balance_date TIMESTAMPTZ DEFAULT NOW()
-) RETURNS BIGINT LANGUAGE plpgsql SECURITY INVOKER
-SET
-  search_path = '' AS $$
+set check_function_bodies = off;
+
+CREATE OR REPLACE FUNCTION public.adjust_account_balance(p_account_id bigint, p_target_balance numeric, p_local_offset interval, p_comment text DEFAULT NULL::text, p_balance_date timestamp with time zone DEFAULT now())
+ RETURNS bigint
+ LANGUAGE plpgsql
+ SET search_path TO ''
+AS $function$
 DECLARE
   v_current_balance NUMERIC;
   v_adjustment_amount NUMERIC;
@@ -111,4 +89,7 @@ BEGIN
 
   RETURN v_inserted_transaction_id;
 END;
-$$;
+$function$
+;
+
+

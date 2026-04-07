@@ -94,15 +94,15 @@ export class WalletRepository {
   async adjustRegularAccountBalance(
     accountId: number,
     targetBalance: number,
-    transactedAt?: Date | null,
+    balanceDate?: Date | null,
   ): Promise<boolean> {
-    const date = transactedAt ?? new Date();
+    const date = balanceDate ?? new Date();
     const { error } = await this.supabase.client
       .rpc('adjust_account_balance', {
         p_account_id: accountId,
         p_target_balance: targetBalance,
         p_local_offset: dayjs(date).format('Z'),
-        p_transacted_at: date.toISOString(),
+        p_balance_date: date.toISOString(),
       })
       .select()
       .single();
