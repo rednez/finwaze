@@ -27,6 +27,7 @@
         [goal]="goal"
         class="grow sm:max-w-80"
         (depositClicked)="openTransferDialog($event)"
+        (withdrawClicked)="openWithdrawDialog($event)"
       />
     }
   }
@@ -44,5 +45,14 @@
     [accounts]="accountsStore.accounts()"
     [(visible)]="dialogVisible"
     (submitted)="handleTransfer($event)"
+  />
+}
+
+@if (selectedGoalForWithdraw()) {
+  <app-withdraw-from-goal-dialog
+    [goal]="selectedGoalForWithdraw()!"
+    [accounts]="accountsStore.accounts()"
+    [(visible)]="withdrawDialogVisible"
+    (submitted)="handleWithdraw($event)"
   />
 }

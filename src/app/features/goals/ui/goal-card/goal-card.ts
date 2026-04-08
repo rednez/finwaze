@@ -61,14 +61,26 @@ import { GoalCardStatus } from '../goal-card-status/goal-card-status';
     </div>
 
     @if (canDeposit()) {
-      <p-button
-        icon="pi pi-arrow-circle-down"
-        label="Deposit"
-        size="small"
-        severity="success"
-        [rounded]="true"
-        (onClick)="deposit($event)"
-      />
+      <div class="flex gap-2">
+        <p-button
+          icon="pi pi-arrow-circle-down"
+          label="Deposit"
+          size="small"
+          severity="success"
+          [rounded]="true"
+          (onClick)="deposit($event)"
+        />
+        @if (canWithdraw()) {
+          <p-button
+            icon="pi pi-arrow-circle-up"
+            label="Withdraw"
+            size="small"
+            severity="secondary"
+            [rounded]="true"
+            (onClick)="withdraw($event)"
+          />
+        }
+      </div>
     }
   `,
   host: {
@@ -81,6 +93,7 @@ import { GoalCardStatus } from '../goal-card-status/goal-card-status';
 export class GoalCard {
   readonly goal = input.required<SavingsGoal>();
   readonly depositClicked = output<SavingsGoal>();
+  readonly withdrawClicked = output<SavingsGoal>();
 
   private readonly router = inject(Router);
 
@@ -92,6 +105,13 @@ export class GoalCard {
     () =>
       this.goal().status === 'notStarted' ||
       this.goal().status === 'inProgress',
+  );
+
+  protected readonly canWithdraw = computed(
+    () =>
+      this.goal().accumulatedAmount > 0 &&
+      (this.goal().status === 'notStarted' ||
+        this.goal().status === 'inProgress'),
   );
 
   protected readonly percents = computed(() =>
@@ -117,5 +137,10 @@ export class GoalCard {
   protected deposit(event: Event): void {
     event.stopPropagation();
     this.depositClicked.emit(this.goal());
+  }
+
+  protected withdraw(event: Event): void {
+    event.stopPropagation();
+    this.withdrawClicked.emit(this.goal());
   }
 }

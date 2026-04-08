@@ -1,4 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { provideRouter } from '@angular/router';
 import { EmptyGoalsListState } from './empty-goals-list-state';
 
 describe('EmptyGoalsListState', () => {
@@ -8,6 +9,7 @@ describe('EmptyGoalsListState', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [EmptyGoalsListState],
+      providers: [provideRouter([])],
     }).compileComponents();
 
     fixture = TestBed.createComponent(EmptyGoalsListState);

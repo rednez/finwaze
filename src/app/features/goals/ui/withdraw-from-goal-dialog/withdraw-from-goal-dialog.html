@@ -1,0 +1,78 @@
+<p-dialog
+  [header]="'Withdraw from ' + goal().name"
+  [(visible)]="visible"
+  [modal]="true"
+  [style]="{ width: '24rem' }"
+  [draggable]="false"
+  [resizable]="false"
+>
+  <form [formGroup]="form" class="flex flex-col gap-4 pt-2">
+    <app-account-select
+      formControlName="toAccountId"
+      [accounts]="filteredAccounts()"
+      label="To account"
+      appendTo="body"
+      [isInvalid]="
+        form.controls.toAccountId.invalid &&
+        form.controls.toAccountId.touched
+      "
+    />
+
+    <div class="flex flex-col">
+      <label class="text-sm font-medium mb-1" for="withdrawAmount">
+        Amount ({{ goal().currencyCode }})
+      </label>
+      <p-inputnumber
+        formControlName="amount"
+        inputId="withdrawAmount"
+        mode="decimal"
+        [minFractionDigits]="0"
+        [maxFractionDigits]="2"
+        class="w-full"
+        placeholder="Enter amount"
+        autocomplete="off"
+        [inputStyle]="{ borderRadius: '16px' }"
+      />
+      @if (form.controls.amount.invalid && form.controls.amount.touched) {
+        <div class="text-xs text-red-500 pl-2 pt-0.5">
+          @if (form.controls.amount.hasError('required')) {
+            Amount required
+          } @else if (form.controls.amount.hasError('min')) {
+            Must be greater than 0
+          } @else if (form.controls.amount.hasError('max')) {
+            Cannot exceed accumulated amount
+            ({{ goal().accumulatedAmount | number }})
+          }
+        </div>
+      }
+    </div>
+
+    <div class="flex flex-col">
+      <label class="text-sm font-medium mb-1" for="withdrawTransactedAt">
+        Date & Time
+        <span class="text-xs text-surface-400 font-normal">(optional)</span>
+      </label>
+      <p-datepicker
+        formControlName="transactedAt"
+        inputId="withdrawTransactedAt"
+        [showTime]="true"
+        [hourFormat]="'24'"
+        [maxDate]="today"
+        class="w-full"
+        placeholder="Now"
+        appendTo="body"
+        [inputStyle]="{ borderRadius: '16px' }"
+      />
+    </div>
+  </form>
+
+  <ng-template #footer>
+    <p-button
+      label="Cancel"
+      severity="secondary"
+      [text]="true"
+      (onClick)="close()"
+    />
+    <p-button label="Withdraw" (onClick)="submit()" />
+  </ng-template>
+</p-dialog>

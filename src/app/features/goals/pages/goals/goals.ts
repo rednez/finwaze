@@ -17,6 +17,7 @@ import { GoalsFilters } from '../../ui/goals-filters/goals-filters';
 import { SavingsOverviewWidget } from '../../ui/savings-overview-widget/savings-overview-widget';
 import { TotalGoalsCard } from '../../ui/total-goals-card/total-goals-card';
 import { TransferToGoalDialog } from '../../ui/transfer-to-goal-dialog/transfer-to-goal-dialog';
+import { WithdrawFromGoalDialog } from '../../ui/withdraw-from-goal-dialog/withdraw-from-goal-dialog';
 import { EmptyGoalsListState } from './empty-goals-list-state';
 
 @Component({
@@ -30,6 +31,7 @@ import { EmptyGoalsListState } from './empty-goals-list-state';
     RouterLink,
     ToastModule,
     TransferToGoalDialog,
+    WithdrawFromGoalDialog,
     EmptyGoalsListState,
   ],
   providers: [MessageService],
@@ -48,9 +50,51 @@ export class Goals {
   protected readonly selectedGoal = signal<SavingsGoal | null>(null);
   protected readonly dialogVisible = signal(false);
 
+  protected readonly selectedGoalForWithdraw = signal<SavingsGoal | null>(null);
+  protected readonly withdrawDialogVisible = signal(false);
+
   protected openTransferDialog(goal: SavingsGoal): void {
     this.selectedGoal.set(goal);
     this.dialogVisible.set(true);
+  }
+
+  protected openWithdrawDialog(goal: SavingsGoal): void {
+    this.selectedGoalForWithdraw.set(goal);
+    this.withdrawDialogVisible.set(true);
+  }
+
+  protected async handleWithdraw(params: {
+    toAccountId: number;
+    amount: number;
+    transactedAt?: Date | null;
+  }): Promise<void> {
+    const result = await this.goalsListStore.withdrawFromGoal({
+      goalAccountId: this.selectedGoalForWithdraw()!.id,
+      toAccountId: params.toAccountId,
+      amount: params.amount,
+      transactedAt: params.transactedAt,
+    });
+
+    if (result.ok) {
+      await Promise.all([
+        this.goalsListStore.loadGoals(),
+        this.savingsOverviewStore.load(),
+      ]);
+
+      this.withdrawDialogVisible.set(false);
+
+      this.messageService.add({
+        severity: 'success',
+        summary: 'Withdrawal successful',
+        detail: `Withdrawn from ${this.selectedGoalForWithdraw()!.name}`,
+      });
+    } else {
+      this.messageService.add({
+        severity: 'error',
+        summary: 'Withdrawal failed',
+        detail: 'Something went wrong. Please try again.',
+      });
+    }
   }
 
   protected async handleTransfer(params: {
