@@ -15,6 +15,7 @@ import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { ProgressSpinnerModule } from 'primeng/progressspinner';
 import { ToastModule } from 'primeng/toast';
 import { GoalsRepository } from '../../repositories/goals-repository';
+import { SavingsOverviewStore } from '../../stores';
 import { GoalsListStore } from '../../stores/goals-list-store';
 import { GoalForm, GoalFormData } from '../../ui/goal-form';
 import { GoalNotFound } from './goal-not-found';
@@ -35,6 +36,7 @@ import { GoalNotFound } from './goal-not-found';
 })
 export class EditGoal {
   protected readonly goalsListStore = inject(GoalsListStore);
+  private readonly savingsOverviewStore = inject(SavingsOverviewStore);
   protected readonly currenciesStore = inject(CurrenciesStore);
   private readonly goalsRepository = inject(GoalsRepository);
   private readonly route = inject(ActivatedRoute);
@@ -58,9 +60,6 @@ export class EditGoal {
   constructor() {
     if (this.isEditMode && this.goalId) {
       this.loadGoal(this.goalId);
-    }
-    if (!this.currenciesStore.isLoaded()) {
-      this.currenciesStore.getAll();
     }
   }
 
@@ -156,6 +155,8 @@ export class EditGoal {
         severity: 'success',
         summary: 'Goal updated successfully',
       });
+
+      this.loadGoalsAndOverview();
     }
   }
 
@@ -169,6 +170,7 @@ export class EditGoal {
         detail: error.message,
       });
     } else {
+      await this.loadGoalsAndOverview();
       this.gotoBack();
     }
   }
@@ -183,7 +185,15 @@ export class EditGoal {
         detail: error.message,
       });
     } else {
+      await this.loadGoalsAndOverview();
       this.gotoBack();
     }
+  }
+
+  private async loadGoalsAndOverview() {
+    await Promise.all([
+      this.goalsListStore.loadGoals(),
+      this.savingsOverviewStore.load(),
+    ]);
   }
 }

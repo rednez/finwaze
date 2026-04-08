@@ -1,16 +1,16 @@
 import { computed, effect, inject, untracked } from '@angular/core';
 import {
-  MonthlySavingsOverview,
-  GoalsRepository,
-} from '../repositories/goals-repository';
-import {
   patchState,
   signalStore,
   withComputed,
   withHooks,
   withMethods,
+  withProps,
   withState,
 } from '@ngrx/signals';
+import { MonthlySavingsOverview } from '../models';
+import { GoalsRepository } from '../repositories/goals-repository';
+import { GoalsListStore } from './goals-list-store';
 
 interface SavingsOverviewState {
   isLoading: boolean;
@@ -18,7 +18,6 @@ interface SavingsOverviewState {
   isLoaded: boolean;
   isError: boolean;
   data: MonthlySavingsOverview[];
-  selectedYear: Date;
   selectedCurrencyCode: string | null;
   goalCurrencies: string[];
 }
@@ -29,7 +28,6 @@ const initialState: SavingsOverviewState = {
   isLoaded: false,
   isError: false,
   data: [],
-  selectedYear: new Date(),
   selectedCurrencyCode: null,
   goalCurrencies: [],
 };
@@ -37,6 +35,10 @@ const initialState: SavingsOverviewState = {
 export const SavingsOverviewStore = signalStore(
   { providedIn: 'root' },
   withState(initialState),
+
+  withProps(() => ({
+    goalsListStore: inject(GoalsListStore),
+  })),
 
   withComputed((store) => ({
     labels: computed(() => store.data().map((row) => row.month)),
@@ -46,14 +48,17 @@ export const SavingsOverviewStore = signalStore(
     previousSavings: computed(() =>
       store.data().map((row) => row.previousYearAmount),
     ),
-    availableCurrencies: computed(() =>
-      store.goalCurrencies().map((code) => ({ name: code })),
-    ),
+    availableCurrencies: computed(() => [
+      ...new Set(
+        store.goalsListStore.goals().map((g) => ({ name: g.currencyCode })),
+      ),
+    ]),
   })),
 
   withMethods((store, repository = inject(GoalsRepository)) => ({
     async load(): Promise<void> {
       const currencyCode = store.selectedCurrencyCode();
+
       if (!currencyCode) return;
 
       patchState(
@@ -64,7 +69,7 @@ export const SavingsOverviewStore = signalStore(
 
       try {
         const data = await repository.getSavingsOverview({
-          year: store.selectedYear(),
+          year: store.goalsListStore.selectedYear(),
           currencyCode,
         });
 
@@ -83,31 +88,15 @@ export const SavingsOverviewStore = signalStore(
       }
     },
 
-    updateYear: (year: Date) => patchState(store, { selectedYear: year }),
     updateCurrencyCode: (code: string) =>
       patchState(store, { selectedCurrencyCode: code }),
-
-    async loadCurrencies(): Promise<void> {
-      const goals = await repository.getGoals();
-      const unique = [...new Set(goals.map((g) => g.currencyCode))];
-      const currentCode = store.selectedCurrencyCode();
-      patchState(store, {
-        goalCurrencies: unique,
-        selectedCurrencyCode:
-          currentCode != null && unique.includes(currentCode)
-            ? currentCode
-            : (unique[0] ?? null),
-      });
-    },
   })),
 
   withHooks({
     onInit(store) {
-      untracked(() => store.loadCurrencies());
-
       effect(() => {
-        store.selectedYear();
         store.selectedCurrencyCode();
+        store.goalsListStore.selectedYear();
         untracked(() => store.load());
       });
     },

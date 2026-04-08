@@ -1,0 +1,49 @@
+<p-toast />
+
+<div class="flex justify-between gap-4">
+  <app-goals-filters />
+
+  <p-button
+    icon="pi pi-plus"
+    label="Add new goal"
+    [rounded]="true"
+    size="large"
+    class="shrink-0"
+    [dt]="{ root: { lg: { fontSize: '14px' } } }"
+    [routerLink]="['create']"
+  />
+</div>
+
+<div class="flex gap-4 flex-wrap">
+  @if (goalsListStore.isLoading()) {
+    @for (i of [1, 2, 3]; track i) {
+      <p-skeleton class="grow sm:max-w-80 rounded-3xl h-56" />
+    }
+  } @else if (goalsListStore.goals().length === 0) {
+    <app-empty-goals-list-state />
+  } @else {
+    @for (goal of goalsListStore.goals(); track goal.id) {
+      <app-goal-card
+        [goal]="goal"
+        class="grow sm:max-w-80"
+        (depositClicked)="openTransferDialog($event)"
+      />
+    }
+  }
+</div>
+
+<div class="flex gap-4 flex-wrap">
+  <app-total-goals-card />
+
+  <app-savings-overview-widget class="grow lg:flex-1 min-w-0" />
+</div>
+
+@if (selectedGoal()) {
+  <app-transfer-to-goal-dialog
+    [goal]="selectedGoal()!"
+    [accounts]="accountsStore.accounts()"
+    [(visible)]="dialogVisible"
+    [loading]="goalsListStore.isUpdating()"
+    (submitted)="handleTransfer($event)"
+  />
+}

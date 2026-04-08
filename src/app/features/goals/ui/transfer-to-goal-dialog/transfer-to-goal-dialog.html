@@ -9,7 +9,7 @@
   <form [formGroup]="form" class="flex flex-col gap-4 pt-2">
     <app-account-select
       formControlName="fromAccountId"
-      [accounts]="accounts()"
+      [accounts]="filteredAccounts()"
       label="From account"
       appendTo="body"
       [isInvalid]="
@@ -68,8 +68,8 @@
       severity="secondary"
       [text]="true"
       (onClick)="close()"
-      [disabled]="loading()"
     />
-    <p-button label="Transfer" (onClick)="submit()" [loading]="loading()" />
+    <p-button label="Transfer" (onClick)="submit()" />
   </ng-template>
 </p-dialog>
+`

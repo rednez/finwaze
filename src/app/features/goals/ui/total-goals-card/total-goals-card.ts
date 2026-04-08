@@ -1,16 +1,10 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  inject,
-  linkedSignal,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Card } from '@shared/ui/card';
 import { CardHeaderTitle } from '@shared/ui/card-header-title/card-header-title';
 import { CardHeader } from '@shared/ui/card-header/card-header';
-import { DatePicker } from 'primeng/datepicker';
 import { SkeletonModule } from 'primeng/skeleton';
-import { TotalGoalsStore } from '../../stores/total-goals-store';
+import { GoalsListStore } from '../../stores';
 import { TotalGoalItem } from '../total-goal-item/total-goal-item';
 
 @Component({
@@ -21,26 +15,12 @@ import { TotalGoalItem } from '../total-goal-item/total-goal-item';
     CardHeader,
     CardHeaderTitle,
     TotalGoalItem,
-    DatePicker,
     SkeletonModule,
   ],
   template: `
     <app-card class="sm:w-89">
       <app-card-header class="flex justify-between">
         <app-card-header-title>Total Goals</app-card-header-title>
-
-        <p-datepicker
-          append-right
-          [ngModel]="year()"
-          (ngModelChange)="onYearChange($event)"
-          view="year"
-          dateFormat="yy"
-          [readonlyInput]="true"
-          size="small"
-          [inputStyle]="{
-            borderRadius: '12px',
-          }"
-        />
       </app-card-header>
 
       @if (store.isLoading()) {
@@ -75,14 +55,8 @@ import { TotalGoalItem } from '../total-goal-item/total-goal-item';
       }
     </app-card>
   `,
-  styles: ``,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class TotalGoalsCard {
-  protected readonly store = inject(TotalGoalsStore);
-  protected readonly year = linkedSignal(() => this.store.selectedYear());
-
-  protected onYearChange(date: Date): void {
-    this.store.updateYear(date);
-  }
+  protected readonly store = inject(GoalsListStore);
 }

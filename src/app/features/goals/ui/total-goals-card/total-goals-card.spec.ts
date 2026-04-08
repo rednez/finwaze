@@ -1,7 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { signal } from '@angular/core';
 import { TotalGoalsCard } from './total-goals-card';
-import { TotalGoalsStore } from '../../stores/total-goals-store';
+import { GoalsListStore } from '../../stores';
 
 describe('TotalGoalsCard', () => {
   let component: TotalGoalsCard;
@@ -15,9 +15,6 @@ describe('TotalGoalsCard', () => {
     inProgressCount: signal(0),
     cancelledCount: signal(0),
     doneCount: signal(0),
-    selectedYear: signal(new Date()),
-    updateYear: vi.fn(),
-    loadGoals: vi.fn().mockResolvedValue(undefined),
   };
 
   beforeEach(async () => {
@@ -33,7 +30,7 @@ describe('TotalGoalsCard', () => {
     await TestBed.configureTestingModule({
       imports: [TotalGoalsCard],
     })
-      .overrideProvider(TotalGoalsStore, { useValue: mockStore })
+      .overrideProvider(GoalsListStore, { useValue: mockStore })
       .compileComponents();
 
     fixture = TestBed.createComponent(TotalGoalsCard);

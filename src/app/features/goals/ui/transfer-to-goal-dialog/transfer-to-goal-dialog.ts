@@ -1,13 +1,11 @@
 import {
   ChangeDetectionStrategy,
   Component,
-  effect,
+  computed,
   inject,
   input,
   model,
   output,
-  signal,
-  untracked,
 } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Account } from '@core/models/accounts';
@@ -17,7 +15,6 @@ import { ButtonModule } from 'primeng/button';
 import { DatePickerModule } from 'primeng/datepicker';
 import { DialogModule } from 'primeng/dialog';
 import { InputNumberModule } from 'primeng/inputnumber';
-import { GoalsRepository } from '../../repositories/goals-repository';
 
 @Component({
   selector: 'app-transfer-to-goal-dialog',
@@ -33,21 +30,23 @@ import { GoalsRepository } from '../../repositories/goals-repository';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class TransferToGoalDialog {
-  private readonly repository = inject(GoalsRepository);
-  private readonly fb = inject(FormBuilder);
-
   readonly goal = input.required<SavingsGoal>();
-  readonly visible = model(false);
-  readonly loading = input(false);
+  readonly accounts = input<Account[]>([]);
   readonly submitted = output<{
     fromAccountId: number;
     amount: number;
     transactedAt?: Date | null;
   }>();
 
+  private readonly fb = inject(FormBuilder);
+
+  readonly visible = model(false);
+
+  protected readonly filteredAccounts = computed(() =>
+    this.accounts().filter((a) => a.currencyCode === this.goal().currencyCode),
+  );
+
   protected readonly today = new Date();
-  protected readonly accounts = signal<Account[]>([]);
-  protected readonly isLoadingAccounts = signal(false);
 
   protected readonly form = this.fb.group({
     fromAccountId: [null as number | null, Validators.required],
@@ -57,28 +56,6 @@ export class TransferToGoalDialog {
     ],
     transactedAt: [null as Date | null],
   });
-
-  constructor() {
-    effect(() => {
-      if (this.visible()) {
-        untracked(() => this.loadAccounts());
-      } else {
-        untracked(() => this.form.reset());
-      }
-    });
-  }
-
-  private async loadAccounts(): Promise<void> {
-    this.isLoadingAccounts.set(true);
-    try {
-      const accounts = await this.repository.getRegularAccountsByCurrency(
-        this.goal().currencyCode,
-      );
-      this.accounts.set(accounts);
-    } finally {
-      this.isLoadingAccounts.set(false);
-    }
-  }
 
   protected submit(): void {
     this.form.markAllAsTouched();
