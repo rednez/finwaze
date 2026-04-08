@@ -20,7 +20,7 @@ import { CurrencyCodeChip } from '../currency-code-chip';
   selector: 'app-account-select',
   imports: [SelectModule, FormsModule, CurrencyCodeChip],
   templateUrl: './account-select.html',
-  host: { class: 'w-full' },
+  host: { class: 'w-full block' },
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [
     {

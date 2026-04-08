@@ -173,6 +173,27 @@ export const GoalsListStore = signalStore(
         return resultError(error);
       }
     },
+
+    async cancelGoalWithTransfer(params: {
+      goalAccountId: number;
+      toAccountId: number;
+      amount: number;
+    }): Promise<Result> {
+      patchState(store, { isUpdating: true, isError: false });
+      try {
+        await store.repository.transferToGoal({
+          fromAccountId: params.goalAccountId,
+          toAccountId: params.toAccountId,
+          amount: params.amount,
+        });
+        await store.repository.cancelGoal(params.goalAccountId);
+
+        return resultOk();
+      } catch (error) {
+        patchState(store, { isUpdating: false, isError: true });
+        return resultError(error);
+      }
+    },
   })),
 
   withHooks({

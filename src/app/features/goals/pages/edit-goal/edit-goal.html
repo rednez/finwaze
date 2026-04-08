@@ -37,15 +37,26 @@
             (onClick)="confirmCancel()"
           />
         }
-        <p-button
-          label="Delete Goal"
-          severity="danger"
-          [rounded]="true"
-          icon="pi pi-trash"
-          [style]="{ width: '100%' }"
-          (onClick)="confirmDelete()"
-        />
+        @if (goal()?.accumulatedAmount === 0) {
+          <p-button
+            label="Delete Goal"
+            severity="danger"
+            [rounded]="true"
+            icon="pi pi-trash"
+            [style]="{ width: '100%' }"
+            (onClick)="confirmDelete()"
+          />
+        }
       </div>
     }
+  }
+
+  @if (goal()) {
+    <app-cancel-goal-dialog
+      [goal]="goal()!"
+      [accounts]="regularAccounts()"
+      [(visible)]="cancelDialogVisible"
+      (confirmed)="onCancelGoalConfirmed($event)"
+    />
   }
 </app-form-page-layout>

@@ -43,7 +43,6 @@
     [goal]="selectedGoal()!"
     [accounts]="accountsStore.accounts()"
     [(visible)]="dialogVisible"
-    [loading]="goalsListStore.isUpdating()"
     (submitted)="handleTransfer($event)"
   />
 }

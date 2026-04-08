@@ -8,6 +8,7 @@ import {
 import { ActivatedRoute, Router } from '@angular/router';
 import { FormPageLayout } from '@core/layout/form-page-layout';
 import { SavingsGoal } from '@core/models/savings-goal';
+import { AccountsStore } from '@core/store/accounts-store';
 import { CurrenciesStore } from '@core/store/currencies-store';
 import { ConfirmationService, MessageService } from 'primeng/api';
 import { ButtonModule } from 'primeng/button';
@@ -17,6 +18,7 @@ import { ToastModule } from 'primeng/toast';
 import { GoalsRepository } from '../../repositories/goals-repository';
 import { SavingsOverviewStore } from '../../stores';
 import { GoalsListStore } from '../../stores/goals-list-store';
+import { CancelGoalDialog } from '../../ui/cancel-goal-dialog';
 import { GoalForm, GoalFormData } from '../../ui/goal-form';
 import { GoalNotFound } from './goal-not-found';
 
@@ -29,6 +31,7 @@ import { GoalNotFound } from './goal-not-found';
     ProgressSpinnerModule,
     ButtonModule,
     ConfirmDialogModule,
+    CancelGoalDialog,
   ],
   templateUrl: './edit-goal.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -38,6 +41,7 @@ export class EditGoal {
   protected readonly goalsListStore = inject(GoalsListStore);
   private readonly savingsOverviewStore = inject(SavingsOverviewStore);
   protected readonly currenciesStore = inject(CurrenciesStore);
+  private readonly accountsStore = inject(AccountsStore);
   private readonly goalsRepository = inject(GoalsRepository);
   private readonly route = inject(ActivatedRoute);
   private readonly router = inject(Router);
@@ -52,9 +56,16 @@ export class EditGoal {
   protected readonly goal = signal<SavingsGoal | null>(null);
   protected readonly isLoading = signal(this.isEditMode);
   protected readonly isGoalNotFound = signal(false);
+  protected readonly cancelDialogVisible = signal(false);
 
   protected readonly title = computed(() =>
     this.isEditMode ? 'Edit Goal' : 'New Goal',
+  );
+
+  protected readonly regularAccounts = computed(() =>
+    this.accountsStore.accounts().filter(
+      (a) => a.currencyCode === this.goal()?.currencyCode,
+    ),
   );
 
   constructor() {
@@ -76,14 +87,41 @@ export class EditGoal {
   }
 
   protected confirmCancel() {
-    this.confirmationService.confirm({
-      message: 'Mark this goal as cancelled? This action cannot be undone.',
-      header: 'Cancel Goal',
-      icon: 'pi pi-exclamation-triangle',
-      acceptLabel: 'Yes, cancel it',
-      rejectLabel: 'Keep it',
-      accept: () => this.cancelGoal(),
+    const goal = this.goal()!;
+
+    if (goal.accumulatedAmount === 0) {
+      this.confirmationService.confirm({
+        message: 'Mark this goal as cancelled? This action cannot be undone.',
+        header: 'Cancel Goal',
+        icon: 'pi pi-exclamation-triangle',
+        acceptLabel: 'Yes, cancel it',
+        rejectLabel: 'Keep it',
+        accept: () => this.cancelGoal(),
+      });
+    } else {
+      this.cancelDialogVisible.set(true);
+    }
+  }
+
+  protected async onCancelGoalConfirmed(event: { toAccountId: number }) {
+    const goal = this.goal()!;
+    const { error } = await this.goalsListStore.cancelGoalWithTransfer({
+      goalAccountId: goal.id,
+      toAccountId: event.toAccountId,
+      amount: goal.accumulatedAmount,
     });
+
+    if (error) {
+      this.messageService.add({
+        severity: 'error',
+        summary: 'Failed to cancel goal',
+        detail: error.message,
+      });
+    } else {
+      this.cancelDialogVisible.set(false);
+      await this.loadGoalsAndOverview();
+      this.gotoBack();
+    }
   }
 
   protected confirmDelete() {

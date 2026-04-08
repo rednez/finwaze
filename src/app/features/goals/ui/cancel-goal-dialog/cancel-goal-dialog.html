@@ -1,0 +1,49 @@
+<p-dialog
+  header="Cancel Goal"
+  [(visible)]="visible"
+  [modal]="true"
+  [style]="{ width: '24rem' }"
+  [draggable]="false"
+  [resizable]="false"
+>
+  <div class="flex flex-col gap-4 pt-2">
+    <div
+      class="flex items-start gap-2 p-3 rounded-xl bg-orange-50 dark:bg-orange-950 text-orange-700 dark:text-orange-300"
+    >
+      <i class="pi pi-exclamation-triangle mt-0.5 shrink-0"></i>
+      <p class="text-sm text-start">
+        This goal has accumulated funds that will be transferred back to a
+        regular account before cancellation.
+      </p>
+    </div>
+
+    <div class="flex flex-col gap-1">
+      <span class="text-sm text-surface-500">Amount to be returned</span>
+      <span class="text-xl font-medium">
+        {{ goal().accumulatedAmount | currency: goal().currencyCode }}
+      </span>
+    </div>
+
+    <form [formGroup]="form">
+      <app-account-select
+        formControlName="toAccountId"
+        [accounts]="accounts()"
+        class="text-start"
+        label="Transfer funds to"
+        [isInvalid]="
+          form.controls.toAccountId.invalid && form.controls.toAccountId.touched
+        "
+      />
+    </form>
+  </div>
+
+  <ng-template #footer>
+    <p-button
+      label="Keep Goal"
+      severity="secondary"
+      [text]="true"
+      (onClick)="close()"
+    />
+    <p-button label="Cancel Goal" severity="danger" (onClick)="confirm()" />
+  </ng-template>
+</p-dialog>
