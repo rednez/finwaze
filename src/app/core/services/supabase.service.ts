@@ -29,7 +29,7 @@ export class SupabaseService {
         },
       );
     } catch (error) {
-      console.log('Errro initializing Supabase client:', error);
+      console.log('Error initializing Supabase client:', error);
     }
   }
 
