@@ -176,7 +176,8 @@ CREATE OR REPLACE FUNCTION get_savings_goals (
   target_date public.savings_goals.target_date%TYPE,
   status public.savings_goal_status,
   target_amount public.savings_goals.target_amount%TYPE,
-  accumulated_amount NUMERIC
+  accumulated_amount NUMERIC,
+  has_transfers BOOLEAN
 ) LANGUAGE sql
 STABLE
 SET search_path = '' AS $$
@@ -190,6 +191,7 @@ SET search_path = '' AS $$
       sg.is_cancelled,
       sg.is_done,
       COALESCE(SUM(t.charged_amount), 0) AS accumulated_amount,
+      COUNT(t.id) > 0 AS has_transfers,
       acc.created_at
     FROM public.accounts acc
     JOIN public.currencies cur ON cur.id = acc.currency_id
@@ -207,6 +209,7 @@ SET search_path = '' AS $$
       target_date,
       target_amount,
       accumulated_amount,
+      has_transfers,
       created_at,
       CASE
         WHEN is_cancelled THEN 'cancelled'::public.savings_goal_status
@@ -216,7 +219,7 @@ SET search_path = '' AS $$
       END AS status
     FROM goal_data
   )
-  SELECT id, name, currency_code, target_date, status, target_amount, accumulated_amount
+  SELECT id, name, currency_code, target_date, status, target_amount, accumulated_amount, has_transfers
   FROM goal_with_status
   WHERE (p_status IS NULL OR status = p_status)
   ORDER BY created_at DESC

@@ -11,6 +11,7 @@ const goal: SavingsGoal = {
   targetDate: new Date('2026-12-01'),
   currencyCode: 'USD',
   status: 'inProgress',
+  hasTransfers: true,
 };
 
 const accounts: Account[] = [

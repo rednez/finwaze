@@ -13,6 +13,7 @@ export class SavingsGoalsMapper {
     status: 'not_started' | 'in_progress' | 'done' | 'cancelled';
     target_amount: number;
     accumulated_amount: number;
+    has_transfers: boolean;
   }): SavingsGoal => {
     return {
       id: dto.id,
@@ -22,6 +23,7 @@ export class SavingsGoalsMapper {
       currencyCode: dto.currency_code,
       targetDate: new Date(dto.target_date),
       status: this.mapStatus(dto.status),
+      hasTransfers: dto.has_transfers,
     };
   };
 

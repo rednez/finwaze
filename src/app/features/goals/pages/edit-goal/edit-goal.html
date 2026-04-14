@@ -53,7 +53,7 @@
             (onClick)="confirmCancel()"
           />
         }
-        @if (goal()?.accumulatedAmount === 0) {
+        @if (!goal()?.hasTransfers) {
           <p-button
             label="Delete Goal"
             severity="danger"

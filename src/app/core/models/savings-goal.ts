@@ -8,4 +8,5 @@ export interface SavingsGoal {
   targetDate: Date;
   currencyCode: string;
   status: GoalStatus;
+  hasTransfers: boolean;
 }

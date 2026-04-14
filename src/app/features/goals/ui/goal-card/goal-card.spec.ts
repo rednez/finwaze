@@ -11,6 +11,7 @@ const baseGoal: SavingsGoal = {
   targetDate: new Date('2026-12-30'),
   currencyCode: 'USD',
   status: 'inProgress',
+  hasTransfers: false,
 };
 
 describe('GoalCard', () => {
