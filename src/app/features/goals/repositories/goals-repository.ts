@@ -133,6 +133,16 @@ export class GoalsRepository {
     }
   }
 
+  async markGoalAsDone(accountId: number): Promise<void> {
+    const { error } = await this.supabase.client.rpc('mark_savings_goal_as_done', {
+      p_account_id: accountId,
+    });
+
+    if (error) {
+      throw new Error(error.message);
+    }
+  }
+
   async deleteGoal(accountId: number): Promise<void> {
     const { error } = await this.supabase.client.rpc('delete_savings_goal', {
       p_account_id: accountId,

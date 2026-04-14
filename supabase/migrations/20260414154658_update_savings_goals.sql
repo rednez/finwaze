@@ -1,0 +1,72 @@
+alter table "public"."savings_goals" add column "is_done" boolean not null default false;
+
+set check_function_bodies = off;
+
+CREATE OR REPLACE FUNCTION public.mark_savings_goal_as_done(p_account_id bigint)
+ RETURNS void
+ LANGUAGE plpgsql
+ SET search_path TO ''
+AS $function$
+BEGIN
+  UPDATE public.savings_goals
+  SET is_done = true
+  WHERE account_id = p_account_id;
+
+  IF NOT FOUND THEN
+    RAISE EXCEPTION 'Savings goal for account % not found', p_account_id;
+  END IF;
+END;
+$function$
+;
+
+CREATE OR REPLACE FUNCTION public.get_savings_goals(p_limit integer DEFAULT NULL::integer, p_status public.savings_goal_status DEFAULT NULL::public.savings_goal_status, p_period_from date DEFAULT NULL::date)
+ RETURNS TABLE(id bigint, name text, currency_code text, target_date date, status public.savings_goal_status, target_amount numeric, accumulated_amount numeric)
+ LANGUAGE sql
+ STABLE
+ SET search_path TO ''
+AS $function$
+  WITH goal_data AS (
+    SELECT
+      acc.id,
+      acc.name,
+      cur.code AS currency_code,
+      sg.target_date,
+      sg.target_amount,
+      sg.is_cancelled,
+      sg.is_done,
+      COALESCE(SUM(t.charged_amount), 0) AS accumulated_amount,
+      acc.created_at
+    FROM public.accounts acc
+    JOIN public.currencies cur ON cur.id = acc.currency_id
+    JOIN public.savings_goals sg ON sg.account_id = acc.id
+    LEFT JOIN public.transactions t ON t.account_id = acc.id
+    WHERE acc.type = 'savings_goal'::public.account_type
+      AND (p_period_from IS NULL OR sg.target_date >= p_period_from)
+    GROUP BY acc.id, acc.name, cur.code, sg.target_date, sg.target_amount, sg.is_cancelled, sg.is_done, acc.created_at
+  ),
+  goal_with_status AS (
+    SELECT
+      id,
+      name,
+      currency_code,
+      target_date,
+      target_amount,
+      accumulated_amount,
+      created_at,
+      CASE
+        WHEN is_cancelled THEN 'cancelled'::public.savings_goal_status
+        WHEN is_done      THEN 'done'::public.savings_goal_status
+        WHEN accumulated_amount > 0 THEN 'in_progress'::public.savings_goal_status
+        ELSE 'not_started'::public.savings_goal_status
+      END AS status
+    FROM goal_data
+  )
+  SELECT id, name, currency_code, target_date, status, target_amount, accumulated_amount
+  FROM goal_with_status
+  WHERE (p_status IS NULL OR status = p_status)
+  ORDER BY created_at DESC
+  LIMIT p_limit;
+$function$
+;
+
+

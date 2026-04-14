@@ -62,6 +62,22 @@ describe('GoalCard', () => {
       expect(btn).not.toBeNull();
     });
 
+    it('is hidden when status is done', () => {
+      setGoal({ accumulatedAmount: 1500, status: 'done' });
+      const btn = fixture.nativeElement.querySelector(
+        'p-button[label="Withdraw"]',
+      );
+      expect(btn).toBeNull();
+    });
+
+    it('is hidden when status is cancelled', () => {
+      setGoal({ accumulatedAmount: 500, status: 'cancelled' });
+      const btn = fixture.nativeElement.querySelector(
+        'p-button[label="Withdraw"]',
+      );
+      expect(btn).toBeNull();
+    });
+
     it('emits withdrawClicked with the goal when clicked', () => {
       setGoal({ accumulatedAmount: 300, status: 'inProgress' });
 

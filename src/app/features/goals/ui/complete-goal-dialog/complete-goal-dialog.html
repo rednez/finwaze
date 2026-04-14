@@ -1,0 +1,49 @@
+<p-dialog
+  header="Goal Achieved!"
+  [(visible)]="visible"
+  [modal]="true"
+  [style]="{ width: '24rem' }"
+  [draggable]="false"
+  [resizable]="false"
+>
+  <div class="flex flex-col gap-4 pt-2">
+    <div
+      class="flex items-start gap-2 p-3 rounded-xl bg-emerald-50 dark:bg-emerald-950 text-emerald-700 dark:text-emerald-300"
+    >
+      <i class="pi pi-check-circle mt-0.5 shrink-0"></i>
+      <p class="text-sm text-start">
+        Congratulations! Your savings will be transferred to the account of
+        your choice.
+      </p>
+    </div>
+
+    <div class="flex flex-col gap-1">
+      <span class="text-sm text-surface-500">Amount to be transferred</span>
+      <span class="text-xl font-medium">
+        {{ goal().accumulatedAmount | currency: goal().currencyCode }}
+      </span>
+    </div>
+
+    <form [formGroup]="form">
+      <app-account-select
+        formControlName="toAccountId"
+        [accounts]="accounts()"
+        class="text-start"
+        label="Transfer funds to"
+        [isInvalid]="
+          form.controls.toAccountId.invalid && form.controls.toAccountId.touched
+        "
+      />
+    </form>
+  </div>
+
+  <ng-template #footer>
+    <p-button
+      label="Keep Saving"
+      severity="secondary"
+      [text]="true"
+      (onClick)="close()"
+    />
+    <p-button label="Complete Goal" severity="success" (onClick)="confirm()" />
+  </ng-template>
+</p-dialog>

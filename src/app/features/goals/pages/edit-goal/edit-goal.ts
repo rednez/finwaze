@@ -19,6 +19,7 @@ import { GoalsRepository } from '../../repositories/goals-repository';
 import { SavingsOverviewStore } from '../../stores';
 import { GoalsListStore } from '../../stores/goals-list-store';
 import { CancelGoalDialog } from '../../ui/cancel-goal-dialog';
+import { CompleteGoalDialog } from '../../ui/complete-goal-dialog';
 import { GoalForm, GoalFormData } from '../../ui/goal-form';
 import { GoalNotFound } from './goal-not-found';
 
@@ -32,6 +33,7 @@ import { GoalNotFound } from './goal-not-found';
     ButtonModule,
     ConfirmDialogModule,
     CancelGoalDialog,
+    CompleteGoalDialog,
   ],
   templateUrl: './edit-goal.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -57,6 +59,7 @@ export class EditGoal {
   protected readonly isLoading = signal(this.isEditMode);
   protected readonly isGoalNotFound = signal(false);
   protected readonly cancelDialogVisible = signal(false);
+  protected readonly doneDialogVisible = signal(false);
 
   protected readonly title = computed(() =>
     this.isEditMode ? 'Edit Goal' : 'New Goal',
@@ -119,6 +122,31 @@ export class EditGoal {
       });
     } else {
       this.cancelDialogVisible.set(false);
+      await this.loadGoalsAndOverview();
+      this.gotoBack();
+    }
+  }
+
+  protected confirmDone() {
+    this.doneDialogVisible.set(true);
+  }
+
+  protected async onDoneGoalConfirmed(event: { toAccountId: number }) {
+    const goal = this.goal()!;
+    const { error } = await this.goalsListStore.markGoalAsDoneWithTransfer({
+      goalAccountId: goal.id,
+      toAccountId: event.toAccountId,
+      amount: goal.accumulatedAmount,
+    });
+
+    if (error) {
+      this.messageService.add({
+        severity: 'error',
+        summary: 'Failed to complete goal',
+        detail: error.message,
+      });
+    } else {
+      this.doneDialogVisible.set(false);
       await this.loadGoalsAndOverview();
       this.gotoBack();
     }
