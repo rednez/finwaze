@@ -1,0 +1,147 @@
+- generic [ref=e4]:
+  - banner [ref=e5]:
+    - img [ref=e7]
+    - generic [ref=e21]:
+      - generic [ref=e23] [cursor=pointer]:
+        - combobox "Українська" [active] [ref=e434]: 🇺🇦
+        - button "dropdown trigger" [ref=e25]:
+          - img [ref=e26]
+      - button "Увійти" [ref=e435] [cursor=pointer]
+      - generic [ref=e31]:
+        - button "light_mode" [ref=e32] [cursor=pointer]:
+          - generic [ref=e33]: light_mode
+        - button "routine" [ref=e34] [cursor=pointer]:
+          - generic [ref=e35]: routine
+        - button "dark_mode" [ref=e36] [cursor=pointer]:
+          - generic [ref=e37]: dark_mode
+  - generic [ref=e38]:
+    - generic [ref=e40]: Особисті фінанси, просто
+    - heading "Ваші фінанси, нарешті зрозумілі" [level=1] [ref=e436]
+    - paragraph [ref=e43]: Відстежуйте витрати, дотримуйтеся бюджету та збільшуйте заощадження — все в одному зручному застосунку.
+    - button "Розпочати" [ref=e437]
+    - generic [ref=e46]:
+      - generic [ref=e438]:
+        - generic [ref=e439]: ✓
+        - text: Безкоштовно
+      - generic [ref=e440]:
+        - generic [ref=e441]: ✓
+        - text: Налаштування за 2 хвилини
+      - generic [ref=e442]:
+        - generic [ref=e443]: ✓
+        - text: Без таблиць
+  - generic [ref=e53]:
+    - generic [ref=e444]:
+      - generic [ref=e445]: 3 хв
+      - generic [ref=e446]: Середній час налаштування
+    - generic [ref=e57]:
+      - generic [ref=e58]: 100%
+      - generic [ref=e59]: Безкоштовно для старту
+    - generic [ref=e60]:
+      - generic [ref=e61]: 24/7
+      - generic [ref=e62]: Доступ з будь-якого пристрою
+  - generic [ref=e63]:
+    - generic [ref=e64]:
+      - heading "Все необхідне в одному місці" [level=2] [ref=e447]
+      - paragraph [ref=e66]: Від щоденного обліку до довгострокових цілей — Finwaze подбає про все.
+    - generic [ref=e67]:
+      - generic [ref=e68]:
+        - img [ref=e71]
+        - heading "Плануйте впевнено" [level=3] [ref=e448]
+        - list [ref=e161]:
+          - listitem [ref=e449]: Встановіть ліміти витрат
+          - listitem [ref=e451]: Організуйте гроші за категоріями
+          - listitem [ref=e453]: Відстежуйте прогрес у реальному часі
+      - generic [ref=e168]:
+        - img [ref=e171]
+        - heading "Розумійте свої витрати" [level=3] [ref=e455]
+        - list [ref=e256]:
+          - listitem [ref=e456]: Швидкий облік транзакцій
+          - listitem [ref=e458]: Чіткий місячний огляд
+          - listitem [ref=e460]: Розумна аналітика
+      - generic [ref=e263]:
+        - img [ref=e266]
+        - heading "Збільшуйте заощадження" [level=3] [ref=e462]
+        - list [ref=e304]:
+          - listitem [ref=e463]: Створюйте цілі заощаджень
+          - listitem [ref=e465]: Відстежуйте прогрес
+          - listitem [ref=e467]: Залишайтеся мотивованими
+  - generic [ref=e311]:
+    - generic [ref=e312]:
+      - heading "Почати просто" [level=2] [ref=e469]
+      - paragraph [ref=e314]: Три прості кроки — і ви повністю контролюєте ситуацію.
+    - generic [ref=e315]:
+      - generic [ref=e316]:
+        - generic [ref=e317]: "1"
+        - heading "Створіть безкоштовний акаунт" [level=3] [ref=e470]
+        - paragraph [ref=e319]: Реєстрація за кілька секунд. Без кредитної картки — лише email і пароль.
+      - generic [ref=e320]:
+        - generic [ref=e321]: "2"
+        - heading "Налаштуйте фінанси" [level=3] [ref=e471]
+        - paragraph [ref=e323]: Додайте рахунки, встановіть місячний бюджет і визначте цілі заощаджень.
+      - generic [ref=e324]:
+        - generic [ref=e325]: "3"
+        - heading "Спостерігайте за прогресом" [level=3] [ref=e472]
+        - paragraph [ref=e327]: Відстежуйте кожну транзакцію та спостерігайте за ростом заощаджень — день за днем.
+  - generic [ref=e328]:
+    - generic [ref=e329]:
+      - heading "Люди вже беруть контроль" [level=2] [ref=e473]
+      - paragraph [ref=e331]: Реальні користувачі, реальні результати — без стресу і таблиць.
+    - generic [ref=e332]:
+      - generic [ref=e474]:
+        - generic [ref=e475]:
+          - generic [ref=e476]: ★
+          - generic [ref=e477]: ★
+          - generic [ref=e478]: ★
+          - generic [ref=e479]: ★
+          - generic [ref=e480]: ★
+        - paragraph [ref=e481]: "\"Раніше я боялася дивитися на банківський рахунок. Тепер я перевіряю Finwaze щоранку — це справді змінило моє ставлення до грошей.\""
+        - generic [ref=e482]:
+          - generic [ref=e483]: СМ
+          - generic [ref=e484]:
+            - generic [ref=e485]: Сара М.
+            - generic [ref=e486]: Домогосподарка
+      - generic [ref=e487]:
+        - generic [ref=e488]:
+          - generic [ref=e489]: ★
+          - generic [ref=e490]: ★
+          - generic [ref=e491]: ★
+          - generic [ref=e492]: ★
+          - generic [ref=e493]: ★
+        - paragraph [ref=e494]: "\"Як фрілансер, я маю непостійний дохід. Finwaze допомагає тримати все під контролем і відкладати на менш прибуткові місяці.\""
+        - generic [ref=e495]:
+          - generic [ref=e496]: ДЛ
+          - generic [ref=e497]:
+            - generic [ref=e498]: Джеймс Л.
+            - generic [ref=e499]: Фриланс-дизайнер
+      - generic [ref=e500]:
+        - generic [ref=e501]:
+          - generic [ref=e502]: ★
+          - generic [ref=e503]: ★
+          - generic [ref=e504]: ★
+          - generic [ref=e505]: ★
+          - generic [ref=e506]: ★
+        - paragraph [ref=e507]: "\"Функція бюджетування неймовірно проста. Я налаштував її за 5 хвилин і до кінця місяця зекономив більше, ніж очікував.\""
+        - generic [ref=e508]:
+          - generic [ref=e509]: ПК
+          - generic [ref=e510]:
+            - generic [ref=e511]: Прія К.
+            - generic [ref=e512]: Молодий спеціаліст
+  - generic [ref=e372]:
+    - heading "Піклуйтеся про свої гроші — і вони подбають про вас" [level=2] [ref=e513]
+    - paragraph [ref=e374]: Почніть сьогодні та відчуйте більше впевненості в завтрашньому дні
+    - button "Розпочати" [ref=e514]
+  - contentinfo [ref=e377]:
+    - generic [ref=e378]:
+      - generic [ref=e379]:
+        - generic [ref=e380]: © 2026 Vasyl Yefimenko
+        - generic [ref=e381]: ·
+        - link "vasyl@yefimenko.dev" [ref=e382] [cursor=pointer]:
+          - /url: mailto:vasyl@yefimenko.dev
+        - generic [ref=e383]: ·
+        - generic [ref=e384]:
+          - text: Зроблено в Україні
+          - img "Ukrainian flag" [ref=e385]: 🇺🇦
+      - paragraph [ref=e386]:
+        - text: Концепція UI-дизайну натхнена
+        - link "Alvina Hromadetska" [ref=e387] [cursor=pointer]:
+          - /url: https://www.behance.net/gallery/198771803/FinSet-Web-App-for-finance-management-UX-UI-design

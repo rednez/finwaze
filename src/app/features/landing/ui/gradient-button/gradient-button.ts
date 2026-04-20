@@ -1,9 +1,10 @@
 import { ChangeDetectionStrategy, Component, output } from '@angular/core';
+import { TranslatePipe } from '@shared/pipes/translate.pipe';
 
 @Component({
   selector: 'app-gradient-button',
-  imports: [],
-  template: ` <button (click)="getStarted.emit()">Get Started</button> `,
+  imports: [TranslatePipe],
+  template: `<button (click)="getStarted.emit()">{{ 'landing.cta.getStarted' | translate }}</button>`,
   styles: `
     :host {
       display: block;

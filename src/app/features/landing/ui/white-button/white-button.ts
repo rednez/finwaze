@@ -1,11 +1,12 @@
 import { ChangeDetectionStrategy, Component, output } from '@angular/core';
+import { TranslatePipe } from '@shared/pipes/translate.pipe';
 
 @Component({
   selector: 'app-white-button',
-  imports: [],
+  imports: [TranslatePipe],
   template: `
     <button (click)="getStarted.emit()">
-      <span>Get Started</span>
+      <span>{{ 'landing.cta.getStarted' | translate }}</span>
     </button>
   `,
   styles: `

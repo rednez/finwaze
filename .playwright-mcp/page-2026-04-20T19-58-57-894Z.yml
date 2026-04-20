@@ -1,0 +1,147 @@
+- generic [ref=e4]:
+  - banner [ref=e5]:
+    - img [ref=e7]
+    - generic [ref=e21]:
+      - generic [ref=e23] [cursor=pointer]:
+        - combobox "English" [ref=e24]
+        - button "dropdown trigger" [ref=e25]:
+          - img [ref=e26]
+      - button "Sign in" [ref=e28] [cursor=pointer]
+      - generic [ref=e31]:
+        - button "light_mode" [ref=e32] [cursor=pointer]:
+          - generic [ref=e33]: light_mode
+        - button "routine" [ref=e34] [cursor=pointer]:
+          - generic [ref=e35]: routine
+        - button "dark_mode" [ref=e36] [cursor=pointer]:
+          - generic [ref=e37]: dark_mode
+  - generic [ref=e38]:
+    - generic [ref=e40]: Personal finance, simplified
+    - heading "Your finances, finally clear" [level=1] [ref=e42]
+    - paragraph [ref=e43]: Track spending, stick to budgets, and grow your savings — all in one elegant, stress-free app.
+    - button "Get Started" [ref=e45]
+    - generic [ref=e46]:
+      - generic [ref=e47]:
+        - generic [ref=e48]: ✓
+        - text: Free to start
+      - generic [ref=e49]:
+        - generic [ref=e50]: ✓
+        - text: 2-minute setup
+      - generic [ref=e51]:
+        - generic [ref=e52]: ✓
+        - text: No spreadsheets
+  - generic [ref=e53]:
+    - generic [ref=e54]:
+      - generic [ref=e55]: 3 min
+      - generic [ref=e56]: Average setup time
+    - generic [ref=e57]:
+      - generic [ref=e58]: 100%
+      - generic [ref=e59]: Free to get started
+    - generic [ref=e60]:
+      - generic [ref=e61]: 24/7
+      - generic [ref=e62]: Access from any device
+  - generic [ref=e63]:
+    - generic [ref=e64]:
+      - heading "Everything you need in one place" [level=2] [ref=e65]
+      - paragraph [ref=e66]: From daily tracking to long-term goals — Finwaze has it covered.
+    - generic [ref=e67]:
+      - generic [ref=e68]:
+        - img [ref=e71]
+        - heading "Plan with Confidence" [level=3] [ref=e160]
+        - list [ref=e161]:
+          - listitem [ref=e162]: Set spending limits
+          - listitem [ref=e164]: Organize money by categories
+          - listitem [ref=e166]: See your progress in real time
+      - generic [ref=e168]:
+        - img [ref=e171]
+        - heading "Understand Your Spending" [level=3] [ref=e255]
+        - list [ref=e256]:
+          - listitem [ref=e257]: Quick transaction tracking
+          - listitem [ref=e259]: Clear monthly overview
+          - listitem [ref=e261]: Smart insights
+      - generic [ref=e263]:
+        - img [ref=e266]
+        - heading "Grow Your Savings" [level=3] [ref=e303]
+        - list [ref=e304]:
+          - listitem [ref=e305]: Create savings goals
+          - listitem [ref=e307]: Track your progress
+          - listitem [ref=e309]: Stay motivated
+  - generic [ref=e311]:
+    - generic [ref=e312]:
+      - heading "Getting started is simple" [level=2] [ref=e313]
+      - paragraph [ref=e314]: Three easy steps and you are in full control.
+    - generic [ref=e315]:
+      - generic [ref=e316]:
+        - generic [ref=e317]: "1"
+        - heading "Create your free account" [level=3] [ref=e318]
+        - paragraph [ref=e319]: Sign up in seconds. No credit card required — just your email and a password.
+      - generic [ref=e320]:
+        - generic [ref=e321]: "2"
+        - heading "Set up your finances" [level=3] [ref=e322]
+        - paragraph [ref=e323]: Add your accounts, set a monthly budget, and define your savings goals.
+      - generic [ref=e324]:
+        - generic [ref=e325]: "3"
+        - heading "Watch your progress" [level=3] [ref=e326]
+        - paragraph [ref=e327]: Track every transaction and see your savings grow — day by day, month by month.
+  - generic [ref=e328]:
+    - generic [ref=e329]:
+      - heading "People are already taking control" [level=2] [ref=e330]
+      - paragraph [ref=e331]: Real users, real results — no stress, no spreadsheets.
+    - generic [ref=e332]:
+      - generic [ref=e333]:
+        - generic [ref=e334]:
+          - generic [ref=e335]: ★
+          - generic [ref=e336]: ★
+          - generic [ref=e337]: ★
+          - generic [ref=e338]: ★
+          - generic [ref=e339]: ★
+        - paragraph [ref=e340]: "\"I used to dread looking at my bank account. Now I check Finwaze every morning — it honestly changed how I feel about money.\""
+        - generic [ref=e341]:
+          - generic [ref=e342]: SM
+          - generic [ref=e343]:
+            - generic [ref=e344]: Sarah M.
+            - generic [ref=e345]: Stay-at-home parent
+      - generic [ref=e346]:
+        - generic [ref=e347]:
+          - generic [ref=e348]: ★
+          - generic [ref=e349]: ★
+          - generic [ref=e350]: ★
+          - generic [ref=e351]: ★
+          - generic [ref=e352]: ★
+        - paragraph [ref=e353]: "\"As a freelancer my income varies a lot. Finwaze helps me stay on top of everything and actually save for the slow months.\""
+        - generic [ref=e354]:
+          - generic [ref=e355]: JL
+          - generic [ref=e356]:
+            - generic [ref=e357]: James L.
+            - generic [ref=e358]: Freelance designer
+      - generic [ref=e359]:
+        - generic [ref=e360]:
+          - generic [ref=e361]: ★
+          - generic [ref=e362]: ★
+          - generic [ref=e363]: ★
+          - generic [ref=e364]: ★
+          - generic [ref=e365]: ★
+        - paragraph [ref=e366]: "\"The budgeting feature is incredibly simple. I set it up in 5 minutes and by the end of the month I had saved more than I expected.\""
+        - generic [ref=e367]:
+          - generic [ref=e368]: PK
+          - generic [ref=e369]:
+            - generic [ref=e370]: Priya K.
+            - generic [ref=e371]: Young professional
+  - generic [ref=e372]:
+    - heading "Take care of your money — and it will take care of you" [level=2] [ref=e373]
+    - paragraph [ref=e374]: Start today and feel more confident about tomorrow
+    - button "Get Started" [ref=e376]
+  - contentinfo [ref=e377]:
+    - generic [ref=e378]:
+      - generic [ref=e379]:
+        - generic [ref=e380]: © 2026 Vasyl Yefimenko
+        - generic [ref=e381]: ·
+        - link "vasyl@yefimenko.dev" [ref=e382] [cursor=pointer]:
+          - /url: mailto:vasyl@yefimenko.dev
+        - generic [ref=e383]: ·
+        - generic [ref=e384]:
+          - text: Made in Ukraine
+          - img "Ukrainian flag" [ref=e385]: 🇺🇦
+      - paragraph [ref=e386]:
+        - text: UI design concept inspired by
+        - link "Alvina Hromadetska" [ref=e387] [cursor=pointer]:
+          - /url: https://www.behance.net/gallery/198771803/FinSet-Web-App-for-finance-management-UX-UI-design

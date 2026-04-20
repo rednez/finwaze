@@ -3,10 +3,11 @@ import { AuthService } from '@core/services/auth-service';
 import { NavigatorHelper } from '@core/services/navigator-helper';
 import { AuthStore } from '@core/store/auth-store';
 import { UserAvatar, UserData } from './user-avatar/user-avatar';
+import { LangSwitcher } from '@shared/ui/lang-switcher';
 
 @Component({
   selector: 'app-top-bar',
-  imports: [UserAvatar],
+  imports: [UserAvatar, LangSwitcher],
   template: `
     <div>
       @if (hasTitle()) {
@@ -17,7 +18,10 @@ import { UserAvatar, UserData } from './user-avatar/user-avatar';
       }
     </div>
 
-    <app-user-avatar [user]="user()" (logout)="logout()" />
+    <div class="flex items-center gap-4">
+      <app-lang-switcher />
+      <app-user-avatar [user]="user()" (logout)="logout()" />
+    </div>
   `,
   host: {
     class: 'flex justify-between gap-1 p-4',

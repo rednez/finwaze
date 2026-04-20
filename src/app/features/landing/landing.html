@@ -1,13 +1,7 @@
 <header class="flex items-center justify-between w-full px-4 lg:px-0">
   <app-logo-pic />
-  <div class="flex gap-8">
-    <button
-      (click)="gotoLogin()"
-      class="text-sm font-semibold text-violet-700 dark:text-violet-400 hover:text-violet-900 dark:hover:text-violet-300 transition-colors duration-200 cursor-pointer"
-    >
-      Sign in
-    </button>
-
+  <div class="flex gap-3 items-center">
+    <app-lang-switcher />
     <app-theme-switcher />
   </div>
 </header>
@@ -23,21 +17,19 @@
     class="inline-flex items-center gap-2 rounded-full px-4 py-1.5 bg-violet-50 dark:bg-violet-950/40 border border-violet-200/60 dark:border-violet-700/40 text-violet-700 dark:text-violet-300 text-xs font-semibold mb-8 tracking-wide"
   >
     <span class="w-1.5 h-1.5 rounded-full bg-violet-500 animate-pulse"></span>
-    Personal finance, simplified
+    {{ 'landing.hero.badge' | translate }}
   </div>
 
   <h1
     class="font-display text-4xl sm:text-5xl font-extrabold tracking-tight text-gray-900 dark:text-gray-50 leading-[1.1] mb-6"
   >
-    Your finances,<br class="hidden sm:block" />
-    finally clear
+    {{ 'landing.hero.title' | translate }}
   </h1>
 
   <p
     class="text-base sm:text-lg text-gray-500 dark:text-gray-400 leading-relaxed max-w-sm mx-auto mb-10"
   >
-    Track spending, stick to budgets, and grow your savings — all in one
-    elegant, stress-free app.
+    {{ 'landing.hero.subtitle' | translate }}
   </p>
 
   <app-gradient-button (getStarted)="gotoLogin()" />
@@ -45,7 +37,7 @@
   <div
     class="flex flex-wrap items-center justify-center gap-x-6 gap-y-2 mt-8 text-xs text-gray-400 dark:text-gray-500"
   >
-    @for (badge of heroBadges; track badge) {
+    @for (badge of heroBadges(); track badge) {
       <span class="flex items-center gap-1.5">
         <span
           class="w-3.5 h-3.5 rounded-full bg-emerald-100 dark:bg-emerald-900/40 flex items-center justify-center text-emerald-600 dark:text-emerald-400 font-bold text-[9px]"
@@ -59,7 +51,7 @@
 
 <!-- STATS STRIP -->
 <div class="grid grid-cols-3 gap-4 sm:gap-6 w-full">
-  @for (stat of stats; track stat.value) {
+  @for (stat of stats(); track stat.value) {
     <div
       class="text-center py-6 px-3 rounded-2xl border border-violet-100/80 dark:border-violet-900/30 bg-violet-50/40 dark:bg-violet-950/20"
     >
@@ -83,33 +75,33 @@
     <h2
       class="font-display text-2xl sm:text-3xl font-bold tracking-tight text-gray-900 dark:text-gray-100 mb-3"
     >
-      Everything you need in one place
+      {{ 'landing.features.heading' | translate }}
     </h2>
     <p
       class="text-sm sm:text-base text-gray-500 dark:text-gray-400 max-w-xs mx-auto leading-relaxed"
     >
-      From daily tracking to long-term goals — Finwaze has it covered.
+      {{ 'landing.features.description' | translate }}
     </p>
   </div>
 
   <div class="flex flex-col gap-6 sm:flex-row sm:gap-5 flex-wrap">
     <app-description-section
-      [title]="sectionsData.budget.title"
-      [bullets]="sectionsData.budget.bullets"
+      [title]="sectionsData().budget.title"
+      [bullets]="sectionsData().budget.bullets"
     >
       <app-section-budget-pic />
     </app-description-section>
 
     <app-description-section
-      [title]="sectionsData.spending.title"
-      [bullets]="sectionsData.spending.bullets"
+      [title]="sectionsData().spending.title"
+      [bullets]="sectionsData().spending.bullets"
     >
       <app-section-spending-pic />
     </app-description-section>
 
     <app-description-section
-      [title]="sectionsData.savings.title"
-      [bullets]="sectionsData.savings.bullets"
+      [title]="sectionsData().savings.title"
+      [bullets]="sectionsData().savings.bullets"
     >
       <app-section-savings-pic />
     </app-description-section>
@@ -122,17 +114,17 @@
     <h2
       class="font-display text-2xl sm:text-3xl font-bold tracking-tight text-gray-900 dark:text-gray-100 mb-3"
     >
-      Getting started is simple
+      {{ 'landing.howItWorks.heading' | translate }}
     </h2>
     <p
       class="text-sm sm:text-base text-gray-500 dark:text-gray-400 max-w-xs mx-auto leading-relaxed"
     >
-      Three easy steps and you are in full control.
+      {{ 'landing.howItWorks.description' | translate }}
     </p>
   </div>
 
   <div class="flex flex-col gap-6 sm:flex-row sm:gap-5">
-    @for (step of howItWorksSteps; track step.step) {
+    @for (step of howItWorksSteps(); track step.step) {
       <app-how-it-works-step
         [step]="step.step"
         [title]="step.title"
@@ -148,17 +140,17 @@
     <h2
       class="font-display text-2xl sm:text-3xl font-bold tracking-tight text-gray-900 dark:text-gray-100 mb-3"
     >
-      People are already taking control
+      {{ 'landing.testimonials.heading' | translate }}
     </h2>
     <p
       class="text-sm sm:text-base text-gray-500 dark:text-gray-400 max-w-xs mx-auto leading-relaxed"
     >
-      Real users, real results — no stress, no spreadsheets.
+      {{ 'landing.testimonials.description' | translate }}
     </p>
   </div>
 
   <div class="flex flex-col gap-6 sm:flex-row sm:gap-5">
-    @for (testimonial of testimonials; track testimonial.author) {
+    @for (testimonial of testimonials(); track testimonial.author) {
       <app-testimonial-card
         [quote]="testimonial.quote"
         [author]="testimonial.author"
@@ -170,17 +162,21 @@
 
 <app-gradient-block class="w-full text-center">
   <h2 class="font-display text-xl sm:text-2xl font-bold tracking-tight mb-3">
-    Take care of your money — and it will take care of you
+    {{ 'landing.cta.heading' | translate }}
   </h2>
   <p class="text-sm sm:text-base opacity-80 leading-relaxed">
-    Start today and feel more confident about tomorrow
+    {{ 'landing.cta.subtitle' | translate }}
   </p>
 
   <app-white-button class="mt-10" (getStarted)="gotoLogin()" />
 </app-gradient-block>
 
-<footer class="w-full border-t border-gray-100 dark:border-gray-800/50 pt-8 pb-2">
-  <div class="flex flex-col items-center gap-2.5 text-xs text-gray-400 dark:text-gray-500">
+<footer
+  class="w-full border-t border-gray-100 dark:border-gray-800/50 pt-8 pb-2"
+>
+  <div
+    class="flex flex-col items-center gap-2.5 text-xs text-gray-400 dark:text-gray-500"
+  >
     <div class="flex flex-wrap items-center justify-center gap-x-3 gap-y-1">
       <span>© {{ currentYear }} Vasyl Yefimenko</span>
       <span class="text-gray-200 dark:text-gray-700">·</span>
@@ -191,11 +187,12 @@
       >
       <span class="text-gray-200 dark:text-gray-700">·</span>
       <span class="flex items-center gap-1.5"
-        >Made in Ukraine <span role="img" aria-label="Ukrainian flag">🇺🇦</span></span
+        >{{ 'landing.footer.madeIn' | translate }}
+        <span role="img" aria-label="Ukrainian flag">🇺🇦</span></span
       >
     </div>
     <p>
-      UI design concept inspired by
+      {{ 'landing.footer.designInspiredBy' | translate }}
       <a
         href="https://www.behance.net/gallery/198771803/FinSet-Web-App-for-finance-management-UX-UI-design"
         target="_blank"
