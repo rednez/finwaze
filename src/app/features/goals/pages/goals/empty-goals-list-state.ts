@@ -1,10 +1,11 @@
 import { Component } from '@angular/core';
 import { RouterLink } from '@angular/router';
+import { TranslatePipe } from '@shared/pipes/translate.pipe';
 import { ButtonModule } from 'primeng/button';
 
 @Component({
   selector: 'app-empty-goals-list-state',
-  imports: [ButtonModule, RouterLink],
+  imports: [ButtonModule, RouterLink, TranslatePipe],
   template: `
     <div class="relative">
       <div
@@ -20,15 +21,15 @@ import { ButtonModule } from 'primeng/button';
     </div>
     <div>
       <p class="font-semibold text-surface-800 dark:text-surface-100 mb-1">
-        No goals yet
+        {{ 'goals.empty.noGoals' | translate }}
       </p>
       <p class="text-sm text-muted-color">
-        Add your first savings goal to start tracking progress.
+        {{ 'goals.empty.description' | translate }}
       </p>
     </div>
     <p-button
       icon="pi pi-plus"
-      label="Add new goal"
+      [label]="'goals.empty.addNew' | translate"
       [rounded]="true"
       size="large"
       class="shrink-0"

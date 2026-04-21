@@ -1,5 +1,8 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { TransactionType } from '@core/models/transactions';
+import { LocalizationService } from '@core/services/localization.service';
+import { TranslatePipe } from '@shared/pipes/translate.pipe';
+import { EmptyState } from '@shared/ui/empty-state';
 import { MessageService } from 'primeng/api';
 import { ButtonModule } from 'primeng/button';
 import { ToastModule } from 'primeng/toast';
@@ -7,7 +10,6 @@ import { GroupsAndCategoriesStore } from './store';
 import { GroupCard } from './ui/group-card';
 import { GroupsFilters } from './ui/groups-filters/groups-filters';
 import { NewGroupDialog } from './ui/new-group-dialog';
-import { EmptyState } from '@shared/ui/empty-state';
 
 @Component({
   imports: [
@@ -17,6 +19,7 @@ import { EmptyState } from '@shared/ui/empty-state';
     ButtonModule,
     NewGroupDialog,
     EmptyState,
+    TranslatePipe,
   ],
   templateUrl: './groups-and-categories.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -25,6 +28,8 @@ import { EmptyState } from '@shared/ui/empty-state';
 export class GroupsAndCategories {
   protected readonly store = inject(GroupsAndCategoriesStore);
   private readonly messageService = inject(MessageService);
+  private readonly localizationService = inject(LocalizationService);
+  private t = (key: string) => this.localizationService.translate(key);
 
   protected isNewGroupDialogVisible = false;
 
@@ -44,13 +49,13 @@ export class GroupsAndCategories {
     if (error) {
       this.messageService.add({
         severity: 'error',
-        summary: 'Group creation failed',
+        summary: this.t('groups.groupCreationFailed'),
         detail: error.message,
       });
     } else {
       this.messageService.add({
         severity: 'success',
-        summary: 'Group created successfully',
+        summary: this.t('groups.groupCreatedSuccessfully'),
       });
     }
   }
@@ -61,13 +66,13 @@ export class GroupsAndCategories {
     if (error) {
       this.messageService.add({
         severity: 'error',
-        summary: 'Group renaming failed',
+        summary: this.t('groups.groupRenamingFailed'),
         detail: error.message,
       });
     } else {
       this.messageService.add({
         severity: 'success',
-        summary: 'Group renamed successfully',
+        summary: this.t('groups.groupRenamedSuccessfully'),
       });
     }
   }
@@ -78,13 +83,13 @@ export class GroupsAndCategories {
     if (error) {
       this.messageService.add({
         severity: 'error',
-        summary: 'Group deletion failed',
+        summary: this.t('groups.groupDeletionFailed'),
         detail: error.message,
       });
     } else {
       this.messageService.add({
         severity: 'success',
-        summary: 'Group deleted successfully',
+        summary: this.t('groups.groupDeletedSuccessfully'),
       });
     }
   }
@@ -95,13 +100,13 @@ export class GroupsAndCategories {
     if (error) {
       this.messageService.add({
         severity: 'error',
-        summary: 'Category creation failed',
+        summary: this.t('groups.categoryCreationFailed'),
         detail: error.message,
       });
     } else {
       this.messageService.add({
         severity: 'success',
-        summary: 'Category created successfully',
+        summary: this.t('groups.categoryCreatedSuccessfully'),
       });
     }
   }
@@ -116,13 +121,13 @@ export class GroupsAndCategories {
     if (error) {
       this.messageService.add({
         severity: 'error',
-        summary: 'Category renaming failed',
+        summary: this.t('groups.categoryRenamingFailed'),
         detail: error.message,
       });
     } else {
       this.messageService.add({
         severity: 'success',
-        summary: 'Category renamed successfully',
+        summary: this.t('groups.categoryRenamedSuccessfully'),
       });
     }
   }
@@ -133,13 +138,13 @@ export class GroupsAndCategories {
     if (error) {
       this.messageService.add({
         severity: 'error',
-        summary: 'Category deletion failed',
+        summary: this.t('groups.categoryDeletionFailed'),
         detail: error.message,
       });
     } else {
       this.messageService.add({
         severity: 'success',
-        summary: 'Category deleted successfully',
+        summary: this.t('groups.categoryDeletedSuccessfully'),
       });
     }
   }

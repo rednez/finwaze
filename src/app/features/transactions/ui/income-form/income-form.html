@@ -2,7 +2,7 @@
   <app-account-select
     formControlName="accountId"
     [accounts]="accounts()"
-    label="To account"
+    [label]="'transactions.incomeForm.toAccount' | translate"
     [isInvalid]="
       form.controls.accountId.invalid && form.controls.accountId.dirty
     "
@@ -13,7 +13,7 @@
       <app-select
         formControlName="groupId"
         [options]="groups()"
-        label=" Group"
+        [label]="'shared.group' | translate"
         inputId="groupId"
         optionLabel="name"
         optionValue="id"
@@ -29,7 +29,7 @@
       <app-select
         formControlName="categoryId"
         [options]="filteredCategories()"
-        label=" Category"
+        [label]="'shared.category' | translate"
         inputId="categoryId"
         optionLabel="name"
         optionValue="id"
@@ -44,7 +44,9 @@
 
   <div class="flex flex-col sm:flex-row gap-4">
     <div class="w-full">
-      <label class="text-sm font-medium" for="amount"> Amount </label>
+      <label class="text-sm font-medium" for="amount">{{
+        'shared.amount' | translate
+      }}</label>
       <p-inputnumber
         formControlName="amount"
         inputId="amount"
@@ -53,15 +55,15 @@
         [maxFractionDigits]="2"
         class="w-full"
         autocomplete="off"
-        placeholder="Enter amount"
+        [placeholder]="'shared.enterAmount' | translate"
         [inputStyle]="{ borderRadius: '16px' }"
       />
       @if (form.controls.amount.invalid && form.controls.amount.dirty) {
         <div class="text-xs text-red-500 pl-2 pt-0.5">
           @if (form.controls.amount.hasError('required')) {
-            Amount required
+            {{ 'shared.amountRequired' | translate }}
           } @else if (form.controls.amount.hasError('min')) {
-            Must be greater than 0
+            {{ 'shared.mustBeGreaterThanZero' | translate }}
           }
         </div>
       }
@@ -71,27 +73,29 @@
   <div class="flex flex-col sm:flex-row gap-4">
     <div>
       <label class="text-sm font-medium" for="transactedAt">
-        Date and time
+        {{ 'shared.dateAndTime' | translate }}
       </label>
       <p-datepicker
         inputId="calendar-24h"
         formControlName="transactedAt"
         [showTime]="true"
         [hourFormat]="'24'"
-        [inputStyle]="{
-          borderRadius: '16px',
-        }"
+        [inputStyle]="{ borderRadius: '16px' }"
         class="w-full"
       />
       @if (
         form.controls.transactedAt.invalid && form.controls.transactedAt.dirty
       ) {
-        <div class="text-xs text-red-500 pl-2 pt-0.5">Should be selected</div>
+        <div class="text-xs text-red-500 pl-2 pt-0.5">
+          {{ 'shared.shouldBeSelected' | translate }}
+        </div>
       }
     </div>
 
     <div class="w-full">
-      <label class="text-sm font-medium" for="comment"> Comment </label>
+      <label class="text-sm font-medium" for="comment">{{
+        'shared.comment' | translate
+      }}</label>
       <input
         pInputText
         formControlName="comment"
@@ -102,7 +106,7 @@
       />
       @if (form.controls.comment.invalid && form.controls.comment.dirty) {
         <div class="text-xs text-red-500 pl-2 pt-0.5">
-          Max length is 100 characters
+          {{ 'shared.maxLength100' | translate }}
         </div>
       }
     </div>
@@ -117,13 +121,13 @@
 </form>
 
 <app-name-prompt-dialog
-  title="New Group"
+  [title]="'transactions.dialog.newGroup' | translate"
   [(visible)]="isNewGroupDialogVisible"
   (clickSave)="clickAddGroup.emit($event)"
 />
 
 <app-name-prompt-dialog
-  title="New Category"
+  [title]="'transactions.dialog.newCategory' | translate"
   [(visible)]="isNewCategoryDialogVisible"
   (clickSave)="
     clickAddCategory.emit({

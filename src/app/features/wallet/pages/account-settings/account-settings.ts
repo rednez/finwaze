@@ -1,14 +1,16 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { FormPageLayout } from '@core/layout/form-page-layout';
+import { LocalizationService } from '@core/services/localization.service';
 import { AccountsStore } from '@core/store/accounts-store';
 import { CurrenciesStore } from '@core/store/currencies-store';
+import { TranslatePipe } from '@shared/pipes/translate.pipe';
 import { NewAccountForm } from '@shared/ui/new-account-form';
 import { MessageService } from 'primeng/api';
 import { ButtonModule } from 'primeng/button';
 import { MessageModule } from 'primeng/message';
 import { ToastModule } from 'primeng/toast';
 import { WalletAccountsStore } from '../../stores';
-import { FormPageLayout } from '@core/layout/form-page-layout';
 
 @Component({
   imports: [
@@ -17,6 +19,7 @@ import { FormPageLayout } from '@core/layout/form-page-layout';
     NewAccountForm,
     MessageModule,
     FormPageLayout,
+    TranslatePipe,
   ],
   templateUrl: './account-settings.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -29,6 +32,8 @@ export class AccountSettings {
   private readonly router = inject(Router);
   private readonly route = inject(ActivatedRoute);
   private readonly messageService = inject(MessageService);
+  private readonly localizationService = inject(LocalizationService);
+  private t = (key: string) => this.localizationService.translate(key);
 
   protected readonly selectedAccount = this.walletAccountsStore.selectedAccount;
 
@@ -62,7 +67,7 @@ export class AccountSettings {
     if (error) {
       this.messageService.add({
         severity: 'error',
-        summary: 'Account updating failed',
+        summary: this.t('wallet.accountSettings.updateFailed'),
         detail: error.message,
       });
     } else {
@@ -78,7 +83,7 @@ export class AccountSettings {
     if (error) {
       this.messageService.add({
         severity: 'error',
-        summary: 'Account deleting failed',
+        summary: this.t('wallet.accountSettings.deleteFailed'),
         detail: error.message,
       });
     } else {

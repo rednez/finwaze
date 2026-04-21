@@ -5,6 +5,7 @@ import {
   input,
 } from '@angular/core';
 import { Router } from '@angular/router';
+import { TranslatePipe } from '@shared/pipes/translate.pipe';
 import { Card } from '@shared/ui/card';
 import { CardEmptyState } from '@shared/ui/card-empty-state';
 import { CardHeaderTitle } from '@shared/ui/card-header-title/card-header-title';
@@ -22,11 +23,14 @@ import { BudgetExpenseItem } from './budget-expense-item/budget-expense-item';
     BudgetExpenseItem,
     CardEmptyState,
     SkeletonModule,
+    TranslatePipe,
   ],
   template: `
     <app-card>
       <app-card-header class="flex gap-2 justify-between">
-        <app-card-header-title>Most expenses</app-card-header-title>
+        <app-card-header-title>{{
+          'budget.mostExpenses.title' | translate
+        }}</app-card-header-title>
       </app-card-header>
 
       @if (loading()) {
@@ -55,8 +59,8 @@ import { BudgetExpenseItem } from './budget-expense-item/budget-expense-item';
 
         @if (expenses().length === 0) {
           <app-card-empty-state
-            title="No expenses found"
-            actionBtnLabel="Create expense"
+            [title]="'budget.mostExpenses.noExpenses' | translate"
+            [actionBtnLabel]="'budget.mostExpenses.createExpense' | translate"
             (actionBtnClicked)="gotoCreateTransaction()"
           />
         }

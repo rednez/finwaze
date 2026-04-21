@@ -1,7 +1,9 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { TranslatePipe } from '@shared/pipes/translate.pipe';
 
 @Component({
   selector: 'app-goal-not-found',
+  imports: [TranslatePipe],
   template: `
     <div class="flex flex-col items-center gap-4 py-12 text-center">
       <div
@@ -13,10 +15,10 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
       </div>
       <div>
         <p class="font-semibold text-surface-800 dark:text-surface-100 mb-1">
-          Goal not found
+          {{ 'goals.notFound.title' | translate }}
         </p>
         <p class="text-sm text-muted-color">
-          This savings goal does not exist.
+          {{ 'goals.notFound.description' | translate }}
         </p>
       </div>
     </div>

@@ -5,7 +5,9 @@ import {
   inject,
   viewChild,
 } from '@angular/core';
+import { LocalizationService } from '@core/services/localization.service';
 import { CategoriesStore } from '@core/store/categories-store';
+import { TranslatePipe } from '@shared/pipes/translate.pipe';
 import { EmptyState } from '@shared/ui/empty-state';
 import dayjs from 'dayjs';
 import { MessageService } from 'primeng/api';
@@ -23,6 +25,7 @@ import { CreateBudgetTotals } from './create-budget-totals';
     CreateBudgetTotals,
     EmptyState,
     ToastModule,
+    TranslatePipe,
   ],
   template: `<p-toast />
 
@@ -34,7 +37,7 @@ import { CreateBudgetTotals } from './create-budget-totals';
       <div class="flex items-center justify-end flex-wrap gap-3">
         <div class="flex items-center gap-2">
           <p-button
-            label="Collapse all"
+            [label]="'budget.createBudget.collapseAll' | translate"
             icon="pi pi-minus"
             severity="secondary"
             variant="text"
@@ -42,7 +45,7 @@ import { CreateBudgetTotals } from './create-budget-totals';
             (onClick)="collapseAll()"
           />
           <p-button
-            label="Expand all"
+            [label]="'budget.createBudget.expandAll' | translate"
             icon="pi pi-plus"
             severity="secondary"
             variant="text"
@@ -50,7 +53,7 @@ import { CreateBudgetTotals } from './create-budget-totals';
             (onClick)="expandAll()"
           />
           <p-button
-            label="Save"
+            [label]="'budget.createBudget.save' | translate"
             icon="pi pi-check"
             rounded
             size="small"
@@ -73,10 +76,10 @@ import { CreateBudgetTotals } from './create-budget-totals';
     } @else {
       <app-empty-state
         [title]="emptyStateTitle()"
-        description="You can generate a budget based on the previous month or create a new one manually."
-        primaryButtonText="Generate"
+        [description]="'budget.createBudget.canGenerate' | translate"
+        [primaryButtonText]="'budget.createBudget.generate' | translate"
         primaryButtonIcon="wand_stars"
-        secondaryButtonText="Create manually"
+        [secondaryButtonText]="'budget.createBudget.createManually' | translate"
         secondaryButtonIcon="hand_meal"
         icon="donut_small"
         [hasSecondaryAction]="true"
@@ -93,16 +96,18 @@ export class CreateBudget {
   protected readonly budgetStore = inject(BudgetStore);
   private readonly categoriesStore = inject(CategoriesStore);
   private readonly messageService = inject(MessageService);
+  private readonly localizationService = inject(LocalizationService);
+  private t = (key: string) => this.localizationService.translate(key);
 
   private readonly groupList = viewChild(CreateBudgetGroupList);
 
-  protected readonly emptyStateTitle = computed(
-    () =>
-      'No budget for ' +
-      dayjs(this.budgetStore.month()).format('MMMM') +
-      ' in ' +
-      this.budgetStore.currencyCode(),
-  );
+  protected readonly emptyStateTitle = computed(() => {
+    this.localizationService.currentLang();
+    const template = this.t('budget.createBudget.noBudget');
+    return template
+      .replace('{{month}}', dayjs(this.budgetStore.month()).format('MMMM'))
+      .replace('{{currency}}', this.budgetStore.currencyCode() ?? '');
+  });
 
   protected readonly currencyCode = computed(
     () => this.budgetStore.currencyCode() ?? 'UAH',
@@ -141,19 +146,20 @@ export class CreateBudget {
 
   protected async onSave(): Promise<void> {
     this.store.markSubmitted();
-    if (!this.store.isValid()) {
-      return;
-    }
+    if (!this.store.isValid()) return;
     const result = await this.store.saveBudget(
       this.monthIso(),
       this.currencyCode(),
     );
     if (result.ok) {
-      this.messageService.add({ severity: 'success', summary: 'Budget saved' });
+      this.messageService.add({
+        severity: 'success',
+        summary: this.t('budget.createBudget.saved'),
+      });
     } else {
       this.messageService.add({
         severity: 'error',
-        summary: 'Failed to save budget',
+        summary: this.t('budget.createBudget.failedToSave'),
       });
     }
   }

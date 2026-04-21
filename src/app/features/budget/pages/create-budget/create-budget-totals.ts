@@ -1,11 +1,14 @@
 import { CurrencyPipe } from '@angular/common';
 import { ChangeDetectionStrategy, Component, input } from '@angular/core';
+import { TranslatePipe } from '@shared/pipes/translate.pipe';
 
 @Component({
   selector: 'app-create-budget-totals',
-  imports: [CurrencyPipe],
+  imports: [CurrencyPipe, TranslatePipe],
   template: `
-    <span class="text-sm font-semibold">Загалом</span>
+    <span class="text-sm font-semibold">{{
+      'budget.createBudget.total' | translate
+    }}</span>
     <span class="text-right text-sm font-bold">
       {{ totalPlanned() | currency: currencyCode() : 'symbol' : '1.0-0' }}
     </span>

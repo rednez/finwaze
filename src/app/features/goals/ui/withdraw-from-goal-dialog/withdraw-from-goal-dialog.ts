@@ -12,6 +12,7 @@ import {
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Account } from '@core/models/accounts';
 import { SavingsGoal } from '@core/models/savings-goal';
+import { TranslatePipe } from '@shared/pipes/translate.pipe';
 import { AccountSelect } from '@shared/ui/account-select';
 import { ButtonModule } from 'primeng/button';
 import { DatePickerModule } from 'primeng/datepicker';
@@ -28,6 +29,7 @@ import { InputNumberModule } from 'primeng/inputnumber';
     InputNumberModule,
     DatePickerModule,
     AccountSelect,
+    TranslatePipe,
   ],
   templateUrl: './withdraw-from-goal-dialog.html',
   changeDetection: ChangeDetectionStrategy.OnPush,

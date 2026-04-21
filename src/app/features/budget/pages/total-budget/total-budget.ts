@@ -2,6 +2,7 @@ import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { Router } from '@angular/router';
 import { AccountsStore } from '@core/store/accounts-store';
 import { EmptyState } from '@shared/ui/empty-state';
+import { TranslatePipe } from '@shared/pipes/translate.pipe';
 import dayjs from 'dayjs';
 import { ButtonModule } from 'primeng/button';
 import { BudgetStatus } from '../../models';
@@ -19,6 +20,7 @@ import { MonthlySummaryCard } from '../../ui/monthly-summary-card';
     MonthlySummaryCard,
     BudgetMostExpensesCard,
     EmptyState,
+    TranslatePipe,
   ],
   templateUrl: './total-budget.html',
   host: {

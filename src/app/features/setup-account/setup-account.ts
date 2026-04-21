@@ -1,6 +1,8 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
+import { LocalizationService } from '@core/services/localization.service';
+import { TranslatePipe } from '@shared/pipes/translate.pipe';
 import { NewAccountForm } from '@shared/ui/new-account-form';
 import { MessageService } from 'primeng/api';
 import { ButtonModule } from 'primeng/button';
@@ -20,6 +22,7 @@ import { SetupAccountService } from './setup-account.service';
     SelectModule,
     ToastModule,
     NewAccountForm,
+    TranslatePipe,
   ],
   templateUrl: './setup-account.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -28,7 +31,9 @@ import { SetupAccountService } from './setup-account.service';
 export class SetupAccount {
   private readonly router = inject(Router);
   private readonly service = inject(SetupAccountService);
-  private messageService = inject(MessageService);
+  private readonly messageService = inject(MessageService);
+  private readonly localizationService = inject(LocalizationService);
+  private t = (key: string) => this.localizationService.translate(key);
 
   protected readonly isLoading = this.service.isLoading;
   protected readonly isCurrenciesLoading = this.service.isCurrenciesLoading;
@@ -50,7 +55,7 @@ export class SetupAccount {
     if (error) {
       this.messageService.add({
         severity: 'error',
-        summary: 'Failed to create account',
+        summary: this.t('misc.setup.creationFailed'),
         detail: error.message,
       });
     } else {

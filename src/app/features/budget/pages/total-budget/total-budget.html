@@ -19,7 +19,7 @@
       <p-button
         class="shrink-0 self-end sm:self-auto"
         icon="pi pi-pencil"
-        label="Edit budget"
+        [label]="'budget.totalBudget.editBudget' | translate"
         [rounded]="true"
         size="large"
         (onClick)="gotoEditBudget()"
@@ -29,7 +29,7 @@
       <p-button
         class="shrink-0 self-end sm:self-auto"
         icon="pi pi-plus"
-        label="Add new budget"
+        [label]="'budget.totalBudget.addNewBudget' | translate"
         [rounded]="true"
         size="large"
         (onClick)="gotoCreateBudget()"
@@ -69,9 +69,9 @@
       </div>
     } @else {
       <app-empty-state
-        title="No budgets for this month in selected currency"
-        description="Start by creating a new budget and assigning it to a group or create a group with categories and assign budgets to them."
-        primaryButtonText="Create budget"
+        [title]="'budget.totalBudget.noBudgets' | translate"
+        [description]="'budget.totalBudget.startBy' | translate"
+        [primaryButtonText]="'budget.totalBudget.createBudget' | translate"
         primaryButtonIcon="add"
         icon="donut_small"
         (primaryActionClicked)="gotoCreateBudget()"
@@ -82,7 +82,7 @@
 
 <section class="flex flex-col gap-4 grow md:max-w-100">
   <app-monthly-summary-card
-    name="Monthly budget"
+    [name]="'budget.totalBudget.monthlyBudget' | translate"
     [loading]="totalBudgetStore.isMonthlyBudgetTotalsLoading()"
     [plannedAmount]="totalBudgetStore.monthlyBudgetTotals.plannedAmount()"
     [spentAmount]="totalBudgetStore.monthlyBudgetTotals.spentAmount()"

@@ -5,7 +5,7 @@
     <p-selectbutton
       [ngModel]="transactionType()"
       (ngModelChange)="transactionType.set($event)"
-      [options]="transactionTypesOptions"
+      [options]="transactionTypesOptions()"
       optionLabel="name"
       optionValue="value"
       aria-labelledby="basic"

@@ -4,6 +4,7 @@ import {
   input,
   output,
 } from '@angular/core';
+import { TranslatePipe } from '@shared/pipes/translate.pipe';
 import { CardEmptyState } from '@shared/ui/card-empty-state';
 import { CardHeaderTitle } from '@shared/ui/card-header-title/card-header-title';
 import { CardHeader } from '@shared/ui/card-header/card-header';
@@ -22,6 +23,7 @@ import { MonthlySummaryCardTotalAmount } from './monthly-summary-card-total-amou
     MonthlySummaryCardGauge,
     CardEmptyState,
     SkeletonModule,
+    TranslatePipe,
   ],
   template: `
     <app-card>
@@ -56,8 +58,8 @@ import { MonthlySummaryCardTotalAmount } from './monthly-summary-card-total-amou
         />
       } @else {
         <app-card-empty-state
-          title="No budgets for this month for selected currency"
-          actionBtnLabel="Create budget"
+          [title]="'budget.monthlySummary.noBudgets' | translate"
+          [actionBtnLabel]="'budget.monthlySummary.createBudget' | translate"
           (actionBtnClicked)="crateBudget.emit()"
         />
       }

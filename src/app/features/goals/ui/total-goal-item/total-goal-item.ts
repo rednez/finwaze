@@ -2,9 +2,11 @@ import {
   ChangeDetectionStrategy,
   Component,
   computed,
+  inject,
   input,
 } from '@angular/core';
 import { GoalStatus } from '@core/models/savings-goal';
+import { LocalizationService } from '@core/services/localization.service';
 
 @Component({
   selector: 'app-total-goal-item',
@@ -56,20 +58,23 @@ import { GoalStatus } from '@core/models/savings-goal';
   },
 })
 export class TotalGoalItem {
+  private readonly localizationService = inject(LocalizationService);
+  private t = (key: string) => this.localizationService.translate(key);
+
   readonly status = input<GoalStatus>('notStarted');
   readonly count = input(0);
 
   protected readonly statusLabel = computed(() => {
     switch (this.status()) {
       case 'inProgress':
-        return 'In progress';
+        return this.t('goals.filters.inProgress');
       case 'done':
-        return 'Done';
+        return this.t('goals.filters.done');
       case 'cancelled':
-        return 'Cancelled';
+        return this.t('goals.filters.cancelled');
       case 'notStarted':
       default:
-        return 'Not started';
+        return this.t('goals.filters.notStarted');
     }
   });
 

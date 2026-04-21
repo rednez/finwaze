@@ -1,5 +1,6 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { TranslatePipe } from '@shared/pipes/translate.pipe';
 import { Card } from '@shared/ui/card';
 import { CardHeaderTitle } from '@shared/ui/card-header-title/card-header-title';
 import { CardHeader } from '@shared/ui/card-header/card-header';
@@ -17,11 +18,14 @@ import { BudgetsExpensesCardStore } from './budgets-expenses-card-store';
     BudgetsExpensesChart,
     FormsModule,
     DatePickerModule,
+    TranslatePipe,
   ],
   template: `
     <app-card>
       <app-card-header class="flex items-center justify-between">
-        <app-card-header-title>Budgets vs Expenses</app-card-header-title>
+        <app-card-header-title>
+          {{ 'analytics.budgetsExpenses.title' | translate }}
+        </app-card-header-title>
 
         <p-datepicker
           append-right
@@ -32,9 +36,7 @@ import { BudgetsExpensesCardStore } from './budgets-expenses-card-store';
           [readonlyInput]="true"
           class="w-54"
           size="small"
-          [inputStyle]="{
-            borderRadius: '12px',
-          }"
+          [inputStyle]="{ borderRadius: '12px' }"
         />
       </app-card-header>
 

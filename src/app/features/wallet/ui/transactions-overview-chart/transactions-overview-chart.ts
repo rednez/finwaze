@@ -6,6 +6,7 @@ import {
   inject,
   input,
 } from '@angular/core';
+import { LocalizationService } from '@core/services/localization.service';
 import { ThemeService } from '@core/services/theme.service';
 import { ChartModule } from 'primeng/chart';
 
@@ -15,7 +16,6 @@ import { ChartModule } from 'primeng/chart';
   template: `
     <p-chart type="line" [data]="data()" [options]="options()" class="h-50" />
   `,
-  styles: ``,
   providers: [DatePipe],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
@@ -27,10 +27,11 @@ export class TransactionsOverviewChart {
 
   private readonly isDarkModeSignal = inject(ThemeService).isDark;
   private readonly datePipe = inject(DatePipe);
+  private readonly localizationService = inject(LocalizationService);
+  private t = (key: string) => this.localizationService.translate(key);
 
   protected readonly colors = computed(() => {
     const documentStyle = getComputedStyle(document.documentElement);
-
     const textColor = documentStyle.getPropertyValue('--p-text-color');
     const textColorSecondary = documentStyle.getPropertyValue(
       '--p-text-muted-color',
@@ -41,13 +42,10 @@ export class TransactionsOverviewChart {
     const income = this.isDarkModeSignal()
       ? documentStyle.getPropertyValue('--p-primary-500')
       : documentStyle.getPropertyValue('--p-primary-color');
-    const expense = this.isDarkModeSignal()
-      ? documentStyle.getPropertyValue('--p-primary-300')
-      : documentStyle.getPropertyValue('--p-primary-300');
+    const expense = documentStyle.getPropertyValue('--p-primary-300');
     const tooltipBg = this.isDarkModeSignal()
       ? documentStyle.getPropertyValue('--p-gray-800')
       : 'white';
-
     return {
       textColor,
       textColorSecondary,
@@ -62,7 +60,7 @@ export class TransactionsOverviewChart {
     labels: this.labels().map((i) => this.datePipe.transform(i, 'd MMM')),
     datasets: [
       {
-        label: 'Income',
+        label: this.t('wallet.transactionsOverview.income'),
         backgroundColor: this.colors().income,
         borderColor: this.colors().income,
         data: this.hasIncludeIncome() ? this.incomes() : [],
@@ -71,7 +69,7 @@ export class TransactionsOverviewChart {
         pointRadius: 0,
       },
       {
-        label: 'Expense',
+        label: this.t('wallet.transactionsOverview.expense'),
         backgroundColor: this.colors().expense,
         borderColor: this.colors().expense,
         data: this.expenses(),
@@ -89,10 +87,7 @@ export class TransactionsOverviewChart {
     plugins: {
       legend: {
         display: true,
-        labels: {
-          color: this.colors().textColor,
-          usePointStyle: true,
-        },
+        labels: { color: this.colors().textColor, usePointStyle: true },
       },
       tooltip: {
         backgroundColor: this.colors().tooltipBg,
@@ -106,23 +101,13 @@ export class TransactionsOverviewChart {
       x: {
         ticks: {
           color: this.colors().textColorSecondary,
-          font: {
-            weight: 400,
-          },
+          font: { weight: 400 },
         },
-        grid: {
-          color: this.colors().surfaceBorder,
-          drawBorder: false,
-        },
+        grid: { color: this.colors().surfaceBorder, drawBorder: false },
       },
       y: {
-        ticks: {
-          color: this.colors().textColorSecondary,
-        },
-        grid: {
-          color: this.colors().surfaceBorder,
-          drawBorder: false,
-        },
+        ticks: { color: this.colors().textColorSecondary },
+        grid: { color: this.colors().surfaceBorder, drawBorder: false },
       },
     },
   }));

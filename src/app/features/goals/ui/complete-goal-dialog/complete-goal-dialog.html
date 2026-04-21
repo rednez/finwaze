@@ -1,5 +1,5 @@
 <p-dialog
-  header="Goal Achieved!"
+  [header]="'goals.completeDialog.title' | translate"
   [(visible)]="visible"
   [modal]="true"
   [style]="{ width: '24rem' }"
@@ -12,13 +12,14 @@
     >
       <i class="pi pi-check-circle mt-0.5 shrink-0"></i>
       <p class="text-sm text-start">
-        Congratulations! Your savings will be transferred to the account of
-        your choice.
+        {{ 'goals.completeDialog.description' | translate }}
       </p>
     </div>
 
     <div class="flex flex-col gap-1">
-      <span class="text-sm text-surface-500">Amount to be transferred</span>
+      <span class="text-sm text-surface-500">{{
+        'goals.completeDialog.amountToTransfer' | translate
+      }}</span>
       <span class="text-xl font-medium">
         {{ goal().accumulatedAmount | currency: goal().currencyCode }}
       </span>
@@ -29,7 +30,7 @@
         formControlName="toAccountId"
         [accounts]="accounts()"
         class="text-start"
-        label="Transfer funds to"
+        [label]="'goals.completeDialog.transferFundsTo' | translate"
         [isInvalid]="
           form.controls.toAccountId.invalid && form.controls.toAccountId.touched
         "
@@ -39,11 +40,15 @@
 
   <ng-template #footer>
     <p-button
-      label="Keep Saving"
+      [label]="'goals.completeDialog.keepSaving' | translate"
       severity="secondary"
       [text]="true"
       (onClick)="close()"
     />
-    <p-button label="Complete Goal" severity="success" (onClick)="confirm()" />
+    <p-button
+      [label]="'goals.completeDialog.completeGoal' | translate"
+      severity="success"
+      (onClick)="confirm()"
+    />
   </ng-template>
 </p-dialog>

@@ -5,6 +5,7 @@ import {
   inject,
   input,
 } from '@angular/core';
+import { LocalizationService } from '@core/services/localization.service';
 import { ThemeService } from '@core/services/theme.service';
 import { ChartModule } from 'primeng/chart';
 
@@ -18,6 +19,8 @@ import { ChartModule } from 'primeng/chart';
 })
 export class MoneyFlowChart {
   private readonly isDarkModeSignal = inject(ThemeService).isDark;
+  private readonly localizationService = inject(LocalizationService);
+  private t = (key: string) => this.localizationService.translate(key);
 
   readonly labels = input.required<string[]>();
   readonly incomes = input.required<number[]>();
@@ -25,7 +28,6 @@ export class MoneyFlowChart {
 
   protected readonly chartColors = computed(() => {
     const documentStyle = getComputedStyle(document.documentElement);
-
     const textColor = documentStyle.getPropertyValue('--p-text-color');
     const textColorSecondary = documentStyle.getPropertyValue(
       '--p-text-muted-color',
@@ -36,13 +38,10 @@ export class MoneyFlowChart {
     const income = this.isDarkModeSignal()
       ? documentStyle.getPropertyValue('--p-primary-500')
       : documentStyle.getPropertyValue('--p-primary-color');
-    const expense = this.isDarkModeSignal()
-      ? documentStyle.getPropertyValue('--p-primary-300')
-      : documentStyle.getPropertyValue('--p-primary-300');
+    const expense = documentStyle.getPropertyValue('--p-primary-300');
     const tooltipBg = this.isDarkModeSignal()
       ? documentStyle.getPropertyValue('--p-gray-800')
       : 'white';
-
     return {
       textColor,
       textColorSecondary,
@@ -57,13 +56,13 @@ export class MoneyFlowChart {
     labels: this.labels(),
     datasets: [
       {
-        label: 'Income',
+        label: this.t('dashboard.chart.income'),
         backgroundColor: this.chartColors().income,
         borderColor: this.chartColors().income,
         data: this.incomes(),
       },
       {
-        label: 'Expense',
+        label: this.t('dashboard.chart.expense'),
         backgroundColor: this.chartColors().expense,
         borderColor: this.chartColors().expense,
         data: this.expenses(),
@@ -78,10 +77,7 @@ export class MoneyFlowChart {
     plugins: {
       legend: {
         display: true,
-        labels: {
-          color: this.chartColors().textColor,
-          usePointStyle: true,
-        },
+        labels: { color: this.chartColors().textColor, usePointStyle: true },
       },
       tooltip: {
         backgroundColor: this.chartColors().tooltipBg,
@@ -95,23 +91,13 @@ export class MoneyFlowChart {
       x: {
         ticks: {
           color: this.chartColors().textColorSecondary,
-          font: {
-            weight: 400,
-          },
+          font: { weight: 400 },
         },
-        grid: {
-          color: this.chartColors().surfaceBorder,
-          drawBorder: false,
-        },
+        grid: { color: this.chartColors().surfaceBorder, drawBorder: false },
       },
       y: {
-        ticks: {
-          color: this.chartColors().textColorSecondary,
-        },
-        grid: {
-          color: this.chartColors().surfaceBorder,
-          drawBorder: false,
-        },
+        ticks: { color: this.chartColors().textColorSecondary },
+        grid: { color: this.chartColors().surfaceBorder, drawBorder: false },
       },
     },
   }));

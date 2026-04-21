@@ -3,7 +3,7 @@
     [formControl]="nameControl"
     type="text"
     class="outline-none border-b border-b-gray-100 dark:border-b-gray-900 text-sm text-primary-700 dark:text-gray-300 w-24 [&.ng-invalid.ng-dirty]:border-red-500 [&.ng-invalid.ng-dirty]:text-red-500"
-    placeholder="New category"
+    [placeholder]="'groups.categoryChip.newCategory' | translate"
     (keydown.enter)="onUpdate()"
   />
 

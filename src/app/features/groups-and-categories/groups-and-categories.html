@@ -7,7 +7,7 @@
 
     <p-button
       icon="pi pi-plus"
-      label="Add group"
+      [label]="'groups.addGroup' | translate"
       [rounded]="true"
       size="large"
       class="shrink-0"
@@ -35,9 +35,9 @@
   </div>
 } @else {
   <app-empty-state
-    title="No groups here yet"
-    description="Start organizing your spending and incomes by adding your first group."
-    primaryButtonText="Add group"
+    [title]="'groups.noGroupsTitle' | translate"
+    [description]="'groups.noGroupsDescription' | translate"
+    [primaryButtonText]="'groups.addGroup' | translate"
     primaryButtonIcon="add"
     icon="group_work"
     (primaryActionClicked)="isNewGroupDialogVisible = true"

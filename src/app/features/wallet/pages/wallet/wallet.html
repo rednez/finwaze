@@ -2,7 +2,7 @@
   <!-- TODO -->
   <p-button
     icon="pi pi-arrow-right-arrow-left"
-    label="Transfer money"
+    [label]="'wallet.transferMoney' | translate"
     [rounded]="true"
     size="large"
     [dt]="{ root: { lg: { fontSize: '14px' } } }"
@@ -11,7 +11,7 @@
 
   <p-button
     icon="pi pi-plus"
-    label="Add account"
+    [label]="'wallet.addAccount' | translate"
     [rounded]="true"
     size="large"
     [dt]="{ root: { lg: { fontSize: '14px' } } }"
@@ -61,9 +61,9 @@
   />
 
   <app-wallet-statistics-widget
-    class="lg:row-span-2 sm:w-fit sm:min-w-85 xl:min-w-100 2xl:min-w-120"
-    [currencies]="accountsStore.myCurrencies()"
+    class="row-span-2"
     [data]="walletMonthlySummaryStore.data()"
+    [currencies]="accountsStore.myCurrencies()"
     [initialCurrency]="walletMonthlySummaryStore.currencyCode() || undefined"
     [initialMonth]="walletMonthlySummaryStore.month()"
     (monthChanged)="onMonthlySummaryMonthChanged($event)"

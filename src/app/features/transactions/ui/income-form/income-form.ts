@@ -17,6 +17,7 @@ import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Account } from '@core/models/accounts';
 import { Category, Group } from '@core/models/categories';
 import { SelectDesignTokens } from '@primeuix/themes/types/select';
+import { TranslatePipe } from '@shared/pipes/translate.pipe';
 import { AccountSelect } from '@shared/ui/account-select';
 import { Select } from '@shared/ui/select';
 import { DatePickerModule } from 'primeng/datepicker';
@@ -41,6 +42,7 @@ import { NamePromptDialog } from '../name-prompt-dialog';
     AccountSelect,
     Select,
     NamePromptDialog,
+    TranslatePipe,
   ],
   templateUrl: './income-form.html',
   styles: ``,

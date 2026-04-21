@@ -8,6 +8,8 @@ import {
   output,
 } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { toNameOptions } from '@core/utils/input-transforms';
+import { TranslatePipe } from '@shared/pipes/translate.pipe';
 import { Card } from '@shared/ui/card';
 import { DatePickerModule } from 'primeng/datepicker';
 import { SelectModule } from 'primeng/select';
@@ -16,7 +18,6 @@ import { ToggleButtonModule } from 'primeng/togglebutton';
 import { TooltipModule } from 'primeng/tooltip';
 import { TransactionCashFlowItem } from '../../models';
 import { TransactionsOverviewChart } from '../transactions-overview-chart';
-import { toNameOptions } from '@core/utils/input-transforms';
 
 @Component({
   selector: 'app-transactions-overview-widget',
@@ -30,17 +31,18 @@ import { toNameOptions } from '@core/utils/input-transforms';
     DatePickerModule,
     TooltipModule,
     ToggleButtonModule,
+    TranslatePipe,
   ],
   template: `
     <app-card>
       <div class="flex flex-col xl:flex-row xl:justify-between gap-3 mb-4">
         <div class="flex items-center gap-2">
           <div class="font-display font-semibold text-lg">
-            Daily Transaction Flow
+            {{ 'wallet.transactionsOverview.title' | translate }}
           </div>
           <span
             class="material-symbols-rounded"
-            pTooltip="The expenses and incomes of the selected currency are based on the transaction amounts for each day of the selected month."
+            [pTooltip]="'wallet.transactionsOverview.tooltip' | translate"
           >
             info
           </span>
@@ -50,9 +52,9 @@ import { toNameOptions } from '@core/utils/input-transforms';
           <p-togglebutton
             [ngModel]="includeIncomes()"
             (ngModelChange)="incomesToggled.emit($event)"
-            onLabel="Incomes On"
-            offLabel="Incomes Off"
-            class="w-29"
+            [onLabel]="'wallet.transactionsOverview.incomesOn' | translate"
+            [offLabel]="'wallet.transactionsOverview.incomesOff' | translate"
+            class="w-32"
             size="small"
           />
 
@@ -64,9 +66,7 @@ import { toNameOptions } from '@core/utils/input-transforms';
             size="small"
             view="month"
             class="w-21"
-            [inputStyle]="{
-              borderRadius: '12px',
-            }"
+            [inputStyle]="{ borderRadius: '12px' }"
           />
 
           <p-select
@@ -76,11 +76,7 @@ import { toNameOptions } from '@core/utils/input-transforms';
             optionLabel="name"
             optionValue="name"
             size="small"
-            [dt]="{
-              root: {
-                borderRadius: '12px',
-              },
-            }"
+            [dt]="{ root: { borderRadius: '12px' } }"
           />
         </div>
       </div>
@@ -93,7 +89,6 @@ import { toNameOptions } from '@core/utils/input-transforms';
       />
     </app-card>
   `,
-  styles: ``,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class TransactionsOverviewWidget {

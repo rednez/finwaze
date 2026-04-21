@@ -10,7 +10,7 @@
     size="small"
     [inputStyle]="{ borderRadius: '12px' }"
   />
-  <label for="year">Year</label>
+  <label for="year">{{ 'shared.year' | translate }}</label>
 </p-floatlabel>
 
 <p-floatlabel class="w-40" variant="on">
@@ -22,11 +22,7 @@
     class="w-full"
     size="small"
     inputId="status"
-    [dt]="{
-      root: {
-        borderRadius: '12px',
-      },
-    }"
+    [dt]="{ root: { borderRadius: '12px' } }"
   />
-  <label for="status">Status</label>
+  <label for="status">{{ 'shared.status' | translate }}</label>
 </p-floatlabel>

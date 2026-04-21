@@ -7,6 +7,7 @@ import {
   output,
 } from '@angular/core';
 import { SavingsGoal } from '@core/models/savings-goal';
+import { TranslatePipe } from '@shared/pipes/translate.pipe';
 import { Card } from '@shared/ui/card';
 import { CardEmptyState } from '@shared/ui/card-empty-state';
 import { CardHeaderTitle } from '@shared/ui/card-header-title/card-header-title';
@@ -22,11 +23,14 @@ import { ProgressBar } from '@shared/ui/progress-bar';
     CardHeader,
     CardHeaderTitle,
     CardEmptyState,
+    TranslatePipe,
   ],
   template: `
     <app-card>
       <app-card-header>
-        <app-card-header-title>Savings goals</app-card-header-title>
+        <app-card-header-title>{{
+          'dashboard.savingGoalsWidget.title' | translate
+        }}</app-card-header-title>
       </app-card-header>
 
       @if (goals().length > 0) {
@@ -46,9 +50,11 @@ import { ProgressBar } from '@shared/ui/progress-bar';
         </div>
       } @else {
         <app-card-empty-state
-          title="No saving goals yet"
-          actionText="Create saving goals to track your progress towards your financial targets."
-          actionBtnLabel="Goto Goals"
+          [title]="'dashboard.savingGoalsWidget.noGoals' | translate"
+          [actionText]="
+            'dashboard.savingGoalsWidget.createGoalsText' | translate
+          "
+          [actionBtnLabel]="'dashboard.savingGoalsWidget.gotoGoals' | translate"
           (actionBtnClicked)="actionClicked.emit()"
         />
       }

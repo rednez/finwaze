@@ -18,7 +18,11 @@
       [initialCurrencyCode]="goal()?.currencyCode"
       [currencies]="currenciesStore.currencies()"
       [isCurrenciesLoading]="currenciesStore.isLoading()"
-      [submitBtnLabel]="isEditMode ? 'Save Changes' : 'Create Goal'"
+      [submitBtnLabel]="
+        isEditMode
+          ? ('goals.editGoal.saveChanges' | translate)
+          : ('goals.editGoal.createGoal' | translate)
+      "
       (submitForm)="onSubmit($event)"
     />
 
@@ -33,7 +37,7 @@
           goal()?.status !== 'cancelled'
         ) {
           <p-button
-            label="Mark as Done"
+            [label]="'goals.editGoal.markDone' | translate"
             severity="success"
             [outlined]="true"
             [rounded]="true"
@@ -44,7 +48,7 @@
         }
         @if (goal()?.status !== 'cancelled' && goal()?.status !== 'done') {
           <p-button
-            label="Mark as Cancelled"
+            [label]="'goals.editGoal.markCancelled' | translate"
             severity="danger"
             [outlined]="true"
             [rounded]="true"
@@ -55,7 +59,7 @@
         }
         @if (!goal()?.hasTransfers) {
           <p-button
-            label="Delete Goal"
+            [label]="'goals.editGoal.deleteGoal' | translate"
             severity="danger"
             [rounded]="true"
             icon="pi pi-trash"

@@ -6,6 +6,7 @@ import {
   inject,
   input,
 } from '@angular/core';
+import { TranslatePipe } from '@shared/pipes/translate.pipe';
 import { Card } from '@shared/ui/card';
 import { CardHeaderTitle } from '@shared/ui/card-header-title/card-header-title';
 import { CardHeader } from '@shared/ui/card-header/card-header';
@@ -14,15 +15,22 @@ import { MoneyFlowChart } from '../money-flow-chart/money-flow-chart';
 
 @Component({
   selector: 'app-money-flow-widget',
-  imports: [Card, MoneyFlowChart, CardHeader, CardHeaderTitle, TooltipModule],
+  imports: [
+    Card,
+    MoneyFlowChart,
+    CardHeader,
+    CardHeaderTitle,
+    TooltipModule,
+    TranslatePipe,
+  ],
   template: `
     <app-card>
       <app-card-header>
         <app-card-header-title class="flex items-center gap-2">
-          <div>Monthly Account Flow</div>
+          <div>{{ 'dashboard.moneyFlowWidget.title' | translate }}</div>
           <span
             class="material-symbols-rounded"
-            pTooltip="The expenses and incomes based on charged amounts for the last month, for selected currencies."
+            [pTooltip]="'dashboard.moneyFlowWidget.tooltip' | translate"
           >
             info
           </span>

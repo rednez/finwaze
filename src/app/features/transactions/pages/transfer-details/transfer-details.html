@@ -1,7 +1,7 @@
 <p-toast />
 
 <app-form-page-layout
-  header="Transfer Details"
+  [header]="'transactions.transferDetails.header' | translate"
   class="max-w-140!"
   (back)="gotoBack()"
 >
@@ -19,7 +19,7 @@
         <div
           class="text-sm bg-gray-100 text-gray-700 dark:bg-gray-800 dark:text-gray-300 px-2 py-1 rounded-xl"
         >
-          Sent
+          {{ 'transactions.transferDetails.sent' | translate }}
         </div>
         <div class="text-2xl font-semibold">
           {{
@@ -30,7 +30,7 @@
         <div
           class="text-sm bg-gray-100 text-gray-700 dark:bg-gray-800 dark:text-gray-300 px-2 py-1 rounded-xl"
         >
-          <span>From </span>
+          <span>{{ 'transactions.transferDetails.from' | translate }} </span>
           <span class="font-medium">{{ fromTransaction.account.name }}</span>
         </div>
       </div>
@@ -49,7 +49,7 @@
         <div
           class="text-sm bg-gray-100 text-gray-700 dark:bg-gray-800 dark:text-gray-300 px-2 py-1 rounded-xl"
         >
-          Received
+          {{ 'transactions.transferDetails.received' | translate }}
         </div>
         <div>
           <div class="text-2xl font-semibold">
@@ -61,7 +61,9 @@
 
           @if (exchangeRate() && exchangeRate() !== 1) {
             <div class="text-xs">
-              <span class="text-muted-color">Exchange rate: </span>
+              <span class="text-muted-color"
+                >{{ 'transactions.transferDetails.exchangeRate' | translate }}
+              </span>
               <span class="font-mono font-medium">{{
                 exchangeRate() | number: '1.4-4'
               }}</span>
@@ -71,7 +73,7 @@
         <div
           class="text-sm bg-gray-100 text-gray-700 dark:bg-gray-800 dark:text-gray-300 px-2 py-1 rounded-xl"
         >
-          <span>To </span>
+          <span>{{ 'transactions.transferDetails.to' | translate }} </span>
           <span class="font-medium">{{ toTransaction.account.name }}</span>
         </div>
       </div>
@@ -87,7 +89,7 @@
   @if (hasTransaction()) {
     <div class="mt-10">
       <p-button
-        label="Delete"
+        [label]="'shared.delete' | translate"
         rounded
         severity="danger"
         variant="outlined"

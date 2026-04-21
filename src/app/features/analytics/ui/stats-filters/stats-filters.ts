@@ -9,6 +9,7 @@ import {
 import { FormsModule } from '@angular/forms';
 import { Account } from '@core/models/accounts';
 import { AccountsStore } from '@core/store/accounts-store';
+import { TranslatePipe } from '@shared/pipes/translate.pipe';
 import { DatePickerModule } from 'primeng/datepicker';
 import { FloatLabelModule } from 'primeng/floatlabel';
 import { MultiSelectModule } from 'primeng/multiselect';
@@ -25,12 +26,11 @@ import { AnalyticsStore } from '../../stores';
     DatePickerModule,
     MultiSelectModule,
     FloatLabelModule,
+    TranslatePipe,
   ],
   templateUrl: './stats-filters.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  host: {
-    class: 'flex gap-2 flex-wrap',
-  },
+  host: { class: 'flex gap-2 flex-wrap' },
 })
 export class StatsFilters implements OnInit {
   private readonly accountsStore = inject(AccountsStore);
@@ -55,9 +55,7 @@ export class StatsFilters implements OnInit {
   protected selectedAccounts = linkedSignal<Account[]>(() =>
     this.accountsStore
       .accounts()
-      .filter((a) =>
-        this.analyticsStore.selectedAccountIds().includes(a.id),
-      ),
+      .filter((a) => this.analyticsStore.selectedAccountIds().includes(a.id)),
   );
 
   ngOnInit(): void {

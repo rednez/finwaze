@@ -1,9 +1,10 @@
 import { Component, computed, inject, input, signal } from '@angular/core';
 import { AuthService } from '@core/services/auth-service';
+import { LocalizationService } from '@core/services/localization.service';
 import { NavigatorHelper } from '@core/services/navigator-helper';
 import { AuthStore } from '@core/store/auth-store';
-import { UserAvatar, UserData } from './user-avatar/user-avatar';
 import { LangSwitcher } from '@shared/ui/lang-switcher';
+import { UserAvatar, UserData } from './user-avatar/user-avatar';
 
 @Component({
   selector: 'app-top-bar',
@@ -33,51 +34,40 @@ export class TopBar {
   private readonly navigatorHelper = inject(NavigatorHelper);
   private readonly auth = inject(AuthService);
   private readonly authStore = inject(AuthStore);
+  private readonly localizationService = inject(LocalizationService);
 
   private readonly currentPath = this.navigatorHelper.currentFeatureName;
+  private t = (key: string) => this.localizationService.translate(key);
 
-  private readonly pages = {
-    dashboard: {
-      title: 'Dashboard',
-      description: 'Brief overview of your financial status',
-    },
-    transactions: {
-      title: 'Transactions',
-      description: 'View and manage your transactions',
-    },
-    categories: {
-      title: 'Groups & Categories',
-      description: 'Organize your transactions with groups and categories',
-    },
-    wallet: {
-      title: 'Wallet',
-      description: 'Manage your accounts and balances',
-    },
-    budget: {
-      title: 'Budget',
-      description: 'Create and track your budgets',
-    },
-    goals: {
-      title: 'Goals',
-      description: 'Set and track your financial goals',
-    },
-    analytics: {
-      title: 'Analytics',
-      description: 'Analyze your financial data',
-    },
-  };
   protected readonly user = signal<UserData | undefined>(undefined);
 
-  protected readonly title = computed(
-    () =>
-      this.pages[this.currentPath() as keyof typeof this.pages]?.title || '',
-  );
+  protected readonly title = computed(() => {
+    const path = this.currentPath();
+    const keys: Record<string, string> = {
+      dashboard: 'core.pages.dashboard.title',
+      transactions: 'core.pages.transactions.title',
+      categories: 'core.pages.categories.title',
+      wallet: 'core.pages.wallet.title',
+      budget: 'core.pages.budget.title',
+      goals: 'core.pages.goals.title',
+      analytics: 'core.pages.analytics.title',
+    };
+    return keys[path] ? this.t(keys[path]) : '';
+  });
 
-  protected readonly description = computed(
-    () =>
-      this.pages[this.currentPath() as keyof typeof this.pages]?.description ||
-      '',
-  );
+  protected readonly description = computed(() => {
+    const path = this.currentPath();
+    const keys: Record<string, string> = {
+      dashboard: 'core.pages.dashboard.description',
+      transactions: 'core.pages.transactions.description',
+      categories: 'core.pages.categories.description',
+      wallet: 'core.pages.wallet.description',
+      budget: 'core.pages.budget.description',
+      goals: 'core.pages.goals.description',
+      analytics: 'core.pages.analytics.description',
+    };
+    return keys[path] ? this.t(keys[path]) : '';
+  });
 
   constructor() {
     this.getUser();

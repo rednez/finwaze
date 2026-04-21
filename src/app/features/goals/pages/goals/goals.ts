@@ -6,6 +6,7 @@ import {
 } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { SavingsGoal } from '@core/models/savings-goal';
+import { LocalizationService } from '@core/services/localization.service';
 import { AccountsStore } from '@core/store/accounts-store';
 import { MessageService } from 'primeng/api';
 import { ButtonModule } from 'primeng/button';
@@ -36,9 +37,7 @@ import { EmptyGoalsListState } from './empty-goals-list-state';
   ],
   providers: [MessageService],
   templateUrl: './goals.html',
-  host: {
-    class: 'flex flex-col gap-4',
-  },
+  host: { class: 'flex flex-col gap-4' },
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class Goals {
@@ -46,6 +45,8 @@ export class Goals {
   protected readonly goalsListStore = inject(GoalsListStore);
   private readonly savingsOverviewStore = inject(SavingsOverviewStore);
   private readonly messageService = inject(MessageService);
+  private readonly localizationService = inject(LocalizationService);
+  private t = (key: string) => this.localizationService.translate(key);
 
   protected readonly selectedGoal = signal<SavingsGoal | null>(null);
   protected readonly dialogVisible = signal(false);
@@ -80,19 +81,17 @@ export class Goals {
         this.goalsListStore.loadGoals(),
         this.savingsOverviewStore.load(),
       ]);
-
       this.withdrawDialogVisible.set(false);
-
       this.messageService.add({
         severity: 'success',
-        summary: 'Withdrawal successful',
-        detail: `Withdrawn from ${this.selectedGoalForWithdraw()!.name}`,
+        summary: this.t('goals.withdrawalSuccessful'),
+        detail: `${this.t('goals.withdrawnFrom')} ${this.selectedGoalForWithdraw()!.name}`,
       });
     } else {
       this.messageService.add({
         severity: 'error',
-        summary: 'Withdrawal failed',
-        detail: 'Something went wrong. Please try again.',
+        summary: this.t('goals.withdrawalFailed'),
+        detail: this.t('shared.somethingWentWrong'),
       });
     }
   }
@@ -114,19 +113,17 @@ export class Goals {
         this.goalsListStore.loadGoals(),
         this.savingsOverviewStore.load(),
       ]);
-
       this.dialogVisible.set(false);
-
       this.messageService.add({
         severity: 'success',
-        summary: 'Transfer successful',
-        detail: `Deposited to ${this.selectedGoal()!.name}`,
+        summary: this.t('goals.transferSuccessful'),
+        detail: `${this.t('goals.depositedTo')} ${this.selectedGoal()!.name}`,
       });
     } else {
       this.messageService.add({
         severity: 'error',
-        summary: 'Transfer failed',
-        detail: 'Something went wrong. Please try again.',
+        summary: this.t('goals.transferFailed'),
+        detail: this.t('shared.somethingWentWrong'),
       });
     }
   }

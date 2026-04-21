@@ -1,8 +1,10 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { TranslatePipe } from '@shared/pipes/translate.pipe';
 import { LogoPic } from '@shared/ui/logo-pic';
 import { ThemeSwitcher } from '@shared/ui/theme-switcher';
 
 @Component({
+  imports: [LogoPic, ThemeSwitcher, TranslatePipe],
   template: `
     <header class="flex items-center justify-between w-full px-4 lg:px-0">
       <app-logo-pic />
@@ -18,28 +20,25 @@ import { ThemeSwitcher } from '@shared/ui/theme-switcher';
       <p
         class="inline-flex items-center justify-center rounded-full border border-violet-200 bg-white/80 px-4 py-1 text-sm font-semibold tracking-wide text-violet-700 shadow-sm backdrop-blur dark:border-violet-500/30 dark:bg-gray-900/70 dark:text-violet-200"
       >
-        Coming soon
+        {{ 'misc.underConstruction.badge' | translate }}
       </p>
 
       <h1
         class="font-display text-4xl sm:text-5xl font-extrabold tracking-tight text-gray-900 dark:text-gray-50 mt-6 mb-6"
       >
-        Finwaze is in active<br class="hidden sm:block" />
-        development
+        {{ 'misc.underConstruction.title' | translate }}
       </h1>
 
       <p
         class="text-base sm:text-lg text-muted-color-emphasis leading-relaxed max-w-xl mx-auto mb-4"
       >
-        Finwaze is being built to make personal finance tracking simpler,
-        clearer, and faster.
+        {{ 'misc.underConstruction.desc1' | translate }}
       </p>
 
       <p
         class="text-sm sm:text-base text-muted-color leading-relaxed max-w-lg mx-auto"
       >
-        The web app is not available yet, but the public launch is coming soon.
-        Check back shortly.
+        {{ 'misc.underConstruction.desc2' | translate }}
       </p>
     </section>
   `,
@@ -47,6 +46,5 @@ import { ThemeSwitcher } from '@shared/ui/theme-switcher';
   host: {
     class: 'flex flex-col items-center mt-8 mx-4 lg:max-w-210 lg:mx-auto',
   },
-  imports: [LogoPic, ThemeSwitcher],
 })
 export class UnderConstruction {}

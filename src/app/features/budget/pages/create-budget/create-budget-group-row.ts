@@ -10,7 +10,9 @@ import {
 } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Category } from '@core/models/categories';
+import { LocalizationService } from '@core/services/localization.service';
 import { CategoriesStore } from '@core/store/categories-store';
+import { TranslatePipe } from '@shared/pipes/translate.pipe';
 import { ButtonModule } from 'primeng/button';
 import { SelectModule } from 'primeng/select';
 import { TooltipModule } from 'primeng/tooltip';
@@ -27,6 +29,7 @@ import { GroupTotals } from './create-budget-store';
     SelectModule,
     TooltipModule,
     CreateBudgetCategoryRow,
+    TranslatePipe,
   ],
   template: `
     <div
@@ -92,7 +95,7 @@ import { GroupTotals } from './create-budget-store';
           variant="text"
           size="small"
           [rounded]="true"
-          pTooltip="Видалити групу"
+          [pTooltip]="'budget.createBudget.deleteGroup' | translate"
           tooltipPosition="left"
           (onClick)="removeGroup.emit()"
           (click)="$event.stopPropagation()"
@@ -126,7 +129,7 @@ import { GroupTotals } from './create-budget-store';
               [options]="availableCategories()"
               optionLabel="name"
               optionValue="id"
-              placeholder="Оберіть категорію"
+              [placeholder]="'budget.createBudget.selectCategory' | translate"
               [filter]="true"
               filterBy="name"
               size="small"
@@ -151,7 +154,7 @@ import { GroupTotals } from './create-budget-store';
 
         <div class="pl-4 pt-1">
           <p-button
-            label="Додати категорію"
+            [label]="'budget.createBudget.addCategory' | translate"
             icon="pi pi-plus"
             severity="secondary"
             variant="text"
@@ -169,6 +172,8 @@ import { GroupTotals } from './create-budget-store';
 })
 export class CreateBudgetGroupRow {
   private readonly categoriesStore = inject(CategoriesStore);
+  private readonly localizationService = inject(LocalizationService);
+  private t = (key: string) => this.localizationService.translate(key);
 
   readonly group = input.required<BudgetGroupRow>();
   readonly groupName = input.required<string>();

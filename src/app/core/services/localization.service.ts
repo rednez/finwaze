@@ -1,5 +1,5 @@
 import { Injectable, signal } from '@angular/core';
-import { Lang } from '@core/i18n';
+import { Lang, TRANSLATIONS } from '@core/i18n';
 
 const STORAGE_KEY = 'app-language';
 
@@ -12,5 +12,15 @@ export class LocalizationService {
   setLanguage(lang: Lang): void {
     localStorage.setItem(STORAGE_KEY, lang);
     this.currentLang.set(lang);
+  }
+
+  translate(key: string): string {
+    const lang = this.currentLang();
+    const parts = key.split('.');
+    let value: unknown = TRANSLATIONS[lang];
+    for (const part of parts) {
+      value = (value as Record<string, unknown>)?.[part];
+    }
+    return typeof value === 'string' ? value : key;
   }
 }

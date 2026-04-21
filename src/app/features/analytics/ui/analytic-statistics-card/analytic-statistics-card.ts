@@ -7,7 +7,9 @@ import {
   signal,
 } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { LocalizationService } from '@core/services/localization.service';
 import { generateAnalogColors } from '@core/utils/colors';
+import { TranslatePipe } from '@shared/pipes/translate.pipe';
 import { Card } from '@shared/ui/card';
 import { CardHeaderTitle } from '@shared/ui/card-header-title/card-header-title';
 import { CardHeader } from '@shared/ui/card-header/card-header';
@@ -18,6 +20,8 @@ import { SkeletonModule } from 'primeng/skeleton';
 import { v4 } from 'uuid';
 import { AnalyticsStore } from '../../stores';
 import { StatisticsByGroups } from './statistics-by-groups/statistics-by-groups';
+
+type TypeKey = 'expenses' | 'income' | 'budget';
 
 @Component({
   selector: 'app-analytic-statistics-card',
@@ -32,41 +36,36 @@ import { StatisticsByGroups } from './statistics-by-groups/statistics-by-groups'
     SelectButtonModule,
     SkeletonModule,
     StatisticsByGroups,
+    TranslatePipe,
   ],
   providers: [DatePipe],
   template: `
     <app-card>
       <app-card-header class="flex items-center justify-between">
-        <app-card-header-title>Statistics</app-card-header-title>
+        <app-card-header-title>{{
+          'analytics.statistics.title' | translate
+        }}</app-card-header-title>
         <p-select
           append-right
-          [ngModel]="type()"
-          (ngModelChange)="type.set($event)"
+          [ngModel]="typeKey()"
+          (ngModelChange)="typeKey.set($event)"
           [options]="typesOptions()"
           optionLabel="name"
+          optionValue="value"
           size="small"
-          [dt]="{
-            root: {
-              borderRadius: '12px',
-            },
-          }"
+          [dt]="{ root: { borderRadius: '12px' } }"
         />
       </app-card-header>
 
       @if (store.isGroupsStatisticsLoading()) {
         <div class="flex flex-col justify-end gap-4">
-          <p-skeleton height="1rem" />
-          <p-skeleton height="1rem" />
-          <p-skeleton height="1rem" />
-          <p-skeleton height="1rem" />
+          @for (i of [1, 2, 3, 4]; track i) {
+            <p-skeleton height="1rem" />
+          }
           <div class="flex gap-2 mt-20">
-            <p-skeleton width="4rem" />
-            <p-skeleton width="4rem" />
-            <p-skeleton width="4rem" />
-            <p-skeleton width="4rem" />
-            <p-skeleton width="4rem" />
-            <p-skeleton width="4rem" />
-            <p-skeleton width="4rem" />
+            @for (i of [1, 2, 3, 4, 5, 6, 7]; track i) {
+              <p-skeleton width="4rem" />
+            }
           </div>
         </div>
       } @else {
@@ -78,7 +77,6 @@ import { StatisticsByGroups } from './statistics-by-groups/statistics-by-groups'
             size="large"
             class="py-6 self-center"
           />
-
           <app-statistics-by-groups [groups]="displayedItems()" />
         </div>
       }
@@ -88,40 +86,45 @@ import { StatisticsByGroups } from './statistics-by-groups/statistics-by-groups'
 })
 export class AnalyticStatisticsCard {
   private readonly datePipe = inject(DatePipe);
+  private readonly localizationService = inject(LocalizationService);
+  private t = (key: string) => this.localizationService.translate(key);
+
   protected readonly store = inject(AnalyticsStore);
+  protected readonly typeKey = signal<TypeKey>('expenses');
 
-  protected readonly typesOptions = signal([
-    { name: 'Expenses' },
-    { name: 'Income' },
-    { name: 'Budget' },
+  protected readonly typesOptions = computed(() => [
+    {
+      value: 'expenses' as TypeKey,
+      name: this.t('analytics.statistics.expenses'),
+    },
+    { value: 'income' as TypeKey, name: this.t('analytics.statistics.income') },
+    { value: 'budget' as TypeKey, name: this.t('analytics.statistics.budget') },
   ]);
-
-  protected readonly type = signal<{ name: string }>({ name: 'Expenses' });
 
   protected readonly chartLabel = computed(() => {
     const monthString = this.datePipe.transform(
       this.store.selectedMonth(),
       'MM/yy',
     );
-    const typeName = this.type().name;
-    const label =
-      typeName === 'Income'
-        ? 'Income for'
-        : typeName === 'Expenses'
-          ? 'Expenses for'
-          : 'Budget for';
-    return label + ' ' + monthString;
+    const key = this.typeKey();
+    const prefix =
+      key === 'income'
+        ? this.t('analytics.statistics.incomeFor')
+        : key === 'expenses'
+          ? this.t('analytics.statistics.expensesFor')
+          : this.t('analytics.statistics.budgetFor');
+    return `${prefix} ${monthString}`;
   });
 
   private readonly coloredIncomes = computed(() => {
     const items = this.store.incomeByGroups().filter((g) => g.amount > 0);
     const sorted = [...items].sort((a, b) => b.amount - a.amount);
     const colors = generateAnalogColors(sorted.length);
-    return sorted.map((g, index) => ({
+    return sorted.map((g, i) => ({
       id: v4(),
       name: g.groupName,
       amount: g.amount,
-      color: colors[index],
+      color: colors[i],
     }));
   });
 
@@ -129,11 +132,11 @@ export class AnalyticStatisticsCard {
     const items = this.store.expenseByGroups().filter((g) => g.amount > 0);
     const sorted = [...items].sort((a, b) => b.amount - a.amount);
     const colors = generateAnalogColors(sorted.length);
-    return sorted.map((g, index) => ({
+    return sorted.map((g, i) => ({
       id: v4(),
       name: g.groupName,
       amount: g.amount,
-      color: colors[index],
+      color: colors[i],
     }));
   });
 
@@ -141,18 +144,18 @@ export class AnalyticStatisticsCard {
     const items = this.store.budgetByGroups().filter((g) => g.amount > 0);
     const sorted = [...items].sort((a, b) => b.amount - a.amount);
     const colors = generateAnalogColors(sorted.length);
-    return sorted.map((g, index) => ({
+    return sorted.map((g, i) => ({
       id: v4(),
       name: g.groupName,
       amount: g.amount,
-      color: colors[index],
+      color: colors[i],
     }));
   });
 
   protected readonly displayedItems = computed(() => {
-    const typeName = this.type().name;
-    if (typeName === 'Income') return this.coloredIncomes();
-    if (typeName === 'Budget') return this.coloredBudgets();
+    const key = this.typeKey();
+    if (key === 'income') return this.coloredIncomes();
+    if (key === 'budget') return this.coloredBudgets();
     return this.coloredExpenses();
   });
 }

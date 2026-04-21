@@ -1,5 +1,7 @@
 <p-dialog
-  [header]="'Deposit to ' + goal().name"
+  [header]="
+    ('goals.transferDialog.fromAccount' | translate) + ': ' + goal().name
+  "
   [(visible)]="visible"
   [modal]="true"
   [style]="{ width: '24rem' }"
@@ -10,7 +12,7 @@
     <app-account-select
       formControlName="fromAccountId"
       [accounts]="filteredAccounts()"
-      label="From account"
+      [label]="'goals.transferDialog.fromAccount' | translate"
       appendTo="body"
       [isInvalid]="
         form.controls.fromAccountId.invalid &&
@@ -20,7 +22,7 @@
 
     <div class="flex flex-col">
       <label class="text-sm font-medium mb-1" for="depositAmount">
-        Amount ({{ goal().currencyCode }})
+        {{ 'shared.amount' | translate }} ({{ goal().currencyCode }})
       </label>
       <p-inputnumber
         formControlName="amount"
@@ -29,24 +31,26 @@
         [minFractionDigits]="0"
         [maxFractionDigits]="2"
         class="w-full"
-        placeholder="Enter amount"
+        [placeholder]="'shared.enterAmount' | translate"
         autocomplete="off"
         [inputStyle]="{ borderRadius: '16px' }"
       />
       @if (form.controls.amount.invalid && form.controls.amount.touched) {
         <div class="text-xs text-red-500 pl-2 pt-0.5">
           @if (form.controls.amount.hasError('required')) {
-            Amount required
+            {{ 'shared.amountRequired' | translate }}
           } @else if (form.controls.amount.hasError('min')) {
-            Must be greater than 0
+            {{ 'shared.mustBeGreaterThanZero' | translate }}
           }
         </div>
       }
     </div>
     <div class="flex flex-col">
       <label class="text-sm font-medium mb-1" for="transactedAt">
-        Date & Time
-        <span class="text-xs text-surface-400 font-normal">(optional)</span>
+        {{ 'shared.dateTime' | translate }}
+        <span class="text-xs text-surface-400 font-normal">{{
+          'shared.optional' | translate
+        }}</span>
       </label>
       <p-datepicker
         formControlName="transactedAt"
@@ -55,7 +59,7 @@
         [hourFormat]="'24'"
         [maxDate]="today"
         class="w-full"
-        placeholder="Now"
+        [placeholder]="'shared.now' | translate"
         appendTo="body"
         [inputStyle]="{ borderRadius: '16px' }"
       />
@@ -64,12 +68,11 @@
 
   <ng-template #footer>
     <p-button
-      label="Cancel"
+      [label]="'shared.cancel' | translate"
       severity="secondary"
       [text]="true"
       (onClick)="close()"
     />
-    <p-button label="Transfer" (onClick)="submit()" />
+    <p-button [label]="'shared.transfer' | translate" (onClick)="submit()" />
   </ng-template>
 </p-dialog>
-`

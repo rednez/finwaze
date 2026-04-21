@@ -23,18 +23,19 @@
             {{ diffAmount() | currency: currency() }}
           </span>
         }
-        {{ comparedText() }} compared to last month
+        {{ comparedText() }}
+        {{ 'analytics.financialSummary.comparedToLastMonth' | translate }}
       </p>
     </div>
 
     <div class="flex flex-col gap-4">
       <app-financial-summary-card-button
-        label="transactions"
+        [label]="'analytics.financialSummary.transactions' | translate"
         [count]="transactionCount()"
         icon="sync_alt"
       />
       <app-financial-summary-card-button
-        label="groups"
+        [label]="'analytics.financialSummary.groups' | translate"
         [count]="groupsCount()"
         icon="grid_view"
       />

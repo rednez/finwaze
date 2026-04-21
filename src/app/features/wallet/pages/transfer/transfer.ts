@@ -10,7 +10,9 @@ import { takeUntilDestroyed, toSignal } from '@angular/core/rxjs-interop';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FormPageLayout } from '@core/layout/form-page-layout';
+import { LocalizationService } from '@core/services/localization.service';
 import { AccountsStore } from '@core/store/accounts-store';
+import { TranslatePipe } from '@shared/pipes/translate.pipe';
 import { AccountSelect } from '@shared/ui/account-select';
 import { ExchangeRateChip } from '@shared/ui/exchange-rate-chip';
 import { TransferDirectionPic } from '@shared/ui/transfer-direction-pic';
@@ -37,6 +39,7 @@ import { WalletRepository } from '../../repositories';
     AccountSelect,
     ExchangeRateChip,
     ToastModule,
+    TranslatePipe,
   ],
   templateUrl: './transfer.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -50,6 +53,8 @@ export class Transfer {
   private readonly destroyRef = inject(DestroyRef);
   private readonly repository = inject(WalletRepository);
   private readonly messageService = inject(MessageService);
+  private readonly localizationService = inject(LocalizationService);
+  private t = (key: string) => this.localizationService.translate(key);
 
   protected readonly today = new Date();
 
@@ -118,7 +123,7 @@ export class Transfer {
       } catch (error) {
         this.messageService.add({
           severity: 'error',
-          summary: 'Account creation failed',
+          summary: this.t('wallet.transfer.creationFailed'),
           detail: (error as Error).message,
         });
       }

@@ -5,6 +5,7 @@ import {
   computed,
   input,
 } from '@angular/core';
+import { TranslatePipe } from '@shared/pipes/translate.pipe';
 import { Card } from '@shared/ui/card';
 import { CardHeaderTitle } from '@shared/ui/card-header-title/card-header-title';
 import { CardHeader } from '@shared/ui/card-header/card-header';
@@ -24,6 +25,7 @@ import { FinancialSummaryCardButton } from './financial-summary-card-button/fina
     FinancialTrendBadge,
     ButtonModule,
     FinancialSummaryCardButton,
+    TranslatePipe,
   ],
   templateUrl: './financial-summary-card.html',
   changeDetection: ChangeDetectionStrategy.OnPush,

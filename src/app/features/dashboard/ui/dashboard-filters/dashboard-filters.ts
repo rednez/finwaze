@@ -8,13 +8,20 @@ import {
 } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { toNameOptions } from '@core/utils/input-transforms';
+import { TranslatePipe } from '@shared/pipes/translate.pipe';
 import { FloatLabelModule } from 'primeng/floatlabel';
 import { MultiSelectModule } from 'primeng/multiselect';
 import { SelectChangeEvent, SelectModule } from 'primeng/select';
 
 @Component({
   selector: 'app-dashboard-filters',
-  imports: [FormsModule, SelectModule, FloatLabelModule, MultiSelectModule],
+  imports: [
+    FormsModule,
+    SelectModule,
+    FloatLabelModule,
+    MultiSelectModule,
+    TranslatePipe,
+  ],
   templateUrl: './dashboard-filters.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   host: {

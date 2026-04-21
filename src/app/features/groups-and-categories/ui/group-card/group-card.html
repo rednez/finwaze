@@ -47,7 +47,7 @@
     <div append-right>
       @if (group()?.categories!.length > 0) {
         <div class="text-sm text-muted-color">
-          {{ group()!.categories.length }} categories
+          {{ group()!.categories.length }} {{ categoriesLabel() }}
         </div>
       } @else {
         <p-button
@@ -94,7 +94,7 @@
       <div
         class="text-sm text-muted-color-emphasis bg-gray-100 dark:bg-gray-800 w-fit px-3 py-1 rounded-2xl"
       >
-        No categories
+        {{ noCategoriesLabel() }}
       </div>
 
       @if (isCreatingCategory()) {

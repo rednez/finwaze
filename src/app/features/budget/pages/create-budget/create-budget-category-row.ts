@@ -6,6 +6,7 @@ import {
   output,
 } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { TranslatePipe } from '@shared/pipes/translate.pipe';
 import { ButtonModule } from 'primeng/button';
 import { InputNumberModule } from 'primeng/inputnumber';
 import { TooltipModule } from 'primeng/tooltip';
@@ -19,6 +20,7 @@ import { BudgetCategoryRow } from '../../models';
     ButtonModule,
     InputNumberModule,
     TooltipModule,
+    TranslatePipe,
   ],
   template: `
     <div
@@ -32,7 +34,11 @@ import { BudgetCategoryRow } from '../../models';
 
       <div
         class="flex justify-end"
-        [pTooltip]="invalid() ? 'Amount must be greater than 0' : ''"
+        [pTooltip]="
+          invalid()
+            ? ('budget.createBudget.amountMustBeGreater' | translate)
+            : ''
+        "
         tooltipPosition="top"
       >
         <p-inputNumber
@@ -83,7 +89,7 @@ import { BudgetCategoryRow } from '../../models';
           variant="text"
           size="small"
           [rounded]="true"
-          pTooltip="Видалити категорію"
+          [pTooltip]="'budget.createBudget.deleteCategory' | translate"
           tooltipPosition="left"
           (onClick)="remove.emit()"
         />

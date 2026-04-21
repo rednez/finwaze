@@ -1,4 +1,5 @@
 import { ChangeDetectionStrategy, Component, input } from '@angular/core';
+import { TranslatePipe } from '@shared/pipes/translate.pipe';
 import { Card } from '@shared/ui/card';
 import { CardFailedState } from '@shared/ui/card-failed-state';
 import { CardHeaderTitle } from '@shared/ui/card-header-title/card-header-title';
@@ -21,6 +22,7 @@ import { TagModule } from 'primeng/tag';
     CardFailedState,
     CardHeader,
     CardHeaderTitle,
+    TranslatePipe,
   ],
   template: `
     <app-card>
@@ -44,7 +46,9 @@ import { TagModule } from 'primeng/tag';
               [previousAmount]="previousAmount()"
               [growTrendIsGood]="growTrendIsGood()"
             />
-            <span class="ml-1 text-gray-400 text-sm">vs last month</span>
+            <span class="ml-1 text-gray-400 text-sm">{{
+              'dashboard.amountWidget.vsLastMonth' | translate
+            }}</span>
           </div>
         }
       } @else {

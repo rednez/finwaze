@@ -16,7 +16,9 @@ import {
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Account } from '@core/models/accounts';
 import { Category, Group } from '@core/models/categories';
+import { TranslatePipe } from '@shared/pipes/translate.pipe';
 import { AccountSelect } from '@shared/ui/account-select';
+import { CurrencyCodeChip } from '@shared/ui/currency-code-chip';
 import { ExchangeRateChip } from '@shared/ui/exchange-rate-chip';
 import { Select } from '@shared/ui/select';
 import { DatePickerModule } from 'primeng/datepicker';
@@ -28,7 +30,6 @@ import { ExpenseFormData } from '../../models';
 import { expenseChargedAmountValidator } from '../../utils';
 import { FormActionButtons } from '../form-action-buttons';
 import { NamePromptDialog } from '../name-prompt-dialog';
-import { CurrencyCodeChip } from '@shared/ui/currency-code-chip';
 
 @Component({
   selector: 'app-expense-form',
@@ -45,6 +46,7 @@ import { CurrencyCodeChip } from '@shared/ui/currency-code-chip';
     NamePromptDialog,
     ExchangeRateChip,
     CurrencyCodeChip,
+    TranslatePipe,
   ],
   templateUrl: './expense-form.html',
   changeDetection: ChangeDetectionStrategy.OnPush,

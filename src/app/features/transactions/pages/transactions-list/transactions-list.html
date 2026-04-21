@@ -19,13 +19,14 @@
       />
 
       <div class="mt-2 text-sm text-muted-color-emphasis">
-        {{ store.transactions().length }} items
+        {{ store.transactions().length }}
+        {{ 'transactions.list.items' | translate }}
       </div>
     </div>
 
     <p-button
       icon="pi pi-plus"
-      label="Add new"
+      [label]="'transactions.list.addNew' | translate"
       [rounded]="true"
       size="large"
       class="shrink-0"
@@ -44,9 +45,9 @@
   </div>
 } @else {
   <app-empty-state
-    title="No transactions yet"
-    description="Start tracking your spending by adding your first transaction."
-    primaryButtonText="Add transaction"
+    [title]="'transactions.list.noTransactions' | translate"
+    [description]="'transactions.list.startTracking' | translate"
+    [primaryButtonText]="'transactions.list.addTransaction' | translate"
     primaryButtonIcon="add"
     icon="receipt_long"
     (primaryActionClicked)="gotoCreate()"

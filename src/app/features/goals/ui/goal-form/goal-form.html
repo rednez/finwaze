@@ -1,26 +1,28 @@
 <form [formGroup]="form" class="flex flex-col gap-4 text-start mt-8">
   <div>
-    <label class="text-sm font-medium mb-1" for="name">Goal name</label>
+    <label class="text-sm font-medium mb-1" for="name">{{
+      'goals.form.goalName' | translate
+    }}</label>
     <input
       pInputText
       formControlName="name"
       inputId="name"
       type="text"
-      placeholder="Enter goal name"
+      [placeholder]="'goals.form.enterGoalName' | translate"
       class="w-full"
       [dt]="{ root: { borderRadius: '16px' } }"
     />
     @if (form.controls.name.invalid && form.controls.name.dirty) {
       <div class="text-xs text-red-500 pl-2 pt-0.5">
-        Should be between 3 and 30 characters
+        {{ 'goals.form.nameLengthError' | translate }}
       </div>
     }
   </div>
 
   <div>
-    <label class="text-sm font-medium mb-1" for="targetAmount"
-      >Target amount</label
-    >
+    <label class="text-sm font-medium mb-1" for="targetAmount">
+      {{ 'goals.form.targetAmount' | translate }}
+    </label>
     <p-inputnumber
       formControlName="targetAmount"
       inputId="targetAmount"
@@ -28,7 +30,7 @@
       [minFractionDigits]="0"
       [maxFractionDigits]="2"
       class="w-full"
-      placeholder="Enter target amount"
+      [placeholder]="'goals.form.enterTargetAmount' | translate"
       autocomplete="off"
       [inputStyle]="{ borderRadius: '16px' }"
     />
@@ -36,18 +38,20 @@
       form.controls.targetAmount.invalid && form.controls.targetAmount.dirty
     ) {
       <div class="text-xs text-red-500 pl-2 pt-0.5">
-        Amount must be greater than 0
+        {{ 'shared.mustBeGreaterThanZero' | translate }}
       </div>
     }
   </div>
 
   <div>
-    <label class="text-sm font-medium mb-1" for="targetDate">Target date</label>
+    <label class="text-sm font-medium mb-1" for="targetDate">{{
+      'goals.form.targetDate' | translate
+    }}</label>
     <p-datepicker
       formControlName="targetDate"
       inputId="targetDate"
       class="w-full"
-      placeholder="Select target date"
+      [placeholder]="'goals.form.selectTargetDate' | translate"
       [showIcon]="true"
       [iconDisplay]="'input'"
       [minDate]="today"
@@ -55,13 +59,15 @@
     />
     @if (form.controls.targetDate.invalid && form.controls.targetDate.dirty) {
       <div class="text-xs text-red-500 pl-2 pt-0.5">
-        Target date is required
+        {{ 'goals.form.targetDateRequired' | translate }}
       </div>
     }
   </div>
 
   <div>
-    <label class="text-sm font-medium mb-1" for="currencyId">Currency</label>
+    <label class="text-sm font-medium mb-1" for="currencyId">{{
+      'shared.currency' | translate
+    }}</label>
     @if (isEditMode()) {
       <input
         pInputText
@@ -82,12 +88,14 @@
         filterBy="name"
         [showClear]="true"
         [loading]="isCurrenciesLoading()"
-        placeholder="Select a currency"
+        [placeholder]="'goals.form.selectTargetDate' | translate"
         class="w-full"
         [dt]="{ root: { borderRadius: '16px' } }"
       />
       @if (form.controls.currencyId.invalid && form.controls.currencyId.dirty) {
-        <div class="text-xs text-red-500 pl-2 pt-0.5">Should be selected</div>
+        <div class="text-xs text-red-500 pl-2 pt-0.5">
+          {{ 'goals.form.currencyShouldBeSelected' | translate }}
+        </div>
       }
     }
   </div>

@@ -8,8 +8,10 @@ import {
 import { ActivatedRoute, Router } from '@angular/router';
 import { FormPageLayout } from '@core/layout/form-page-layout';
 import { SavingsGoal } from '@core/models/savings-goal';
+import { LocalizationService } from '@core/services/localization.service';
 import { AccountsStore } from '@core/store/accounts-store';
 import { CurrenciesStore } from '@core/store/currencies-store';
+import { TranslatePipe } from '@shared/pipes/translate.pipe';
 import { ConfirmationService, MessageService } from 'primeng/api';
 import { ButtonModule } from 'primeng/button';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
@@ -34,6 +36,7 @@ import { GoalNotFound } from './goal-not-found';
     ConfirmDialogModule,
     CancelGoalDialog,
     CompleteGoalDialog,
+    TranslatePipe,
   ],
   templateUrl: './edit-goal.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -49,6 +52,8 @@ export class EditGoal {
   private readonly router = inject(Router);
   private readonly messageService = inject(MessageService);
   private readonly confirmationService = inject(ConfirmationService);
+  private readonly localizationService = inject(LocalizationService);
+  private t = (key: string) => this.localizationService.translate(key);
 
   protected readonly isEditMode = this.route.snapshot.url[0]?.path !== 'create';
   private readonly goalId = this.isEditMode
@@ -62,13 +67,13 @@ export class EditGoal {
   protected readonly doneDialogVisible = signal(false);
 
   protected readonly title = computed(() =>
-    this.isEditMode ? 'Edit Goal' : 'New Goal',
+    this.isEditMode ? this.t('goals.editGoal.editGoal') : 'New Goal',
   );
 
   protected readonly regularAccounts = computed(() =>
-    this.accountsStore.accounts().filter(
-      (a) => a.currencyCode === this.goal()?.currencyCode,
-    ),
+    this.accountsStore
+      .accounts()
+      .filter((a) => a.currencyCode === this.goal()?.currencyCode),
   );
 
   constructor() {

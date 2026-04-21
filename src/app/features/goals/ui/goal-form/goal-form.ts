@@ -14,6 +14,7 @@ import {
   Validators,
 } from '@angular/forms';
 import { Currency } from '@core/models/currencies';
+import { TranslatePipe } from '@shared/pipes/translate.pipe';
 import { ButtonModule } from 'primeng/button';
 import { DatePickerModule } from 'primeng/datepicker';
 import { InputNumberModule } from 'primeng/inputnumber';
@@ -38,6 +39,7 @@ export interface GoalFormData {
     DatePickerModule,
     SelectModule,
     ButtonModule,
+    TranslatePipe,
   ],
   templateUrl: './goal-form.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -61,7 +63,10 @@ export class GoalForm {
       null as string | null,
       [Validators.required, Validators.minLength(3), Validators.maxLength(30)],
     ],
-    targetAmount: [null as number | null, [Validators.required, Validators.min(1)]],
+    targetAmount: [
+      null as number | null,
+      [Validators.required, Validators.min(1)],
+    ],
     targetDate: [null as Date | null, [Validators.required]],
     currencyId: [null as number | null, [Validators.required]],
   });
@@ -76,7 +81,9 @@ export class GoalForm {
   );
 
   private readonly initialName$ = toObservable(this.initialName);
-  private readonly initialTargetAmount$ = toObservable(this.initialTargetAmount);
+  private readonly initialTargetAmount$ = toObservable(
+    this.initialTargetAmount,
+  );
   private readonly initialTargetDate$ = toObservable(this.initialTargetDate);
 
   constructor() {
@@ -108,9 +115,15 @@ export class GoalForm {
       this.initialTargetDate$,
     ])
       .pipe(
-        filter(([name, amount, date]) => !!name && amount != null && date != null),
+        filter(
+          ([name, amount, date]) => !!name && amount != null && date != null,
+        ),
         tap(([name, amount, date]) => {
-          this.form.patchValue({ name, targetAmount: amount, targetDate: date });
+          this.form.patchValue({
+            name,
+            targetAmount: amount,
+            targetDate: date,
+          });
           if (this.isEditMode()) {
             this.form.controls.currencyId.disable();
           }

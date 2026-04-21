@@ -8,7 +8,9 @@ import {
 } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
+import { FormPageLayout } from '@core/layout/form-page-layout';
 import { TransactionType } from '@core/models/transactions';
+import { LocalizationService } from '@core/services/localization.service';
 import { AccountsStore } from '@core/store/accounts-store';
 import { CategoriesStore } from '@core/store/categories-store';
 import { UiStore } from '@core/store/ui-store';
@@ -30,7 +32,6 @@ import {
 } from '../../store';
 import { ExpenseForm } from '../../ui/expense-form';
 import { IncomeForm } from '../../ui/income-form';
-import { FormPageLayout } from '@core/layout/form-page-layout';
 
 @Component({
   imports: [
@@ -48,6 +49,7 @@ import { FormPageLayout } from '@core/layout/form-page-layout';
     ProgressSpinnerModule,
     FormPageLayout,
   ],
+  // LocalizationService is injected for toast messages only
   templateUrl: './edit-transaction.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [MessageService],
@@ -65,6 +67,8 @@ export class EditTransaction {
   private readonly route = inject(ActivatedRoute);
   private readonly router = inject(Router);
   private readonly messageService = inject(MessageService);
+  private readonly localizationService = inject(LocalizationService);
+  private t = (key: string) => this.localizationService.translate(key);
 
   protected readonly transactionType = signal<'expense' | 'income'>('expense');
   protected isNewExpenseGroupDialogVisible = false;
@@ -74,7 +78,7 @@ export class EditTransaction {
 
   protected readonly title = computed(() =>
     this.selectedTransactionStore.isCreatingMode()
-      ? 'New Transaction'
+      ? this.t('transactions.newTransaction')
       : 'Edit Transaction',
   );
 
@@ -100,10 +104,10 @@ export class EditTransaction {
         this.selectedTransactionStore.isIncome()),
   );
 
-  protected readonly transactionTypesOptions = [
-    { name: 'Expense', value: 'expense' },
-    { name: 'Income', value: 'income' },
-  ];
+  protected readonly transactionTypesOptions = computed(() => [
+    { name: this.t('shared.expense'), value: 'expense' },
+    { name: this.t('shared.income'), value: 'income' },
+  ]);
 
   constructor() {
     this.defineMode();
@@ -174,7 +178,7 @@ export class EditTransaction {
     if (error) {
       this.messageService.add({
         severity: 'error',
-        summary: 'Group creation failed',
+        summary: this.t('transactions.groupCreationFailed'),
         detail: error.message,
       });
     } else {

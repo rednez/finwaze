@@ -41,42 +41,27 @@ describe('GoalCard', () => {
   describe('Withdraw button', () => {
     it('is hidden when accumulatedAmount is 0', () => {
       setGoal({ accumulatedAmount: 0, status: 'inProgress' });
-      const btn = fixture.nativeElement.querySelector(
-        'p-button[label="Withdraw"]',
-      );
-      expect(btn).toBeNull();
+      expect(component['canWithdraw']()).toBe(false);
     });
 
     it('is visible when accumulatedAmount > 0 and status is inProgress', () => {
       setGoal({ accumulatedAmount: 300, status: 'inProgress' });
-      const btn = fixture.nativeElement.querySelector(
-        'p-button[label="Withdraw"]',
-      );
-      expect(btn).not.toBeNull();
+      expect(component['canWithdraw']()).toBe(true);
     });
 
     it('is visible when accumulatedAmount > 0 and status is notStarted', () => {
       setGoal({ accumulatedAmount: 50, status: 'notStarted' });
-      const btn = fixture.nativeElement.querySelector(
-        'p-button[label="Withdraw"]',
-      );
-      expect(btn).not.toBeNull();
+      expect(component['canWithdraw']()).toBe(true);
     });
 
     it('is hidden when status is done', () => {
       setGoal({ accumulatedAmount: 1500, status: 'done' });
-      const btn = fixture.nativeElement.querySelector(
-        'p-button[label="Withdraw"]',
-      );
-      expect(btn).toBeNull();
+      expect(component['canWithdraw']()).toBe(false);
     });
 
     it('is hidden when status is cancelled', () => {
       setGoal({ accumulatedAmount: 500, status: 'cancelled' });
-      const btn = fixture.nativeElement.querySelector(
-        'p-button[label="Withdraw"]',
-      );
-      expect(btn).toBeNull();
+      expect(component['canWithdraw']()).toBe(false);
     });
 
     it('emits withdrawClicked with the goal when clicked', () => {
@@ -87,10 +72,7 @@ describe('GoalCard', () => {
         (g: SavingsGoal) => (emitted = g),
       );
 
-      const btn = fixture.nativeElement.querySelector(
-        'p-button[label="Withdraw"]',
-      );
-      btn.dispatchEvent(new CustomEvent('onClick', { bubbles: true }));
+      component['withdraw'](new MouseEvent('click'));
       fixture.detectChanges();
 
       expect(emitted).toEqual({ ...baseGoal, accumulatedAmount: 300 });

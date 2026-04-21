@@ -2,8 +2,10 @@ import {
   ChangeDetectionStrategy,
   Component,
   computed,
+  inject,
   input,
 } from '@angular/core';
+import { LocalizationService } from '@core/services/localization.service';
 import { getBudgetStatus } from '../../utils';
 
 @Component({
@@ -28,6 +30,9 @@ import { getBudgetStatus } from '../../utils';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class BudgetStatusBadge {
+  private readonly localizationService = inject(LocalizationService);
+  private t = (key: string) => this.localizationService.translate(key);
+
   readonly plannedAmount = input(0);
   readonly spentAmount = input(0);
 
@@ -54,9 +59,9 @@ export class BudgetStatusBadge {
 
   protected readonly label = computed(() =>
     this.status() === 'onTrack'
-      ? 'on track'
+      ? this.t('budget.statusBadge.onTrack')
       : this.status() === 'attention'
-        ? 'attention'
-        : 'over budget',
+        ? this.t('budget.statusBadge.attention')
+        : this.t('budget.statusBadge.overBudget'),
   );
 }

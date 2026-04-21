@@ -1,12 +1,14 @@
 import {
   Component,
   computed,
+  inject,
   input,
   OnInit,
   output,
   signal,
 } from '@angular/core';
 import { FormControl, ReactiveFormsModule, Validators } from '@angular/forms';
+import { LocalizationService } from '@core/services/localization.service';
 import { Card } from '@shared/ui/card';
 import { CardHeader } from '@shared/ui/card-header';
 import { CardHeaderTitle } from '@shared/ui/card-header-title';
@@ -30,13 +32,13 @@ import { GroupTransactionTypeChip } from '../group-transaction-type-chip';
   host: { class: 'block h-full' },
 })
 export class GroupCard implements OnInit {
+  private readonly localizationService = inject(LocalizationService);
+  private t = (key: string) => this.localizationService.translate(key);
+
   readonly group = input<GroupWithCategories>();
   readonly renameGroup = output<string>();
   readonly deleteGroup = output();
-  readonly renameCategory = output<{
-    categoryId: number;
-    newName: string;
-  }>();
+  readonly renameCategory = output<{ categoryId: number; newName: string }>();
   readonly deleteCategory = output<number>();
   readonly createCategory = output<string>();
 
@@ -48,7 +50,16 @@ export class GroupCard implements OnInit {
   protected readonly isCreatingCategory = signal(false);
 
   protected readonly transactionTypeText = computed(() =>
-    this.group()?.transactionType === 'expense' ? 'Expense' : 'Income',
+    this.group()?.transactionType === 'expense'
+      ? this.t('groups.groupCard.expense')
+      : this.t('groups.groupCard.income'),
+  );
+
+  protected readonly categoriesLabel = computed(() =>
+    this.t('groups.groupCard.categories'),
+  );
+  protected readonly noCategoriesLabel = computed(() =>
+    this.t('groups.groupCard.noCategories'),
   );
 
   ngOnInit() {

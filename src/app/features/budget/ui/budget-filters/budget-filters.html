@@ -10,7 +10,7 @@
       size="small"
       [inputStyle]="{ borderRadius: '12px' }"
     />
-    <label for="budget-month">Month</label>
+    <label for="budget-month">{{ 'shared.month' | translate }}</label>
   </p-floatlabel>
 
   <p-floatlabel class="w-30" variant="on">
@@ -23,33 +23,25 @@
       class="w-full"
       size="small"
       inputId="currency"
-      [dt]="{
-        root: {
-          borderRadius: '12px',
-        },
-      }"
+      [dt]="{ root: { borderRadius: '12px' } }"
     />
-    <label for="currency">Currency</label>
+    <label for="currency">{{ 'shared.currency' | translate }}</label>
   </p-floatlabel>
 
   @if (hasStatusFilter()) {
     <p-floatlabel class="w-40" variant="on">
       <p-select
         [(ngModel)]="status"
-        [options]="statuses"
+        [options]="statuses()"
         optionLabel="name"
         optionValue="value"
         class="w-full"
         size="small"
         inputId="status"
-        [dt]="{
-          root: {
-            borderRadius: '12px',
-          },
-        }"
+        [dt]="{ root: { borderRadius: '12px' } }"
         (onChange)="statusChanged.emit($event.value)"
       />
-      <label for="status">Status</label>
+      <label for="status">{{ 'shared.status' | translate }}</label>
     </p-floatlabel>
   }
 </div>
@@ -60,20 +52,13 @@
     [options]="groups()"
     optionLabel="name"
     optionValue="id"
-    placeholder="Select groups"
+    [placeholder]="'groups.addGroup' | translate"
     [maxSelectedLabels]="3"
     [showClear]="true"
     display="chip"
     inputId="groups"
     class="text-sm"
-    [dt]="{
-      root: {
-        borderRadius: '12px',
-      },
-      chip: {
-        borderRadius: '16px',
-      },
-    }"
+    [dt]="{ root: { borderRadius: '12px' }, chip: { borderRadius: '16px' } }"
     (onChange)="groupsIdsChanged.emit($event.value)"
     (onClear)="groupsIdsChanged.emit([])"
   />

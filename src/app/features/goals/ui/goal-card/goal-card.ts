@@ -8,7 +8,9 @@ import {
   output,
 } from '@angular/core';
 import { Router } from '@angular/router';
+import { LocalizationService } from '@core/services/localization.service';
 import { SavingsGoal } from '@core/models/savings-goal';
+import { TranslatePipe } from '@shared/pipes/translate.pipe';
 import { ProgressBar } from '@shared/ui/progress-bar';
 import { StyledAmount } from '@shared/ui/styled-amount';
 import { ButtonModule } from 'primeng/button';
@@ -22,6 +24,7 @@ import { GoalCardStatus } from '../goal-card-status/goal-card-status';
     ProgressBar,
     GoalCardStatus,
     ButtonModule,
+    TranslatePipe,
   ],
   template: `
     <app-goal-card-status [status]="goal().status" />
@@ -33,7 +36,8 @@ import { GoalCardStatus } from '../goal-card-status/goal-card-status';
         {{ goal().name }}
       </div>
       <div class="text-muted-color">
-        Due date – {{ goal().targetDate | date: 'mediumDate' }}
+        {{ 'goals.card.dueDate' | translate }}
+        {{ goal().targetDate | date: 'mediumDate' }}
       </div>
     </div>
 
@@ -64,7 +68,7 @@ import { GoalCardStatus } from '../goal-card-status/goal-card-status';
       <div class="flex gap-2">
         <p-button
           icon="pi pi-arrow-circle-down"
-          label="Deposit"
+          [label]="'shared.deposit' | translate"
           size="small"
           severity="success"
           [rounded]="true"
@@ -73,7 +77,7 @@ import { GoalCardStatus } from '../goal-card-status/goal-card-status';
         @if (canWithdraw()) {
           <p-button
             icon="pi pi-arrow-circle-up"
-            label="Withdraw"
+            [label]="'shared.withdraw' | translate"
             size="small"
             severity="secondary"
             [rounded]="true"
@@ -91,6 +95,9 @@ import { GoalCardStatus } from '../goal-card-status/goal-card-status';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class GoalCard {
+  private readonly localizationService = inject(LocalizationService);
+  private t = (key: string) => this.localizationService.translate(key);
+
   readonly goal = input.required<SavingsGoal>();
   readonly depositClicked = output<SavingsGoal>();
   readonly withdrawClicked = output<SavingsGoal>();
@@ -126,10 +133,10 @@ export class GoalCard {
 
   protected readonly statusLabel = computed(() => {
     const labels: Record<string, string> = {
-      notStarted: 'Goal not started',
-      inProgress: 'Left to complete the goal',
-      done: 'Goal completed',
-      cancelled: 'Goal cancelled',
+      notStarted: this.t('goals.card.notStarted'),
+      inProgress: this.t('goals.card.leftToComplete'),
+      done: this.t('goals.card.completed'),
+      cancelled: this.t('goals.card.cancelled'),
     };
     return labels[this.goal().status];
   });

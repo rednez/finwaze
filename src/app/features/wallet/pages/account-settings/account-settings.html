@@ -1,7 +1,7 @@
 <p-toast />
 
 <app-form-page-layout
-  header="Acount settings"
+  [header]="'wallet.accountSettings.header' | translate"
   class="max-w-110!"
   (back)="gotoBack()"
 >
@@ -12,7 +12,7 @@
       size="small"
       styleClass="text-start mt-8"
     >
-      To change account currency or delete it, delete all related transactions.
+      {{ 'wallet.accountSettings.currencyInfo' | translate }}
     </p-message>
   }
 
@@ -23,7 +23,7 @@
     [initialBalance]="selectedAccount()?.balance"
     [hasBalance]="true"
     [isCurrencyDisabled]="!selectedAccount()?.canDelete"
-    submitBtnLabel="Update"
+    [submitBtnLabel]="'shared.update' | translate"
     (submitForm)="updateAccount($event)"
   />
 
@@ -33,7 +33,7 @@
       [rounded]="true"
       severity="danger"
       variant="outlined"
-      label="Delete"
+      [label]="'shared.delete' | translate"
       fluid
       [disabled]="!selectedAccount()?.canDelete"
       (onClick)="deleteAccount()"

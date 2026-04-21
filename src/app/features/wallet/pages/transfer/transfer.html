@@ -1,8 +1,8 @@
 <p-toast />
 
 <app-form-page-layout
-  header="Transfer money"
-  subheader="Move money between your accounts"
+  [header]="'wallet.transfer.header' | translate"
+  [subheader]="'wallet.transfer.subheader' | translate"
   class="max-w-110!"
   (back)="gotoBack()"
 >
@@ -12,7 +12,7 @@
         <app-account-select
           formControlName="fromAccountId"
           [accounts]="accountsStore.accounts()"
-          label="Pay from"
+          [label]="'wallet.transfer.payFrom' | translate"
           [isInvalid]="
             form.controls.fromAccountId.invalid &&
             form.controls.fromAccountId.dirty
@@ -20,9 +20,9 @@
         />
 
         <div class="text-start">
-          <label class="text-sm font-medium mb-1" for="fromAmount"
-            >Amount to send</label
-          >
+          <label class="text-sm font-medium mb-1" for="fromAmount">
+            {{ 'wallet.transfer.amountToSend' | translate }}
+          </label>
           <p-inputnumber
             formControlName="fromAmount"
             inputId="fromAmount"
@@ -30,7 +30,7 @@
             [minFractionDigits]="0"
             [maxFractionDigits]="2"
             class="w-full"
-            placeholder="Enter amount to send"
+            [placeholder]="'shared.enterAmount' | translate"
             autocomplete="off"
             [inputStyle]="{ borderRadius: '16px' }"
           />
@@ -39,9 +39,9 @@
           ) {
             <div class="text-xs text-red-500 pl-2 pt-0.5">
               @if (form.controls.fromAmount.hasError('required')) {
-                Amount required
+                {{ 'shared.amountRequired' | translate }}
               } @else if (form.controls.fromAmount.hasError('min')) {
-                Must be greater than 0
+                {{ 'shared.mustBeGreaterThanZero' | translate }}
               }
             </div>
           }
@@ -54,7 +54,7 @@
         <app-account-select
           formControlName="toAccountId"
           [accounts]="toAccounts()"
-          label="Destination Account"
+          [label]="'wallet.transfer.destinationAccount' | translate"
           [isInvalid]="
             form.controls.toAccountId.invalid && form.controls.toAccountId.dirty
           "
@@ -64,7 +64,7 @@
           <div class="text-start">
             <div class="flex items-center justify-between mb-1">
               <label class="text-sm font-medium" for="toAmount">
-                Received amount
+                {{ 'wallet.transfer.receivedAmount' | translate }}
               </label>
               <app-exchange-rate-chip [exchangeRate]="exchangeRate()" />
             </div>
@@ -75,7 +75,7 @@
               [minFractionDigits]="0"
               [maxFractionDigits]="2"
               class="w-full"
-              placeholder="Enter received amount"
+              [placeholder]="'shared.enterAmount' | translate"
               autocomplete="off"
               [inputStyle]="{ borderRadius: '16px' }"
             />
@@ -84,9 +84,9 @@
             ) {
               <div class="text-xs text-red-500 pl-2 pt-0.5">
                 @if (form.controls.toAmount.hasError('required')) {
-                  Amount required
+                  {{ 'shared.amountRequired' | translate }}
                 } @else if (form.controls.toAmount.hasError('min')) {
-                  Must be greater than 0
+                  {{ 'shared.mustBeGreaterThanZero' | translate }}
                 }
               </div>
             }
@@ -97,8 +97,10 @@
 
     <div class="text-start mt-4">
       <label class="text-sm font-medium mb-1" for="transactedAt">
-        Date & Time
-        <span class="text-xs text-surface-400 font-normal">(optional)</span>
+        {{ 'shared.dateTime' | translate }}
+        <span class="text-xs text-surface-400 font-normal">{{
+          'shared.optional' | translate
+        }}</span>
       </label>
       <p-datepicker
         formControlName="transactedAt"
@@ -107,13 +109,18 @@
         [hourFormat]="'24'"
         [maxDate]="today"
         class="w-full"
-        placeholder="Now"
+        [placeholder]="'shared.now' | translate"
         [inputStyle]="{ borderRadius: '16px' }"
       />
     </div>
 
     <div class="mt-6 w-full sm:w-1/2 self-center">
-      <p-button label="Move Money" rounded fluid (onClick)="submit()" />
+      <p-button
+        [label]="'wallet.transfer.moveMoney' | translate"
+        rounded
+        fluid
+        (onClick)="submit()"
+      />
     </div>
   </form>
 </app-form-page-layout>

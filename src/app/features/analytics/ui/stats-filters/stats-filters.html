@@ -9,7 +9,7 @@
     [readonlyInput]="true"
     [inputStyle]="{ borderRadius: '12px' }"
   />
-  <label for="month">Month</label>
+  <label for="month">{{ 'shared.month' | translate }}</label>
 </p-floatlabel>
 
 <p-floatlabel class="w-30" variant="on">
@@ -20,13 +20,9 @@
     optionLabel="name"
     class="w-full"
     size="small"
-    [dt]="{
-      root: {
-        borderRadius: '12px',
-      },
-    }"
+    [dt]="{ root: { borderRadius: '12px' } }"
   />
-  <label for="dd-currency">Currency</label>
+  <label for="dd-currency">{{ 'shared.currency' | translate }}</label>
 </p-floatlabel>
 
 <p-multiselect
@@ -34,18 +30,11 @@
   [ngModel]="selectedAccounts()"
   (ngModelChange)="onAccountsChange($event)"
   optionLabel="name"
-  placeholder="Select accounts"
+  [placeholder]="'analytics.filters.selectAccounts' | translate"
   [maxSelectedLabels]="3"
   [showToggleAll]="false"
   [filter]="false"
   display="chip"
   class="text-sm"
-  [dt]="{
-    root: {
-      borderRadius: '12px',
-    },
-    chip: {
-      borderRadius: '12px',
-    },
-  }"
+  [dt]="{ root: { borderRadius: '12px' }, chip: { borderRadius: '12px' } }"
 />

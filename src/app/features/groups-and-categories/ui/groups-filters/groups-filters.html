@@ -2,7 +2,7 @@
   <p-select
     [ngModel]="selectedTransactionType()"
     (ngModelChange)="onTransactionTypeChange($event)"
-    [options]="transactionTypesOptions"
+    [options]="transactionTypesOptions()"
     optionLabel="name"
     optionValue="value"
     inputId="transaction-type"
@@ -10,5 +10,7 @@
     class="w-full"
     [dt]="selectInputSchema"
   />
-  <label for="transaction-type">Transaction type</label>
+  <label for="transaction-type">{{
+    'groups.filters.transactionType' | translate
+  }}</label>
 </p-floatlabel>

@@ -8,6 +8,7 @@ import {
 import { FormsModule } from '@angular/forms';
 import { Category, Group } from '@core/models/categories';
 import { CategoriesStore } from '@core/store/categories-store';
+import { TranslatePipe } from '@shared/pipes/translate.pipe';
 import { ButtonModule } from 'primeng/button';
 import { SelectModule } from 'primeng/select';
 import { BudgetStore } from '../../stores';
@@ -17,18 +18,32 @@ import { CreateBudgetStore } from './create-budget-store';
 
 @Component({
   selector: 'app-create-budget-group-list',
-  imports: [FormsModule, ButtonModule, SelectModule, CreateBudgetGroupRow],
+  imports: [
+    FormsModule,
+    ButtonModule,
+    SelectModule,
+    CreateBudgetGroupRow,
+    TranslatePipe,
+  ],
   template: `
     <div class="flex flex-col gap-1">
       <!-- Column header -->
       <div
         class="grid grid-cols-[1fr_repeat(4,minmax(110px,130px))_40px] gap-2 px-4 py-2 text-xs font-medium text-surface-400 uppercase tracking-wider"
       >
-        <span>Group / Category</span>
-        <span class="text-right">Plan (month)</span>
-        <span class="text-right">Plan (prev. month)</span>
-        <span class="text-right">Spent (month)</span>
-        <span class="text-right">Spent (prev. month)</span>
+        <span>{{ 'budget.createBudget.groupCategory' | translate }}</span>
+        <span class="text-right">{{
+          'budget.createBudget.planMonth' | translate
+        }}</span>
+        <span class="text-right">{{
+          'budget.createBudget.planPrevMonth' | translate
+        }}</span>
+        <span class="text-right">{{
+          'budget.createBudget.spentMonth' | translate
+        }}</span>
+        <span class="text-right">{{
+          'budget.createBudget.spentPrevMonth' | translate
+        }}</span>
         <span></span>
       </div>
 
@@ -68,7 +83,7 @@ import { CreateBudgetStore } from './create-budget-store';
             [options]="availableGroups()"
             optionLabel="name"
             optionValue="id"
-            placeholder="Select group"
+            [placeholder]="'budget.createBudget.selectGroup' | translate"
             [filter]="true"
             filterBy="name"
             size="small"
@@ -92,7 +107,7 @@ import { CreateBudgetStore } from './create-budget-store';
       } @else {
         <div class="pt-2">
           <p-button
-            label="Add group"
+            [label]="'budget.createBudget.addGroup' | translate"
             icon="pi pi-plus"
             severity="secondary"
             variant="outlined"

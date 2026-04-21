@@ -1,6 +1,6 @@
 @if (isCreatingMode()) {
   <p-button
-    label="Create"
+    [label]="'transactions.formActions.create' | translate"
     rounded
     icon="pi pi-plus"
     [loading]="isSubmitting()"
@@ -8,14 +8,14 @@
   />
 } @else {
   <p-button
-    label="Save changes"
+    [label]="'transactions.formActions.saveChanges' | translate"
     rounded
     icon="pi pi-save"
     [loading]="isSubmitting()"
     (onClick)="clickSubmit.emit()"
   />
   <p-button
-    label="Delete"
+    [label]="'shared.delete' | translate"
     rounded
     severity="danger"
     variant="outlined"

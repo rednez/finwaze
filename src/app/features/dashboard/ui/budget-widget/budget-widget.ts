@@ -2,10 +2,13 @@ import {
   ChangeDetectionStrategy,
   Component,
   computed,
+  inject,
   input,
   output,
 } from '@angular/core';
+import { LocalizationService } from '@core/services/localization.service';
 import { generateAnalogColors } from '@core/utils/colors';
+import { TranslatePipe } from '@shared/pipes/translate.pipe';
 import { Card } from '@shared/ui/card';
 import { CardEmptyState } from '@shared/ui/card-empty-state';
 import { CardHeaderTitle } from '@shared/ui/card-header-title/card-header-title';
@@ -21,11 +24,14 @@ import { v4 } from 'uuid';
     CardHeader,
     CardHeaderTitle,
     CardEmptyState,
+    TranslatePipe,
   ],
   template: `
     <app-card>
       <app-card-header>
-        <app-card-header-title>Budget</app-card-header-title>
+        <app-card-header-title>{{
+          'dashboard.budgetWidget.title' | translate
+        }}</app-card-header-title>
       </app-card-header>
 
       @if (categories().length > 0) {
@@ -43,16 +49,16 @@ import { v4 } from 'uuid';
           </div>
 
           <app-donut-summary-chart
-            title="Total for month"
+            [title]="'dashboard.budgetWidget.totalForMonth' | translate"
             [currency]="currency()"
             [items]="displayedCategories()"
           />
         </div>
       } @else {
         <app-card-empty-state
-          title="No budgets for this month for selected currency"
-          actionText="Create budget to get started."
-          actionBtnLabel="Goto Budget"
+          [title]="'dashboard.budgetWidget.noBudgets' | translate"
+          [actionText]="'dashboard.budgetWidget.createBudgetText' | translate"
+          [actionBtnLabel]="'dashboard.budgetWidget.gotoBudget' | translate"
           (actionBtnClicked)="actionClicked.emit()"
         />
       }
@@ -61,12 +67,16 @@ import { v4 } from 'uuid';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class BudgetWidget {
+  private readonly localizationService = inject(LocalizationService);
+  private t = (key: string) => this.localizationService.translate(key);
+
   readonly categories = input<{ name: string; amount: number }[]>([]);
   readonly currency = input<string>();
   readonly actionClicked = output<void>();
 
   protected readonly displayedCategories = computed(() => {
     const colors = generateAnalogColors(this.categories().length);
+    this.localizationService.currentLang();
 
     const sortedCategories = this.categories()
       .sort((a, b) => b.amount - a.amount)
@@ -82,7 +92,7 @@ export class BudgetWidget {
           ...sortedCategories.slice(0, 6),
           {
             id: v4(),
-            name: 'Rest categories',
+            name: this.t('dashboard.budgetWidget.restCategories'),
             amount: sortedCategories
               .slice(6)
               .reduce((sum, cat) => sum + cat.amount, 0),

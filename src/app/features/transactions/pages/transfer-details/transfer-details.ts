@@ -7,6 +7,8 @@ import {
 } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FormPageLayout } from '@core/layout/form-page-layout';
+import { LocalizationService } from '@core/services/localization.service';
+import { TranslatePipe } from '@shared/pipes/translate.pipe';
 import { TransferDirectionPic } from '@shared/ui/transfer-direction-pic';
 import { MessageService } from 'primeng/api';
 import { ButtonModule } from 'primeng/button';
@@ -22,6 +24,7 @@ import { TransferDetailsStore } from '../../store';
     TransferDirectionPic,
     ButtonModule,
     SkeletonModule,
+    TranslatePipe,
   ],
   templateUrl: './transfer-details.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -32,6 +35,8 @@ export class TransferDetails {
   private readonly route = inject(ActivatedRoute);
   private readonly router = inject(Router);
   private readonly messageService = inject(MessageService);
+  private readonly localizationService = inject(LocalizationService);
+  private t = (key: string) => this.localizationService.translate(key);
 
   protected readonly hasTransaction = computed(
     () => this.transferStore.refTransactions().length > 0,
@@ -76,7 +81,7 @@ export class TransferDetails {
     if (error) {
       this.messageService.add({
         severity: 'error',
-        summary: 'Transfer deletion failed',
+        summary: this.t('transactions.transferDeletionFailed'),
         detail: error.message,
       });
     } else {

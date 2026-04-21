@@ -9,7 +9,9 @@
     size="small"
     [inputStyle]="{ borderRadius: '12px' }"
   />
-  <label for="budget-month">Budget month</label>
+  <label for="budget-month">{{
+    'transactions.filters.budgetMonth' | translate
+  }}</label>
 </p-floatlabel>
 
 <p-floatlabel class="sm:w-30" variant="on">
@@ -24,7 +26,9 @@
     class="w-full"
     [dt]="selectInputSchema"
   />
-  <label for="transaction-type">Type</label>
+  <label for="transaction-type">{{
+    'transactions.filters.type' | translate
+  }}</label>
 </p-floatlabel>
 
 <p-floatlabel class="sm:w-30" variant="on">
@@ -39,7 +43,7 @@
     inputId="currency"
     [dt]="selectInputSchema"
   />
-  <label for="currency">Currency</label>
+  <label for="currency">{{ 'shared.currency' | translate }}</label>
 </p-floatlabel>
 
 <p-floatlabel class="sm:w-36" variant="on">
@@ -54,7 +58,7 @@
     inputId="group"
     [dt]="selectInputSchema"
   />
-  <label for="group">Group</label>
+  <label for="group">{{ 'shared.group' | translate }}</label>
 </p-floatlabel>
 
 <p-floatlabel class="sm:w-36" variant="on">
@@ -69,5 +73,5 @@
     inputId="category"
     [dt]="selectInputSchema"
   />
-  <label for="category">Category</label>
+  <label for="category">{{ 'shared.category' | translate }}</label>
 </p-floatlabel>

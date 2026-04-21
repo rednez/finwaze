@@ -1,5 +1,6 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { TranslatePipe } from '@shared/pipes/translate.pipe';
 import { Card } from '@shared/ui/card';
 import { CardHeaderTitle } from '@shared/ui/card-header-title/card-header-title';
 import { CardHeader } from '@shared/ui/card-header/card-header';
@@ -16,11 +17,14 @@ import { TotalGoalItem } from '../total-goal-item/total-goal-item';
     CardHeaderTitle,
     TotalGoalItem,
     SkeletonModule,
+    TranslatePipe,
   ],
   template: `
     <app-card class="sm:w-89">
       <app-card-header class="flex justify-between">
-        <app-card-header-title>Total Goals</app-card-header-title>
+        <app-card-header-title>{{
+          'goals.totalGoalsCard.title' | translate
+        }}</app-card-header-title>
       </app-card-header>
 
       @if (store.isLoading()) {

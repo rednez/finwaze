@@ -3,13 +3,16 @@ import {
   ChangeDetectionStrategy,
   Component,
   computed,
+  inject,
   input,
   linkedSignal,
   output,
 } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Category, Group } from '@core/models/categories';
+import { LocalizationService } from '@core/services/localization.service';
 import { SelectDesignTokens } from '@primeuix/themes/types/select';
+import { TranslatePipe } from '@shared/pipes/translate.pipe';
 import { DatePickerModule } from 'primeng/datepicker';
 import { FloatLabelModule } from 'primeng/floatlabel';
 import { SelectModule } from 'primeng/select';
@@ -22,6 +25,7 @@ import { SelectModule } from 'primeng/select';
     SelectModule,
     DatePickerModule,
     FloatLabelModule,
+    TranslatePipe,
   ],
   templateUrl: './transactions-filters.html',
   styles: `
@@ -33,6 +37,9 @@ import { SelectModule } from 'primeng/select';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class TransactionsFilters {
+  private readonly localizationService = inject(LocalizationService);
+  private t = (key: string) => this.localizationService.translate(key);
+
   readonly initMonth = input(new Date());
   readonly initTransactionType = input<string | null>();
   readonly initCurrency = input<string | null>();
@@ -48,14 +55,14 @@ export class TransactionsFilters {
   readonly categoryChanged = output<number | null>();
 
   protected readonly typesOptions = computed(() => [
-    { value: 'all', name: 'All' },
-    { value: 'income', name: 'Income' },
-    { value: 'expense', name: 'Expense' },
-    { value: 'transfer', name: 'Transfer' },
+    { value: 'all', name: this.t('shared.all') },
+    { value: 'income', name: this.t('shared.income') },
+    { value: 'expense', name: this.t('shared.expense') },
+    { value: 'transfer', name: this.t('transactions.filters.transfer') },
   ]);
 
   protected readonly currenciesOptions = computed(() => [
-    { name: 'All' },
+    { name: this.t('shared.all') },
     ...this.currencies().map((currency) => ({
       name: currency,
       value: currency,
@@ -63,15 +70,12 @@ export class TransactionsFilters {
   ]);
 
   protected readonly groupsOptions = computed(() => [
-    { id: 0, name: 'All' },
-    ...this.groups().map((group) => ({
-      id: group.id,
-      name: group.name,
-    })),
+    { id: 0, name: this.t('shared.all') },
+    ...this.groups().map((group) => ({ id: group.id, name: group.name })),
   ]);
 
   protected readonly categoriesOptions = computed(() => [
-    { id: 0, name: 'All' },
+    { id: 0, name: this.t('shared.all') },
     ...this.categories().map((category) => ({
       id: category.id,
       name: category.name,
@@ -79,16 +83,16 @@ export class TransactionsFilters {
   ]);
 
   protected readonly selectInputSchema: SelectDesignTokens = {
-    root: {
-      borderRadius: '12px',
-    },
+    root: { borderRadius: '12px' },
   };
 
   protected selectedMonth = linkedSignal(() => this.initMonth());
   protected selectedType = linkedSignal(
     () => this.initTransactionType() || 'all',
   );
-  protected selectedCurrency = linkedSignal(() => this.initCurrency() || 'All');
+  protected selectedCurrency = linkedSignal(
+    () => this.initCurrency() || this.t('shared.all'),
+  );
   protected selectedGroup = linkedSignal(() => this.initGroup() || 0);
   protected selectedCategory = linkedSignal(() => this.initCategory() || 0);
 
@@ -104,7 +108,7 @@ export class TransactionsFilters {
 
   protected onCurrencyChange(event: string) {
     this.selectedCurrency.set(event);
-    this.currencyChanged.emit(event !== 'All' ? event : null);
+    this.currencyChanged.emit(event !== this.t('shared.all') ? event : null);
   }
 
   protected onGroupChange(event: number) {

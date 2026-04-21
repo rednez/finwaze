@@ -5,19 +5,21 @@ import {
   computed,
   input,
 } from '@angular/core';
+import { TranslatePipe } from '@shared/pipes/translate.pipe';
 import { StyledAmount } from '@shared/ui/styled-amount/styled-amount';
 import { BudgetStatusBadge } from '../../budget-status-badge/budget-status-badge';
 
 @Component({
   selector: 'app-budget-card-summary',
-  imports: [CommonModule, StyledAmount, BudgetStatusBadge],
+  imports: [CommonModule, StyledAmount, BudgetStatusBadge, TranslatePipe],
   template: `
     <div>
-      <div class="text-muted-color">Left</div>
+      <div class="text-muted-color">
+        {{ 'budget.cardSummary.left' | translate }}
+      </div>
       <div class="flex flex-col">
-        <!-- amount size depends on the screen size -->
         <app-styled-amount
-          class="sm:hidden max-[500px]:max-w-36  overflow-hidden overflow-ellipsis"
+          class="sm:hidden max-[500px]:max-w-36 overflow-hidden overflow-ellipsis"
           [amount]="leftAmount()"
           [currency]="currency()"
           size="sm"
@@ -42,9 +44,7 @@ import { BudgetStatusBadge } from '../../budget-status-badge/budget-status-badge
       [spentAmount]="spentAmount()"
     />
   `,
-  host: {
-    class: 'flex flex-col gap-4',
-  },
+  host: { class: 'flex flex-col gap-4' },
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class BudgetCardSummary {

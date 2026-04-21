@@ -74,13 +74,13 @@ describe('FinancialMonthlyOverviewCard', () => {
 
   it('currentAmounts maps dailyIncome for Total income type', () => {
     dailyOverview.set(makeDataPoints());
-    component['type'].set({ name: 'Total income' });
+    component['typeKey'].set('income');
     expect(component['currentAmounts']()).toEqual([100, 200]);
   });
 
   it('currentAmounts maps dailyExpense for Total expenses type', () => {
     dailyOverview.set(makeDataPoints());
-    component['type'].set({ name: 'Total expenses' });
+    component['typeKey'].set('expenses');
     expect(component['currentAmounts']()).toEqual([50, 80]);
   });
 
@@ -91,13 +91,13 @@ describe('FinancialMonthlyOverviewCard', () => {
 
   it('previousAmounts maps dailyIncome for Total income type', () => {
     previousDailyOverview.set(makeDataPoints(10));
-    component['type'].set({ name: 'Total income' });
+    component['typeKey'].set('income');
     expect(component['previousAmounts']()).toEqual([110, 210]);
   });
 
   it('previousAmounts maps dailyExpense for Total expenses type', () => {
     previousDailyOverview.set(makeDataPoints(10));
-    component['type'].set({ name: 'Total expenses' });
+    component['typeKey'].set('expenses');
     expect(component['previousAmounts']()).toEqual([60, 90]);
   });
 

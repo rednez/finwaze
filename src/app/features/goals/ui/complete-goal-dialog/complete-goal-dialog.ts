@@ -11,6 +11,7 @@ import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Account } from '@core/models/accounts';
 import { SavingsGoal } from '@core/models/savings-goal';
 import { AccountSelect } from '@shared/ui/account-select';
+import { TranslatePipe } from '@shared/pipes/translate.pipe';
 import { ButtonModule } from 'primeng/button';
 import { DialogModule } from 'primeng/dialog';
 
@@ -22,6 +23,7 @@ import { DialogModule } from 'primeng/dialog';
     ButtonModule,
     ReactiveFormsModule,
     AccountSelect,
+    TranslatePipe,
   ],
   templateUrl: './complete-goal-dialog.html',
   changeDetection: ChangeDetectionStrategy.OnPush,

@@ -2,9 +2,11 @@ import {
   ChangeDetectionStrategy,
   Component,
   computed,
+  inject,
   input,
 } from '@angular/core';
 import { TransactionType } from '@core/models/transactions';
+import { LocalizationService } from '@core/services/localization.service';
 
 @Component({
   selector: 'app-group-transaction-type-chip',
@@ -23,10 +25,15 @@ import { TransactionType } from '@core/models/transactions';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class GroupTransactionTypeChip {
+  private readonly localizationService = inject(LocalizationService);
+  private t = (key: string) => this.localizationService.translate(key);
+
   readonly type = input<TransactionType>();
 
   protected readonly transactionTypeText = computed(() =>
-    this.type() === 'expense' ? 'Expense' : 'Income',
+    this.type() === 'expense'
+      ? this.t('groups.groupCard.expense')
+      : this.t('groups.groupCard.income'),
   );
 
   protected readonly incomeClasses =
