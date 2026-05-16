@@ -10,7 +10,7 @@ import { TransactionType } from '@core/models/transactions';
   selector: 'app-transaction-type-chip',
   template: ` <ng-content /> `,
   host: {
-    class: 'block w-fit p-1 rounded-lg',
+    class: 'block w-fit p-1 rounded-lg text-nowrap',
     '[class]':
       'isTransfer() ? transferClass : isExpense() ? expenseClass : isIncome() ? incomeClass : ""',
     '[class.text-xs]': 'isSmall()',
