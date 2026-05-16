@@ -14,9 +14,20 @@ export interface UserData {
   selector: 'app-user-avatar',
   imports: [AvatarModule, MenuModule, ButtonModule, SkeletonModule],
   template: `
-    <p-menu #menu [model]="items" [popup]="true" />
+    <p-menu #menu [model]="items" [popup]="true">
+      <ng-template #start>
+        @if (user(); as user) {
+          <div
+            class="p-4 border-b border-b-surface-100 dark:border-b-surface-700"
+          >
+            <div class="text-sm font-medium">{{ user.name }}</div>
+            <div class="text-xs text-gray-500">{{ user.email }}</div>
+          </div>
+        }
+      </ng-template>
+    </p-menu>
     <div
-      class="flex gap-2 items-center border border-surface-300 dark:border-surface-600 py-1 pl-1 pr-4 rounded-full"
+      class="flex gap-2 items-center border-2 border-primary-200 dark:border-primary-700 p-0.5 rounded-full"
       role="button"
       tabindex="0"
       (click)="menu.toggle($event)"
@@ -32,17 +43,8 @@ export interface UserData {
         />
 
         <p-avatar class="sm:hidden!" [image]="user.imgUrl" shape="circle" />
-
-        <div>
-          <div class="text-sm font-medium">{{ user.name }}</div>
-          <div class="text-xs text-gray-400">{{ user.email }}</div>
-        </div>
       } @else {
         <p-skeleton shape="circle" size="3rem" />
-        <div>
-          <p-skeleton width="6rem" height="12px" class="mb-2" />
-          <p-skeleton width="6rem" height="12px" />
-        </div>
       }
     </div>
   `,
