@@ -27,7 +27,7 @@ export interface UserData {
       </ng-template>
     </p-menu>
     <div
-      class="flex gap-2 items-center border-2 border-primary-200 dark:border-primary-700 p-0.5 rounded-full"
+      class="flex gap-2 items-center border-2 border-surface-200 dark:border-surface-700 p-0.5 rounded-full"
       role="button"
       tabindex="0"
       (click)="menu.toggle($event)"
