@@ -14,7 +14,7 @@ import { ChangeDetectionStrategy, Component, input } from '@angular/core';
     } @else {
       <div class="flex flex-col gap-5">
         <div class="text-2xl font-semibold">
-          {{ balance() | currency: currency() }}
+          {{ balance() | currency: currency() : 'symbol-narrow' }}
         </div>
         <div
           class="font-light whitespace-nowrap overflow-hidden text-ellipsis max-w-64 sm:whitespace-normal sm:max-w-full"

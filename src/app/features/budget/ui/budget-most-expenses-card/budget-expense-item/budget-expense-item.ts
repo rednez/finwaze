@@ -8,7 +8,7 @@ import { FinancialTrendBadge } from '@shared/ui/financial-trend-badge';
   template: `
     <div>
       <div class="font-medium">
-        {{ currentAmount() | currency: currency() }}
+        {{ currentAmount() | currency: currency() : 'symbol-narrow' }}
       </div>
       <div class="text-sm text-muted-color">{{ name() }}</div>
     </div>

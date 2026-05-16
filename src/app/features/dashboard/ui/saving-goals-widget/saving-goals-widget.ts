@@ -40,7 +40,10 @@ import { ProgressBar } from '@shared/ui/progress-bar';
               <div class="flex justify-between gap-1 text-sm mb-1">
                 <div class="font-medium max-w-50 truncate">{{ goal.name }}</div>
                 <div class="text-primary-500">
-                  {{ goal.targetAmount | currency: goal.currencyCode }}
+                  {{
+                    goal.targetAmount
+                      | currency: goal.currencyCode : 'symbol-narrow'
+                  }}
                 </div>
               </div>
 

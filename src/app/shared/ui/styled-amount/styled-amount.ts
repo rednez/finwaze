@@ -40,7 +40,11 @@ export class StyledAmount {
   private readonly formattedAmount = computed(
     () =>
       (this.currency()
-        ? this.currencyPipe.transform(this.amount(), this.currency())
+        ? this.currencyPipe.transform(
+            this.amount(),
+            this.currency(),
+            'symbol-narrow',
+          )
         : this.decimalPipe.transform(this.amount())) ?? '',
   );
 

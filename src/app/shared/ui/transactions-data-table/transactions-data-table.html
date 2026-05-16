@@ -65,14 +65,20 @@
         @if (hasTransactionAmountColumn()) {
           <td>
             <app-transaction-type-chip [type]="row.type">
-              {{ row.transactionAmount | currency: row.transactionCurrency }}
+              {{
+                row.transactionAmount
+                  | currency: row.transactionCurrency : 'symbol-narrow'
+              }}
             </app-transaction-type-chip>
           </td>
         }
         @if (hasChargedAmountColumn()) {
           <td>
             <app-transaction-type-chip [type]="row.type">
-              {{ row.chargedAmount | currency: row.chargedCurrency }}
+              {{
+                row.chargedAmount
+                  | currency: row.chargedCurrency : 'symbol-narrow'
+              }}
             </app-transaction-type-chip>
           </td>
         }
