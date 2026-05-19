@@ -1,5 +1,15 @@
 export const CORE_TRANSLATIONS = {
   en: {
+    sidebar: {
+      dashboard: 'Dashboard',
+      transactions: 'Transactions',
+      categories: 'Categories',
+      wallet: 'Wallet',
+      budget: 'Budget',
+      goals: 'Goals',
+      analytics: 'Analytics',
+      logout: 'Log out',
+    },
     pages: {
       dashboard: { title: 'Dashboard', description: 'Brief overview of your financial status' },
       transactions: { title: 'Transactions', description: 'View and manage your transactions' },
@@ -13,6 +23,16 @@ export const CORE_TRANSLATIONS = {
     language: 'Language',
   },
   uk: {
+    sidebar: {
+      dashboard: 'Дашборд',
+      transactions: 'Транзакції',
+      categories: 'Категорії',
+      wallet: 'Гаманець',
+      budget: 'Бюджет',
+      goals: 'Цілі',
+      analytics: 'Аналітика',
+      logout: 'Вийти',
+    },
     pages: {
       dashboard: { title: 'Дашборд', description: 'Короткий огляд вашого фінансового стану' },
       transactions: { title: 'Транзакції', description: 'Перегляд та управління транзакціями' },
@@ -26,6 +46,16 @@ export const CORE_TRANSLATIONS = {
     language: 'Мова',
   },
   cs: {
+    sidebar: {
+      dashboard: 'Přehled',
+      transactions: 'Transakce',
+      categories: 'Kategorie',
+      wallet: 'Peněženka',
+      budget: 'Rozpočet',
+      goals: 'Cíle',
+      analytics: 'Analytika',
+      logout: 'Odhlásit se',
+    },
     pages: {
       dashboard: { title: 'Přehled', description: 'Stručný přehled vašeho finančního stavu' },
       transactions: { title: 'Transakce', description: 'Zobrazení a správa transakcí' },
