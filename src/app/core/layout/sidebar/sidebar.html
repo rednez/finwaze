@@ -9,7 +9,7 @@
     />
 
     <ul>
-      @for (item of items; track item.label) {
+      @for (item of items(); track item.name) {
         <app-sidebar-nav-item
           [label]="item.label"
           [icon]="item.icon"
@@ -24,7 +24,7 @@
   <div class="bottom">
     <app-theme-switcher [closed]="closed()" />
     <app-sidebar-nav-item
-      label="Log out"
+      [label]="logoutLabel()"
       icon="logout"
       [closed]="closed()"
       (click)="logout()"
