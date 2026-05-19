@@ -1,4 +1,5 @@
-import { Component, input, output } from '@angular/core';
+import { Component, computed, inject, input, output } from '@angular/core';
+import { LocalizationService } from '@core/services/localization.service';
 import { AvatarModule } from 'primeng/avatar';
 import { ButtonModule } from 'primeng/button';
 import { MenuModule } from 'primeng/menu';
@@ -14,7 +15,7 @@ export interface UserData {
   selector: 'app-user-avatar',
   imports: [AvatarModule, MenuModule, ButtonModule, SkeletonModule],
   template: `
-    <p-menu #menu [model]="items" [popup]="true">
+    <p-menu #menu [model]="items()" [popup]="true">
       <ng-template #start>
         @if (user(); as user) {
           <div
@@ -50,14 +51,16 @@ export interface UserData {
   `,
 })
 export class UserAvatar {
+  private readonly localizationService = inject(LocalizationService);
+
   readonly user = input<UserData | undefined>(undefined);
   readonly logout = output();
 
-  protected items = [
+  protected items = computed(() => [
     {
-      label: 'Log out',
+      label: this.localizationService.translate('core.logout'),
       icon: 'pi pi-sign-out',
       command: () => this.logout.emit(),
     },
-  ];
+  ]);
 }
