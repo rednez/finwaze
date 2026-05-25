@@ -17,7 +17,8 @@
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
     "lint": "ng lint",
-    "supabase": "supabase"
+    "supabase": "supabase",
+    "db:start": "./load-env.sh && supabase start"
   },
   "prettier": {
     "printWidth": 80,
