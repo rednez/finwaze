@@ -68,6 +68,11 @@ export class TransactionsList {
     this.store.loadTransactions();
   }
 
+  protected onAccountChanged(event: number | null) {
+    this.store.updateAccount(event);
+    this.store.loadTransactions();
+  }
+
   protected onGroupChanged(event: number | null) {
     this.store.updateGroup(event);
     this.store.loadTransactions();

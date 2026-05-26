@@ -21,6 +21,7 @@ export interface TransactionsState {
   month: Date;
   transactionType: TransactionType | null;
   currencyCode: string | null;
+  accountId: number | null;
   groupId: number | null;
   categoryId: number | null;
 }
@@ -35,6 +36,7 @@ const initialState: TransactionsState = {
   month: new Date(),
   transactionType: null,
   currencyCode: null,
+  accountId: null,
   groupId: null,
   categoryId: null,
 };
@@ -50,6 +52,13 @@ export const TransactionsStore = signalStore(
       categoriesStore = inject(CategoriesStore),
     ) => ({
       currencies: () => accountsStore.myCurrencies(),
+      accounts: () =>
+        accountsStore
+          .accounts()
+          .filter(
+            (a) =>
+              !store.currencyCode() || a.currencyCode === store.currencyCode(),
+          ),
       groups: () => categoriesStore.allGroups(),
       categories: () =>
         categoriesStore
@@ -84,6 +93,7 @@ export const TransactionsStore = signalStore(
             transactionType: store.transactionType(),
             categoryIds: store._categoryIds(),
             transactionCurrencyCode: store.currencyCode(),
+            accountId: store.accountId(),
           });
 
         if (store.isLoaded()) {
@@ -117,7 +127,11 @@ export const TransactionsStore = signalStore(
     },
 
     updateCurrency(code: string | null) {
-      patchState(store, () => ({ currencyCode: code }));
+      patchState(store, () => ({ currencyCode: code, accountId: null }));
+    },
+
+    updateAccount(id: number | null) {
+      patchState(store, () => ({ accountId: id }));
     },
 
     updateGroup(id: number | null): void {

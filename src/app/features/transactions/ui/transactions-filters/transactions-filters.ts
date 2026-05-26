@@ -9,6 +9,7 @@ import {
   output,
 } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { Account } from '@core/models/accounts';
 import { Category, Group } from '@core/models/categories';
 import { LocalizationService } from '@core/services/localization.service';
 import { SelectDesignTokens } from '@primeuix/themes/types/select';
@@ -43,14 +44,17 @@ export class TransactionsFilters {
   readonly initMonth = input(new Date());
   readonly initTransactionType = input<string | null>();
   readonly initCurrency = input<string | null>();
+  readonly initAccount = input<number | null>();
   readonly initGroup = input<number | null>();
   readonly initCategory = input<number | null>();
   readonly currencies = input<string[]>([]);
+  readonly accounts = input<Account[]>([]);
   readonly groups = input<Group[]>([]);
   readonly categories = input<Category[]>([]);
   readonly monthChanged = output<Date>();
   readonly typeChanged = output<string | null>();
   readonly currencyChanged = output<string | null>();
+  readonly accountChanged = output<number | null>();
   readonly groupChanged = output<number | null>();
   readonly categoryChanged = output<number | null>();
 
@@ -67,6 +71,11 @@ export class TransactionsFilters {
       name: currency,
       value: currency,
     })),
+  ]);
+
+  protected readonly accountsOptions = computed(() => [
+    { id: 0, name: this.t('shared.all') },
+    ...this.accounts().map((a) => ({ id: a.id, name: a.name })),
   ]);
 
   protected readonly groupsOptions = computed(() => [
@@ -93,6 +102,7 @@ export class TransactionsFilters {
   protected selectedCurrency = linkedSignal(
     () => this.initCurrency() || this.t('shared.all'),
   );
+  protected selectedAccount = linkedSignal(() => this.initAccount() || 0);
   protected selectedGroup = linkedSignal(() => this.initGroup() || 0);
   protected selectedCategory = linkedSignal(() => this.initCategory() || 0);
 
@@ -109,6 +119,11 @@ export class TransactionsFilters {
   protected onCurrencyChange(event: string) {
     this.selectedCurrency.set(event);
     this.currencyChanged.emit(event !== this.t('shared.all') ? event : null);
+  }
+
+  protected onAccountChange(event: number) {
+    this.selectedAccount.set(event);
+    this.accountChanged.emit(event !== 0 ? event : null);
   }
 
   protected onGroupChange(event: number) {

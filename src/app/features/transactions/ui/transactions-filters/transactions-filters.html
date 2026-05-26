@@ -48,6 +48,21 @@
 
 <p-floatlabel class="sm:w-36" variant="on">
   <p-select
+    [ngModel]="selectedAccount()"
+    (ngModelChange)="onAccountChange($event)"
+    [options]="accountsOptions()"
+    optionLabel="name"
+    optionValue="id"
+    class="w-full"
+    size="small"
+    inputId="account"
+    [dt]="selectInputSchema"
+  />
+  <label for="account">{{ 'transactions.filters.account' | translate }}</label>
+</p-floatlabel>
+
+<p-floatlabel class="sm:w-36" variant="on">
+  <p-select
     [ngModel]="selectedGroup()"
     (ngModelChange)="onGroupChange($event)"
     [options]="groupsOptions()"

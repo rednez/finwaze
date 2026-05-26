@@ -44,6 +44,7 @@ export const TRANSACTIONS_TRANSLATIONS = {
     filters: {
       budgetMonth: 'Budget month',
       type: 'Type',
+      account: 'Account',
       transfer: 'Transfer',
     },
     dialog: {
@@ -96,6 +97,7 @@ export const TRANSACTIONS_TRANSLATIONS = {
     filters: {
       budgetMonth: 'Місяць',
       type: 'Тип',
+      account: 'Рахунок',
       transfer: 'Переказ',
     },
     dialog: {
@@ -148,6 +150,7 @@ export const TRANSACTIONS_TRANSLATIONS = {
     filters: {
       budgetMonth: 'Měsíc',
       type: 'Typ',
+      account: 'Účet',
       transfer: 'Převod',
     },
     dialog: {

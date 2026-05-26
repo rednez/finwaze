@@ -68,6 +68,7 @@ export class TransactionsRepository {
     transactionType: TransactionType | null;
     categoryIds: number[] | null;
     transactionCurrencyCode: string | null;
+    accountId: number | null;
   }): Promise<{ transactions: Transaction[]; hasTransactions: boolean }> {
     const [
       { data: transactionsData, error: transactionsError },
@@ -81,6 +82,7 @@ export class TransactionsRepository {
           p_transaction_currency_codes: filters.transactionCurrencyCode
             ? [filters.transactionCurrencyCode]
             : null,
+          p_account_ids: filters.accountId ? [filters.accountId] : null,
         })
         .select(),
       this.supabase.client

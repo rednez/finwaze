@@ -6,14 +6,17 @@
       <app-transactions-filters
         [initMonth]="store.month()"
         [initCurrency]="store.currencyCode()"
+        [initAccount]="store.accountId()"
         [initGroup]="store.groupId()"
         [initCategory]="store.categoryId()"
         [currencies]="store.currencies()"
+        [accounts]="store.accounts()"
         [groups]="store.groups()"
         [categories]="store.categories()"
         (monthChanged)="onMonthChanged($event)"
         (typeChanged)="onTransactionTypeChanged($event)"
         (currencyChanged)="onCurrencyChanged($event)"
+        (accountChanged)="onAccountChanged($event)"
         (groupChanged)="onGroupChanged($event)"
         (categoryChanged)="onCategoryChanged($event)"
       />
