@@ -31,7 +31,7 @@ export class GroupsAndCategoriesRepository {
     const { error, data } = await this.supabase.client
       .from('groups')
       .insert({ name, transaction_type: transactionType })
-      .select('id, name, transaction_type')
+      .select('id, name, transaction_type, color')
       .single();
     if (error) {
       throw new Error(error.message);
@@ -69,7 +69,7 @@ export class GroupsAndCategoriesRepository {
     const { error, data } = await this.supabase.client
       .from('categories')
       .insert({ name, group_id: groupId })
-      .select('id, name, group_id')
+      .select('id, name, group_id, color')
       .single();
     if (error) {
       throw new Error(error.message);
@@ -97,5 +97,25 @@ export class GroupsAndCategoriesRepository {
       throw new Error(error.message);
     }
     return;
+  }
+
+  async updateGroupColor(id: number, color: string | null): Promise<void> {
+    const { error } = await this.supabase.client
+      .from('groups')
+      .update({ color })
+      .eq('id', id);
+    if (error) {
+      throw new Error(error.message);
+    }
+  }
+
+  async updateCategoryColor(id: number, color: string | null): Promise<void> {
+    const { error } = await this.supabase.client
+      .from('categories')
+      .update({ color })
+      .eq('id', id);
+    if (error) {
+      throw new Error(error.message);
+    }
   }
 }

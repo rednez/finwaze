@@ -8,11 +8,12 @@ import {
   output,
 } from '@angular/core';
 import { FormControl, ReactiveFormsModule, Validators } from '@angular/forms';
+import { ColorPalette } from '@shared/ui/color-palette';
 import { TranslatePipe } from '@shared/pipes/translate.pipe';
 
 @Component({
   selector: 'app-category-chip',
-  imports: [CommonModule, ReactiveFormsModule, TranslatePipe],
+  imports: [CommonModule, ReactiveFormsModule, TranslatePipe, ColorPalette],
   templateUrl: './category-chip.html',
   host: {
     class:
@@ -22,9 +23,11 @@ import { TranslatePipe } from '@shared/pipes/translate.pipe';
 })
 export class CategoryChip implements OnInit {
   readonly name = input<string>();
+  readonly color = input<string | null>(null);
   readonly transactionsCount = input(0);
   readonly initialEditingMode = input(false);
   readonly rename = output<string>();
+  readonly colorChange = output<string | null>();
   readonly delete = output();
   readonly cancelEdit = output();
 

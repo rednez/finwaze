@@ -15,6 +15,7 @@ export class CategoriesMapper {
       id: dto.id,
       name: dto.name,
       transactionType: dto.transaction_type,
+      color: dto.color ?? null,
     };
   }
 
@@ -23,6 +24,7 @@ export class CategoriesMapper {
       id: dto.id,
       name: dto.name,
       groupId: dto.group_id,
+      color: dto.color ?? null,
     };
   }
 }

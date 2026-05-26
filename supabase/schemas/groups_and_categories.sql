@@ -4,6 +4,7 @@ create table public.groups (
   name text not null,
   user_id uuid not null default auth.uid (),
   is_system boolean not null default false,
+  color text,
   transaction_type public.transaction_type not null,
   constraint groups_pkey primary key (id),
   constraint groups_user_id_fkey foreign KEY (user_id) references auth.users (id),
@@ -57,6 +58,7 @@ create table public.categories (
   group_id bigint not null,
   name text not null,
   is_system boolean not null default false,
+  color text,
   constraint categories_pkey primary key (id),
   constraint categories_user_id_fkey foreign KEY (user_id) references auth.users (id),
   constraint categories_group_id_fkey foreign KEY (group_id) references groups (id),
@@ -106,7 +108,6 @@ using (
 create function create_default_user_categories()
   returns trigger
   language plpgsql
-  security definer
   set search_path = ''
   as $$
   begin

@@ -149,6 +149,18 @@ export class GroupsAndCategories {
     }
   }
 
+  async updateGroupColor(id: number, color: string | null) {
+    await this.store.updateGroupColor(id, color);
+  }
+
+  async updateCategoryColor(
+    categoryId: number,
+    groupId: number,
+    color: string | null,
+  ) {
+    await this.store.updateCategoryColor({ categoryId, groupId, color });
+  }
+
   protected onTransactionTypeChanged(event: TransactionType | null) {
     this.store.updateTransactionType(event);
   }

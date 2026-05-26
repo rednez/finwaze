@@ -30,9 +30,10 @@ describe('GroupsAndCategoriesMapper', () => {
         id: 10,
         name: 'Transport',
         transactionType: 'expense',
+        color: null,
         categories: [
-          { id: 1, name: 'Fuel', transactionsCount: 25 },
-          { id: 2, name: 'Parking', transactionsCount: 8 },
+          { id: 1, name: 'Fuel', color: null, transactionsCount: 25 },
+          { id: 2, name: 'Parking', color: null, transactionsCount: 8 },
         ],
       });
     });

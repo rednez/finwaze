@@ -24,8 +24,10 @@ export class TransactionsMapper {
       type,
       category_id,
       category_name,
+      category_color,
       group_id,
       group_name,
+      group_color,
       comment,
       transfer_id,
     } = dto;
@@ -41,8 +43,8 @@ export class TransactionsMapper {
       chargedCurrency: charged_currency_code,
       exchangeRate: exchange_rate,
       type,
-      group: { id: group_id, name: group_name },
-      category: { id: category_id, name: category_name },
+      group: { id: group_id, name: group_name, color: group_color ?? null },
+      category: { id: category_id, name: category_name, color: category_color ?? null },
       comment,
       transferId: transfer_id,
     };

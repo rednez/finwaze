@@ -14,8 +14,10 @@ export interface TransactionDto {
   type: TransactionType;
   category_id: number;
   category_name: string;
+  category_color?: string | null;
   group_id: number;
   group_name: string;
+  group_color?: string | null;
   comment: string;
   transfer_id: string;
 }
@@ -46,8 +48,8 @@ export interface Transaction {
   chargedCurrency: string;
   exchangeRate: number;
   type: TransactionType;
-  group: { id: number; name: string };
-  category: { id: number; name: string };
+  group: { id: number; name: string; color?: string | null };
+  category: { id: number; name: string; color?: string | null };
   comment: string | null;
   transferId: string | null;
 }

@@ -5,22 +5,25 @@ WITH category_tx_counts AS (
     c.id,
     c.group_id,
     c.name,
+    c.color,
     COUNT(t.id)::int AS transactions_count
   FROM public.categories c
   LEFT JOIN public.transactions t
     ON t.category_id = c.id
   WHERE c.is_system = false
-  GROUP BY c.id, c.group_id, c.name
+  GROUP BY c.id, c.group_id, c.name, c.color
 )
 SELECT
   g.id,
   g.name,
+  g.color,
   g.transaction_type,
   COALESCE(
     jsonb_agg(
       jsonb_build_object(
         'id', ctc.id,
         'name', ctc.name,
+        'color', ctc.color,
         'transactions_count', ctc.transactions_count
       )
       ORDER BY ctc.id
@@ -31,7 +34,7 @@ FROM public.groups g
 LEFT JOIN category_tx_counts ctc
   ON ctc.group_id = g.id
 WHERE g.is_system = false
-GROUP BY g.id, g.name, g.transaction_type;
+GROUP BY g.id, g.name, g.color, g.transaction_type;
 
 CREATE OR REPLACE VIEW public.regular_accounts_with_balance
 WITH

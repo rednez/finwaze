@@ -10,9 +10,11 @@ export class GroupsAndCategoriesMapper {
     id: number;
     name: string;
     transaction_type: TransactionType;
+    color?: string | null;
     categories: {
       id: number;
       name: string;
+      color?: string | null;
       transactions_count: number;
     }[];
   }): GroupWithCategories => {
@@ -20,6 +22,7 @@ export class GroupsAndCategoriesMapper {
       id: dto.id,
       name: dto.name,
       transactionType: dto.transaction_type,
+      color: dto.color ?? null,
       categories: dto.categories.map(this.fromCategoryWithTxCountDto),
     };
   };
@@ -27,11 +30,13 @@ export class GroupsAndCategoriesMapper {
   private fromCategoryWithTxCountDto = (dto: {
     id: number;
     name: string;
+    color?: string | null;
     transactions_count: number;
   }): CategoryWithTxCount => {
     return {
       id: dto.id,
       name: dto.name,
+      color: dto.color ?? null,
       transactionsCount: dto.transactions_count,
     };
   };

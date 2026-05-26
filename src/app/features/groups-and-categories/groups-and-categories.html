@@ -30,6 +30,10 @@
           renameCategory($event.newName, $event.categoryId, group.id)
         "
         (deleteCategory)="deleteCategory($event, group.id)"
+        (updateGroupColor)="updateGroupColor(group.id, $event)"
+        (updateCategoryColor)="
+          updateCategoryColor($event.categoryId, group.id, $event.color)
+        "
       />
     }
   </div>

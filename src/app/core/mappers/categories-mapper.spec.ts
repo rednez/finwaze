@@ -27,6 +27,7 @@ describe('CategoriesMapper', () => {
         id: 10,
         name: 'Transport',
         transactionType: 'expense',
+        color: null,
       });
     });
 
@@ -53,6 +54,7 @@ describe('CategoriesMapper', () => {
         id: 3,
         name: 'Fuel',
         groupId: 10,
+        color: null,
       });
     });
   });

@@ -46,7 +46,17 @@
                 Transfer
               </app-transaction-type-chip>
             } @else {
-              {{ row.group.name }}
+              <span
+                class="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-md bg-surface-100 dark:bg-surface-700 text-xs font-medium whitespace-nowrap"
+              >
+                @if (row.group.color) {
+                  <span
+                    class="w-2 h-2 rounded-sm shrink-0"
+                    [style.background]="row.group.color"
+                  ></span>
+                }
+                {{ row.group.name }}
+              </span>
             }
           </td>
         }
@@ -58,7 +68,17 @@
                 {{ row.account.name }}
               </app-transaction-type-chip>
             } @else {
-              {{ row.category.name }}
+              <span
+                class="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-md bg-surface-100 dark:bg-surface-700 text-xs font-medium whitespace-nowrap"
+              >
+                @if (row.category.color) {
+                  <span
+                    class="w-2 h-2 rounded-sm shrink-0"
+                    [style.background]="row.category.color"
+                  ></span>
+                }
+                {{ row.category.name }}
+              </span>
             }
           </td>
         }

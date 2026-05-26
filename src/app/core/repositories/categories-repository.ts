@@ -14,7 +14,7 @@ export class CategoriesRepository {
   async getGroups(): Promise<Group[]> {
     const { data, error } = await this.supabase.client
       .from('groups')
-      .select(`id, name, transaction_type`)
+      .select(`id, name, transaction_type, color`)
       .eq('is_system', false);
 
     if (error) {
@@ -27,7 +27,7 @@ export class CategoriesRepository {
   async getCategories(): Promise<Category[]> {
     const { data, error } = await this.supabase.client
       .from('categories')
-      .select(`id, name, group_id`)
+      .select(`id, name, group_id, color`)
       .eq('is_system', false);
 
     if (error) {
@@ -44,7 +44,7 @@ export class CategoriesRepository {
     const { data, error } = await this.supabase.client
       .from('groups')
       .insert({ name, transaction_type: transactionType })
-      .select('id, name, transaction_type')
+      .select('id, name, transaction_type, color')
       .single();
 
     if (error) {
@@ -58,7 +58,7 @@ export class CategoriesRepository {
     const { data, error } = await this.supabase.client
       .from('categories')
       .insert({ name, group_id: groupId })
-      .select('id, name, group_id')
+      .select('id, name, group_id, color')
       .single();
 
     if (error) {

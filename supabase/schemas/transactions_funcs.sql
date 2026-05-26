@@ -14,8 +14,10 @@ CREATE OR REPLACE FUNCTION get_recent_transactions (
   type transactions.type % type,
   group_id BIGINT,
   group_name TEXT,
+  group_color TEXT,
   category_id BIGINT,
   category_name TEXT,
+  category_color TEXT,
   comment transactions.comment % type,
   transfer_id transactions.transfer_id % type
 ) language sql
@@ -35,8 +37,10 @@ SET
     t.type,
     cg.id as group_id,
     cg.name as group_name,
+    cg.color as group_color,
     cat.id as category_id,
     cat.name as category_name,
+    cat.color as category_color,
     t.comment,
     t.transfer_id
   from public.transactions t
@@ -78,8 +82,10 @@ CREATE OR REPLACE FUNCTION get_filtered_transactions (
   type transactions.type % type,
   group_id BIGINT,
   group_name TEXT,
+  group_color TEXT,
   category_id BIGINT,
   category_name TEXT,
+  category_color TEXT,
   comment transactions.comment % type,
   transfer_id transactions.transfer_id % type
 ) language sql
@@ -99,8 +105,10 @@ SET
     t.type,
     cg.id as group_id,
     cg.name as group_name,
+    cg.color as group_color,
     cat.id as category_id,
     cat.name as category_name,
+    cat.color as category_color,
     t.comment,
     t.transfer_id
   from public.transactions t
@@ -167,8 +175,10 @@ CREATE OR REPLACE FUNCTION get_transfer_transactions (
   type transactions.type % type,
   group_id BIGINT,
   group_name TEXT,
+  group_color TEXT,
   category_id BIGINT,
   category_name TEXT,
+  category_color TEXT,
   comment transactions.comment % type,
   transfer_id transactions.transfer_id % type
 ) language sql
@@ -194,8 +204,10 @@ SET
     t.type,
     cg.id as group_id,
     cg.name as group_name,
+    cg.color as group_color,
     cat.id as category_id,
     cat.name as category_name,
+    cat.color as category_color,
     t.comment,
     t.transfer_id
   from public.transactions t

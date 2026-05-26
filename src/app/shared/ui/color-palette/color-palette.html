@@ -1,0 +1,35 @@
+<button
+  type="button"
+  class="w-4 h-4 rounded-full border border-gray-300 dark:border-gray-600 shrink-0 cursor-pointer hover:scale-110 transition-transform"
+  [style.background]="color() ?? '#d1d5db'"
+  [attr.aria-label]="color() ? 'Color: ' + color() : 'No color selected'"
+  (click)="toggle($event)"
+></button>
+
+<p-popover #popover>
+  <div class="flex flex-col gap-2 p-1">
+    <div class="grid grid-cols-6 gap-1.5">
+      @for (c of colors; track c) {
+        <button
+          type="button"
+          class="w-5 h-5 rounded-full cursor-pointer hover:scale-125 transition-transform"
+          [class.ring-2]="color() === c"
+          [class.ring-offset-1]="color() === c"
+          [class.ring-gray-400]="color() === c"
+          [style.background]="c"
+          [attr.aria-label]="'Select color ' + c"
+          (click)="select(c, $event)"
+        ></button>
+      }
+    </div>
+
+    <button
+      type="button"
+      class="flex items-center gap-1 text-xs text-muted-color hover:text-red-500 cursor-pointer px-1 mt-2"
+      (click)="clear($event)"
+    >
+      <span class="pi pi-times text-xs"></span>
+      Remove color
+    </button>
+  </div>
+</p-popover>

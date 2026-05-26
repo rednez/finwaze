@@ -203,6 +203,57 @@ export const GroupsAndCategoriesStore = signalStore(
       }
     },
 
+    async updateGroupColor(
+      id: number,
+      color: string | null,
+    ): Promise<Result> {
+      try {
+        await repository.updateGroupColor(id, color);
+
+        const groups = store.groups();
+        const groupIndex = groups.findIndex((g) => g.id === id);
+        if (groupIndex === -1) {
+          throw new Error('Group not found');
+        }
+        groups[groupIndex].color = color;
+
+        patchState(store, () => ({ groups }));
+
+        return resultOk();
+      } catch (error) {
+        return resultError(error);
+      }
+    },
+
+    async updateCategoryColor(params: {
+      categoryId: number;
+      groupId: number;
+      color: string | null;
+    }): Promise<Result> {
+      try {
+        await repository.updateCategoryColor(params.categoryId, params.color);
+
+        const groups = store.groups();
+        const groupIndex = groups.findIndex((g) => g.id === params.groupId);
+        if (groupIndex === -1) {
+          throw new Error('Group not found');
+        }
+        const categoryIndex = groups[groupIndex].categories.findIndex(
+          (c) => c.id === params.categoryId,
+        );
+        if (categoryIndex === -1) {
+          throw new Error('Category not found');
+        }
+        groups[groupIndex].categories[categoryIndex].color = params.color;
+
+        patchState(store, () => ({ groups }));
+
+        return resultOk();
+      } catch (error) {
+        return resultError(error);
+      }
+    },
+
     updateTransactionType(value: TransactionType | null) {
       patchState(store, () => ({
         filters: { transactionType: value },

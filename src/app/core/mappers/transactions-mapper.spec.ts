@@ -83,8 +83,8 @@ describe('TransactionsMapper', () => {
         chargedCurrency: 'UAH',
         exchangeRate: 42,
         type: 'expense',
-        group: { id: 10, name: 'Transport' },
-        category: { id: 3, name: 'Fuel' },
+        group: { id: 10, name: 'Transport', color: null },
+        category: { id: 3, name: 'Fuel', color: null },
         comment: 'gas station',
         transferId: '',
       });

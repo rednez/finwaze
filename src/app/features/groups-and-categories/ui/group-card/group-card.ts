@@ -9,6 +9,7 @@ import {
 } from '@angular/core';
 import { FormControl, ReactiveFormsModule, Validators } from '@angular/forms';
 import { LocalizationService } from '@core/services/localization.service';
+import { ColorPalette } from '@shared/ui/color-palette';
 import { Card } from '@shared/ui/card';
 import { CardHeader } from '@shared/ui/card-header';
 import { CardHeaderTitle } from '@shared/ui/card-header-title';
@@ -27,6 +28,7 @@ import { GroupTransactionTypeChip } from '../group-transaction-type-chip';
     ButtonModule,
     CategoryChip,
     GroupTransactionTypeChip,
+    ColorPalette,
   ],
   templateUrl: './group-card.html',
   host: { class: 'block h-full' },
@@ -41,6 +43,11 @@ export class GroupCard implements OnInit {
   readonly renameCategory = output<{ categoryId: number; newName: string }>();
   readonly deleteCategory = output<number>();
   readonly createCategory = output<string>();
+  readonly updateGroupColor = output<string | null>();
+  readonly updateCategoryColor = output<{
+    categoryId: number;
+    color: string | null;
+  }>();
 
   protected readonly name = new FormControl('', [
     Validators.required,

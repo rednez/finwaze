@@ -27,7 +27,11 @@
           />
         </div>
       } @else {
-        <div class="flex items-start gap-1">
+        <div class="flex items-center gap-2">
+          <app-color-palette
+            [color]="group()?.color ?? null"
+            (colorChange)="updateGroupColor.emit($event)"
+          />
           <div>{{ name.value }}</div>
 
           <p-button
@@ -66,8 +70,10 @@
       @for (cat of group()!.categories; track cat.id) {
         <app-category-chip
           [name]="cat.name"
+          [color]="cat.color ?? null"
           [transactionsCount]="cat.transactionsCount"
           (rename)="onRenameCategory(cat.id, $event)"
+          (colorChange)="updateCategoryColor.emit({ categoryId: cat.id, color: $event })"
           (delete)="onDeleteCategory(cat.id)"
         />
       }
