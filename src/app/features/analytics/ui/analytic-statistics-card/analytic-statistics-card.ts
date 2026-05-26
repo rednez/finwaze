@@ -17,7 +17,6 @@ import { DonutSummaryChart } from '@shared/ui/donut-summary-chart';
 import { SelectModule } from 'primeng/select';
 import { SelectButtonModule } from 'primeng/selectbutton';
 import { SkeletonModule } from 'primeng/skeleton';
-import { v4 } from 'uuid';
 import { AnalyticsStore } from '../../stores';
 import { StatisticsByGroups } from './statistics-by-groups/statistics-by-groups';
 
@@ -121,7 +120,7 @@ export class AnalyticStatisticsCard {
     const sorted = [...items].sort((a, b) => b.amount - a.amount);
     const colors = generateAnalogColors(sorted.length);
     return sorted.map((g, i) => ({
-      id: v4(),
+      id: crypto.randomUUID(),
       name: g.groupName,
       amount: g.amount,
       color: colors[i],
@@ -133,7 +132,7 @@ export class AnalyticStatisticsCard {
     const sorted = [...items].sort((a, b) => b.amount - a.amount);
     const colors = generateAnalogColors(sorted.length);
     return sorted.map((g, i) => ({
-      id: v4(),
+      id: crypto.randomUUID(),
       name: g.groupName,
       amount: g.amount,
       color: colors[i],
@@ -145,7 +144,7 @@ export class AnalyticStatisticsCard {
     const sorted = [...items].sort((a, b) => b.amount - a.amount);
     const colors = generateAnalogColors(sorted.length);
     return sorted.map((g, i) => ({
-      id: v4(),
+      id: crypto.randomUUID(),
       name: g.groupName,
       amount: g.amount,
       color: colors[i],

@@ -14,7 +14,6 @@ import { CardEmptyState } from '@shared/ui/card-empty-state';
 import { CardHeaderTitle } from '@shared/ui/card-header-title/card-header-title';
 import { CardHeader } from '@shared/ui/card-header/card-header';
 import { DonutSummaryChart } from '@shared/ui/donut-summary-chart';
-import { v4 } from 'uuid';
 
 @Component({
   selector: 'app-budget-widget',
@@ -82,7 +81,7 @@ export class BudgetWidget {
       .sort((a, b) => b.amount - a.amount)
       .map((cat, index) => ({
         ...cat,
-        id: v4(),
+        id: crypto.randomUUID(),
         color: colors[index],
       }));
 
@@ -91,7 +90,7 @@ export class BudgetWidget {
       : [
           ...sortedCategories.slice(0, 6),
           {
-            id: v4(),
+            id: crypto.randomUUID(),
             name: this.t('dashboard.budgetWidget.restCategories'),
             amount: sortedCategories
               .slice(6)

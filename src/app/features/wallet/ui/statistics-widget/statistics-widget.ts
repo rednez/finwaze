@@ -21,7 +21,6 @@ import { DatePickerModule } from 'primeng/datepicker';
 import { IftaLabelModule } from 'primeng/iftalabel';
 import { SelectModule } from 'primeng/select';
 import { SelectButtonModule } from 'primeng/selectbutton';
-import { v4 } from 'uuid';
 import { MonthlySummary } from '../../models';
 import { StatisticsByGroups } from './statistics-by-groups/statistics-by-groups';
 
@@ -150,13 +149,13 @@ export class StatisticsWidget {
     const colors = generateAnalogColors(this.incomes().length);
     const sorted = this.incomes()
       .sort((a, b) => b.amount - a.amount)
-      .map((cat, i) => ({ ...cat, id: v4(), color: colors[i] }));
+      .map((cat, i) => ({ ...cat, id: crypto.randomUUID(), color: colors[i] }));
     return this.incomes().length <= 7
       ? sorted
       : [
           ...sorted.slice(0, 6),
           {
-            id: v4(),
+            id: crypto.randomUUID(),
             name: this.t('wallet.statistics.restCategories'),
             amount: sorted.slice(6).reduce((s, c) => s + c.amount, 0),
             color: '#e2e1e3',
@@ -168,13 +167,13 @@ export class StatisticsWidget {
     const colors = generateAnalogColors(this.expenses().length);
     const sorted = this.expenses()
       .sort((a, b) => b.amount - a.amount)
-      .map((cat, i) => ({ ...cat, id: v4(), color: colors[i] }));
+      .map((cat, i) => ({ ...cat, id: crypto.randomUUID(), color: colors[i] }));
     return this.expenses().length <= 7
       ? sorted
       : [
           ...sorted.slice(0, 6),
           {
-            id: v4(),
+            id: crypto.randomUUID(),
             name: this.t('wallet.statistics.restCategories'),
             amount: sorted.slice(6).reduce((s, c) => s + c.amount, 0),
             color: '#e2e1e3',
