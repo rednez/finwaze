@@ -25,6 +25,7 @@ export class SupabaseService {
         {
           auth: {
             detectSessionInUrl: true,
+            experimental: { passkey: true },
           },
         },
       );
@@ -120,5 +121,20 @@ export class SupabaseService {
       return null;
     }
     return user;
+  }
+
+  async registerPasskey() {
+    if (!this.supabase) {
+      throw new Error('Supabase client is not initialized');
+    }
+
+    const { data, error } = await this.supabase.auth.registerPasskey();
+
+    if (error) {
+      // User cancelled, browser doesn't support WebAuthn, or verification failed
+      console.error(error);
+    } else {
+      console.log('Registered passkey', data.id);
+    }
   }
 }

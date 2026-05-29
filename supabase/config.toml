@@ -372,6 +372,14 @@ authorization_url_path = "/oauth/consent"
 # Allow dynamic client registration
 allow_dynamic_registration = false
 
+[auth.passkey]
+enabled = true
+
+[auth.webauthn]
+rp_display_name = "Finwaze local"
+rp_id = "localhost"
+rp_origins = ["http://localhost:4200"]
+
 [edge_runtime]
 enabled = true
 # Supported request policies: `oneshot`, `per_worker`.
