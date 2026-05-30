@@ -1,6 +1,5 @@
 import { Component, computed, inject, input, output } from '@angular/core';
 import { LocalizationService } from '@core/services/localization.service';
-import { SupabaseService } from '@core/services/supabase.service';
 import { AvatarModule } from 'primeng/avatar';
 import { ButtonModule } from 'primeng/button';
 import { MenuModule } from 'primeng/menu';
@@ -53,25 +52,15 @@ export interface UserData {
 })
 export class UserAvatar {
   private readonly localizationService = inject(LocalizationService);
-  private readonly supabase = inject(SupabaseService);
 
   readonly user = input<UserData | undefined>(undefined);
   readonly logout = output();
 
   protected items = computed(() => [
     {
-      label: 'Add Passkey',
-      icon: 'pi pi-key',
-      command: () => this.registerPasskey(),
-    },
-    {
       label: this.localizationService.translate('core.logout'),
       icon: 'pi pi-sign-out',
       command: () => this.logout.emit(),
     },
   ]);
-
-  async registerPasskey() {
-    await this.supabase.registerPasskey();
-  }
 }
