@@ -1,10 +1,10 @@
 import { Component, DestroyRef, computed, inject, signal } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { Router } from '@angular/router';
+import { AuthService } from '@core/services/auth-service';
+import { LocalizationService } from '@core/services/localization.service';
 import { NavigatorHelper } from '@core/services/navigator-helper';
 import { ResponsiveHelper } from '@core/services/responsive-helper';
-import { LocalizationService } from '@core/services/localization.service';
-import { AuthStore } from '@core/store/auth-store';
 import { ThemeSwitcher } from '@shared/ui/theme-switcher';
 import { ButtonModule } from 'primeng/button';
 import { Logo } from './logo';
@@ -28,7 +28,7 @@ export class Sidebar {
   private readonly navigatorHelper = inject(NavigatorHelper);
   private readonly responsiveHelper = inject(ResponsiveHelper);
   private readonly destroyRef = inject(DestroyRef);
-  private readonly authStore = inject(AuthStore);
+  private readonly auth = inject(AuthService);
   private readonly localizationService = inject(LocalizationService);
 
   private t = (key: string) => this.localizationService.translate(key);
@@ -90,8 +90,7 @@ export class Sidebar {
   }
 
   protected async logout() {
-    await this.authStore.logOut();
-    this.router.navigate(['login']);
+    await this.auth.logOut();
   }
 
   private handleWidthChanges = (width: number) => {
