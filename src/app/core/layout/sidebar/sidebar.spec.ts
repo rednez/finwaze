@@ -1,5 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { Sidebar } from './sidebar';
+import { MessageService } from 'primeng/api';
 
 describe('Sidebar', () => {
   let component: Sidebar;
@@ -17,6 +18,7 @@ describe('Sidebar', () => {
 
     await TestBed.configureTestingModule({
       imports: [Sidebar],
+      providers: [MessageService],
     }).compileComponents();
 
     fixture = TestBed.createComponent(Sidebar);

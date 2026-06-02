@@ -1,5 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { UpdatePassword } from './update-password';
+import { MessageService } from 'primeng/api';
 
 describe('UpdatePassword', () => {
   let component: UpdatePassword;
@@ -8,6 +9,7 @@ describe('UpdatePassword', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [UpdatePassword],
+      providers: [MessageService],
     }).compileComponents();
 
     fixture = TestBed.createComponent(UpdatePassword);

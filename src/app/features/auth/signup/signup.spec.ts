@@ -1,6 +1,7 @@
 import { provideRouter } from '@angular/router';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { Signup } from './signup';
+import { MessageService } from 'primeng/api';
 
 describe('Signup', () => {
   let component: Signup;
@@ -9,7 +10,7 @@ describe('Signup', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [Signup],
-      providers: [provideRouter([])],
+      providers: [MessageService, provideRouter([])],
     }).compileComponents();
 
     fixture = TestBed.createComponent(Signup);

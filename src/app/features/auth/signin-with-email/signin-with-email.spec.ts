@@ -1,6 +1,7 @@
 import { provideRouter } from '@angular/router';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { SigninWithEmail } from './signin-with-email';
+import { MessageService } from 'primeng/api';
 
 describe('Signin', () => {
   let component: SigninWithEmail;
@@ -9,7 +10,7 @@ describe('Signin', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [SigninWithEmail],
-      providers: [provideRouter([])],
+      providers: [MessageService, provideRouter([])],
     }).compileComponents();
 
     fixture = TestBed.createComponent(SigninWithEmail);

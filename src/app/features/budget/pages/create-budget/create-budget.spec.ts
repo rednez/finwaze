@@ -4,6 +4,7 @@ import { CategoriesStore } from '@core/store/categories-store';
 import { BudgetStore } from '../../stores';
 import { BudgetRepository } from '../../repositories';
 import { CreateBudget } from './create-budget';
+import { MessageService } from 'primeng/api';
 
 function makeBudgetStoreMock(currencyCode: string | null = 'USD') {
   return {
@@ -44,6 +45,7 @@ describe('CreateBudget', () => {
       await TestBed.configureTestingModule({
         imports: [CreateBudget],
         providers: [
+          MessageService,
           provideRouter([]),
           makeBudgetStoreMock('USD'),
           makeCategoriesStoreMock(),
@@ -74,6 +76,7 @@ describe('CreateBudget', () => {
       await TestBed.configureTestingModule({
         imports: [CreateBudget],
         providers: [
+          MessageService,
           provideRouter([]),
           makeBudgetStoreMock(null),
           makeCategoriesStoreMock(),

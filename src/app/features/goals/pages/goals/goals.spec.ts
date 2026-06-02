@@ -2,6 +2,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { provideRouter } from '@angular/router';
 
 import { Goals } from './goals';
+import { MessageService } from 'primeng/api';
 
 describe('Goals', () => {
   let component: Goals;
@@ -19,7 +20,7 @@ describe('Goals', () => {
 
     await TestBed.configureTestingModule({
       imports: [Goals],
-      providers: [provideRouter([])],
+      providers: [MessageService, provideRouter([])],
     }).compileComponents();
 
     fixture = TestBed.createComponent(Goals);
