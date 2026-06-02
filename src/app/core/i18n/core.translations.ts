@@ -21,6 +21,7 @@ export const CORE_TRANSLATIONS = {
     },
     logout: 'Log out',
     changePassword: 'Change Password',
+    settings: 'Settings',
     language: 'Language',
   },
   uk: {
@@ -45,6 +46,7 @@ export const CORE_TRANSLATIONS = {
     },
     logout: 'Вийти',
     changePassword: 'Змінити пароль',
+    settings: 'Налаштування',
     language: 'Мова',
   },
   cs: {
@@ -69,6 +71,7 @@ export const CORE_TRANSLATIONS = {
     },
     logout: 'Odhlásit se',
     changePassword: 'Změnit heslo',
+    settings: 'Nastavení',
     language: 'Jazyk',
   },
 };

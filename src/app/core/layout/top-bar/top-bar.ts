@@ -1,4 +1,5 @@
 import { Component, computed, inject, input, signal } from '@angular/core';
+import { Router } from '@angular/router';
 import { AuthService } from '@core/services/auth-service';
 import { LocalizationService } from '@core/services/localization.service';
 import { NavigatorHelper } from '@core/services/navigator-helper';
@@ -21,7 +22,11 @@ import { UserAvatar, UserData } from './user-avatar/user-avatar';
 
     <div class="flex items-center gap-4">
       <app-lang-switcher />
-      <app-user-avatar [user]="user()" (logout)="logout()" />
+      <app-user-avatar
+        [user]="user()"
+        (settings)="goToSettings()"
+        (logout)="logout()"
+      />
     </div>
   `,
   host: {
@@ -31,6 +36,7 @@ import { UserAvatar, UserData } from './user-avatar/user-avatar';
 export class TopBar {
   readonly hasTitle = input(true);
 
+  private readonly router = inject(Router);
   private readonly navigatorHelper = inject(NavigatorHelper);
   private readonly auth = inject(AuthService);
   private readonly authStore = inject(AuthStore);
@@ -71,6 +77,10 @@ export class TopBar {
 
   constructor() {
     this.getUser();
+  }
+
+  protected goToSettings() {
+    this.router.navigate(['settings']);
   }
 
   protected async logout() {

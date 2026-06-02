@@ -10,6 +10,7 @@ import { LOGIN_TRANSLATIONS } from './login.translations';
 import { MISC_TRANSLATIONS } from './misc.translations';
 import { SHARED_TRANSLATIONS } from './shared.translations';
 import { RESET_PASSWORD_TRANSLATIONS } from './reset-password.translations';
+import { SETTINGS_TRANSLATIONS } from './settings.translations';
 import { SIGNIN_TRANSLATIONS } from './signin.translations';
 import { SIGNUP_TRANSLATIONS } from './signup.translations';
 import { TRANSACTIONS_TRANSLATIONS } from './transactions.translations';
@@ -34,6 +35,7 @@ export const TRANSLATIONS = {
     goals: GOALS_TRANSLATIONS.en,
     analytics: ANALYTICS_TRANSLATIONS.en,
     groups: GROUPS_TRANSLATIONS.en,
+    settings: SETTINGS_TRANSLATIONS.en,
     misc: MISC_TRANSLATIONS.en,
   },
   uk: {
@@ -52,6 +54,7 @@ export const TRANSLATIONS = {
     goals: GOALS_TRANSLATIONS.uk,
     analytics: ANALYTICS_TRANSLATIONS.uk,
     groups: GROUPS_TRANSLATIONS.uk,
+    settings: SETTINGS_TRANSLATIONS.uk,
     misc: MISC_TRANSLATIONS.uk,
   },
   cs: {
@@ -70,6 +73,7 @@ export const TRANSLATIONS = {
     goals: GOALS_TRANSLATIONS.cs,
     analytics: ANALYTICS_TRANSLATIONS.cs,
     groups: GROUPS_TRANSLATIONS.cs,
+    settings: SETTINGS_TRANSLATIONS.cs,
     misc: MISC_TRANSLATIONS.cs,
   },
 } satisfies Record<Lang, {
@@ -88,5 +92,6 @@ export const TRANSLATIONS = {
   goals: typeof GOALS_TRANSLATIONS.en;
   analytics: typeof ANALYTICS_TRANSLATIONS.en;
   groups: typeof GROUPS_TRANSLATIONS.en;
+  settings: typeof SETTINGS_TRANSLATIONS.en;
   misc: typeof MISC_TRANSLATIONS.en;
 }>;

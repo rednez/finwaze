@@ -1,31 +1,17 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import {
-  AbstractControl,
   FormBuilder,
   ReactiveFormsModule,
-  ValidationErrors,
   Validators,
 } from '@angular/forms';
 import { AuthService } from '@core/services/auth-service';
 import { TranslatePipe } from '@shared/pipes/translate.pipe';
+import { passwordsMatchValidator } from '@shared/utils/passwords-match-validator';
 import { AuthCard } from '@shared/ui/auth-card/auth-card';
 import { AuthRedirectLink } from '@shared/ui/auth-redirect-link/auth-redirect-link';
 import { ButtonModule } from 'primeng/button';
 import { InputTextModule } from 'primeng/inputtext';
 import { PasswordModule } from 'primeng/password';
-
-function passwordsMatchValidator(
-  control: AbstractControl,
-): ValidationErrors | null {
-  const password = control.get('password')?.value;
-  const confirmPassword = control.get('confirmPassword')?.value;
-
-  if (!password || !confirmPassword || password === confirmPassword) {
-    return null;
-  }
-
-  return { passwordsMismatch: true };
-}
 
 @Component({
   imports: [
@@ -55,7 +41,7 @@ export class Signup {
       ],
       confirmPassword: [null as string | null, [Validators.required]],
     },
-    { validators: passwordsMatchValidator },
+    { validators: passwordsMatchValidator() },
   );
 
   protected async onSubmit() {

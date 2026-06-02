@@ -1,32 +1,19 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
-import {
-  FormBuilder,
-  ReactiveFormsModule,
-  Validators,
-} from '@angular/forms';
-import { ActivatedRoute, Router } from '@angular/router';
+import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { AuthService } from '@core/services/auth-service';
 import { TranslatePipe } from '@shared/pipes/translate.pipe';
 import { passwordsMatchValidator } from '@shared/utils/passwords-match-validator';
-import { AuthCard } from '@shared/ui/auth-card/auth-card';
 import { ButtonModule } from 'primeng/button';
 import { PasswordModule } from 'primeng/password';
 
 @Component({
-  imports: [
-    ReactiveFormsModule,
-    PasswordModule,
-    ButtonModule,
-    TranslatePipe,
-    AuthCard,
-  ],
-  templateUrl: './change-password.html',
+  selector: 'app-update-password',
+  imports: [ReactiveFormsModule, PasswordModule, ButtonModule, TranslatePipe],
+  templateUrl: './update-password.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ChangePassword {
+export class UpdatePassword {
   private readonly formBuilder = inject(FormBuilder);
-  private readonly router = inject(Router);
-  private readonly route = inject(ActivatedRoute);
   private readonly auth = inject(AuthService);
 
   protected form = this.formBuilder.group(
@@ -40,15 +27,11 @@ export class ChangePassword {
     { validators: passwordsMatchValidator('newPassword', 'confirmPassword') },
   );
 
-  protected gotoBack() {
-    this.router.navigate(['..'], { relativeTo: this.route });
-  }
-
-  protected onSubmit() {
+  protected async onSubmit() {
     this.form.markAllAsDirty();
 
     if (this.form.valid) {
-      this.auth.updatePassword(this.form.value.newPassword!, 'reset');
+      await this.auth.updatePassword(this.form.value.newPassword!, 'update');
     }
   }
 }

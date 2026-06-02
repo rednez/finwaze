@@ -40,6 +40,7 @@ export class AuthService {
 
     if (error) {
       this.messageService.add({
+        life: 5000,
         severity: 'error',
         summary: 'Registration Error',
         detail: error,
@@ -55,6 +56,7 @@ export class AuthService {
       this.router.navigate(['dashboard']);
     } else {
       this.messageService.add({
+        life: 5000,
         severity: 'error',
         summary: 'Login Error',
         detail: error as string,
@@ -73,6 +75,7 @@ export class AuthService {
         this.router.navigate(['dashboard']);
       } else {
         this.messageService.add({
+          life: 5000,
           severity: 'success',
           summary: 'Password Updated',
           detail: 'Your password has been updated successfully.',
@@ -80,6 +83,7 @@ export class AuthService {
       }
     } else {
       this.messageService.add({
+        life: 5000,
         severity: 'error',
         summary: 'Update Password Error',
         detail: error as string,

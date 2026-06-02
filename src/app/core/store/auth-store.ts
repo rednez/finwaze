@@ -16,6 +16,7 @@ export interface AuthState {
     email: string;
     name: string;
     imgUrl: string;
+    provider: string;
   } | null;
 }
 

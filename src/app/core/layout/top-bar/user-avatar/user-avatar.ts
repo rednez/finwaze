@@ -63,9 +63,15 @@ export class UserAvatar {
   private readonly localizationService = inject(LocalizationService);
 
   readonly user = input<UserData | undefined>(undefined);
+  readonly settings = output();
   readonly logout = output();
 
   protected items = computed(() => [
+    {
+      label: this.localizationService.translate('core.settings'),
+      icon: 'pi pi-cog',
+      command: () => this.settings.emit(),
+    },
     {
       label: this.localizationService.translate('core.logout'),
       icon: 'pi pi-sign-out',

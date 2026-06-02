@@ -16,6 +16,7 @@ export class AuthRepository {
         name: (user.user_metadata['full_name'] as string) || '',
         email: (user.email as string) || '',
         imgUrl: (user.user_metadata['avatar_url'] as string) || '',
+        provider: (user.app_metadata['provider'] as string) || '',
       };
     } else {
       return null;
