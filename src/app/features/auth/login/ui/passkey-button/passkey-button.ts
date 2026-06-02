@@ -6,7 +6,7 @@ import { TranslatePipe } from '@shared/pipes/translate.pipe';
   imports: [TranslatePipe],
   template: `
     <button
-      class="group relative w-full flex items-center justify-center
+      class="relative w-full flex items-center justify-center
       gap-4 bg-white dark:bg-zinc-800 text-zinc-900 dark:text-zinc-200
       py-4 px-6 rounded-2xl transition-all duration-300 hover:shadow-xl
       hover:shadow-violet-500/10 dark:hover:shadow-none border border-slate-200 dark:border-transparent
@@ -14,7 +14,7 @@ import { TranslatePipe } from '@shared/pipes/translate.pipe';
       (click)="clickLogin.emit()"
     >
       <svg
-        class="w-5 h-5 text-violet-500"
+        class="w-5 h-5 text-violet-500 shrink-0"
         viewBox="0 0 24 24"
         fill="none"
         stroke="currentColor"
@@ -25,7 +25,9 @@ import { TranslatePipe } from '@shared/pipes/translate.pipe';
         <path d="M2 18v3c0 .6.4 1 1 1h4v-3h3v-3h2l1.4-1.4a6.5 6.5 0 1 0-4-4Z" />
         <circle cx="16.5" cy="7.5" r=".5" fill="currentColor" />
       </svg>
-      <span>{{ 'login.signInWithPasskey' | translate }}</span>
+      <span class="font-medium tracking-tight sm:tracking-normal text-nowrap">
+        {{ 'login.signInWithPasskey' | translate }}
+      </span>
     </button>
   `,
   styles: `

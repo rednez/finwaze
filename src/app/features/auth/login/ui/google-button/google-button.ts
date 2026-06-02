@@ -7,7 +7,7 @@ import { GooglePic } from '../google-pic/google-pic';
   imports: [GooglePic, TranslatePipe],
   template: `
     <button
-      class="group relative w-full flex items-center justify-center
+      class="relative w-full flex items-center justify-center
       gap-4 bg-white dark:bg-zinc-800 text-zinc-900 dark:text-zinc-200
       py-4 px-6 rounded-2xl transition-all duration-300 hover:shadow-xl
       hover:shadow-violet-500/10 dark:hover:shadow-none border border-slate-200 dark:border-transparent
@@ -15,7 +15,9 @@ import { GooglePic } from '../google-pic/google-pic';
       (click)="clickLogin.emit()"
     >
       <app-google-pic />
-      <span class="font-semibold">{{ 'login.continueWithGoogle' | translate }}</span>
+      <span class="font-medium tracking-tight sm:tracking-normal text-nowrap">
+        {{ 'login.continueWithGoogle' | translate }}
+      </span>
     </button>
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,
