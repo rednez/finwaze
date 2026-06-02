@@ -3,6 +3,7 @@ import {
   authGuard,
   guestGuard,
   hasAccountsGuard,
+  noDemoGuard,
   underDevelopmentGuard,
 } from '@core/guards';
 import { PageNotFound } from './features/page-not-found';
@@ -60,7 +61,7 @@ export const routes: Routes = [
   },
   {
     path: 'change-password',
-    canActivate: [authGuard],
+    canActivate: [authGuard, noDemoGuard],
     loadComponent: () =>
       import('@core/layout/setup-layout').then((c) => c.SetupLayout),
     children: [
@@ -120,6 +121,7 @@ export const routes: Routes = [
       },
       {
         path: 'settings',
+        canActivate: [noDemoGuard],
         loadComponent: () =>
           import('./features/settings').then((c) => c.Settings),
       },
