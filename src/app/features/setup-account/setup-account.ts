@@ -26,7 +26,6 @@ import { SetupAccountService } from './setup-account.service';
   ],
   templateUrl: './setup-account.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  providers: [MessageService],
 })
 export class SetupAccount {
   private readonly router = inject(Router);

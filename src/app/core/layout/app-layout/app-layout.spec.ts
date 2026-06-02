@@ -1,5 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { AppLayout } from './app-layout';
+import { MessageService } from 'primeng/api';
 
 // eslint-disable-next-line @typescript-eslint/no-empty-function
 const noop = () => {};
@@ -25,6 +26,7 @@ describe('AppLayout', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [AppLayout],
+      providers: [MessageService],
     }).compileComponents();
 
     fixture = TestBed.createComponent(AppLayout);

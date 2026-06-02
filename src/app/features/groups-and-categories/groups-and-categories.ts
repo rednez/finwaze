@@ -23,7 +23,6 @@ import { NewGroupDialog } from './ui/new-group-dialog';
   ],
   templateUrl: './groups-and-categories.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  providers: [MessageService],
 })
 export class GroupsAndCategories {
   protected readonly store = inject(GroupsAndCategoriesStore);

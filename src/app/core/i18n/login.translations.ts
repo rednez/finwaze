@@ -1,23 +1,38 @@
 export const LOGIN_TRANSLATIONS = {
   en: {
     title: 'Sign In to the App',
-    subtitle: 'Control your money with confidence. Make your expenses answer to you.',
+    subtitle:
+      'Control your money with confidence. Make your expenses answer to you.',
     badge: 'Free and secure',
     continueWithGoogle: 'Continue with Google',
     tryDemo: 'Try Demo Mode',
+    signInWithEmail: 'Sign in with email',
+    signInWithPasskey: 'Sign in with passkey',
+    noAccount: "Don't have an account?",
+    signUpLink: 'Sign up',
   },
   uk: {
     title: 'Вхід до застосунку',
-    subtitle: 'Контролюйте свої гроші впевнено. Нехай витрати вам підкоряються.',
+    subtitle:
+      'Контролюйте свої гроші впевнено. Нехай витрати вам підкоряються.',
     badge: 'Безкоштовно та безпечно',
     continueWithGoogle: 'Продовжити з Google',
     tryDemo: 'Демо-режим',
+    signInWithEmail: 'Увійти через email',
+    signInWithPasskey: 'Увійти через ключ доступу',
+    noAccount: 'Ще не маєте облікового запису?',
+    signUpLink: 'Зареєструватися',
   },
   cs: {
     title: 'Přihlásit se do aplikace',
-    subtitle: 'Ovládejte své peníze s jistotou. Nechte výdaje odpovídat za sebe.',
+    subtitle:
+      'Ovládejte své peníze s jistotou. Nechte výdaje odpovídat za sebe.',
     badge: 'Zdarma a bezpečně',
     continueWithGoogle: 'Pokračovat přes Google',
     tryDemo: 'Vyzkoušet Demo',
+    signInWithEmail: 'Přihlásit se e-mailem',
+    signInWithPasskey: 'Přihlásit se přístupovým klíčem',
+    noAccount: 'Nemáte účet?',
+    signUpLink: 'Registrovat se',
   },
 };

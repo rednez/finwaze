@@ -1,0 +1,49 @@
+<p-toast />
+
+<app-form-page-layout
+  [header]="'settings.title' | translate"
+  class="mt-4"
+  (back)="gotoBack()"
+>
+  @if (sectionOptions().length) {
+    <p-selectbutton
+      [options]="sectionOptions()"
+      [ngModel]="selectedSection()"
+      (ngModelChange)="selectedSection.set($event)"
+      optionLabel="label"
+      optionValue="value"
+      size="small"
+      [allowEmpty]="false"
+      class="mb-6 inline-flex"
+    />
+  }
+
+  @switch (selectedSection()) {
+    @case ('password') {
+      @if (isEmailProvider()) {
+        <section class="text-start">
+          <h5 class="text-base font-semibold">
+            {{ 'settings.updatePassword.title' | translate }}
+          </h5>
+          <p class="text-sm text-muted-color mb-4">
+            {{ 'settings.updatePassword.subtitle' | translate }}
+          </p>
+
+          <app-update-password />
+        </section>
+      }
+    }
+    @case ('passkeys') {
+      <section class="text-start">
+        <h5 class="text-base font-semibold">
+          {{ 'settings.passkeys.title' | translate }}
+        </h5>
+        <p class="text-sm text-muted-color mb-4">
+          {{ 'settings.passkeys.subtitle' | translate }}
+        </p>
+
+        <app-passkeys />
+      </section>
+    }
+  }
+</app-form-page-layout>

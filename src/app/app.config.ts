@@ -15,6 +15,7 @@ import {
 } from '@angular/router';
 import { APP_CONFIG } from '@core/configs';
 import { environment } from '@env';
+import { MessageService } from 'primeng/api';
 import { providePrimeNG } from 'primeng/config';
 import { routes } from './app.routes';
 import { CustomPreset } from './custom-theme';
@@ -24,6 +25,7 @@ registerLocaleData(localeCs);
 
 export const appConfig: ApplicationConfig = {
   providers: [
+    MessageService,
     provideBrowserGlobalErrorListeners(),
     provideRouter(
       routes,

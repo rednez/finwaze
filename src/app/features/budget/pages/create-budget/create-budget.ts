@@ -89,7 +89,7 @@ import { CreateBudgetTotals } from './create-budget-totals';
     }`,
   host: { class: 'flex flex-col gap-6 w-full' },
   changeDetection: ChangeDetectionStrategy.OnPush,
-  providers: [CreateBudgetStore, MessageService],
+  providers: [CreateBudgetStore],
 })
 export class CreateBudget {
   protected readonly store = inject(CreateBudgetStore);

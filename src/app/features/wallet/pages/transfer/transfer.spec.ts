@@ -2,6 +2,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { provideRouter } from '@angular/router';
 
 import { Transfer } from './transfer';
+import { MessageService } from 'primeng/api';
 
 describe('Transfer', () => {
   let component: Transfer;
@@ -10,7 +11,7 @@ describe('Transfer', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [Transfer],
-      providers: [provideRouter([])],
+      providers: [MessageService, provideRouter([])],
     }).compileComponents();
 
     fixture = TestBed.createComponent(Transfer);

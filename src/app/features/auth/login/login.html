@@ -1,0 +1,32 @@
+<app-auth-card
+  [title]="'login.title' | translate"
+  [subtitle]="'login.subtitle' | translate"
+>
+  <div
+    class="flex flex-col gap-3 p-3 rounded-3xl bg-slate-100/50 dark:bg-zinc-800/20 border border-slate-200/70 dark:border-zinc-800/50"
+  >
+    <app-google-button (clickLogin)="loginWithGoogle()" />
+    <app-email-auth-button
+      [label]="'login.signInWithEmail' | translate"
+      (clickAction)="goToSignIn()"
+    />
+    <app-passkey-button (clickLogin)="loginWithPasskey()" />
+  </div>
+
+  <app-demo-button class="mt-6" (clickLogin)="loginWithDemo()" />
+
+  <app-auth-redirect-link
+    [prompt]="'login.noAccount' | translate"
+    [linkLabel]="'login.signUpLink' | translate"
+    link="/signup"
+  />
+
+  <div class="mt-8 flex items-center justify-center gap-2">
+    <span class="w-1.5 h-1.5 rounded-full bg-violet-500"></span>
+    <span
+      class="text-[10px] uppercase tracking-[0.2em] text-slate-400 dark:text-zinc-500 font-bold"
+    >
+      {{ 'login.badge' | translate }}
+    </span>
+  </div>
+</app-auth-card>

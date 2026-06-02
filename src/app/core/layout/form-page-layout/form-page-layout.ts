@@ -10,15 +10,17 @@ import { ButtonModule } from 'primeng/button';
   selector: 'app-form-page-layout',
   imports: [ButtonModule],
   template: `
-    <div class="absolute top-2 left-3">
-      <p-button
-        icon="pi pi-arrow-left"
-        [rounded]="true"
-        [text]="true"
-        size="large"
-        (onClick)="back.emit()"
-      />
-    </div>
+    @if (canBack()) {
+      <div class="absolute top-2 left-3">
+        <p-button
+          icon="pi pi-arrow-left"
+          [rounded]="true"
+          [text]="true"
+          size="large"
+          (onClick)="back.emit()"
+        />
+      </div>
+    }
 
     <div class="mb-4">
       <h4 class="text-lg font-semibold">{{ header() }}</h4>
@@ -40,5 +42,6 @@ import { ButtonModule } from 'primeng/button';
 export class FormPageLayout {
   readonly header = input<string>();
   readonly subheader = input<string>();
+  readonly canBack = input(true);
   readonly back = output<void>();
 }

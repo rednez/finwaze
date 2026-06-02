@@ -20,7 +20,6 @@ import { ToastModule } from 'primeng/toast';
   ],
   templateUrl: './new-account.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  providers: [MessageService],
 })
 export class NewAccount {
   protected readonly currenciesStore = inject(CurrenciesStore);

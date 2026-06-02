@@ -20,6 +20,8 @@ export const CORE_TRANSLATIONS = {
       analytics: { title: 'Analytics', description: 'Analyze your financial data' },
     },
     logout: 'Log out',
+    changePassword: 'Change Password',
+    settings: 'Settings',
     language: 'Language',
   },
   uk: {
@@ -43,6 +45,8 @@ export const CORE_TRANSLATIONS = {
       analytics: { title: 'Аналітика', description: 'Аналіз фінансових даних' },
     },
     logout: 'Вийти',
+    changePassword: 'Змінити пароль',
+    settings: 'Налаштування',
     language: 'Мова',
   },
   cs: {
@@ -66,6 +70,8 @@ export const CORE_TRANSLATIONS = {
       analytics: { title: 'Analytika', description: 'Analýza finančních dat' },
     },
     logout: 'Odhlásit se',
+    changePassword: 'Změnit heslo',
+    settings: 'Nastavení',
     language: 'Jazyk',
   },
 };
