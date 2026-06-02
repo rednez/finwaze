@@ -10,6 +10,7 @@
       [label]="'login.signInWithEmail' | translate"
       (clickAction)="goToSignIn()"
     />
+    <app-passkey-button (clickLogin)="loginWithPasskey()" />
   </div>
 
   <app-demo-button class="mt-6" (clickLogin)="loginWithDemo()" />

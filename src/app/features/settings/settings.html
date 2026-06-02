@@ -33,5 +33,17 @@
         </section>
       }
     }
+    @case ('passkeys') {
+      <section class="text-start">
+        <h5 class="text-base font-semibold">
+          {{ 'settings.passkeys.title' | translate }}
+        </h5>
+        <p class="text-sm text-muted-color mb-4">
+          {{ 'settings.passkeys.subtitle' | translate }}
+        </p>
+
+        <app-passkeys />
+      </section>
+    }
   }
 </app-form-page-layout>

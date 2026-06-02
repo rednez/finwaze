@@ -50,4 +50,24 @@ export class AuthRepository {
   async updatePassword(password: string) {
     return this.supabaseService.updatePassword(password);
   }
+
+  async signInWithPasskey() {
+    return this.supabaseService.signInWithPasskey();
+  }
+
+  async registerPasskey() {
+    return this.supabaseService.registerPasskey();
+  }
+
+  async listPasskeys() {
+    return this.supabaseService.listPasskeys();
+  }
+
+  async renamePasskey(passkeyId: string, friendlyName: string) {
+    return this.supabaseService.renamePasskey(passkeyId, friendlyName);
+  }
+
+  async deletePasskey(passkeyId: string) {
+    return this.supabaseService.deletePasskey(passkeyId);
+  }
 }

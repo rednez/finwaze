@@ -7,6 +7,7 @@ import { AuthRedirectLink } from '@shared/ui/auth-redirect-link/auth-redirect-li
 import { DemoButton } from './ui/demo-button/demo-button';
 import { EmailAuthButton } from './ui/email-auth-button/email-auth-button';
 import { GoogleButton } from './ui/google-button/google-button';
+import { PasskeyButton } from './ui/passkey-button/passkey-button';
 
 @Component({
   imports: [
@@ -15,6 +16,7 @@ import { GoogleButton } from './ui/google-button/google-button';
     GoogleButton,
     DemoButton,
     EmailAuthButton,
+    PasskeyButton,
     TranslatePipe,
   ],
   templateUrl: './login.html',
@@ -30,6 +32,10 @@ export class Login {
 
   protected async loginWithDemo() {
     await this.auth.loginWithDemo();
+  }
+
+  protected async loginWithPasskey() {
+    await this.auth.loginWithPasskey();
   }
 
   protected goToSignIn() {

@@ -13,9 +13,10 @@ import { AuthStore } from '@core/store/auth-store';
 import { TranslatePipe } from '@shared/pipes/translate.pipe';
 import { SelectButtonModule } from 'primeng/selectbutton';
 import { ToastModule } from 'primeng/toast';
+import { Passkeys } from './passkeys';
 import { UpdatePassword } from './update-password';
 
-type SettingsSection = 'password';
+type SettingsSection = 'password' | 'passkeys';
 
 @Component({
   imports: [
@@ -25,6 +26,7 @@ type SettingsSection = 'password';
     FormsModule,
     TranslatePipe,
     UpdatePassword,
+    Passkeys,
   ],
   templateUrl: './settings.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -39,7 +41,9 @@ export class Settings {
     () => this.authStore.user()?.provider === 'email',
   );
 
-  protected readonly selectedSection = signal<SettingsSection>('password');
+  protected readonly selectedSection = signal<SettingsSection>(
+    this.isEmailProvider() ? 'password' : 'passkeys',
+  );
 
   protected readonly sectionOptions = computed(() => {
     const options: { value: SettingsSection; label: string }[] = [];
@@ -50,6 +54,11 @@ export class Settings {
         label: this.t('settings.sections.password'),
       });
     }
+
+    options.push({
+      value: 'passkeys',
+      label: this.t('settings.sections.passkeys'),
+    });
 
     return options;
   });

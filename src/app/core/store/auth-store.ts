@@ -112,6 +112,20 @@ export const AuthStore = signalStore(
         }
       },
 
+      async loginWithPasskey() {
+        const { error } = await authRepository.signInWithPasskey();
+
+        if (error) {
+          // Return the full error so callers can read its structured `code`
+          // (e.g. to detect a cancelled WebAuthn ceremony).
+          return { success: false, error };
+        } else {
+          const user = await authRepository.getUser();
+          patchState(store, { user });
+          return { success: true, error: null };
+        }
+      },
+
       async resetPasswordForEmail(email: string) {
         const { error } = await authRepository.resetPasswordForEmail(email);
 

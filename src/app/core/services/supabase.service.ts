@@ -2,12 +2,15 @@ import { inject, Injectable } from '@angular/core';
 import { environment } from '@env';
 import {
   createClient,
+  PasskeyListItem,
   Session,
   SupabaseClient,
   User,
 } from '@supabase/supabase-js';
 import { DemoModeService } from './demo-mode/demo-mode.service';
 import { DemoSupabaseClient } from './demo-mode/demo-supabase-client';
+
+export type Passkey = PasskeyListItem;
 
 @Injectable({
   providedIn: 'root',
@@ -40,19 +43,18 @@ export class SupabaseService {
       return this.demoClient as unknown as SupabaseClient;
     }
 
+    return this.getClient();
+  }
+
+  private getClient(): SupabaseClient {
     if (!this.supabase) {
       throw new Error('Supabase client is not initialized');
     }
-
     return this.supabase;
   }
 
   async signInWithGoogle() {
-    if (!this.supabase) {
-      throw new Error('Supabase client is not initialized');
-    }
-
-    const { error } = await this.supabase.auth.signInWithOAuth({
+    const { error } = await this.getClient().auth.signInWithOAuth({
       provider: 'google',
       options: { redirectTo: 'http://localhost:4200/dashboard' },
     });
@@ -64,11 +66,7 @@ export class SupabaseService {
   }
 
   async signInWithDemo() {
-    if (!this.supabase) {
-      throw new Error('Supabase client is not initialized');
-    }
-
-    const { error } = await this.supabase.auth.signInWithPassword({
+    const { error } = await this.getClient().auth.signInWithPassword({
       email: 'demo@mail.com',
       password: 'password1234',
     });
@@ -80,11 +78,7 @@ export class SupabaseService {
   }
 
   async signOut() {
-    if (!this.supabase) {
-      throw new Error('Supabase client is not initialized');
-    }
-
-    const { error } = await this.supabase.auth.signOut();
+    const { error } = await this.getClient().auth.signOut();
     if (error) {
       console.error('Error signing out:', error);
       throw error;
@@ -92,14 +86,10 @@ export class SupabaseService {
   }
 
   async getSession(): Promise<Session | null> {
-    if (!this.supabase) {
-      throw new Error('Supabase client is not initialized');
-    }
-
     const {
       data: { session },
       error,
-    } = await this.supabase.auth.getSession();
+    } = await this.getClient().auth.getSession();
     if (error) {
       console.error('Error getting session:', error);
       return null;
@@ -108,14 +98,10 @@ export class SupabaseService {
   }
 
   async getUser(): Promise<User | null> {
-    if (!this.supabase) {
-      throw new Error('Supabase client is not initialized');
-    }
-
     const {
       data: { user },
       error,
-    } = await this.supabase.auth.getUser();
+    } = await this.getClient().auth.getUser();
     if (error) {
       console.error('Error getting user:', error);
       return null;
@@ -124,32 +110,40 @@ export class SupabaseService {
   }
 
   async signUp(credits: { email: string; password: string }) {
-    if (!this.supabase) {
-      throw new Error('Supabase client is not initialized');
-    }
-    return this.supabase.auth.signUp(credits);
+    return this.getClient().auth.signUp(credits);
   }
 
   async signInWithEmail(credits: { email: string; password: string }) {
-    if (!this.supabase) {
-      throw new Error('Supabase client is not initialized');
-    }
-    return this.supabase.auth.signInWithPassword(credits);
+    return this.getClient().auth.signInWithPassword(credits);
   }
 
   async resetPasswordForEmail(email: string) {
-    if (!this.supabase) {
-      throw new Error('Supabase client is not initialized');
-    }
-    return this.supabase.auth.resetPasswordForEmail(email, {
+    return this.getClient().auth.resetPasswordForEmail(email, {
       redirectTo: `${window.location.origin}/change-password`,
     });
   }
 
   async updatePassword(password: string) {
-    if (!this.supabase) {
-      throw new Error('Supabase client is not initialized');
-    }
-    return this.supabase.auth.updateUser({ password });
+    return this.getClient().auth.updateUser({ password });
+  }
+
+  async signInWithPasskey() {
+    return this.getClient().auth.signInWithPasskey();
+  }
+
+  async registerPasskey() {
+    return this.getClient().auth.registerPasskey();
+  }
+
+  async listPasskeys() {
+    return this.getClient().auth.passkey.list();
+  }
+
+  async renamePasskey(passkeyId: string, friendlyName: string) {
+    return this.getClient().auth.passkey.update({ passkeyId, friendlyName });
+  }
+
+  async deletePasskey(passkeyId: string) {
+    return this.getClient().auth.passkey.delete({ passkeyId });
   }
 }

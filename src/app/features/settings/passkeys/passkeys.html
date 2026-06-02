@@ -1,0 +1,78 @@
+<p-confirmdialog />
+
+<div class="flex flex-col gap-4 text-start">
+  <p-button
+    [label]="'settings.passkeys.add' | translate"
+    icon="pi pi-plus"
+    rounded
+    class="self-start"
+    (onClick)="addPasskey()"
+  />
+
+  @if (isLoading()) {
+    <div class="flex justify-center py-6">
+      <p-progress-spinner
+        ariaLabel="loading"
+        [style]="{ width: '2.5rem', height: '2.5rem' }"
+      />
+    </div>
+  } @else if (!passkeys().length) {
+    <p class="text-sm text-muted-color py-4">
+      {{ 'settings.passkeys.empty' | translate }}
+    </p>
+  } @else {
+    <ul class="flex flex-col gap-2">
+      @for (passkey of passkeys(); track passkey.id) {
+        <li
+          class="flex items-center gap-3 rounded-2xl border border-surface-200 dark:border-surface-700 p-3"
+        >
+          <i class="pi pi-key text-lg text-primary"></i>
+
+          <div class="flex min-w-0 flex-col">
+            <span class="truncate text-sm font-medium">
+              {{
+                passkey.friendly_name ||
+                  ('settings.passkeys.unnamed' | translate)
+              }}
+            </span>
+            <span class="text-xs text-muted-color">
+              @if (passkey.created_at) {
+                {{ 'settings.passkeys.added' | translate }}
+                {{ passkey.created_at | date: 'mediumDate' }}
+              }
+              @if (passkey.last_used_at) {
+                · {{ 'settings.passkeys.lastUsed' | translate }}
+                {{ passkey.last_used_at | date: 'mediumDate' }}
+              }
+            </span>
+          </div>
+
+          <div class="ml-auto flex items-center gap-1">
+            <p-button
+              icon="pi pi-pencil"
+              severity="secondary"
+              text
+              rounded
+              [ariaLabel]="'settings.passkeys.rename' | translate"
+              (onClick)="openRename(passkey)"
+            />
+            <p-button
+              icon="pi pi-trash"
+              severity="danger"
+              text
+              rounded
+              [ariaLabel]="'settings.passkeys.delete' | translate"
+              (onClick)="confirmDelete(passkey)"
+            />
+          </div>
+        </li>
+      }
+    </ul>
+  }
+</div>
+
+<app-rename-passkey-dialog
+  [(visible)]="renameDialogVisible"
+  [currentName]="passkeyToRename()?.friendly_name ?? ''"
+  (renamed)="onRenamed($event)"
+/>
