@@ -33,4 +33,20 @@ export class AuthRepository {
   async logOut() {
     await this.supabaseService.signOut();
   }
+
+  async signUp(credits: { email: string; password: string }) {
+    return this.supabaseService.signUp(credits);
+  }
+
+  async loginWithEmail(credits: { email: string; password: string }) {
+    return this.supabaseService.signInWithEmail(credits);
+  }
+
+  async resetPasswordForEmail(email: string) {
+    return this.supabaseService.resetPasswordForEmail(email);
+  }
+
+  async updatePassword(password: string) {
+    return this.supabaseService.updatePassword(password);
+  }
 }

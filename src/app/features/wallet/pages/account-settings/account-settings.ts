@@ -23,7 +23,6 @@ import { WalletAccountsStore } from '../../stores';
   ],
   templateUrl: './account-settings.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  providers: [MessageService],
 })
 export class AccountSettings {
   protected readonly currenciesStore = inject(CurrenciesStore);

@@ -49,10 +49,8 @@ import { IncomeForm } from '../../ui/income-form';
     ProgressSpinnerModule,
     FormPageLayout,
   ],
-  // LocalizationService is injected for toast messages only
   templateUrl: './edit-transaction.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  providers: [MessageService],
 })
 export class EditTransaction {
   protected readonly transactionsStore = inject(TransactionsStore);

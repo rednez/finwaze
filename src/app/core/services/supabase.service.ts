@@ -122,4 +122,34 @@ export class SupabaseService {
     }
     return user;
   }
+
+  async signUp(credits: { email: string; password: string }) {
+    if (!this.supabase) {
+      throw new Error('Supabase client is not initialized');
+    }
+    return this.supabase.auth.signUp(credits);
+  }
+
+  async signInWithEmail(credits: { email: string; password: string }) {
+    if (!this.supabase) {
+      throw new Error('Supabase client is not initialized');
+    }
+    return this.supabase.auth.signInWithPassword(credits);
+  }
+
+  async resetPasswordForEmail(email: string) {
+    if (!this.supabase) {
+      throw new Error('Supabase client is not initialized');
+    }
+    return this.supabase.auth.resetPasswordForEmail(email, {
+      redirectTo: `${window.location.origin}/change-password`,
+    });
+  }
+
+  async updatePassword(password: string) {
+    if (!this.supabase) {
+      throw new Error('Supabase client is not initialized');
+    }
+    return this.supabase.auth.updateUser({ password });
+  }
 }

@@ -35,9 +35,42 @@ export const routes: Routes = [
       },
       {
         path: 'login',
-        loadComponent: () => import('./features/login').then((c) => c.Login),
+        loadComponent: () =>
+          import('./features/auth/login').then((c) => c.Login),
+      },
+      {
+        path: 'signup',
+        loadComponent: () =>
+          import('./features/auth/signup').then((c) => c.Signup),
+      },
+      {
+        path: 'signin',
+        loadComponent: () =>
+          import('./features/auth/signin-with-email').then(
+            (c) => c.SigninWithEmail,
+          ),
+      },
+      {
+        path: 'reset-password',
+        loadComponent: () =>
+          import('./features/auth/reset-password').then((c) => c.ResetPassword),
       },
       { path: '**', redirectTo: 'login' },
+    ],
+  },
+  {
+    path: 'change-password',
+    canActivate: [authGuard],
+    loadComponent: () =>
+      import('@core/layout/setup-layout').then((c) => c.SetupLayout),
+    children: [
+      {
+        path: '**',
+        loadComponent: () =>
+          import('./features/auth/change-password').then(
+            (c) => c.ChangePassword,
+          ),
+      },
     ],
   },
   {

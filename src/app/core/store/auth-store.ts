@@ -32,59 +32,104 @@ export const AuthStore = signalStore(
     isAuthorized: () => !!store.user(),
   })),
 
-  withMethods((
-    store,
-    authRepository = inject(AuthRepository),
-    demoModeService = inject(DemoModeService),
-  ) => ({
-    async init(): Promise<void> {
-      if (store.isAuthorized()) {
-        return;
-      }
+  withMethods(
+    (
+      store,
+      authRepository = inject(AuthRepository),
+      demoModeService = inject(DemoModeService),
+    ) => ({
+      async init(): Promise<void> {
+        if (store.isAuthorized()) {
+          return;
+        }
 
-      patchState(store, () => ({
-        isInitializing: true,
-      }));
-
-      try {
-        const user = await authRepository.getUser();
         patchState(store, () => ({
-          isInitializing: false,
+          isInitializing: true,
+        }));
+
+        try {
+          const user = await authRepository.getUser();
+          patchState(store, () => ({
+            isInitializing: false,
+            user,
+          }));
+        } catch {
+          patchState(store, () => ({
+            isInitializing: false,
+          }));
+        }
+      },
+
+      async loginWithGoogle() {
+        await authRepository.loginWithGoogle();
+        const user = await authRepository.getUser();
+
+        patchState(store, () => ({
           user,
         }));
-      } catch {
+      },
+
+      async loginWithDemo() {
+        await authRepository.loginWithDemo();
+        const user = await authRepository.getUser();
+        demoModeService.enable();
+
         patchState(store, () => ({
-          isInitializing: false,
+          user,
         }));
-      }
-    },
+      },
 
-    async loginWithGoogle() {
-      await authRepository.loginWithGoogle();
-      const user = await authRepository.getUser();
+      async logOut() {
+        await authRepository.logOut();
+        demoModeService.disable();
 
-      patchState(store, () => ({
-        user,
-      }));
-    },
+        patchState(store, () => ({
+          user: null,
+          errorCode: null,
+        }));
+      },
 
-    async loginWithDemo() {
-      await authRepository.loginWithDemo();
-      const user = await authRepository.getUser();
-      demoModeService.enable();
+      async signUp(credits: { email: string; password: string }) {
+        const { error } = await authRepository.signUp(credits);
 
-      patchState(store, () => ({
-        user,
-      }));
-    },
+        if (error) {
+          return { success: false, error: error.message };
+        } else {
+          return { success: true, error: null };
+        }
+      },
 
-    async logOut() {
-      await authRepository.logOut();
-      demoModeService.disable();
+      async loginWithEmail(credits: { email: string; password: string }) {
+        const { error } = await authRepository.loginWithEmail(credits);
 
-      patchState(store, () => ({
-        user: null,
-      }));
-    },
-  })),
+        if (error) {
+          return { success: false, error: error.message };
+        } else {
+          const user = await authRepository.getUser();
+          patchState(store, { user });
+          return { success: true, error: null };
+        }
+      },
+
+      async resetPasswordForEmail(email: string) {
+        const { error } = await authRepository.resetPasswordForEmail(email);
+
+        if (error) {
+          return { success: false, error: error.message };
+        } else {
+          return { success: true };
+        }
+      },
+
+      async updatePassword(password: string) {
+        const { error } = await authRepository.updatePassword(password);
+
+        if (error) {
+          return { success: false, error: error.message };
+        } else {
+          return { success: true };
+        }
+      },
+    }),
+  ),
 );

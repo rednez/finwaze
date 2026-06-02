@@ -28,7 +28,6 @@ import { TransferDetailsStore } from '../../store';
   ],
   templateUrl: './transfer-details.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  providers: [MessageService],
 })
 export class TransferDetails {
   private readonly transferStore = inject(TransferDetailsStore);

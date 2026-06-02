@@ -40,7 +40,7 @@ import { GoalNotFound } from './goal-not-found';
   ],
   templateUrl: './edit-goal.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  providers: [MessageService, ConfirmationService],
+  providers: [ConfirmationService],
 })
 export class EditGoal {
   protected readonly goalsListStore = inject(GoalsListStore);

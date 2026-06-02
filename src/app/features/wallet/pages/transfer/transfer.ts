@@ -43,7 +43,6 @@ import { WalletRepository } from '../../repositories';
   ],
   templateUrl: './transfer.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  providers: [MessageService],
 })
 export class Transfer {
   protected readonly accountsStore = inject(AccountsStore);

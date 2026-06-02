@@ -36,14 +36,23 @@ export interface UserData {
       (keydown.space)="menu.toggle($event)"
     >
       @if (user(); as user) {
-        <p-avatar
-          class="hidden! sm:block!"
-          [image]="user.imgUrl"
-          shape="circle"
-          size="large"
-        />
-
-        <p-avatar class="sm:hidden!" [image]="user.imgUrl" shape="circle" />
+        @if (user.imgUrl) {
+          <p-avatar
+            class="hidden! sm:block!"
+            [image]="user.imgUrl"
+            shape="circle"
+            size="large"
+          />
+          <p-avatar class="sm:hidden!" [image]="user.imgUrl" shape="circle" />
+        } @else {
+          <p-avatar
+            class="hidden! sm:flex!"
+            icon="pi pi-user"
+            shape="circle"
+            size="large"
+          />
+          <p-avatar class="sm:hidden!" icon="pi pi-user" shape="circle" />
+        }
       } @else {
         <p-skeleton shape="circle" size="3rem" />
       }

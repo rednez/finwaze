@@ -5,6 +5,9 @@ export const LOGIN_TRANSLATIONS = {
     badge: 'Free and secure',
     continueWithGoogle: 'Continue with Google',
     tryDemo: 'Try Demo Mode',
+    signInWithEmail: 'Sign in with email',
+    noAccount: "Don't have an account?",
+    signUpLink: 'Sign up',
   },
   uk: {
     title: 'Вхід до застосунку',
@@ -12,6 +15,9 @@ export const LOGIN_TRANSLATIONS = {
     badge: 'Безкоштовно та безпечно',
     continueWithGoogle: 'Продовжити з Google',
     tryDemo: 'Демо-режим',
+    signInWithEmail: 'Увійти через email',
+    noAccount: 'Ще не маєте облікового запису?',
+    signUpLink: 'Зареєструватися',
   },
   cs: {
     title: 'Přihlásit se do aplikace',
@@ -19,5 +25,8 @@ export const LOGIN_TRANSLATIONS = {
     badge: 'Zdarma a bezpečně',
     continueWithGoogle: 'Pokračovat přes Google',
     tryDemo: 'Vyzkoušet Demo',
+    signInWithEmail: 'Přihlásit se e-mailem',
+    noAccount: 'Nemáte účet?',
+    signUpLink: 'Registrovat se',
   },
 };

@@ -35,7 +35,6 @@ import { EmptyGoalsListState } from './empty-goals-list-state';
     WithdrawFromGoalDialog,
     EmptyGoalsListState,
   ],
-  providers: [MessageService],
   templateUrl: './goals.html',
   host: { class: 'flex flex-col gap-4' },
   changeDetection: ChangeDetectionStrategy.OnPush,
