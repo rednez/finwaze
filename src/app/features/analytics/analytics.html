@@ -22,12 +22,11 @@
     }
   } @else {
     <app-financial-summary-card
-      title="Total balance"
+      [title]="'analytics.financialSummary.totalBalance' | translate"
       [currentAmount]="store.financialSummary()?.totalBalance ?? 0"
       [previousAmount]="store.financialSummary()?.previousTotalBalance ?? 0"
       [currency]="store.selectedCurrencyCode()"
       [growTrendIsGood]="true"
-      infoTextPart="You have extra"
       [transactionCount]="
         (store.financialSummary()?.incomeTransactionCount ?? 0) +
         (store.financialSummary()?.expenseTransactionCount ?? 0)
@@ -38,22 +37,20 @@
       "
     />
     <app-financial-summary-card
-      title="Income"
+      [title]="'analytics.financialSummary.income' | translate"
       [currentAmount]="store.financialSummary()?.monthlyIncome ?? 0"
       [previousAmount]="store.financialSummary()?.previousMonthlyIncome ?? 0"
       [currency]="store.selectedCurrencyCode()"
       [growTrendIsGood]="true"
-      infoTextPart="You earn extra"
       [transactionCount]="store.financialSummary()?.incomeTransactionCount ?? 0"
       [groupsCount]="store.financialSummary()?.incomeGroupsCount ?? 0"
     />
     <app-financial-summary-card
-      title="Expense"
+      [title]="'analytics.financialSummary.expense' | translate"
       [currentAmount]="store.financialSummary()?.monthlyExpense ?? 0"
       [previousAmount]="store.financialSummary()?.previousMonthlyExpense ?? 0"
       [currency]="store.selectedCurrencyCode()"
       [growTrendIsGood]="false"
-      infoTextPart="You have extra"
       [transactionCount]="
         store.financialSummary()?.expenseTransactionCount ?? 0
       "

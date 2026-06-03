@@ -12,13 +12,14 @@ import {
   NG_VALUE_ACCESSOR,
 } from '@angular/forms';
 import { Account } from '@core/models/accounts';
+import { TranslatePipe } from '@shared/pipes/translate.pipe';
 import { SelectDesignTokens } from '@primeuix/themes/types/select';
 import { SelectModule } from 'primeng/select';
 import { CurrencyCodeChip } from '../currency-code-chip';
 
 @Component({
   selector: 'app-account-select',
-  imports: [SelectModule, FormsModule, CurrencyCodeChip],
+  imports: [SelectModule, FormsModule, CurrencyCodeChip, TranslatePipe],
   templateUrl: './account-select.html',
   host: { class: 'w-full block' },
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -32,7 +33,7 @@ import { CurrencyCodeChip } from '../currency-code-chip';
 })
 export class AccountSelect implements ControlValueAccessor {
   readonly label = input<string>();
-  readonly placeholder = input<string>('Select account');
+  readonly placeholder = input<string>();
   readonly accounts = input<Account[]>([]);
   readonly isInvalid = input(false);
 

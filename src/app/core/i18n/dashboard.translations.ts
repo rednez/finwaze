@@ -18,6 +18,11 @@ export const DASHBOARD_TRANSLATIONS = {
       createGoalsText: 'Create saving goals to track your progress towards your financial targets.',
       gotoGoals: 'Goto Goals',
     },
+    summaryWidget: {
+      totalBalance: 'Total balance',
+      income: 'Income',
+      expenses: 'Expenses',
+    },
     amountWidget: {
       vsLastMonth: 'vs last month',
     },
@@ -45,6 +50,11 @@ export const DASHBOARD_TRANSLATIONS = {
       createGoalsText: 'Створіть цілі заощаджень для відстеження прогресу.',
       gotoGoals: 'Перейти до цілей',
     },
+    summaryWidget: {
+      totalBalance: 'Загальний баланс',
+      income: 'Дохід',
+      expenses: 'Витрати',
+    },
     amountWidget: {
       vsLastMonth: 'порівняно з минулим місяцем',
     },
@@ -71,6 +81,11 @@ export const DASHBOARD_TRANSLATIONS = {
       noGoals: 'Zatím žádné cíle spoření',
       createGoalsText: 'Vytvořte cíle spoření pro sledování pokroku.',
       gotoGoals: 'Přejít na cíle',
+    },
+    summaryWidget: {
+      totalBalance: 'Celkový zůstatek',
+      income: 'Příjem',
+      expenses: 'Výdaje',
     },
     amountWidget: {
       vsLastMonth: 'oproti minulému měsíci',

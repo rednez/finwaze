@@ -77,19 +77,19 @@ export const DashboardStore = signalStore(
 
       return [
         {
-          title: 'Total balance',
+          title: 'dashboard.summaryWidget.totalBalance',
           amount: totalBalance,
           previousAmount: previousMonthTotalBalance,
           growTrendIsGood: true,
         },
         {
-          title: 'Income',
+          title: 'dashboard.summaryWidget.income',
           amount: monthlyIncome,
           previousAmount: previousMonthlyIncome,
           growTrendIsGood: true,
         },
         {
-          title: 'Expenses',
+          title: 'dashboard.summaryWidget.expenses',
           amount: monthlyExpense,
           previousAmount: previousMonthlyExpense,
           growTrendIsGood: false,

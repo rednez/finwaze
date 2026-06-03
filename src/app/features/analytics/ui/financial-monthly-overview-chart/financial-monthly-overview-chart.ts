@@ -6,6 +6,7 @@ import {
   inject,
   input,
 } from '@angular/core';
+import { LocalizationService } from '@core/services/localization.service';
 import { ThemeService } from '@core/services/theme.service';
 import { ChartModule } from 'primeng/chart';
 
@@ -21,6 +22,8 @@ import { ChartModule } from 'primeng/chart';
 export class FinancialMonthlyOverviewChart {
   private readonly themeService = inject(ThemeService);
   private readonly datePipe = inject(DatePipe);
+  private readonly localizationService = inject(LocalizationService);
+  private readonly t = (key: string) => this.localizationService.translate(key);
 
   readonly labels = input<string[]>([]);
   readonly currentAmounts = input<number[]>([]);
@@ -67,7 +70,7 @@ export class FinancialMonthlyOverviewChart {
     labels: this.labels().map((i) => this.datePipe.transform(i, this.labelFormat())),
     datasets: [
       {
-        label: 'Selected month',
+        label: this.t('analytics.monthlyOverview.selectedMonth'),
         backgroundColor: ({
           chart,
         }: {
@@ -100,7 +103,7 @@ export class FinancialMonthlyOverviewChart {
         pointRadius: 0,
       },
       {
-        label: 'Previous month',
+        label: this.t('analytics.monthlyOverview.previousMonth'),
         backgroundColor: this.colors().previousLine,
         borderColor: this.colors().previousLine,
         data: this.previousAmounts(),

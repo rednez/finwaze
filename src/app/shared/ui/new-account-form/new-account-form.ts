@@ -14,6 +14,7 @@ import {
   Validators,
 } from '@angular/forms';
 import { Currency } from '@core/models/currencies';
+import { LocalizationService } from '@core/services/localization.service';
 import { ButtonModule } from 'primeng/button';
 import { DatePickerModule } from 'primeng/datepicker';
 import { InputNumberModule } from 'primeng/inputnumber';
@@ -56,6 +57,10 @@ export class NewAccountForm {
   readonly submitForm = output<SubmitEvent>();
 
   private readonly formBuilder = inject(FormBuilder);
+  private readonly localizationService = inject(LocalizationService);
+
+  protected readonly t = (key: string) =>
+    this.localizationService.translate(key);
 
   protected readonly today = new Date();
 

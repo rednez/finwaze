@@ -3,8 +3,10 @@ import {
   ChangeDetectionStrategy,
   Component,
   computed,
+  inject,
   input,
 } from '@angular/core';
+import { LocalizationService } from '@core/services/localization.service';
 import { TranslatePipe } from '@shared/pipes/translate.pipe';
 import { Card } from '@shared/ui/card';
 import { CardHeaderTitle } from '@shared/ui/card-header-title/card-header-title';
@@ -34,6 +36,9 @@ import { FinancialSummaryCardButton } from './financial-summary-card-button/fina
   },
 })
 export class FinancialSummaryCard {
+  private readonly localizationService = inject(LocalizationService);
+  private readonly t = (key: string) => this.localizationService.translate(key);
+
   readonly title = input('');
   readonly currentAmount = input(0);
   readonly previousAmount = input(0);
@@ -48,9 +53,9 @@ export class FinancialSummaryCard {
 
   protected readonly comparedText = computed(() =>
     this.currentAmount() > this.previousAmount()
-      ? 'more'
+      ? this.t('analytics.financialSummary.more')
       : this.currentAmount() === this.previousAmount()
-        ? 'The same'
-        : 'less',
+        ? this.t('analytics.financialSummary.theSame')
+        : this.t('analytics.financialSummary.less'),
   );
 }
