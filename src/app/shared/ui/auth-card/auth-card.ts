@@ -12,7 +12,7 @@ import { ToastModule } from 'primeng/toast';
       class="relative min-h-screen flex flex-col items-center justify-center p-6"
     >
       <div
-        class="w-full max-w-110 bg-white/40 dark:bg-zinc-900/40 backdrop-blur-2xl border border-white dark:border-zinc-800/50 p-12 rounded-[40px] shadow-2xl shadow-violet-500/12 dark:shadow-none"
+        class="w-full max-w-110 bg-white/40 dark:bg-zinc-900/40 backdrop-blur-2xl border border-white dark:border-zinc-800/50 p-4 sm:p-10 rounded-[40px] shadow-2xl shadow-violet-500/12 dark:shadow-none"
       >
         @if (showLogo()) {
           <div class="flex justify-center mb-8">
