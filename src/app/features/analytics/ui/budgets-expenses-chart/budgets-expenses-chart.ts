@@ -6,6 +6,7 @@ import {
   inject,
   input,
 } from '@angular/core';
+import { LocalizationService } from '@core/services/localization.service';
 import { ThemeService } from '@core/services/theme.service';
 import { ChartModule } from 'primeng/chart';
 
@@ -21,6 +22,8 @@ import { ChartModule } from 'primeng/chart';
 export class BudgetsExpensesChart {
   private readonly isDarkModeSignal = inject(ThemeService).isDark;
   private readonly datePipe = inject(DatePipe);
+  private readonly localizationService = inject(LocalizationService);
+  private readonly t = (key: string) => this.localizationService.translate(key);
 
   readonly labels = input<string[]>([]);
   readonly expenses = input<number[]>([]);
@@ -60,13 +63,13 @@ export class BudgetsExpensesChart {
     labels: this.labels().map((i) => this.datePipe.transform(i, 'MMM')),
     datasets: [
       {
-        label: 'Expenses',
+        label: this.t('analytics.budgetsExpenses.expenses'),
         backgroundColor: this.chartColors().expense,
         borderColor: this.chartColors().expense,
         data: this.expenses(),
       },
       {
-        label: 'Budgets',
+        label: this.t('analytics.budgetsExpenses.budgets'),
         backgroundColor: this.chartColors().budget,
         borderColor: this.chartColors().budget,
         data: this.budgets(),

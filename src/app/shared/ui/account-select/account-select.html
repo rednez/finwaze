@@ -4,7 +4,7 @@
   [options]="accounts()"
   inputId="account"
   optionValue="id"
-  [placeholder]="placeholder()"
+  [placeholder]="placeholder() || ('shared.selectAccount' | translate)"
   class="w-full"
   emptyMessage="No accounts to select"
   appendTo="body"

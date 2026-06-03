@@ -11,6 +11,7 @@ import { BudgetWidget } from './ui/budget-widget/budget-widget';
 import { DashboardFilters } from './ui/dashboard-filters';
 import { MoneyFlowWidget } from './ui/money-flow-widget/money-flow-widget';
 import { SavingGoalsWidget } from './ui/saving-goals-widget/saving-goals-widget';
+import { TranslatePipe } from '@shared/pipes/translate.pipe';
 
 @Component({
   imports: [
@@ -22,6 +23,7 @@ import { SavingGoalsWidget } from './ui/saving-goals-widget/saving-goals-widget'
     RecentTransactionsWidget,
     SavingGoalsWidget,
     DashboardFilters,
+    TranslatePipe,
   ],
   templateUrl: './dashboard.html',
   host: {

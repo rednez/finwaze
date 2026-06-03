@@ -12,13 +12,14 @@ import {
   FormsModule,
   NG_VALUE_ACCESSOR,
 } from '@angular/forms';
+import { TranslatePipe } from '@shared/pipes/translate.pipe';
 import { SelectDesignTokens } from '@primeuix/themes/types/select';
 import { ButtonModule } from 'primeng/button';
 import { SelectModule } from 'primeng/select';
 
 @Component({
   selector: 'app-select',
-  imports: [SelectModule, FormsModule, ButtonModule],
+  imports: [SelectModule, FormsModule, ButtonModule, TranslatePipe],
   templateUrl: './select.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [
@@ -34,7 +35,7 @@ export class Select implements ControlValueAccessor {
   readonly inputId = input.required<string>();
   readonly optionLabel = input('name');
   readonly optionValue = input('value');
-  readonly placeholder = input('Select item');
+  readonly placeholder = input<string>();
   readonly options = input<unknown[]>([]);
   readonly isInvalid = input(false);
   readonly hasAddButton = input(false);

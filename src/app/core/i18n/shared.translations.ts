@@ -32,6 +32,8 @@ export const SHARED_TRANSLATIONS = {
     deposit: 'Deposit',
     withdraw: 'Withdraw',
     addNew: 'Add new',
+    selectItem: 'Select item',
+    selectAccount: 'Select account',
     somethingWentWrong: 'Something went wrong. Please try again.',
   },
   uk: {
@@ -67,6 +69,8 @@ export const SHARED_TRANSLATIONS = {
     deposit: 'Поповнити',
     withdraw: 'Зняти',
     addNew: 'Додати',
+    selectItem: 'Оберіть елемент',
+    selectAccount: 'Оберіть рахунок',
     somethingWentWrong: 'Щось пішло не так. Спробуйте ще раз.',
   },
   cs: {
@@ -102,6 +106,8 @@ export const SHARED_TRANSLATIONS = {
     deposit: 'Vložit',
     withdraw: 'Vybrat',
     addNew: 'Přidat',
+    selectItem: 'Vyberte položku',
+    selectAccount: 'Vyberte účet',
     somethingWentWrong: 'Něco se pokazilo. Zkuste to znovu.',
   },
 };

@@ -1,4 +1,5 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import { TranslatePipe } from '@shared/pipes/translate.pipe';
 import { Card } from '@shared/ui/card';
 import { SkeletonModule } from 'primeng/skeleton';
 import { AnalyticsStore } from './stores';
@@ -17,6 +18,7 @@ import { StatsFilters } from './ui/stats-filters';
     AnalyticStatisticsCard,
     SkeletonModule,
     Card,
+    TranslatePipe,
   ],
   templateUrl: './analytics.html',
   changeDetection: ChangeDetectionStrategy.OnPush,

@@ -4,7 +4,8 @@ export const WALLET_TRANSLATIONS = {
     addAccount: 'Add account',
     accountSettings: {
       header: 'Account settings',
-      currencyInfo: 'To change account currency or delete it, delete all related transactions.',
+      currencyInfo:
+        'To change account currency or delete it, delete all related transactions.',
       updateFailed: 'Account updating failed',
       deleteFailed: 'Account deleting failed',
     },
@@ -32,19 +33,35 @@ export const WALLET_TRANSLATIONS = {
     },
     transactionsOverview: {
       title: 'Daily Transaction Flow',
-      tooltip: 'The expenses and incomes of the selected currency are based on the transaction amounts for each day of the selected month.',
+      tooltip:
+        'The expenses and incomes of the selected currency are based on the transaction amounts for each day of the selected month.',
       incomesOn: 'Incomes On',
       incomesOff: 'Incomes Off',
       income: 'Income',
       expense: 'Expense',
     },
+    newAccountForm: {
+      nameLabel: 'Name',
+      namePlaceholder: 'Enter account name',
+      nameError: 'Should be between 3 and 30 characters',
+      currencyLabel: 'Currency',
+      currencyPlaceholder: 'Select a currency',
+      currencyError: 'Should be selected',
+      balanceLabel: 'Balance',
+      balancePlaceholder: 'Enter account balance',
+      balanceError: 'Amount required',
+      balanceDateLabel: 'Balance as of',
+      balanceDateOptional: '(optional)',
+      balanceDatePlaceholder: 'Now',
+    },
   },
   uk: {
-    transferMoney: 'Перекласти кошти',
+    transferMoney: 'Перевести кошти',
     addAccount: 'Додати рахунок',
     accountSettings: {
       header: 'Налаштування рахунку',
-      currencyInfo: 'Щоб змінити валюту рахунку або видалити його, спочатку видаліть усі пов\'язані транзакції.',
+      currencyInfo:
+        "Щоб змінити валюту рахунку або видалити його, спочатку видаліть усі пов'язані транзакції.",
       updateFailed: 'Помилка оновлення рахунку',
       deleteFailed: 'Помилка видалення рахунку',
     },
@@ -72,11 +89,26 @@ export const WALLET_TRANSLATIONS = {
     },
     transactionsOverview: {
       title: 'Щоденний грошовий потік',
-      tooltip: 'Витрати та доходи у вибраній валюті на основі сум транзакцій за кожен день обраного місяця.',
+      tooltip:
+        'Витрати та доходи у вибраній валюті на основі сум транзакцій за кожен день обраного місяця.',
       incomesOn: 'Доходи: вкл.',
       incomesOff: 'Доходи: викл.',
       income: 'Дохід',
       expense: 'Витрата',
+    },
+    newAccountForm: {
+      nameLabel: 'Назва',
+      namePlaceholder: 'Введіть назву рахунку',
+      nameError: 'Має бути від 3 до 30 символів',
+      currencyLabel: 'Валюта',
+      currencyPlaceholder: 'Оберіть валюту',
+      currencyError: 'Необхідно обрати',
+      balanceLabel: 'Баланс',
+      balancePlaceholder: 'Введіть баланс рахунку',
+      balanceError: 'Сума обовʼязкова',
+      balanceDateLabel: 'Баланс станом на',
+      balanceDateOptional: '(необовʼязково)',
+      balanceDatePlaceholder: 'Зараз',
     },
   },
   cs: {
@@ -84,7 +116,8 @@ export const WALLET_TRANSLATIONS = {
     addAccount: 'Přidat účet',
     accountSettings: {
       header: 'Nastavení účtu',
-      currencyInfo: 'Pro změnu měny účtu nebo jeho smazání nejprve smažte všechny související transakce.',
+      currencyInfo:
+        'Pro změnu měny účtu nebo jeho smazání nejprve smažte všechny související transakce.',
       updateFailed: 'Aktualizace účtu selhala',
       deleteFailed: 'Smazání účtu selhalo',
     },
@@ -112,11 +145,26 @@ export const WALLET_TRANSLATIONS = {
     },
     transactionsOverview: {
       title: 'Denní peněžní tok',
-      tooltip: 'Výdaje a příjmy ve vybrané měně na základě částek transakcí za každý den vybraného měsíce.',
+      tooltip:
+        'Výdaje a příjmy ve vybrané měně na základě částek transakcí za každý den vybraného měsíce.',
       incomesOn: 'Příjmy: zap.',
       incomesOff: 'Příjmy: vyp.',
       income: 'Příjem',
       expense: 'Výdaj',
+    },
+    newAccountForm: {
+      nameLabel: 'Název',
+      namePlaceholder: 'Zadejte název účtu',
+      nameError: 'Musí mít 3 až 30 znaků',
+      currencyLabel: 'Měna',
+      currencyPlaceholder: 'Vyberte měnu',
+      currencyError: 'Je nutné vybrat',
+      balanceLabel: 'Zůstatek',
+      balancePlaceholder: 'Zadejte zůstatek účtu',
+      balanceError: 'Částka je povinná',
+      balanceDateLabel: 'Zůstatek ke dni',
+      balanceDateOptional: '(volitelné)',
+      balanceDatePlaceholder: 'Nyní',
     },
   },
 };

@@ -5,7 +5,7 @@
   [inputId]="inputId()"
   [optionLabel]="optionLabel()"
   [optionValue]="optionValue()"
-  [placeholder]="placeholder()"
+  [placeholder]="placeholder() || ('shared.selectItem' | translate)"
   class="w-full"
   [dt]="selectDt"
   [invalid]="isInvalid()"

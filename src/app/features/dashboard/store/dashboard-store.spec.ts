@@ -133,19 +133,19 @@ describe('DashboardStore', () => {
 
       expect(cards).toEqual([
         {
-          title: 'Total balance',
+          title: 'dashboard.summaryWidget.totalBalance',
           amount: 10000,
           previousAmount: 9000,
           growTrendIsGood: true,
         },
         {
-          title: 'Income',
+          title: 'dashboard.summaryWidget.income',
           amount: 3000,
           previousAmount: 2800,
           growTrendIsGood: true,
         },
         {
-          title: 'Expenses',
+          title: 'dashboard.summaryWidget.expenses',
           amount: 2000,
           previousAmount: 1800,
           growTrendIsGood: false,

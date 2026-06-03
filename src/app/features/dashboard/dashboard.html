@@ -10,7 +10,7 @@
   @for (widget of store.displayedTotalsSummary(); track widget.title) {
     <app-amount-widget
       class="grow"
-      [title]="widget.title"
+      [title]="widget.title | translate"
       [amount]="widget.amount"
       [previousAmount]="widget.previousAmount"
       [growTrendIsGood]="widget.growTrendIsGood"

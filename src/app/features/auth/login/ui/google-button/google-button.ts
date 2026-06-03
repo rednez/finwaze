@@ -15,7 +15,7 @@ import { GooglePic } from '../google-pic/google-pic';
       (click)="clickLogin.emit()"
     >
       <app-google-pic />
-      <span class="font-medium tracking-tight sm:tracking-normal text-nowrap">
+      <span class="text-base/5 font-medium text-start">
         {{ 'login.continueWithGoogle' | translate }}
       </span>
     </button>

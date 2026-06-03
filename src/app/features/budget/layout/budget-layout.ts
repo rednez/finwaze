@@ -8,6 +8,7 @@ import {
 import { toSignal } from '@angular/core/rxjs-interop';
 import { NavigationEnd, Router, RouterOutlet } from '@angular/router';
 import { AccountsStore } from '@core/store/accounts-store';
+import { LocalizationService } from '@core/services/localization.service';
 import { BreadcrumbModule } from 'primeng/breadcrumb';
 import { filter, map, startWith } from 'rxjs';
 import { BudgetStore } from '../stores';
@@ -36,6 +37,8 @@ export class BudgetLayout {
   private readonly accountsStore = inject(AccountsStore);
   private readonly datePipe = inject(DatePipe);
   private readonly router = inject(Router);
+  private readonly localizationService = inject(LocalizationService);
+  private readonly t = (key: string) => this.localizationService.translate(key);
   private readonly currentUrl = toSignal(
     this.router.events.pipe(
       filter((e) => e instanceof NavigationEnd),
@@ -45,7 +48,7 @@ export class BudgetLayout {
   );
 
   protected readonly breadcrumbItems = computed(() => {
-    const home = ['Budget'];
+    const home = [this.t('core.pages.budget.title')];
 
     if (this.budgetStore.month()) {
       home.push(
