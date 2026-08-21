@@ -1,10 +1,12 @@
-import { ChangeDetectionStrategy, Component, output } from '@angular/core';
+import { Component, output } from '@angular/core';
 import { TranslatePipe } from '@shared/pipes/translate.pipe';
 
 @Component({
   selector: 'app-gradient-button',
   imports: [TranslatePipe],
-  template: `<button (click)="getStarted.emit()">{{ 'landing.cta.getStarted' | translate }}</button>`,
+  template: `<button (click)="getStarted.emit()">
+    {{ 'landing.cta.getStarted' | translate }}
+  </button>`,
   styles: `
     :host {
       display: block;
@@ -37,7 +39,6 @@ import { TranslatePipe } from '@shared/pipes/translate.pipe';
       }
     }
   `,
-  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class GradientButton {
   readonly getStarted = output();

@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { AuthService } from '@core/services/auth-service';
 import { TranslatePipe } from '@shared/pipes/translate.pipe';
@@ -10,7 +10,6 @@ import { PasswordModule } from 'primeng/password';
   selector: 'app-update-password',
   imports: [ReactiveFormsModule, PasswordModule, ButtonModule, TranslatePipe],
   templateUrl: './update-password.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class UpdatePassword {
   private readonly formBuilder = inject(FormBuilder);

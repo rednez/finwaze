@@ -1,6 +1,5 @@
 import { CommonModule } from '@angular/common';
 import {
-  ChangeDetectionStrategy,
   Component,
   computed,
   effect,
@@ -32,7 +31,6 @@ import { InputNumberModule } from 'primeng/inputnumber';
     TranslatePipe,
   ],
   templateUrl: './withdraw-from-goal-dialog.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class WithdrawFromGoalDialog {
   readonly goal = input.required<SavingsGoal>();

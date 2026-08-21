@@ -1,10 +1,5 @@
 import { CommonModule } from '@angular/common';
-import {
-  ChangeDetectionStrategy,
-  Component,
-  computed,
-  inject,
-} from '@angular/core';
+import { Component, computed, inject } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FormPageLayout } from '@core/layout/form-page-layout';
 import { LocalizationService } from '@core/services/localization.service';
@@ -27,7 +22,6 @@ import { TransferDetailsStore } from '../../store';
     TranslatePipe,
   ],
   templateUrl: './transfer-details.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class TransferDetails {
   private readonly transferStore = inject(TransferDetailsStore);

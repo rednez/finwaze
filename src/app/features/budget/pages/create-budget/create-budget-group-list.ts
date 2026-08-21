@@ -1,19 +1,13 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  computed,
-  inject,
-  signal,
-} from '@angular/core';
+import { Component, computed, inject, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Category, Group } from '@core/models/categories';
 import { CategoriesStore } from '@core/store/categories-store';
 import { TranslatePipe } from '@shared/pipes/translate.pipe';
 import { ButtonModule } from 'primeng/button';
 import { SelectModule } from 'primeng/select';
+import { BudgetGroupRow } from '../../models';
 import { BudgetStore } from '../../stores';
 import { CreateBudgetGroupRow } from './create-budget-group-row';
-import { BudgetGroupRow } from '../../models';
 import { CreateBudgetStore } from './create-budget-store';
 
 @Component({
@@ -120,7 +114,6 @@ import { CreateBudgetStore } from './create-budget-store';
       }
     </div>
   `,
-  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CreateBudgetGroupList {
   protected readonly store = inject(CreateBudgetStore);

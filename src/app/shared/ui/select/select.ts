@@ -1,5 +1,4 @@
 import {
-  ChangeDetectionStrategy,
   Component,
   forwardRef,
   input,
@@ -12,8 +11,8 @@ import {
   FormsModule,
   NG_VALUE_ACCESSOR,
 } from '@angular/forms';
-import { TranslatePipe } from '@shared/pipes/translate.pipe';
 import { SelectDesignTokens } from '@primeuix/themes/types/select';
+import { TranslatePipe } from '@shared/pipes/translate.pipe';
 import { ButtonModule } from 'primeng/button';
 import { SelectModule } from 'primeng/select';
 
@@ -21,7 +20,6 @@ import { SelectModule } from 'primeng/select';
   selector: 'app-select',
   imports: [SelectModule, FormsModule, ButtonModule, TranslatePipe],
   templateUrl: './select.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [
     {
       provide: NG_VALUE_ACCESSOR,

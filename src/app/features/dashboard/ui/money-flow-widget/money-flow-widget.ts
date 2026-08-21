@@ -1,11 +1,5 @@
 import { DatePipe } from '@angular/common';
-import {
-  ChangeDetectionStrategy,
-  Component,
-  computed,
-  inject,
-  input,
-} from '@angular/core';
+import { Component, computed, inject, input } from '@angular/core';
 import { TranslatePipe } from '@shared/pipes/translate.pipe';
 import { Card } from '@shared/ui/card';
 import { CardHeaderTitle } from '@shared/ui/card-header-title/card-header-title';
@@ -44,7 +38,6 @@ import { MoneyFlowChart } from '../money-flow-chart/money-flow-chart';
       />
     </app-card>
   `,
-  changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [DatePipe],
 })
 export class MoneyFlowWidget {

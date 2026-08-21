@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FormPageLayout } from '@core/layout/form-page-layout';
 import { LocalizationService } from '@core/services/localization.service';
@@ -22,7 +22,6 @@ import { WalletAccountsStore } from '../../stores';
     TranslatePipe,
   ],
   templateUrl: './account-settings.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AccountSettings {
   protected readonly currenciesStore = inject(CurrenciesStore);

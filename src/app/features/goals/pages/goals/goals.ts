@@ -1,9 +1,4 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  inject,
-  signal,
-} from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { SavingsGoal } from '@core/models/savings-goal';
 import { LocalizationService } from '@core/services/localization.service';
@@ -37,7 +32,6 @@ import { EmptyGoalsListState } from './empty-goals-list-state';
   ],
   templateUrl: './goals.html',
   host: { class: 'flex flex-col gap-4' },
-  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class Goals {
   protected readonly accountsStore = inject(AccountsStore);

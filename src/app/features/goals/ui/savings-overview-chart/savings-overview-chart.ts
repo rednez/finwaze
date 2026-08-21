@@ -1,11 +1,5 @@
 import { DatePipe } from '@angular/common';
-import {
-  ChangeDetectionStrategy,
-  Component,
-  computed,
-  inject,
-  input,
-} from '@angular/core';
+import { Component, computed, inject, input } from '@angular/core';
 import { ThemeService } from '@core/services/theme.service';
 import { ChartModule } from 'primeng/chart';
 
@@ -16,7 +10,6 @@ import { ChartModule } from 'primeng/chart';
     <p-chart type="line" [data]="data()" [options]="options()" class="h-50" />
   `,
   providers: [DatePipe],
-  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SavingsOverviewChart {
   private readonly themeService = inject(ThemeService);

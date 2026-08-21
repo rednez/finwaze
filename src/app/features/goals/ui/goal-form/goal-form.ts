@@ -1,11 +1,4 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  computed,
-  inject,
-  input,
-  output,
-} from '@angular/core';
+import { Component, computed, inject, input, output } from '@angular/core';
 import { toObservable } from '@angular/core/rxjs-interop';
 import {
   FormBuilder,
@@ -42,7 +35,6 @@ export interface GoalFormData {
     TranslatePipe,
   ],
   templateUrl: './goal-form.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class GoalForm {
   readonly isEditMode = input(false);

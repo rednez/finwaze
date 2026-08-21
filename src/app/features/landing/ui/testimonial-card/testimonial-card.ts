@@ -1,9 +1,4 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  computed,
-  input,
-} from '@angular/core';
+import { Component, computed, input } from '@angular/core';
 
 @Component({
   selector: 'app-testimonial-card',
@@ -69,7 +64,6 @@ import {
       flex-shrink: 0;
     }
   `,
-  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class TestimonialCard {
   readonly quote = input('');

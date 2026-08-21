@@ -1,5 +1,4 @@
 import {
-  ChangeDetectionStrategy,
   Component,
   computed,
   inject,
@@ -35,7 +34,6 @@ interface GroupOption {
   ],
   templateUrl: './budget-filters.html',
   host: { class: 'flex flex-col gap-2' },
-  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class BudgetFilters {
   private readonly localizationService = inject(LocalizationService);

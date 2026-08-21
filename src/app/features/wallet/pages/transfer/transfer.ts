@@ -1,11 +1,4 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  computed,
-  DestroyRef,
-  inject,
-  signal,
-} from '@angular/core';
+import { Component, computed, DestroyRef, inject, signal } from '@angular/core';
 import { takeUntilDestroyed, toSignal } from '@angular/core/rxjs-interop';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -42,7 +35,6 @@ import { WalletRepository } from '../../repositories';
     TranslatePipe,
   ],
   templateUrl: './transfer.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class Transfer {
   protected readonly accountsStore = inject(AccountsStore);

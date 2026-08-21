@@ -1,11 +1,5 @@
 import { Location } from '@angular/common';
-import {
-  ChangeDetectionStrategy,
-  Component,
-  computed,
-  inject,
-  signal,
-} from '@angular/core';
+import { Component, computed, inject, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { FormPageLayout } from '@core/layout/form-page-layout';
 import { LocalizationService } from '@core/services/localization.service';
@@ -29,7 +23,6 @@ type SettingsSection = 'password' | 'passkeys';
     Passkeys,
   ],
   templateUrl: './settings.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class Settings {
   private readonly location = inject(Location);

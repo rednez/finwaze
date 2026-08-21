@@ -1,5 +1,4 @@
 import {
-  ChangeDetectionStrategy,
   Component,
   computed,
   inject,
@@ -29,7 +28,6 @@ import { AnalyticsStore } from '../../stores';
     TranslatePipe,
   ],
   templateUrl: './stats-filters.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
   host: { class: 'flex gap-2 flex-wrap' },
 })
 export class StatsFilters implements OnInit {

@@ -1,9 +1,4 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  input,
-  output,
-} from '@angular/core';
+import { Component, input, output } from '@angular/core';
 import { ButtonModule } from 'primeng/button';
 
 @Component({
@@ -42,7 +37,6 @@ import { ButtonModule } from 'primeng/button';
     class:
       'block mt-5 bg-primary-50/70 dark:bg-surface-800 rounded-2xl py-6 px-8 w-fit mx-auto',
   },
-  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CardEmptyState {
   readonly title = input<string>();

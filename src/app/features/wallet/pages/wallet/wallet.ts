@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { Router } from '@angular/router';
 import { AccountsStore } from '@core/store/accounts-store';
 import { TranslatePipe } from '@shared/pipes/translate.pipe';
@@ -33,7 +33,6 @@ import {
       @apply flex flex-col gap-4;
     }
   `,
-  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class Wallet {
   protected readonly accountsStore = inject(AccountsStore);

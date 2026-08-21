@@ -1,10 +1,4 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  effect,
-  inject,
-  linkedSignal,
-} from '@angular/core';
+import { Component, effect, inject, linkedSignal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Card } from '@shared/ui/card';
 import { CardHeaderTitle } from '@shared/ui/card-header-title/card-header-title';
@@ -51,7 +45,6 @@ import { SavingsOverviewChart } from '../savings-overview-chart/savings-overview
       />
     </app-card>
   `,
-  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SavingsOverviewWidget {
   protected readonly store = inject(SavingsOverviewStore);

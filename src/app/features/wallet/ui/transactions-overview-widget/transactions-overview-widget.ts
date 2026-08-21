@@ -1,6 +1,5 @@
 import { CommonModule } from '@angular/common';
 import {
-  ChangeDetectionStrategy,
   Component,
   computed,
   input,
@@ -89,7 +88,6 @@ import { TransactionsOverviewChart } from '../transactions-overview-chart';
       />
     </app-card>
   `,
-  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class TransactionsOverviewWidget {
   readonly currencies = input<{ name: string }[], string[]>([], {

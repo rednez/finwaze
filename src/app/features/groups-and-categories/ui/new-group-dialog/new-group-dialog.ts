@@ -1,11 +1,4 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  computed,
-  inject,
-  model,
-  output,
-} from '@angular/core';
+import { Component, computed, inject, model, output } from '@angular/core';
 import {
   FormControl,
   FormsModule,
@@ -78,7 +71,6 @@ import { SelectButtonModule } from 'primeng/selectbutton';
       />
     </p-dialog>
   `,
-  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class NewGroupDialog {
   private readonly localizationService = inject(LocalizationService);

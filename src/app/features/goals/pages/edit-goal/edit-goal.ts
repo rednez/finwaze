@@ -1,10 +1,4 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  computed,
-  inject,
-  signal,
-} from '@angular/core';
+import { Component, computed, inject, signal } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FormPageLayout } from '@core/layout/form-page-layout';
 import { SavingsGoal } from '@core/models/savings-goal';
@@ -39,7 +33,6 @@ import { GoalNotFound } from './goal-not-found';
     TranslatePipe,
   ],
   templateUrl: './edit-goal.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [ConfirmationService],
 })
 export class EditGoal {

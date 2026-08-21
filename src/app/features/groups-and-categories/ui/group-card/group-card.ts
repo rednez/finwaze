@@ -9,10 +9,10 @@ import {
 } from '@angular/core';
 import { FormControl, ReactiveFormsModule, Validators } from '@angular/forms';
 import { LocalizationService } from '@core/services/localization.service';
-import { ColorPalette } from '@shared/ui/color-palette';
 import { Card } from '@shared/ui/card';
 import { CardHeader } from '@shared/ui/card-header';
 import { CardHeaderTitle } from '@shared/ui/card-header-title';
+import { ColorPalette } from '@shared/ui/color-palette';
 import { ButtonModule } from 'primeng/button';
 import { GroupWithCategories } from '../../models';
 import { CategoryChip } from '../category-chip';

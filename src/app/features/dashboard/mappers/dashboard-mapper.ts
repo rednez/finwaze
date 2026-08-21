@@ -1,13 +1,11 @@
-import { Injectable } from '@angular/core';
+import { Service } from '@angular/core';
 import {
   MonthlyCashFlow,
   RecentMonthlyBudget,
   TotalSummaries,
 } from '../models';
 
-@Injectable({
-  providedIn: 'root',
-})
+@Service()
 export class DashboardMapper {
   fromTotalsSummaryDto(dto: {
     total_balance?: number;

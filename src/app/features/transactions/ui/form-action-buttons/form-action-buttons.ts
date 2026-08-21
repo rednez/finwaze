@@ -1,9 +1,4 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  input,
-  output,
-} from '@angular/core';
+import { Component, input, output } from '@angular/core';
 import { TranslatePipe } from '@shared/pipes/translate.pipe';
 import { ButtonModule } from 'primeng/button';
 
@@ -14,7 +9,6 @@ import { ButtonModule } from 'primeng/button';
   host: {
     class: 'mt-8 flex justify-between',
   },
-  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class FormActionButtons {
   readonly isCreatingMode = input(false);

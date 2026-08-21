@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { Component } from '@angular/core';
 
 @Component({
   selector: 'app-filled-block',
@@ -16,6 +16,5 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
       padding: 52px 40px;
     }
   `,
-  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class FilledBlock {}

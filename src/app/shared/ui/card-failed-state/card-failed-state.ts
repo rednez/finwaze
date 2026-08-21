@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { Component } from '@angular/core';
 import { ButtonModule } from 'primeng/button';
 
 @Component({
@@ -26,6 +26,5 @@ import { ButtonModule } from 'primeng/button';
       text-align: center;
     }
   `,
-  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CardFailedState {}

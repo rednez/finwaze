@@ -1,10 +1,4 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  input,
-  linkedSignal,
-  output,
-} from '@angular/core';
+import { Component, input, linkedSignal, output } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Transaction } from '@core/models/transactions';
 import { toNameOptions } from '@core/utils/input-transforms';
@@ -37,7 +31,6 @@ import { SelectModule } from 'primeng/select';
       </div>
     </app-recent-transactions-widget>
   `,
-  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class WalletRecentTransactionsCard {
   readonly transactions = input<Transaction[]>([]);

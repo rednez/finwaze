@@ -1,9 +1,7 @@
-import { Injectable } from '@angular/core';
+import { Service } from '@angular/core';
 import { Currency, CurrencyDto } from '@core/models/currencies';
 
-@Injectable({
-  providedIn: 'root',
-})
+@Service()
 export class CurrenciesMapper {
   fromCurrencyDto(dto: CurrencyDto): Currency {
     return {

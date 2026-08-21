@@ -1,14 +1,9 @@
 import { DatePipe } from '@angular/common';
-import {
-  ChangeDetectionStrategy,
-  Component,
-  computed,
-  inject,
-} from '@angular/core';
+import { Component, computed, inject } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { NavigationEnd, Router, RouterOutlet } from '@angular/router';
-import { AccountsStore } from '@core/store/accounts-store';
 import { LocalizationService } from '@core/services/localization.service';
+import { AccountsStore } from '@core/store/accounts-store';
 import { BreadcrumbModule } from 'primeng/breadcrumb';
 import { filter, map, startWith } from 'rxjs';
 import { BudgetStore } from '../stores';
@@ -30,7 +25,6 @@ import { BudgetStore } from '../stores';
     <router-outlet />
   `,
   providers: [DatePipe],
-  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class BudgetLayout {
   private readonly budgetStore = inject(BudgetStore);

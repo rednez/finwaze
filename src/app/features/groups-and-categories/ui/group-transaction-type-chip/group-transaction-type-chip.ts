@@ -1,10 +1,4 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  computed,
-  inject,
-  input,
-} from '@angular/core';
+import { Component, computed, inject, input } from '@angular/core';
 import { TransactionType } from '@core/models/transactions';
 import { LocalizationService } from '@core/services/localization.service';
 
@@ -22,7 +16,6 @@ import { LocalizationService } from '@core/services/localization.service';
   host: {
     '[class]': 'type() === "income" ? incomeClasses : expenseClasses',
   },
-  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class GroupTransactionTypeChip {
   private readonly localizationService = inject(LocalizationService);

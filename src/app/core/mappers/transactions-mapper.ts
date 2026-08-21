@@ -1,13 +1,11 @@
-import { Injectable } from '@angular/core';
+import { Service } from '@angular/core';
 import {
   Transaction,
   TransactionDetailsDto,
   TransactionDto,
 } from '@core/models/transactions';
 
-@Injectable({
-  providedIn: 'root',
-})
+@Service()
 export class TransactionsMapper {
   fromTransactionDto = (dto: TransactionDto): Transaction => {
     const {
@@ -44,7 +42,11 @@ export class TransactionsMapper {
       exchangeRate: exchange_rate,
       type,
       group: { id: group_id, name: group_name, color: group_color ?? null },
-      category: { id: category_id, name: category_name, color: category_color ?? null },
+      category: {
+        id: category_id,
+        name: category_name,
+        color: category_color ?? null,
+      },
       comment,
       transferId: transfer_id,
     };

@@ -1,4 +1,4 @@
-import { inject, Injectable } from '@angular/core';
+import { inject, Service } from '@angular/core';
 import { CategoriesMapper } from '@core/mappers/categories-mapper';
 import { Group } from '@core/models/categories';
 import { SupabaseService } from '@core/services/supabase.service';
@@ -13,9 +13,7 @@ import {
   MonthlyExpense,
 } from '../models';
 
-@Injectable({
-  providedIn: 'root',
-})
+@Service()
 export class BudgetRepository {
   private readonly supabase = inject(SupabaseService);
   private readonly mapper = inject(BudgetMapper);

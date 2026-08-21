@@ -1,5 +1,4 @@
 import {
-  ChangeDetectionStrategy,
   Component,
   computed,
   inject,
@@ -92,7 +91,6 @@ import { StatisticsByGroups } from './statistics-by-groups/statistics-by-groups'
       </div>
     </app-card>
   `,
-  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class StatisticsWidget {
   private readonly localizationService = inject(LocalizationService);

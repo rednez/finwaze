@@ -1,11 +1,5 @@
 import { CommonModule } from '@angular/common';
-import {
-  ChangeDetectionStrategy,
-  Component,
-  computed,
-  inject,
-  signal,
-} from '@angular/core';
+import { Component, computed, inject, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FormPageLayout } from '@core/layout/form-page-layout';
@@ -50,7 +44,6 @@ import { IncomeForm } from '../../ui/income-form';
     FormPageLayout,
   ],
   templateUrl: './edit-transaction.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class EditTransaction {
   protected readonly transactionsStore = inject(TransactionsStore);

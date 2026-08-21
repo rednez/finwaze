@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, input } from '@angular/core';
+import { Component, input } from '@angular/core';
 import { TranslatePipe } from '@shared/pipes/translate.pipe';
 import { Card } from '@shared/ui/card';
 import { CardFailedState } from '@shared/ui/card-failed-state';
@@ -57,7 +57,6 @@ import { TagModule } from 'primeng/tag';
       }
     </app-card>
   `,
-  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AmountWidget {
   readonly isLoading = input(false);

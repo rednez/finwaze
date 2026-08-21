@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { Component } from '@angular/core';
 import { TranslatePipe } from '@shared/pipes/translate.pipe';
 
 @Component({
@@ -23,6 +23,5 @@ import { TranslatePipe } from '@shared/pipes/translate.pipe';
       </div>
     </div>
   `,
-  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class GoalNotFound {}

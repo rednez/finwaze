@@ -1,4 +1,4 @@
-import { inject, Injectable } from '@angular/core';
+import { inject, Service } from '@angular/core';
 import { SavingsGoalsMapper } from '@core/mappers/savings-goals-mapper';
 import { Account } from '@core/models/accounts';
 import { GoalStatus, SavingsGoal } from '@core/models/savings-goal';
@@ -14,9 +14,7 @@ interface MonthlySavingsOverviewDto {
   previous_year_amount: number;
 }
 
-@Injectable({
-  providedIn: 'root',
-})
+@Service()
 export class GoalsRepository {
   private readonly supabase = inject(SupabaseService);
   private readonly mapper = inject(SavingsGoalsMapper);
@@ -134,9 +132,12 @@ export class GoalsRepository {
   }
 
   async markGoalAsDone(accountId: number): Promise<void> {
-    const { error } = await this.supabase.client.rpc('mark_savings_goal_as_done', {
-      p_account_id: accountId,
-    });
+    const { error } = await this.supabase.client.rpc(
+      'mark_savings_goal_as_done',
+      {
+        p_account_id: accountId,
+      },
+    );
 
     if (error) {
       throw new Error(error.message);

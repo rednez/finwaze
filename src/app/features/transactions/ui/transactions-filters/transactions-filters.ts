@@ -1,6 +1,5 @@
 import { CommonModule } from '@angular/common';
 import {
-  ChangeDetectionStrategy,
   Component,
   computed,
   inject,
@@ -35,7 +34,6 @@ import { SelectModule } from 'primeng/select';
       @apply flex gap-x-2 gap-y-4 flex-wrap;
     }
   `,
-  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class TransactionsFilters {
   private readonly localizationService = inject(LocalizationService);

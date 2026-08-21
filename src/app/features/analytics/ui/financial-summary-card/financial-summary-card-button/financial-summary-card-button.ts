@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, input } from '@angular/core';
+import { Component, input } from '@angular/core';
 import { ButtonModule } from 'primeng/button';
 
 @Component({
@@ -19,7 +19,6 @@ import { ButtonModule } from 'primeng/button';
       </span>
     </div>
   `,
-  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class FinancialSummaryCardButton {
   readonly label = input('');

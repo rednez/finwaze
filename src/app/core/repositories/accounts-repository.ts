@@ -1,11 +1,9 @@
-import { inject, Injectable } from '@angular/core';
+import { inject, Service } from '@angular/core';
 import { AccountsMapper } from '@core/mappers/accounts-mapper';
 import { Account, AccountDto } from '@core/models/accounts';
 import { SupabaseService } from '@core/services/supabase.service';
 
-@Injectable({
-  providedIn: 'root',
-})
+@Service()
 export class AccountsRepository {
   private readonly supabase = inject(SupabaseService);
   private readonly mapper = inject(AccountsMapper);

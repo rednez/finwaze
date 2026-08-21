@@ -7,7 +7,6 @@ import { Component } from '@angular/core';
     <ng-content select="app-card-header" />
     <ng-content />
   `,
-  styles: ``,
   host: {
     class:
       'block border border-surface-200 dark:border-surface-600 rounded-3xl p-4',

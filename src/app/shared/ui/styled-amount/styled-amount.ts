@@ -1,16 +1,8 @@
 import { CurrencyPipe, DecimalPipe } from '@angular/common';
-import {
-  ChangeDetectionStrategy,
-  Component,
-  computed,
-  inject,
-  input,
-  LOCALE_ID,
-} from '@angular/core';
+import { Component, computed, inject, input, LOCALE_ID } from '@angular/core';
 
 @Component({
   selector: 'app-styled-amount',
-  changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <span>{{ mainPart() }}</span
     ><span class="text-gray-300 dark:text-gray-500">{{ decimalPart() }}</span

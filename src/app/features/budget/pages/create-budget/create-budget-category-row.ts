@@ -1,10 +1,5 @@
 import { CurrencyPipe } from '@angular/common';
-import {
-  ChangeDetectionStrategy,
-  Component,
-  input,
-  output,
-} from '@angular/core';
+import { Component, input, output } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { TranslatePipe } from '@shared/pipes/translate.pipe';
 import { ButtonModule } from 'primeng/button';
@@ -100,7 +95,6 @@ import { BudgetCategoryRow } from '../../models';
     class:
       'relative block rounded-lg overflow-hidden bg-surface-50 dark:bg-surface-900',
   },
-  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CreateBudgetCategoryRow {
   readonly category = input.required<BudgetCategoryRow>();

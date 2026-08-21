@@ -1,4 +1,4 @@
-import { inject, Injectable } from '@angular/core';
+import { inject, Service } from '@angular/core';
 import { CategoriesMapper } from '@core/mappers/categories-mapper';
 import { Category, Group } from '@core/models/categories';
 import { TransactionType } from '@core/models/transactions';
@@ -6,9 +6,7 @@ import { SupabaseService } from '@core/services/supabase.service';
 import { GroupsAndCategoriesMapper } from '../mappers';
 import { GroupWithCategories } from '../models';
 
-@Injectable({
-  providedIn: 'root',
-})
+@Service()
 export class GroupsAndCategoriesRepository {
   private readonly supabase = inject(SupabaseService);
   private readonly mapper = inject(GroupsAndCategoriesMapper);

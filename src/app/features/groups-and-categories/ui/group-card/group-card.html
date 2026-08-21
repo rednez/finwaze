@@ -45,7 +45,9 @@
         </div>
       }
 
-      <app-group-transaction-type-chip [type]="group()?.transactionType" />
+      <app-group-transaction-type-chip
+        [type]="$safeNavigationMigration(group()?.transactionType)"
+      />
     </app-card-header-title>
 
     <div append-right>
@@ -73,7 +75,9 @@
           [color]="cat.color ?? null"
           [transactionsCount]="cat.transactionsCount"
           (rename)="onRenameCategory(cat.id, $event)"
-          (colorChange)="updateCategoryColor.emit({ categoryId: cat.id, color: $event })"
+          (colorChange)="
+            updateCategoryColor.emit({ categoryId: cat.id, color: $event })
+          "
           (delete)="onDeleteCategory(cat.id)"
         />
       }

@@ -1,9 +1,7 @@
-import { Injectable } from '@angular/core';
+import { Service } from '@angular/core';
 import { debounceTime, fromEvent, map, startWith } from 'rxjs';
 
-@Injectable({
-  providedIn: 'root',
-})
+@Service()
 export class ResponsiveHelper {
   windowWidth = fromEvent(window, 'resize').pipe(
     debounceTime(50),

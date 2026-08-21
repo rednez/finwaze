@@ -1,11 +1,5 @@
 import { CommonModule, DatePipe } from '@angular/common';
-import {
-  ChangeDetectionStrategy,
-  Component,
-  computed,
-  inject,
-  signal,
-} from '@angular/core';
+import { Component, computed, inject, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { LocalizationService } from '@core/services/localization.service';
 import { generateAnalogColors } from '@core/utils/colors';
@@ -81,7 +75,6 @@ type TypeKey = 'expenses' | 'income' | 'budget';
       }
     </app-card>
   `,
-  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AnalyticStatisticsCard {
   private readonly datePipe = inject(DatePipe);

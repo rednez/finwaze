@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { ChangeDetectionStrategy, Component, input } from '@angular/core';
+import { Component, input } from '@angular/core';
 
 @Component({
   selector: 'app-exchange-rate-chip',
@@ -20,7 +20,6 @@ import { ChangeDetectionStrategy, Component, input } from '@angular/core';
       @apply flex gap-1;
     }
   `,
-  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ExchangeRateChip {
   readonly exchangeRate = input<number | null>();

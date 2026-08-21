@@ -1,6 +1,5 @@
 import { CurrencyPipe } from '@angular/common';
 import {
-  ChangeDetectionStrategy,
   Component,
   computed,
   inject,
@@ -16,8 +15,8 @@ import { TranslatePipe } from '@shared/pipes/translate.pipe';
 import { ButtonModule } from 'primeng/button';
 import { SelectModule } from 'primeng/select';
 import { TooltipModule } from 'primeng/tooltip';
-import { CreateBudgetCategoryRow } from './create-budget-category-row';
 import { BudgetGroupRow } from '../../models';
+import { CreateBudgetCategoryRow } from './create-budget-category-row';
 import { GroupTotals } from './create-budget-store';
 
 @Component({
@@ -61,13 +60,13 @@ import { GroupTotals } from './create-budget-store';
         class="text-right text-sm font-semibold text-surface-700 dark:text-surface-200"
       >
         {{
-          totals()?.plannedAmount
+          $safeNavigationMigration(totals()?.plannedAmount)
             | currency: currencyCode() : 'symbol' : '1.0-0'
         }}
       </span>
       <span class="text-right text-sm text-surface-500">
         {{
-          totals()?.prevPlannedAmount
+          $safeNavigationMigration(totals()?.prevPlannedAmount)
             | currency: currencyCode() : 'symbol' : '1.0-0'
         }}
       </span>
@@ -77,13 +76,13 @@ import { GroupTotals } from './create-budget-store';
         [class.dark:text-surface-200]="!isOverBudget()"
       >
         {{
-          totals()?.currentSpentAmount
+          $safeNavigationMigration(totals()?.currentSpentAmount)
             | currency: currencyCode() : 'symbol' : '1.0-0'
         }}
       </span>
       <span class="text-right text-sm text-surface-500">
         {{
-          totals()?.prevSpentAmount
+          $safeNavigationMigration(totals()?.prevSpentAmount)
             | currency: currencyCode() : 'symbol' : '1.0-0'
         }}
       </span>
@@ -168,7 +167,6 @@ import { GroupTotals } from './create-budget-store';
       </div>
     }
   `,
-  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CreateBudgetGroupRow {
   private readonly categoriesStore = inject(CategoriesStore);

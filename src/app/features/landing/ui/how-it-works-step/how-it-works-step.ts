@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, input } from '@angular/core';
+import { Component, input } from '@angular/core';
 
 @Component({
   selector: 'app-how-it-works-step',
@@ -56,7 +56,6 @@ import { ChangeDetectionStrategy, Component, input } from '@angular/core';
       box-shadow: 0 4px 12px rgba(94, 35, 233, 0.3);
     }
   `,
-  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class HowItWorksStep {
   readonly step = input(1);

@@ -1,5 +1,4 @@
 import {
-  ChangeDetectionStrategy,
   Component,
   computed,
   effect,
@@ -61,7 +60,6 @@ import { InputTextModule } from 'primeng/inputtext';
       />
     </p-dialog>
   `,
-  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class RenamePasskeyDialog {
   private readonly localizationService = inject(LocalizationService);

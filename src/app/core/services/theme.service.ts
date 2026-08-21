@@ -1,4 +1,4 @@
-import { computed, effect, inject, Injectable, signal } from '@angular/core';
+import { computed, effect, inject, Service, signal } from '@angular/core';
 import { DarkModeHelper } from './dark-mode-helper';
 
 export type Theme = 'light' | 'system' | 'dark';
@@ -6,9 +6,7 @@ export type Theme = 'light' | 'system' | 'dark';
 const STORAGE_KEY = 'app-theme';
 const DARK_CLASS = 'dark';
 
-@Injectable({
-  providedIn: 'root',
-})
+@Service()
 export class ThemeService {
   private readonly darkModeHelper = inject(DarkModeHelper);
 

@@ -1,11 +1,5 @@
 import { CommonModule } from '@angular/common';
-import {
-  ChangeDetectionStrategy,
-  Component,
-  computed,
-  inject,
-  input,
-} from '@angular/core';
+import { Component, computed, inject, input } from '@angular/core';
 import { LocalizationService } from '@core/services/localization.service';
 import { TranslatePipe } from '@shared/pipes/translate.pipe';
 import { Card } from '@shared/ui/card';
@@ -30,7 +24,6 @@ import { FinancialSummaryCardButton } from './financial-summary-card-button/fina
     TranslatePipe,
   ],
   templateUrl: './financial-summary-card.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
   host: {
     class: 'block grow',
   },

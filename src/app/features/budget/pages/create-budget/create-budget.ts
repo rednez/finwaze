@@ -1,10 +1,4 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  computed,
-  inject,
-  viewChild,
-} from '@angular/core';
+import { Component, computed, inject, viewChild } from '@angular/core';
 import { LocalizationService } from '@core/services/localization.service';
 import { CategoriesStore } from '@core/store/categories-store';
 import { TranslatePipe } from '@shared/pipes/translate.pipe';
@@ -88,7 +82,6 @@ import { CreateBudgetTotals } from './create-budget-totals';
       />
     }`,
   host: { class: 'flex flex-col gap-6 w-full' },
-  changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [CreateBudgetStore],
 })
 export class CreateBudget {

@@ -1,6 +1,5 @@
 import { CommonModule } from '@angular/common';
 import {
-  ChangeDetectionStrategy,
   Component,
   computed,
   inject,
@@ -11,8 +10,8 @@ import {
 import { FormsModule } from '@angular/forms';
 import { TransactionType } from '@core/models/transactions';
 import { LocalizationService } from '@core/services/localization.service';
-import { TranslatePipe } from '@shared/pipes/translate.pipe';
 import { SelectDesignTokens } from '@primeuix/themes/types/select';
+import { TranslatePipe } from '@shared/pipes/translate.pipe';
 import { FloatLabelModule } from 'primeng/floatlabel';
 import { SelectModule } from 'primeng/select';
 
@@ -26,7 +25,6 @@ import { SelectModule } from 'primeng/select';
     TranslatePipe,
   ],
   templateUrl: './groups-filters.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class GroupsFilters {
   private readonly localizationService = inject(LocalizationService);

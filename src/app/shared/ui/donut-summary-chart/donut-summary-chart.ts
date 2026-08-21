@@ -1,10 +1,4 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  computed,
-  inject,
-  input,
-} from '@angular/core';
+import { Component, computed, inject, input } from '@angular/core';
 import { ThemeService } from '@core/services/theme.service';
 import { StyledAmount } from '@shared/ui/styled-amount';
 import { ChartModule } from 'primeng/chart';
@@ -40,7 +34,6 @@ interface SummaryItem {
   host: {
     class: 'relative block w-fit',
   },
-  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class DonutSummaryChart {
   private readonly themeService = inject(ThemeService);

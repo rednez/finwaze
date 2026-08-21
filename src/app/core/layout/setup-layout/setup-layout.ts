@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { TopBar } from '../top-bar';
 
@@ -8,7 +8,5 @@ import { TopBar } from '../top-bar';
     <app-top-bar [hasTitle]="false" />
     <router-outlet />
   `,
-  styles: ``,
-  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SetupLayout {}

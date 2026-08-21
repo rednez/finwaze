@@ -1,9 +1,7 @@
-import { Injectable } from '@angular/core';
+import { Service } from '@angular/core';
 import { SavingsGoal } from '@core/models/savings-goal';
 
-@Injectable({
-  providedIn: 'root',
-})
+@Service()
 export class SavingsGoalsMapper {
   fromSavingsGoalDto = (dto: {
     id: number;

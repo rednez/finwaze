@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { TranslatePipe } from '@shared/pipes/translate.pipe';
@@ -16,7 +16,6 @@ import { SelectedTransactionStore, TransactionsStore } from '../../store';
 import { TransactionsFilters } from '../../ui/transactions-filters/transactions-filters';
 
 @Component({
-  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     FormsModule,
     TableModule,

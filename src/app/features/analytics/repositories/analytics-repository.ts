@@ -1,4 +1,4 @@
-import { inject, Injectable } from '@angular/core';
+import { inject, Service } from '@angular/core';
 import { SupabaseService } from '@core/services/supabase.service';
 import dayjs from 'dayjs';
 import {
@@ -47,7 +47,7 @@ interface FinancialSummaryDto {
   expense_groups_count: number;
 }
 
-@Injectable({ providedIn: 'root' })
+@Service()
 export class AnalyticsRepository {
   private readonly supabase = inject(SupabaseService);
 

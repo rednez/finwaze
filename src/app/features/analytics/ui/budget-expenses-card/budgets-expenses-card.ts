@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { TranslatePipe } from '@shared/pipes/translate.pipe';
 import { Card } from '@shared/ui/card';
@@ -47,7 +47,6 @@ import { BudgetsExpensesCardStore } from './budgets-expenses-card-store';
       />
     </app-card>
   `,
-  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class BudgetsExpensesCard {
   protected readonly store = inject(BudgetsExpensesCardStore);

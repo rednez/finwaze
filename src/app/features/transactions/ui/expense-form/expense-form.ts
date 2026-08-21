@@ -1,6 +1,5 @@
 import { CommonModule } from '@angular/common';
 import {
-  ChangeDetectionStrategy,
   Component,
   computed,
   DestroyRef,
@@ -49,7 +48,6 @@ import { NamePromptDialog } from '../name-prompt-dialog';
     TranslatePipe,
   ],
   templateUrl: './expense-form.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ExpenseForm {
   readonly isCreatingMode = input(false);

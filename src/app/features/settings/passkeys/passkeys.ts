@@ -1,10 +1,5 @@
 import { DatePipe } from '@angular/common';
-import {
-  ChangeDetectionStrategy,
-  Component,
-  inject,
-  signal,
-} from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { AuthService } from '@core/services/auth-service';
 import { LocalizationService } from '@core/services/localization.service';
 import { Passkey } from '@core/services/supabase.service';
@@ -26,7 +21,6 @@ import { RenamePasskeyDialog } from './rename-passkey-dialog';
     TranslatePipe,
   ],
   templateUrl: './passkeys.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [ConfirmationService],
 })
 export class Passkeys {

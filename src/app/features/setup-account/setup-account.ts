@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { LocalizationService } from '@core/services/localization.service';
@@ -25,7 +25,6 @@ import { SetupAccountService } from './setup-account.service';
     TranslatePipe,
   ],
   templateUrl: './setup-account.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SetupAccount {
   private readonly router = inject(Router);

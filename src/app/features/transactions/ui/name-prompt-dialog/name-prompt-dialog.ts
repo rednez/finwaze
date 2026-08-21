@@ -1,5 +1,4 @@
 import {
-  ChangeDetectionStrategy,
   Component,
   computed,
   inject,
@@ -60,7 +59,6 @@ import { InputTextModule } from 'primeng/inputtext';
       />
     </p-dialog>
   `,
-  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class NamePromptDialog {
   private readonly localizationService = inject(LocalizationService);

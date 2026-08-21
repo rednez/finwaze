@@ -1,9 +1,4 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  computed,
-  input,
-} from '@angular/core';
+import { Component, computed, input } from '@angular/core';
 import { TransactionType } from '@core/models/transactions';
 
 @Component({
@@ -15,7 +10,6 @@ import { TransactionType } from '@core/models/transactions';
       'isTransfer() ? transferClass : isExpense() ? expenseClass : isIncome() ? incomeClass : ""',
     '[class.text-xs]': 'isSmall()',
   },
-  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class TransactionTypeChip {
   readonly type = input<TransactionType>();

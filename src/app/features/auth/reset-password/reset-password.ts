@@ -1,9 +1,4 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  inject,
-  signal,
-} from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { AuthService } from '@core/services/auth-service';
 import { TranslatePipe } from '@shared/pipes/translate.pipe';
@@ -22,7 +17,6 @@ import { InputTextModule } from 'primeng/inputtext';
     TranslatePipe,
   ],
   templateUrl: './reset-password.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ResetPassword {
   private readonly formBuilder = inject(FormBuilder);

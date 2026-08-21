@@ -1,9 +1,4 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  input,
-  ViewEncapsulation,
-} from '@angular/core';
+import { Component, input, ViewEncapsulation } from '@angular/core';
 import { ProgressBarDesignTokens } from '@primeuix/themes/types/progressbar';
 import { ProgressBarModule } from 'primeng/progressbar';
 
@@ -17,7 +12,6 @@ import { ProgressBarModule } from 'primeng/progressbar';
     }
   `,
   encapsulation: ViewEncapsulation.None,
-  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ProgressBar {
   readonly value = input(0);

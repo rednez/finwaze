@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { Component } from '@angular/core';
 
 @Component({
   selector: 'app-transfer-direction-pic',
@@ -15,6 +15,5 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
         items-center justify-center;
     }
   `,
-  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class TransferDirectionPic {}

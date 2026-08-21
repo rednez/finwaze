@@ -1,10 +1,4 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  input,
-  output,
-  viewChild,
-} from '@angular/core';
+import { Component, input, output, viewChild } from '@angular/core';
 import { Popover, PopoverModule } from 'primeng/popover';
 
 export const COLOR_PALETTE = [
@@ -38,7 +32,6 @@ export const COLOR_PALETTE = [
   selector: 'app-color-palette',
   imports: [PopoverModule],
   templateUrl: './color-palette.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ColorPalette {
   readonly color = input<string | null>(null);

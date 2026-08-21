@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, output } from '@angular/core';
+import { Component, output } from '@angular/core';
 import { TranslatePipe } from '@shared/pipes/translate.pipe';
 
 @Component({
@@ -28,7 +28,6 @@ import { TranslatePipe } from '@shared/pipes/translate.pipe';
       -webkit-text-fill-color: transparent;
     }
   `,
-  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class DemoButton {
   readonly clickLogin = output();

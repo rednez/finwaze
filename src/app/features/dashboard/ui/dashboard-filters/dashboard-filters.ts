@@ -1,11 +1,4 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  input,
-  model,
-  OnInit,
-  output,
-} from '@angular/core';
+import { Component, input, model, OnInit, output } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { toNameOptions } from '@core/utils/input-transforms';
 import { TranslatePipe } from '@shared/pipes/translate.pipe';
@@ -23,7 +16,6 @@ import { SelectChangeEvent, SelectModule } from 'primeng/select';
     TranslatePipe,
   ],
   templateUrl: './dashboard-filters.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
   host: {
     class: 'flex gap-2 flex-wrap',
   },

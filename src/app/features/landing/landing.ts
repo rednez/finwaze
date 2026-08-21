@@ -1,9 +1,4 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  computed,
-  inject,
-} from '@angular/core';
+import { Component, computed, inject } from '@angular/core';
 import { Router } from '@angular/router';
 import { TRANSLATIONS } from '@core/i18n';
 import { LocalizationService } from '@core/services/localization.service';
@@ -48,7 +43,6 @@ import { XLink } from './ui/x-link';
     class:
       'flex flex-col items-center gap-16 my-14 mx-4 lg:max-w-210 lg:mx-auto',
   },
-  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class Landing {
   private readonly router = inject(Router);

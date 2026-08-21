@@ -11,5 +11,13 @@
     "src/app/features/budget/resolvers/most-expenses-resolver.ts",
     "src/app/features/budget/resolvers/categories-resolver.spec.ts"
   ],
-  "exclude": ["src/**/*.spec.ts"]
+  "exclude": ["src/**/*.spec.ts"],
+  "angularCompilerOptions": {
+    "extendedDiagnostics": {
+      "checks": {
+        "nullishCoalescingNotNullable": "suppress",
+        "optionalChainNotNullable": "suppress"
+      }
+    }
+  }
 }

@@ -1,19 +1,12 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  forwardRef,
-  input,
-  model,
-  signal,
-} from '@angular/core';
+import { Component, forwardRef, input, model, signal } from '@angular/core';
 import {
   ControlValueAccessor,
   FormsModule,
   NG_VALUE_ACCESSOR,
 } from '@angular/forms';
 import { Account } from '@core/models/accounts';
-import { TranslatePipe } from '@shared/pipes/translate.pipe';
 import { SelectDesignTokens } from '@primeuix/themes/types/select';
+import { TranslatePipe } from '@shared/pipes/translate.pipe';
 import { SelectModule } from 'primeng/select';
 import { CurrencyCodeChip } from '../currency-code-chip';
 
@@ -22,7 +15,6 @@ import { CurrencyCodeChip } from '../currency-code-chip';
   imports: [SelectModule, FormsModule, CurrencyCodeChip, TranslatePipe],
   templateUrl: './account-select.html',
   host: { class: 'w-full block' },
-  changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [
     {
       provide: NG_VALUE_ACCESSOR,

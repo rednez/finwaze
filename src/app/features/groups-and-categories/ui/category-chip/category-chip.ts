@@ -1,15 +1,8 @@
 import { CommonModule } from '@angular/common';
-import {
-  ChangeDetectionStrategy,
-  Component,
-  input,
-  linkedSignal,
-  OnInit,
-  output,
-} from '@angular/core';
+import { Component, input, linkedSignal, OnInit, output } from '@angular/core';
 import { FormControl, ReactiveFormsModule, Validators } from '@angular/forms';
-import { ColorPalette } from '@shared/ui/color-palette';
 import { TranslatePipe } from '@shared/pipes/translate.pipe';
+import { ColorPalette } from '@shared/ui/color-palette';
 
 @Component({
   selector: 'app-category-chip',
@@ -19,7 +12,6 @@ import { TranslatePipe } from '@shared/pipes/translate.pipe';
     class:
       'flex items-center gap-2 px-3 h-8 bg-gray-100 dark:bg-gray-900 rounded-xl',
   },
-  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CategoryChip implements OnInit {
   readonly name = input<string>();

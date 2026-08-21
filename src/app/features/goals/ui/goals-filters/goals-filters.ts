@@ -1,10 +1,4 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  computed,
-  inject,
-  linkedSignal,
-} from '@angular/core';
+import { Component, computed, inject, linkedSignal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { GoalStatus } from '@core/models/savings-goal';
 import { LocalizationService } from '@core/services/localization.service';
@@ -30,7 +24,6 @@ interface StatusOption {
   ],
   templateUrl: './goals-filters.html',
   host: { class: 'flex gap-2 flex-wrap' },
-  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class GoalsFilters {
   private readonly goalsListStore = inject(GoalsListStore);

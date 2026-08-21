@@ -1,11 +1,4 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  computed,
-  inject,
-  input,
-  output,
-} from '@angular/core';
+import { Component, computed, inject, input, output } from '@angular/core';
 import { LocalizationService } from '@core/services/localization.service';
 import { generateAnalogColors } from '@core/utils/colors';
 import { TranslatePipe } from '@shared/pipes/translate.pipe';
@@ -63,7 +56,6 @@ import { DonutSummaryChart } from '@shared/ui/donut-summary-chart';
       }
     </app-card>
   `,
-  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class BudgetWidget {
   private readonly localizationService = inject(LocalizationService);

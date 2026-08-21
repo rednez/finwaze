@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, input } from '@angular/core';
+import { Component, input } from '@angular/core';
 import { LogoFullDarkPic } from './full-dark-pic/full-dark-pic';
 import { LogoFullLightPic } from './full-light-pic/full-light-pic';
 import { LogoShortDarkPic } from './short-dark-pic/short-dark-pic';
@@ -53,7 +53,6 @@ import { LogoShortLightPic } from './short-light-pic/short-light-pic';
       display: none;
     }
   `,
-  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class Logo {
   readonly closed = input(false);

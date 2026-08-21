@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Service } from '@angular/core';
 import {
   BudgetCategoryRow,
   BudgetGroupRow,
@@ -14,9 +14,7 @@ import {
   MonthlyExpenseByGroupDto,
 } from '../models';
 
-@Injectable({
-  providedIn: 'root',
-})
+@Service()
 export class BudgetMapper {
   fromGroupMonthlyBudgetDto(dto: GroupMonthlyBudgetDto): GroupMonthlyBudget {
     return {

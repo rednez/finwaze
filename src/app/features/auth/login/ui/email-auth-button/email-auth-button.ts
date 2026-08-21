@@ -1,9 +1,4 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  input,
-  output,
-} from '@angular/core';
+import { Component, input, output } from '@angular/core';
 
 @Component({
   selector: 'app-email-auth-button',
@@ -38,7 +33,6 @@ import {
       display: block;
     }
   `,
-  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class EmailAuthButton {
   readonly label = input.required<string>();

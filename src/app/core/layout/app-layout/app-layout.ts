@@ -1,12 +1,12 @@
-import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { AccountsStore } from '@core/store/accounts-store';
 import { CategoriesStore } from '@core/store/categories-store';
+import { CurrenciesStore } from '@core/store/currencies-store';
+import { UiStore } from '@core/store/ui-store';
 import { BottomNavBar } from '../bottom-nav-bar';
 import { Sidebar } from '../sidebar';
 import { TopBar } from '../top-bar';
-import { CurrenciesStore } from '@core/store/currencies-store';
-import { UiStore } from '@core/store/ui-store';
 
 @Component({
   imports: [RouterOutlet, Sidebar, TopBar, BottomNavBar],
@@ -26,7 +26,6 @@ import { UiStore } from '@core/store/ui-store';
   host: {
     class: 'flex',
   },
-  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AppLayout {
   private readonly uiStore = inject(UiStore);

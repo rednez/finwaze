@@ -1,11 +1,4 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  computed,
-  inject,
-  input,
-  output,
-} from '@angular/core';
+import { Component, computed, inject, input, output } from '@angular/core';
 import { toObservable } from '@angular/core/rxjs-interop';
 import {
   FormBuilder,
@@ -43,7 +36,6 @@ interface SubmitEvent {
     DatePickerModule,
   ],
   templateUrl: './new-account-form.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class NewAccountForm {
   readonly initialAccountName = input<string>();

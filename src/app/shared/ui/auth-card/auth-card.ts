@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, input } from '@angular/core';
+import { Component, input } from '@angular/core';
 import { LogoShort } from '@shared/ui/logo-short/logo-short';
 import { ToastModule } from 'primeng/toast';
 
@@ -45,7 +45,6 @@ import { ToastModule } from 'primeng/toast';
     class:
       'bg-[#FDFDFF] dark:bg-[#09090B] text-slate-900 dark:text-zinc-100 transition-colors duration-500 overflow-hidden',
   },
-  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AuthCard {
   readonly showLogo = input(true);

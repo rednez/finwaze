@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Service } from '@angular/core';
 import {
   MonthlySummary,
   MonthlySummaryDto,
@@ -8,9 +8,7 @@ import {
   TransactionCashFlowItemDto,
 } from '../models';
 
-@Injectable({
-  providedIn: 'root',
-})
+@Service()
 export class WalletMapper {
   fromRegularAccountDto(dto: RegularAccountDto): RegularAccount {
     return {

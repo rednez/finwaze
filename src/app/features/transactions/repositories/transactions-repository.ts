@@ -1,4 +1,4 @@
-import { inject, Injectable } from '@angular/core';
+import { inject, Service } from '@angular/core';
 import { TransactionsMapper } from '@core/mappers/transactions-mapper';
 import {
   Transaction,
@@ -44,9 +44,7 @@ const transactionDetailsSelect = `
         )
          `;
 
-@Injectable({
-  providedIn: 'root',
-})
+@Service()
 export class TransactionsRepository {
   private readonly mapper = inject(TransactionsMapper);
   private readonly supabase = inject(SupabaseService);

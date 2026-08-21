@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { TransactionType } from '@core/models/transactions';
 import { LocalizationService } from '@core/services/localization.service';
 import { TranslatePipe } from '@shared/pipes/translate.pipe';
@@ -22,7 +22,6 @@ import { NewGroupDialog } from './ui/new-group-dialog';
     TranslatePipe,
   ],
   templateUrl: './groups-and-categories.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class GroupsAndCategories {
   protected readonly store = inject(GroupsAndCategoriesStore);

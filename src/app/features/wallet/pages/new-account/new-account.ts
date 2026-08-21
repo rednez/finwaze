@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FormPageLayout } from '@core/layout/form-page-layout';
 import { LocalizationService } from '@core/services/localization.service';
@@ -19,7 +19,6 @@ import { ToastModule } from 'primeng/toast';
     TranslatePipe,
   ],
   templateUrl: './new-account.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class NewAccount {
   protected readonly currenciesStore = inject(CurrenciesStore);

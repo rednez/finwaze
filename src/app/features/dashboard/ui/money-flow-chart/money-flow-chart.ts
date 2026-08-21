@@ -1,10 +1,4 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  computed,
-  inject,
-  input,
-} from '@angular/core';
+import { Component, computed, inject, input } from '@angular/core';
 import { LocalizationService } from '@core/services/localization.service';
 import { ThemeService } from '@core/services/theme.service';
 import { ChartModule } from 'primeng/chart';
@@ -15,7 +9,6 @@ import { ChartModule } from 'primeng/chart';
   template: `
     <p-chart type="bar" [data]="data()" [options]="options()" class="h-50" />
   `,
-  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class MoneyFlowChart {
   private readonly isDarkModeSignal = inject(ThemeService).isDark;

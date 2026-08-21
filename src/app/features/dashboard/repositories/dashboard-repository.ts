@@ -1,4 +1,4 @@
-import { inject, Injectable } from '@angular/core';
+import { inject, Service } from '@angular/core';
 import { SavingsGoalsMapper } from '@core/mappers/savings-goals-mapper';
 import { TransactionsMapper } from '@core/mappers/transactions-mapper';
 import { SavingsGoal } from '@core/models/savings-goal';
@@ -11,9 +11,7 @@ import {
   TotalSummaries,
 } from '../models';
 
-@Injectable({
-  providedIn: 'root',
-})
+@Service()
 export class DashboardRepository {
   private readonly supabase = inject(SupabaseService);
   private readonly mapper = inject(DashboardMapper);
