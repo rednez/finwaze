@@ -1,19 +1,19 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { provideRouter } from '@angular/router';
 
-import { SetupAccount } from './setup-account';
-import { MessageService } from 'primeng/api';
+import { GuideHub } from './guide-hub';
 
-describe('SetupAccount', () => {
-  let component: SetupAccount;
-  let fixture: ComponentFixture<SetupAccount>;
+describe('GuideHub', () => {
+  let component: GuideHub;
+  let fixture: ComponentFixture<GuideHub>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [SetupAccount],
-      providers: [MessageService],
+      imports: [GuideHub],
+      providers: [provideRouter([])],
     }).compileComponents();
 
-    fixture = TestBed.createComponent(SetupAccount);
+    fixture = TestBed.createComponent(GuideHub);
     component = fixture.componentInstance;
     await fixture.whenStable();
   });

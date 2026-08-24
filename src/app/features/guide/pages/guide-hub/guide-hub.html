@@ -1,0 +1,37 @@
+<div class="mx-auto w-full max-w-5xl px-4 py-6 sm:px-6">
+  <!-- Intro -->
+  <header class="mb-10">
+    <span
+      class="text-xs font-semibold uppercase tracking-wider text-violet-500"
+    >
+      {{ hub().eyebrow }}
+    </span>
+    <h1
+      class="mt-2 text-3xl sm:text-4xl font-semibold tracking-tight leading-tight"
+    >
+      {{ hub().title }}
+    </h1>
+    <p
+      class="mt-4 max-w-2xl text-slate-500 dark:text-zinc-400 font-light leading-relaxed"
+    >
+      {{ hub().lead }}
+    </p>
+  </header>
+
+  <!-- Quick start -->
+  <app-guide-quick-start
+    class="block mb-12"
+    [title]="hub().quickStart.title"
+    [steps]="hub().quickStart.steps"
+  />
+
+  <!-- Topics -->
+  <section>
+    <h2 class="text-lg font-semibold mb-5">{{ hub().topicsTitle }}</h2>
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
+      @for (topic of topics(); track topic.key) {
+        <app-guide-topic-card [topic]="topic" [readCta]="readCta()" />
+      }
+    </div>
+  </section>
+</div>

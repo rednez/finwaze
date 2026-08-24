@@ -1,6 +1,8 @@
 <form [formGroup]="form" class="flex flex-col gap-4 text-start mt-8" for="name">
   <div>
-    <label class="text-sm font-medium mb-1" for="name">{{ t('wallet.newAccountForm.nameLabel') }}</label>
+    <label class="text-sm font-medium mb-1" for="name">{{
+      t('wallet.newAccountForm.nameLabel')
+    }}</label>
     <input
       pInputText
       formControlName="name"
@@ -22,7 +24,9 @@
   </div>
 
   <div>
-    <label class="text-sm font-medium mb-1" for="currencyId">{{ t('wallet.newAccountForm.currencyLabel') }}</label>
+    <label class="text-sm font-medium mb-1" for="currencyId">{{
+      t('wallet.newAccountForm.currencyLabel')
+    }}</label>
     <p-select
       [options]="currenciesOptions()"
       formControlName="currencyId"
@@ -43,13 +47,17 @@
     >
     </p-select>
     @if (form.controls.currencyId.invalid && form.controls.currencyId.dirty) {
-      <div class="text-xs text-red-500 pl-2 pt-0.5">{{ t('wallet.newAccountForm.currencyError') }}</div>
+      <div class="text-xs text-red-500 pl-2 pt-0.5">
+        {{ t('wallet.newAccountForm.currencyError') }}
+      </div>
     }
   </div>
 
   @if (hasBalance()) {
     <div>
-      <label class="text-sm font-medium mb-1" for="balance">{{ t('wallet.newAccountForm.balanceLabel') }}</label>
+      <label class="text-sm font-medium mb-1" for="balance">{{
+        t('wallet.newAccountForm.balanceLabel')
+      }}</label>
       <p-inputnumber
         formControlName="balance"
         inputId="balance"
@@ -62,14 +70,18 @@
         [inputStyle]="{ borderRadius: '16px' }"
       />
       @if (form.controls.balance.invalid && form.controls.balance.dirty) {
-        <div class="text-xs text-red-500 pl-2 pt-0.5">{{ t('wallet.newAccountForm.balanceError') }}</div>
+        <div class="text-xs text-red-500 pl-2 pt-0.5">
+          {{ t('wallet.newAccountForm.balanceError') }}
+        </div>
       }
     </div>
 
     <div>
       <label class="text-sm font-medium mb-1" for="balanceDate">
         {{ t('wallet.newAccountForm.balanceDateLabel') }}
-        <span class="text-xs text-surface-400 font-normal">{{ t('wallet.newAccountForm.balanceDateOptional') }}</span>
+        <span class="text-xs text-surface-400 font-normal">{{
+          t('wallet.newAccountForm.balanceDateOptional')
+        }}</span>
       </label>
       <p-datepicker
         formControlName="balanceDate"

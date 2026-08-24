@@ -125,6 +125,11 @@ export const routes: Routes = [
         loadComponent: () =>
           import('./features/settings').then((c) => c.Settings),
       },
+      {
+        path: 'guide',
+        loadChildren: () =>
+          import('./features/guide').then((c) => c.guideRoutes),
+      },
       { path: '**', redirectTo: 'dashboard' },
     ],
   },
@@ -137,7 +142,7 @@ export const routes: Routes = [
       {
         path: '**',
         loadComponent: () =>
-          import('./features/setup-account').then((c) => c.SetupAccount),
+          import('./features/onboarding').then((c) => c.Onboarding),
       },
     ],
   },

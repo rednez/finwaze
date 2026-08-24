@@ -19,7 +19,10 @@
       "mcp__plugin_playwright_playwright__browser_navigate",
       "mcp__plugin_playwright_playwright__browser_take_screenshot",
       "mcp__plugin_playwright_playwright__browser_snapshot",
-      "mcp__plugin_playwright_playwright__browser_click"
+      "mcp__plugin_playwright_playwright__browser_click",
+      "Bash(pnpm run *)",
+      "Read(//tmp/**)",
+      "Bash(node -e \"console.log\\(require\\('/Users/rednez/Projects/finwaze/node_modules/sharp/package.json'\\).version\\)\")"
     ]
   },
   "enabledMcpjsonServers": [

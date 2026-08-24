@@ -64,9 +64,15 @@ export class UserAvatar {
 
   readonly user = input<UserData | undefined>(undefined);
   readonly settings = output();
+  readonly guide = output();
   readonly logout = output();
 
   protected items = computed(() => [
+    {
+      label: this.localizationService.translate('core.guide'),
+      icon: 'pi pi-compass',
+      command: () => this.guide.emit(),
+    },
     {
       label: this.localizationService.translate('core.settings'),
       icon: 'pi pi-cog',

@@ -1,4 +1,4 @@
-import { registerLocaleData } from '@angular/common';
+import { provideCloudinaryLoader, registerLocaleData } from '@angular/common';
 import localeCs from '@angular/common/locales/cs';
 import localeUk from '@angular/common/locales/uk';
 import {
@@ -27,6 +27,7 @@ export const appConfig: ApplicationConfig = {
   providers: [
     MessageService,
     provideBrowserGlobalErrorListeners(),
+    provideCloudinaryLoader('https://res.cloudinary.com/df95utrzg'),
     provideRouter(
       routes,
       withComponentInputBinding(),

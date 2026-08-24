@@ -3,7 +3,7 @@ import { AccountsStore } from '@core/store/accounts-store';
 import { CurrenciesStore } from '@core/store/currencies-store';
 
 @Service()
-export class SetupAccountService {
+export class OnboardingService {
   private readonly accountsStore = inject(AccountsStore);
   private readonly currenciesStore = inject(CurrenciesStore);
 
