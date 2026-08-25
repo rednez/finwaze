@@ -1,6 +1,7 @@
 <label class="text-sm font-medium" for="account">{{ label() }}</label>
 <p-select
   [(ngModel)]="selectedAccount"
+  [ngModelOptions]="{ standalone: true }"
   [options]="accounts()"
   inputId="account"
   optionValue="id"
