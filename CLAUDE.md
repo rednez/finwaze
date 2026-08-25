@@ -12,7 +12,7 @@ Angular v22 best-practices baseline) — read all three before making changes.
 A personal home finance tracking application. Users record transactions (income, expenses, transfers, balance adjustments), manage budgets, and track savings goals across multiple accounts and currencies.
 
 **Backend:** PostgreSQL via local Supabase  
-**Frontend:** Angular 22 (zoneless), TypeScript 6, Tailwind CSS 4, PrimeNG 21, NgRx SignalStore  
+**Frontend:** Angular 22 (zoneless), TypeScript 6, Tailwind CSS 4, OptimusNG 2, NgRx SignalStore  
 **Testing:** Vitest (via `@angular/build:unit-test`)  
 **Package manager:** PNPM  
 
@@ -147,9 +147,28 @@ The 20 existing `FormBuilder` + `ReactiveFormsModule` forms stay as they are —
 
 ### UI / Styling
 
-- Use **PrimeNG** components for all UI elements (tables, dialogs, dropdowns, date pickers, etc.)
+The UI library is **OptimusNG** (`@openng/optimus-ui`) — a community-maintained, MIT-licensed
+suite of 80+ accessible Angular components.
+
+Reference docs for AI assistants: <https://optimus.openng.org/llms/llms.txt> (index of guides and
+components) — full single-file text at <https://optimus.openng.org/llms/llms-full.txt>.
+Fetch these instead of answering from memory when working with OptimusNG APIs.
+
+- Use **OptimusNG** components for all UI elements (tables, dialogs, selects, date pickers, etc.).
+- Import from the per-component secondary entry point, never the package root:
+  `import { ButtonModule } from '@openng/optimus-ui/button';`
+- `MessageService` / `ConfirmationService` are imported from `@openng/optimus-ui/api`.
+- Selectors keep the `p-` prefix (`<p-button>`, `<p-select>`); directives too (`pTooltip`).
+- Icons come from **OpenNG Icons** (`@openng/icons`), used via `pi pi-*` classes. The stylesheet is
+  imported in `src/styles.css`.
+- Theming is configured with `provideOptimus()` from `@openng/optimus-ui/config` in `app.config.ts`;
+  the preset is built with `definePreset(Aura, …)` from `@openng/optimus-ui-themes` in
+  `src/app/custom-theme.ts`. Design-token types live under `@openng/optimus-ui-themes/types/<component>`.
+- Dark mode uses `darkModeSelector: '.dark'`, matched by the `@custom-variant dark` rule in
+  `src/styles.css`.
+- Tailwind integration comes from `@openng/optimus-ui-tailwindcss`, imported in `src/styles.css`.
 - Use **Tailwind** utility classes for layout and spacing; avoid custom CSS unless unavoidable.
-- Do not create custom form controls when a PrimeNG equivalent exists.
+- Do not create custom form controls when an OptimusNG equivalent exists.
 - Currency amounts must always be displayed with their currency code or symbol.
 
 ### Naming conventions
@@ -275,6 +294,7 @@ Follow the `git-commits` skill. Project-specific scopes:
 12. **Do not use `@Injectable({ providedIn: 'root' })` in new code** — use `@Service()` (v22). Do not convert existing services as a side effect of unrelated work.
 13. **Do not build new forms with `FormBuilder`** — use Signal Forms. Do not rewrite existing Reactive Forms opportunistically, and never mix both in one component.
 14. **Do not add new `$safeNavigationMigration(...)` calls** — it is a temporary v22 migration shim; use plain `?.` with `undefined` handling.
+15. **Do not source UI APIs from PrimeNG** — OptimusNG mirrors PrimeNG's `p-` selectors, `pi pi-*` icons and `definePreset` theming, but the APIs diverge. Never import from `primeng/*`, and never use PrimeNG docs, MCP tools or skills as a source of truth.
 
 ---
 
