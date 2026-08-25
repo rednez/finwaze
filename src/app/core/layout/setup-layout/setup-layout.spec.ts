@@ -1,7 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { SetupLayout } from './setup-layout';
-import { MessageService } from 'primeng/api';
+import { MessageService } from '@openng/optimus-ui/api';
 
 describe('SetupLayout', () => {
   let component: SetupLayout;
@@ -11,8 +11,7 @@ describe('SetupLayout', () => {
     await TestBed.configureTestingModule({
       imports: [SetupLayout],
       providers: [MessageService],
-    })
-    .compileComponents();
+    }).compileComponents();
 
     fixture = TestBed.createComponent(SetupLayout);
     component = fixture.componentInstance;

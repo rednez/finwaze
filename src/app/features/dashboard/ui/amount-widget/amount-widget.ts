@@ -6,9 +6,9 @@ import { CardHeaderTitle } from '@shared/ui/card-header-title/card-header-title'
 import { CardHeader } from '@shared/ui/card-header/card-header';
 import { FinancialTrendBadge } from '@shared/ui/financial-trend-badge';
 import { StyledAmount } from '@shared/ui/styled-amount';
-import { CardModule } from 'primeng/card';
-import { SkeletonModule } from 'primeng/skeleton';
-import { TagModule } from 'primeng/tag';
+import { CardModule } from '@openng/optimus-ui/card';
+import { SkeletonModule } from '@openng/optimus-ui/skeleton';
+import { TagModule } from '@openng/optimus-ui/tag';
 
 @Component({
   selector: 'app-amount-widget',

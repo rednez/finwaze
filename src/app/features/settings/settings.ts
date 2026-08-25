@@ -5,8 +5,8 @@ import { FormPageLayout } from '@core/layout/form-page-layout';
 import { LocalizationService } from '@core/services/localization.service';
 import { AuthStore } from '@core/store/auth-store';
 import { TranslatePipe } from '@shared/pipes/translate.pipe';
-import { SelectButtonModule } from 'primeng/selectbutton';
-import { ToastModule } from 'primeng/toast';
+import { SelectButtonModule } from '@openng/optimus-ui/selectbutton';
+import { ToastModule } from '@openng/optimus-ui/toast';
 import { Passkeys } from './passkeys';
 import { UpdatePassword } from './update-password';
 

@@ -4,7 +4,7 @@ import { CardEmptyState } from '@shared/ui/card-empty-state';
 import { CardHeaderTitle } from '@shared/ui/card-header-title/card-header-title';
 import { CardHeader } from '@shared/ui/card-header/card-header';
 import { Card } from '@shared/ui/card/card';
-import { SkeletonModule } from 'primeng/skeleton';
+import { SkeletonModule } from '@openng/optimus-ui/skeleton';
 import { MonthlySummaryCardGauge } from './monthly-summary-card-gauge/monthly-summary-card-gauge';
 import { MonthlySummaryCardTotalAmount } from './monthly-summary-card-total-amount/monthly-summary-card-total-amount';
 

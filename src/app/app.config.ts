@@ -15,8 +15,8 @@ import {
 } from '@angular/router';
 import { APP_CONFIG } from '@core/configs';
 import { environment } from '@env';
-import { MessageService } from 'primeng/api';
-import { providePrimeNG } from 'primeng/config';
+import { MessageService } from '@openng/optimus-ui/api';
+import { provideOptimus } from '@openng/optimus-ui/config';
 import { routes } from './app.routes';
 import { CustomPreset } from './custom-theme';
 
@@ -33,7 +33,7 @@ export const appConfig: ApplicationConfig = {
       withComponentInputBinding(),
       withRouterConfig({ onSameUrlNavigation: 'reload' }),
     ),
-    providePrimeNG({
+    provideOptimus({
       ripple: true,
       theme: {
         preset: CustomPreset,

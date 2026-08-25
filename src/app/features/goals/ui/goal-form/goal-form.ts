@@ -8,11 +8,11 @@ import {
 } from '@angular/forms';
 import { Currency } from '@core/models/currencies';
 import { TranslatePipe } from '@shared/pipes/translate.pipe';
-import { ButtonModule } from 'primeng/button';
-import { DatePickerModule } from 'primeng/datepicker';
-import { InputNumberModule } from 'primeng/inputnumber';
-import { InputTextModule } from 'primeng/inputtext';
-import { SelectModule } from 'primeng/select';
+import { ButtonModule } from '@openng/optimus-ui/button';
+import { DatePickerModule } from '@openng/optimus-ui/datepicker';
+import { InputNumberModule } from '@openng/optimus-ui/inputnumber';
+import { InputTextModule } from '@openng/optimus-ui/inputtext';
+import { SelectModule } from '@openng/optimus-ui/select';
 import { combineLatest, filter, take, tap } from 'rxjs';
 
 export interface GoalFormData {

@@ -4,8 +4,8 @@ import { AuthService } from '@core/services/auth-service';
 import { TranslatePipe } from '@shared/pipes/translate.pipe';
 import { AuthCard } from '@shared/ui/auth-card/auth-card';
 import { AuthRedirectLink } from '@shared/ui/auth-redirect-link/auth-redirect-link';
-import { ButtonModule } from 'primeng/button';
-import { InputTextModule } from 'primeng/inputtext';
+import { ButtonModule } from '@openng/optimus-ui/button';
+import { InputTextModule } from '@openng/optimus-ui/inputtext';
 
 @Component({
   imports: [

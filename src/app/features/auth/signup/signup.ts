@@ -5,9 +5,9 @@ import { TranslatePipe } from '@shared/pipes/translate.pipe';
 import { AuthCard } from '@shared/ui/auth-card/auth-card';
 import { AuthRedirectLink } from '@shared/ui/auth-redirect-link/auth-redirect-link';
 import { passwordsMatchValidator } from '@shared/utils/passwords-match-validator';
-import { ButtonModule } from 'primeng/button';
-import { InputTextModule } from 'primeng/inputtext';
-import { PasswordModule } from 'primeng/password';
+import { ButtonModule } from '@openng/optimus-ui/button';
+import { InputTextModule } from '@openng/optimus-ui/inputtext';
+import { PasswordModule } from '@openng/optimus-ui/password';
 
 @Component({
   imports: [

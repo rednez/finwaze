@@ -2,9 +2,9 @@ import { Component, input, model, OnInit, output } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { toNameOptions } from '@core/utils/input-transforms';
 import { TranslatePipe } from '@shared/pipes/translate.pipe';
-import { FloatLabelModule } from 'primeng/floatlabel';
-import { MultiSelectModule } from 'primeng/multiselect';
-import { SelectChangeEvent, SelectModule } from 'primeng/select';
+import { FloatLabelModule } from '@openng/optimus-ui/floatlabel';
+import { MultiSelectModule } from '@openng/optimus-ui/multiselect';
+import { SelectChangeEvent, SelectModule } from '@openng/optimus-ui/select';
 
 @Component({
   selector: 'app-dashboard-filters',

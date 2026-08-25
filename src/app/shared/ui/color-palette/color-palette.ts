@@ -1,5 +1,5 @@
 import { Component, input, output, viewChild } from '@angular/core';
-import { Popover, PopoverModule } from 'primeng/popover';
+import { Popover, PopoverModule } from '@openng/optimus-ui/popover';
 
 export const COLOR_PALETTE = [
   '#6366F1',

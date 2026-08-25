@@ -5,10 +5,10 @@ import { FormPageLayout } from '@core/layout/form-page-layout';
 import { LocalizationService } from '@core/services/localization.service';
 import { TranslatePipe } from '@shared/pipes/translate.pipe';
 import { TransferDirectionPic } from '@shared/ui/transfer-direction-pic';
-import { MessageService } from 'primeng/api';
-import { ButtonModule } from 'primeng/button';
-import { SkeletonModule } from 'primeng/skeleton';
-import { ToastModule } from 'primeng/toast';
+import { MessageService } from '@openng/optimus-ui/api';
+import { ButtonModule } from '@openng/optimus-ui/button';
+import { SkeletonModule } from '@openng/optimus-ui/skeleton';
+import { ToastModule } from '@openng/optimus-ui/toast';
 import { TransferDetailsStore } from '../../store';
 
 @Component({

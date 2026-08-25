@@ -2,9 +2,9 @@ import { CurrencyPipe } from '@angular/common';
 import { Component, input, output } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { TranslatePipe } from '@shared/pipes/translate.pipe';
-import { ButtonModule } from 'primeng/button';
-import { InputNumberModule } from 'primeng/inputnumber';
-import { TooltipModule } from 'primeng/tooltip';
+import { ButtonModule } from '@openng/optimus-ui/button';
+import { InputNumberModule } from '@openng/optimus-ui/inputnumber';
+import { TooltipModule } from '@openng/optimus-ui/tooltip';
 import { BudgetCategoryRow } from '../../models';
 
 @Component({

@@ -5,8 +5,8 @@ import { Account } from '@core/models/accounts';
 import { SavingsGoal } from '@core/models/savings-goal';
 import { TranslatePipe } from '@shared/pipes/translate.pipe';
 import { AccountSelect } from '@shared/ui/account-select';
-import { ButtonModule } from 'primeng/button';
-import { DialogModule } from 'primeng/dialog';
+import { ButtonModule } from '@openng/optimus-ui/button';
+import { DialogModule } from '@openng/optimus-ui/dialog';
 
 @Component({
   selector: 'app-cancel-goal-dialog',

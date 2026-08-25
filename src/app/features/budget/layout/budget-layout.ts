@@ -4,7 +4,7 @@ import { toSignal } from '@angular/core/rxjs-interop';
 import { NavigationEnd, Router, RouterOutlet } from '@angular/router';
 import { LocalizationService } from '@core/services/localization.service';
 import { AccountsStore } from '@core/store/accounts-store';
-import { BreadcrumbModule } from 'primeng/breadcrumb';
+import { BreadcrumbModule } from '@openng/optimus-ui/breadcrumb';
 import { filter, map, startWith } from 'rxjs';
 import { BudgetStore } from '../stores';
 

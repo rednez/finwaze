@@ -16,10 +16,10 @@ import { Card } from '@shared/ui/card';
 import { CardHeaderTitle } from '@shared/ui/card-header-title/card-header-title';
 import { CardHeader } from '@shared/ui/card-header/card-header';
 import { DonutSummaryChart } from '@shared/ui/donut-summary-chart';
-import { DatePickerModule } from 'primeng/datepicker';
-import { IftaLabelModule } from 'primeng/iftalabel';
-import { SelectModule } from 'primeng/select';
-import { SelectButtonModule } from 'primeng/selectbutton';
+import { DatePickerModule } from '@openng/optimus-ui/datepicker';
+import { IftaLabelModule } from '@openng/optimus-ui/iftalabel';
+import { SelectModule } from '@openng/optimus-ui/select';
+import { SelectButtonModule } from '@openng/optimus-ui/selectbutton';
 import { MonthlySummary } from '../../models';
 import { StatisticsByGroups } from './statistics-by-groups/statistics-by-groups';
 

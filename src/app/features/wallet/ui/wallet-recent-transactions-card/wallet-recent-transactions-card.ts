@@ -3,7 +3,7 @@ import { FormsModule } from '@angular/forms';
 import { Transaction } from '@core/models/transactions';
 import { toNameOptions } from '@core/utils/input-transforms';
 import { RecentTransactionsWidget } from '@shared/ui/recent-transactions-widget';
-import { SelectModule } from 'primeng/select';
+import { SelectModule } from '@openng/optimus-ui/select';
 
 @Component({
   selector: 'app-wallet-recent-transactions-card',

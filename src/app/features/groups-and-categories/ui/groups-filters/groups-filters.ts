@@ -10,10 +10,10 @@ import {
 import { FormsModule } from '@angular/forms';
 import { TransactionType } from '@core/models/transactions';
 import { LocalizationService } from '@core/services/localization.service';
-import { SelectDesignTokens } from '@primeuix/themes/types/select';
+import { SelectDesignTokens } from '@openng/optimus-ui-themes/types/select';
 import { TranslatePipe } from '@shared/pipes/translate.pipe';
-import { FloatLabelModule } from 'primeng/floatlabel';
-import { SelectModule } from 'primeng/select';
+import { FloatLabelModule } from '@openng/optimus-ui/floatlabel';
+import { SelectModule } from '@openng/optimus-ui/select';
 
 @Component({
   selector: 'app-groups-filters',

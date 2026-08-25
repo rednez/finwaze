@@ -3,9 +3,9 @@ import { FormsModule } from '@angular/forms';
 import { GoalStatus } from '@core/models/savings-goal';
 import { LocalizationService } from '@core/services/localization.service';
 import { TranslatePipe } from '@shared/pipes/translate.pipe';
-import { DatePickerModule } from 'primeng/datepicker';
-import { FloatLabelModule } from 'primeng/floatlabel';
-import { SelectModule } from 'primeng/select';
+import { DatePickerModule } from '@openng/optimus-ui/datepicker';
+import { FloatLabelModule } from '@openng/optimus-ui/floatlabel';
+import { SelectModule } from '@openng/optimus-ui/select';
 import { GoalsListStore } from '../../stores/goals-list-store';
 
 interface StatusOption {

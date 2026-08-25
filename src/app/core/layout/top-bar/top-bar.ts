@@ -5,7 +5,7 @@ import { LocalizationService } from '@core/services/localization.service';
 import { NavigatorHelper } from '@core/services/navigator-helper';
 import { AuthStore } from '@core/store/auth-store';
 import { LangSwitcher } from '@shared/ui/lang-switcher';
-import { TooltipModule } from 'primeng/tooltip';
+import { TooltipModule } from '@openng/optimus-ui/tooltip';
 import { UserAvatar, UserData } from './user-avatar/user-avatar';
 
 /** App sections that have a title bar and a matching guide article at

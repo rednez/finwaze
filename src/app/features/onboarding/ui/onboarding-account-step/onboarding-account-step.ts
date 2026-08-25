@@ -1,8 +1,13 @@
-import { ChangeDetectionStrategy, Component, input, output } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  input,
+  output,
+} from '@angular/core';
 import { Currency } from '@core/models/currencies';
 import { TranslatePipe } from '@shared/pipes/translate.pipe';
 import { NewAccountForm } from '@shared/ui/new-account-form';
-import { ButtonModule } from 'primeng/button';
+import { ButtonModule } from '@openng/optimus-ui/button';
 import {
   OnboardingAccountStep as OnboardingAccountStepModel,
   OnboardingAccountSubmit,

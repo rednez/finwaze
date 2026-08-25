@@ -1,6 +1,6 @@
 import { Component, input } from '@angular/core';
 import { LogoShort } from '@shared/ui/logo-short/logo-short';
-import { ToastModule } from 'primeng/toast';
+import { ToastModule } from '@openng/optimus-ui/toast';
 
 @Component({
   selector: 'app-auth-card',

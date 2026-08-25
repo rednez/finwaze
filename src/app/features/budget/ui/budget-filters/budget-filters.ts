@@ -10,11 +10,11 @@ import { FormsModule } from '@angular/forms';
 import { LocalizationService } from '@core/services/localization.service';
 import { toNameOptions } from '@core/utils/input-transforms';
 import { TranslatePipe } from '@shared/pipes/translate.pipe';
-import { DatePickerModule } from 'primeng/datepicker';
-import { FloatLabelModule } from 'primeng/floatlabel';
-import { MultiSelectModule } from 'primeng/multiselect';
-import { SelectModule } from 'primeng/select';
-import { TableModule } from 'primeng/table';
+import { DatePickerModule } from '@openng/optimus-ui/datepicker';
+import { FloatLabelModule } from '@openng/optimus-ui/floatlabel';
+import { MultiSelectModule } from '@openng/optimus-ui/multiselect';
+import { SelectModule } from '@openng/optimus-ui/select';
+import { TableModule } from '@openng/optimus-ui/table';
 
 interface GroupOption {
   id: number;

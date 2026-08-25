@@ -2,7 +2,7 @@ import { CommonModule } from '@angular/common';
 import { Component, computed, inject, input } from '@angular/core';
 import { ThemeService } from '@core/services/theme.service';
 import { StyledAmount } from '@shared/ui/styled-amount';
-import { ChartModule } from 'primeng/chart';
+import { ChartModule } from '@openng/optimus-ui/chart';
 
 @Component({
   selector: 'app-donut-budget-spent-chart',

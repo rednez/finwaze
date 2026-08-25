@@ -5,8 +5,8 @@ import { TranslatePipe } from '@shared/pipes/translate.pipe';
 import { Card } from '@shared/ui/card';
 import { CardHeaderTitle } from '@shared/ui/card-header-title/card-header-title';
 import { CardHeader } from '@shared/ui/card-header/card-header';
-import { SelectModule } from 'primeng/select';
-import { SkeletonModule } from 'primeng/skeleton';
+import { SelectModule } from '@openng/optimus-ui/select';
+import { SkeletonModule } from '@openng/optimus-ui/skeleton';
 import { AnalyticsStore } from '../../stores';
 import { FinancialMonthlyOverviewChart } from '../financial-monthly-overview-chart/financial-monthly-overview-chart';
 

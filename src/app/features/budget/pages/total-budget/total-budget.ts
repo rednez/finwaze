@@ -4,7 +4,7 @@ import { AccountsStore } from '@core/store/accounts-store';
 import { TranslatePipe } from '@shared/pipes/translate.pipe';
 import { EmptyState } from '@shared/ui/empty-state';
 import dayjs from 'dayjs';
-import { ButtonModule } from 'primeng/button';
+import { ButtonModule } from '@openng/optimus-ui/button';
 import { BudgetStatus } from '../../models';
 import { BudgetStore, TotalBudgetStore } from '../../stores';
 import { BudgetCard } from '../../ui/budget-card/budget-card';

@@ -13,7 +13,7 @@ import { Card } from '@shared/ui/card';
 import { CardHeader } from '@shared/ui/card-header';
 import { CardHeaderTitle } from '@shared/ui/card-header-title';
 import { ColorPalette } from '@shared/ui/color-palette';
-import { ButtonModule } from 'primeng/button';
+import { ButtonModule } from '@openng/optimus-ui/button';
 import { GroupWithCategories } from '../../models';
 import { CategoryChip } from '../category-chip';
 import { GroupTransactionTypeChip } from '../group-transaction-type-chip';

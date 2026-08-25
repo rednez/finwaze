@@ -1,6 +1,6 @@
 import { Component, input, ViewEncapsulation } from '@angular/core';
-import { ProgressBarDesignTokens } from '@primeuix/themes/types/progressbar';
-import { ProgressBarModule } from 'primeng/progressbar';
+import { ProgressBarDesignTokens } from '@openng/optimus-ui-themes/types/progressbar';
+import { ProgressBarModule } from '@openng/optimus-ui/progressbar';
 
 @Component({
   selector: 'app-progress-bar',

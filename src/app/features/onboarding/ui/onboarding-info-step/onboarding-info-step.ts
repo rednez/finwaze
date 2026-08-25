@@ -7,7 +7,7 @@ import {
   output,
 } from '@angular/core';
 import { TranslatePipe } from '@shared/pipes/translate.pipe';
-import { ButtonModule } from 'primeng/button';
+import { ButtonModule } from '@openng/optimus-ui/button';
 import { NgOptimizedImage } from '@angular/common';
 import { OnboardingInfoStep as OnboardingInfoStepModel } from '../../models/onboarding-step';
 import { ThemeService } from '@core/services/theme.service';

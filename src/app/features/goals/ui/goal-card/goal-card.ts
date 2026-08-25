@@ -6,7 +6,7 @@ import { LocalizationService } from '@core/services/localization.service';
 import { TranslatePipe } from '@shared/pipes/translate.pipe';
 import { ProgressBar } from '@shared/ui/progress-bar';
 import { StyledAmount } from '@shared/ui/styled-amount';
-import { ButtonModule } from 'primeng/button';
+import { ButtonModule } from '@openng/optimus-ui/button';
 import { GoalCardStatus } from '../goal-card-status/goal-card-status';
 
 @Component({

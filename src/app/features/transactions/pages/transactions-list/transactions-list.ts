@@ -7,11 +7,11 @@ import {
   TransactionDataTableColumnType,
   TransactionsDataTable,
 } from '@shared/ui/transactions-data-table';
-import { ButtonModule } from 'primeng/button';
-import { DatePickerModule } from 'primeng/datepicker';
-import { IftaLabelModule } from 'primeng/iftalabel';
-import { SelectModule } from 'primeng/select';
-import { TableModule } from 'primeng/table';
+import { ButtonModule } from '@openng/optimus-ui/button';
+import { DatePickerModule } from '@openng/optimus-ui/datepicker';
+import { IftaLabelModule } from '@openng/optimus-ui/iftalabel';
+import { SelectModule } from '@openng/optimus-ui/select';
+import { TableModule } from '@openng/optimus-ui/table';
 import { SelectedTransactionStore, TransactionsStore } from '../../store';
 import { TransactionsFilters } from '../../ui/transactions-filters/transactions-filters';
 

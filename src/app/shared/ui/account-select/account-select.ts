@@ -5,9 +5,9 @@ import {
   NG_VALUE_ACCESSOR,
 } from '@angular/forms';
 import { Account } from '@core/models/accounts';
-import { SelectDesignTokens } from '@primeuix/themes/types/select';
+import { SelectDesignTokens } from '@openng/optimus-ui-themes/types/select';
 import { TranslatePipe } from '@shared/pipes/translate.pipe';
-import { SelectModule } from 'primeng/select';
+import { SelectModule } from '@openng/optimus-ui/select';
 import { CurrencyCodeChip } from '../currency-code-chip';
 
 @Component({

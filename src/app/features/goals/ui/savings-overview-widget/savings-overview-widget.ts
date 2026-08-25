@@ -3,8 +3,8 @@ import { FormsModule } from '@angular/forms';
 import { Card } from '@shared/ui/card';
 import { CardHeaderTitle } from '@shared/ui/card-header-title/card-header-title';
 import { CardHeader } from '@shared/ui/card-header/card-header';
-import { IftaLabelModule } from 'primeng/iftalabel';
-import { SelectModule } from 'primeng/select';
+import { IftaLabelModule } from '@openng/optimus-ui/iftalabel';
+import { SelectModule } from '@openng/optimus-ui/select';
 import { SavingsOverviewStore } from '../../stores/savings-overview-store';
 import { SavingsOverviewChart } from '../savings-overview-chart/savings-overview-chart';
 

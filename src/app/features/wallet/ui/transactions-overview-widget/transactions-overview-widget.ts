@@ -10,11 +10,11 @@ import { FormsModule } from '@angular/forms';
 import { toNameOptions } from '@core/utils/input-transforms';
 import { TranslatePipe } from '@shared/pipes/translate.pipe';
 import { Card } from '@shared/ui/card';
-import { DatePickerModule } from 'primeng/datepicker';
-import { SelectModule } from 'primeng/select';
-import { TableModule } from 'primeng/table';
-import { ToggleButtonModule } from 'primeng/togglebutton';
-import { TooltipModule } from 'primeng/tooltip';
+import { DatePickerModule } from '@openng/optimus-ui/datepicker';
+import { SelectModule } from '@openng/optimus-ui/select';
+import { TableModule } from '@openng/optimus-ui/table';
+import { ToggleButtonModule } from '@openng/optimus-ui/togglebutton';
+import { TooltipModule } from '@openng/optimus-ui/tooltip';
 import { TransactionCashFlowItem } from '../../models';
 import { TransactionsOverviewChart } from '../transactions-overview-chart';
 

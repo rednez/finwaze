@@ -5,7 +5,7 @@ import { Card } from '@shared/ui/card';
 import { CardEmptyState } from '@shared/ui/card-empty-state';
 import { CardHeaderTitle } from '@shared/ui/card-header-title/card-header-title';
 import { CardHeader } from '@shared/ui/card-header/card-header';
-import { SkeletonModule } from 'primeng/skeleton';
+import { SkeletonModule } from '@openng/optimus-ui/skeleton';
 import { MonthlyExpense } from '../../models';
 import { BudgetExpenseItem } from './budget-expense-item/budget-expense-item';
 

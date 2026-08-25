@@ -1,5 +1,5 @@
 import { Component, input } from '@angular/core';
-import { ButtonModule } from 'primeng/button';
+import { ButtonModule } from '@openng/optimus-ui/button';
 
 @Component({
   selector: 'app-financial-summary-card-button',

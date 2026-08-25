@@ -1,9 +1,9 @@
 import { Component, computed, inject, input, output } from '@angular/core';
 import { LocalizationService } from '@core/services/localization.service';
-import { AvatarModule } from 'primeng/avatar';
-import { ButtonModule } from 'primeng/button';
-import { MenuModule } from 'primeng/menu';
-import { SkeletonModule } from 'primeng/skeleton';
+import { AvatarModule } from '@openng/optimus-ui/avatar';
+import { ButtonModule } from '@openng/optimus-ui/button';
+import { MenuModule } from '@openng/optimus-ui/menu';
+import { SkeletonModule } from '@openng/optimus-ui/skeleton';
 
 export interface UserData {
   name?: string;

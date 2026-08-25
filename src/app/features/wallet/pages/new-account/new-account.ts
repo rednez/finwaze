@@ -6,9 +6,9 @@ import { AccountsStore } from '@core/store/accounts-store';
 import { CurrenciesStore } from '@core/store/currencies-store';
 import { TranslatePipe } from '@shared/pipes/translate.pipe';
 import { NewAccountForm } from '@shared/ui/new-account-form';
-import { MessageService } from 'primeng/api';
-import { ButtonModule } from 'primeng/button';
-import { ToastModule } from 'primeng/toast';
+import { MessageService } from '@openng/optimus-ui/api';
+import { ButtonModule } from '@openng/optimus-ui/button';
+import { ToastModule } from '@openng/optimus-ui/toast';
 
 @Component({
   imports: [

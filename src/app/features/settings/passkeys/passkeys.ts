@@ -4,10 +4,10 @@ import { AuthService } from '@core/services/auth-service';
 import { LocalizationService } from '@core/services/localization.service';
 import { Passkey } from '@core/services/supabase.service';
 import { TranslatePipe } from '@shared/pipes/translate.pipe';
-import { ConfirmationService } from 'primeng/api';
-import { ButtonModule } from 'primeng/button';
-import { ConfirmDialogModule } from 'primeng/confirmdialog';
-import { ProgressSpinnerModule } from 'primeng/progressspinner';
+import { ConfirmationService } from '@openng/optimus-ui/api';
+import { ButtonModule } from '@openng/optimus-ui/button';
+import { ConfirmDialogModule } from '@openng/optimus-ui/confirmdialog';
+import { ProgressSpinnerModule } from '@openng/optimus-ui/progressspinner';
 import { RenamePasskeyDialog } from './rename-passkey-dialog';
 
 @Component({

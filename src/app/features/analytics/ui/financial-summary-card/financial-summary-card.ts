@@ -7,7 +7,7 @@ import { CardHeaderTitle } from '@shared/ui/card-header-title/card-header-title'
 import { CardHeader } from '@shared/ui/card-header/card-header';
 import { FinancialTrendBadge } from '@shared/ui/financial-trend-badge';
 import { StyledAmount } from '@shared/ui/styled-amount';
-import { ButtonModule } from 'primeng/button';
+import { ButtonModule } from '@openng/optimus-ui/button';
 import { FinancialSummaryCardButton } from './financial-summary-card-button/financial-summary-card-button';
 
 @Component({

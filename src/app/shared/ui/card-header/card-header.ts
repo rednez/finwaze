@@ -1,5 +1,5 @@
 import { Component, input } from '@angular/core';
-import { ProgressSpinnerModule } from 'primeng/progressspinner';
+import { ProgressSpinnerModule } from '@openng/optimus-ui/progressspinner';
 
 @Component({
   selector: 'app-card-header',

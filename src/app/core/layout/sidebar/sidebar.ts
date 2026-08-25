@@ -6,7 +6,7 @@ import { LocalizationService } from '@core/services/localization.service';
 import { NavigatorHelper } from '@core/services/navigator-helper';
 import { ResponsiveHelper } from '@core/services/responsive-helper';
 import { ThemeSwitcher } from '@shared/ui/theme-switcher';
-import { ButtonModule } from 'primeng/button';
+import { ButtonModule } from '@openng/optimus-ui/button';
 import { Logo } from './logo';
 import { SidebarNavItem } from './sidebar-nav-item/sidebar-nav-item';
 import { SidebarToggleBtn } from './sidebar-toggle-btn/sidebar-toggle-btn';

@@ -3,7 +3,7 @@ import { Router } from '@angular/router';
 import { AccountsStore } from '@core/store/accounts-store';
 import { TranslatePipe } from '@shared/pipes/translate.pipe';
 import dayjs from 'dayjs';
-import { ButtonModule } from 'primeng/button';
+import { ButtonModule } from '@openng/optimus-ui/button';
 import {
   WalletAccountsStore,
   WalletMonthlySummaryStore,
