@@ -36,6 +36,8 @@ LEFT JOIN category_tx_counts ctc
 WHERE g.is_system = false
 GROUP BY g.id, g.name, g.color, g.transaction_type;
 
+GRANT SELECT ON public.groups_with_categories_tx_counts TO authenticated;
+
 CREATE OR REPLACE VIEW public.regular_accounts_with_balance
 WITH
   (security_invoker = TRUE) AS
@@ -64,3 +66,5 @@ GROUP BY
   c.id
 ORDER BY
   a.name;
+
+GRANT SELECT ON public.regular_accounts_with_balance TO authenticated;
