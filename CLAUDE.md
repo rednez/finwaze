@@ -12,7 +12,7 @@ Angular v22 best-practices baseline) — read all three before making changes.
 A personal home finance tracking application. Users record transactions (income, expenses, transfers, balance adjustments), manage budgets, and track savings goals across multiple accounts and currencies.
 
 **Backend:** PostgreSQL via local Supabase  
-**Frontend:** Angular 22 (zoneless), TypeScript 6, Tailwind CSS 4, OptimusNG 2, NgRx SignalStore  
+**Frontend:** Angular 22 (zoneless), TypeScript 6, Tailwind CSS 4, OptimusNG 2, NgRx SignalStore 22  
 **Testing:** Vitest (via `@angular/build:unit-test`)  
 **Package manager:** PNPM  
 
@@ -120,9 +120,45 @@ The 20 existing `FormBuilder` + `ReactiveFormsModule` forms stay as they are —
 
 ### State Management
 
+State is managed exclusively with **NgRx SignalStore v22** (`@ngrx/signals` 22). No `@ngrx/store`,
+`@ngrx/effects`, `@ngrx/entity` or `@ngrx/operators` are installed — do not introduce actions,
+reducers, selectors or `tapResponse` patterns.
+
 - Store files are named `<feature>-store.ts` (e.g. `transactions-store.ts`).
 - Store lives at the level where it's needed — at sub-feature level if used by one, at feature level if shared across multiple sub-features.
 - Do not put business logic in components — delegate to the store.
+- Stores are built from `signalStore` + `withState` / `withComputed` / `withMethods` / `withProps` /
+  `withHooks`, with `patchState` for updates. Most stores are app-wide
+  (`signalStore({ providedIn: 'root' }, …)`); short-lived ones are listed in the owning component's
+  `providers: [...]` (e.g. `CreateBudgetStore`, `BudgetsByGroupStore`).
+- Async work lives in `withMethods` as plain `async` methods calling a repository — `rxMethod` and
+  RxJS are not used for store side effects.
+
+#### v22: deep signals for nullable object slices
+
+Since v22, a state slice (or `deepComputed` result) whose type is a union containing an object type
+exposes a **`DeepSignal` per object member** instead of one `Signal` over the whole union:
+
+```ts
+// state: { transaction: Transaction | null }
+store.transaction; // DeepSignal<Transaction> | Signal<null>   (was Signal<Transaction | null>)
+store.transaction(); // still Transaction | null — call, then narrow
+```
+
+- Call the signal and narrow the result (`const t = store.transaction(); if (!t) return;`) — that
+  pattern is unaffected and is what every existing store does.
+- **Do not type such a slice as `Signal<T | null>`** — it is no longer assignable. Inside a generic
+  `signalStoreFeature`, use `DeepSignalOf<T | null>` from `@ngrx/signals`.
+- Affected slices today: `AuthStore.user`, `SelectedTransactionStore.transaction`,
+  `IncomeTransactionStore.selectedTransaction`, `AnalyticsStore.financialSummary`,
+  `BudgetStore.selectedGroup`. Primitive unions (`string | null`, `number | null`, `Date | null`)
+  are unchanged.
+
+#### v22: available but unused
+
+`@ngrx/signals/resource` (`extendResource`, `withValueOnError`, `withPreviousValueOnLoading`, …) and
+`@ngrx/signals/events` ship with v22 but are not used here. Data loading goes through repositories
+called from store methods — do not introduce the resource or events APIs without a deliberate decision.
 
 ### Data access: repositories and mappers
 
@@ -252,7 +288,7 @@ pnpm start
 # Run unit tests
 pnpm test
 
-# Lint (ESLint flat config, angular-eslint + @ngrx/eslint-plugin)
+# Lint (ESLint 10 flat config, angular-eslint + @ngrx/eslint-plugin 22)
 pnpm lint
 
 # Production build
@@ -295,6 +331,8 @@ Follow the `git-commits` skill. Project-specific scopes:
 13. **Do not build new forms with `FormBuilder`** — use Signal Forms. Do not rewrite existing Reactive Forms opportunistically, and never mix both in one component.
 14. **Do not add new `$safeNavigationMigration(...)` calls** — it is a temporary v22 migration shim; use plain `?.` with `undefined` handling.
 15. **Do not source UI APIs from PrimeNG** — OptimusNG mirrors PrimeNG's `p-` selectors, `pi pi-*` icons and `definePreset` theming, but the APIs diverge. Never import from `primeng/*`, and never use PrimeNG docs, MCP tools or skills as a source of truth.
+16. **Do not import the ESLint plugin from `@ngrx/eslint-plugin/v9`** — that subpath was removed in v22. Require it from the package root (`require('@ngrx/eslint-plugin')`) in the flat config; ESLint v8 / `.eslintrc` is no longer supported.
+17. **Do not type a nullable object state slice as `Signal<T | null>`** — in v22 it is `DeepSignal<T> | Signal<null>`. Call the signal and narrow, or use `DeepSignalOf<T | null>` in generic store features.
 
 ---
 
