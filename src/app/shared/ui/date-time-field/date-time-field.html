@@ -1,0 +1,61 @@
+<label class="text-sm font-medium" [for]="inputId()">{{ label() }}</label>
+
+@if (isMobile()) {
+  <button
+    type="button"
+    [id]="inputId()"
+    class="mt-1 flex w-full sm:w-auto items-center gap-2.5 rounded-2xl border bg-(--p-form-field-background) px-3 py-2.5 text-start transition-colors"
+    [class]="triggerClass()"
+    [disabled]="isDisabled()"
+    [attr.aria-expanded]="overlay.isOpen()"
+    aria-haspopup="dialog"
+    (click)="overlay.toggle($event)"
+  >
+    <span class="min-w-0 flex-1 truncate">{{ displayValue() }}</span>
+    <i class="pi pi-calendar text-sm text-muted-color"></i>
+  </button>
+
+  <app-responsive-overlay
+    #overlay
+    sheetPosition="full"
+    [header]="label() || ('shared.dateAndTime' | translate)"
+  >
+    <div class="flex min-h-[72dvh] flex-col gap-4 p-2">
+      <div class="flex justify-center">
+        <p-datepicker
+          inline
+          [showTime]="true"
+          [hourFormat]="'24'"
+          [ngModel]="value()"
+          [ngModelOptions]="{ standalone: true }"
+          (ngModelChange)="update($event)"
+        />
+      </div>
+      <p-button
+        fluid
+        rounded
+        class="mt-auto"
+        [label]="'shared.done' | translate"
+        (onClick)="done()"
+      />
+    </div>
+  </app-responsive-overlay>
+} @else {
+  <p-datepicker
+    [inputId]="inputId()"
+    class="mt-1 w-full"
+    [showTime]="true"
+    [hourFormat]="'24'"
+    [inputStyle]="inputStyle"
+    [disabled]="isDisabled()"
+    [ngModel]="value()"
+    [ngModelOptions]="{ standalone: true }"
+    (ngModelChange)="update($event)"
+  />
+}
+
+@if (isInvalid()) {
+  <div class="pt-0.5 pl-2 text-xs text-red-500">
+    {{ 'shared.shouldBeSelected' | translate }}
+  </div>
+}

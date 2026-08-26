@@ -1,0 +1,47 @@
+<label class="text-sm font-medium" [for]="inputId()">{{ label() }}</label>
+
+<div
+  class="mt-1 rounded-2xl border bg-(--p-form-field-background) transition-colors"
+  [class]="shellClass()"
+>
+  <div class="flex items-center gap-1 px-3">
+    <p-inputnumber
+      class="min-w-0 flex-1"
+      mode="decimal"
+      autocomplete="off"
+      [inputId]="inputId()"
+      [minFractionDigits]="0"
+      [maxFractionDigits]="2"
+      [placeholder]="placeholder() || ('shared.enterAmount' | translate)"
+      [inputStyle]="inputStyle"
+      [disabled]="isDisabled()"
+      [ngModel]="amount()"
+      [ngModelOptions]="{ standalone: true }"
+      (ngModelChange)="amount.set($event); onAmountChange($event)"
+      (onBlur)="onBlur()"
+    />
+
+    @if (isPickable()) {
+      <app-currency-picker
+        [currencies]="currencies()"
+        [disabled]="isDisabled()"
+        [(currencyCode)]="currencyCode"
+      />
+    } @else if (currencyCode()) {
+      <span
+        class="shrink-0 rounded-xl bg-gray-100 px-2.5 py-1.5 text-xs font-semibold text-muted-color dark:bg-gray-800"
+      >
+        {{ currencyCode() }}
+      </span>
+    }
+  </div>
+
+  @if (hint()) {
+    <div
+      class="flex items-center gap-2 border-t border-surface px-3 py-1.5 text-muted-color"
+    >
+      <i class="pi pi-sync text-xs!"></i>
+      <span class="font-mono text-xs">{{ hint() }}</span>
+    </div>
+  }
+</div>

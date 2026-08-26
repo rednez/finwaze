@@ -1,0 +1,247 @@
+<label class="text-sm font-medium" [for]="inputId()">{{ label() }}</label>
+
+<button
+  type="button"
+  class="mt-1 flex w-full items-center gap-2.5 rounded-2xl border bg-(--p-form-field-background) px-3 py-2.5 text-start transition-colors"
+  [id]="inputId()"
+  [class]="triggerClass()"
+  [disabled]="isDisabled()"
+  [attr.aria-expanded]="overlay.isOpen()"
+  aria-haspopup="dialog"
+  (click)="open($event)"
+>
+  @if (selectedCategory(); as category) {
+    <span class="flex flex-1 truncate">
+      <span class="flex items-center gap-1">
+        @if (groupColor(category.groupId)) {
+          <div
+            class="size-2.5 shrink-0 rounded-full"
+            [style.background]="groupColor(category.groupId)"
+          ></div>
+        }
+        <div class="text-sm text-muted-color max-w-24 truncate">
+          {{ selectedGroup()?.name }}
+        </div>
+      </span>
+      <span class="mx-1.5 text-muted-color">›</span>
+      <span class="flex items-center gap-1">
+        @if (category.color) {
+          <span
+            class="size-2.5 shrink-0 rounded-full"
+            [style.background]="category.color"
+          ></span>
+        }
+        <span class="text-sm font-medium sm:max-w-24 truncate">{{
+          category.name
+        }}</span>
+      </span>
+    </span>
+  } @else {
+    <i class="pi pi-tag text-sm text-muted-color"></i>
+    <span class="flex-1 truncate text-sm text-muted-color">
+      {{ 'shared.selectCategory' | translate }}
+    </span>
+  }
+  <i class="pi pi-chevron-down text-[0.625rem] text-muted-color"></i>
+</button>
+
+@if (isInvalid()) {
+  <div class="pt-0.5 pl-2 text-xs text-red-500">
+    {{ 'shared.shouldBeSelected' | translate }}
+  </div>
+}
+
+<app-responsive-overlay
+  #overlay
+  [header]="label() || ('shared.category' | translate)"
+>
+  <div class="flex w-full flex-col sm:w-[28rem]">
+    <div class="p-1.5">
+      <p-iconfield class="block w-full">
+        <p-inputicon styleClass="pi pi-search" />
+        <input
+          pInputText
+          type="text"
+          class="w-full"
+          autocomplete="off"
+          [placeholder]="'shared.searchCategory' | translate"
+          [dt]="{ root: { borderRadius: '12px' } }"
+          [ngModel]="search()"
+          [ngModelOptions]="{ standalone: true }"
+          (ngModelChange)="search.set($event)"
+        />
+      </p-iconfield>
+    </div>
+
+    @if (query()) {
+      <div class="max-h-72 overflow-y-auto p-1 sm:h-72">
+        @for (result of searchResults(); track result.category.id) {
+          <button
+            type="button"
+            class="flex w-full items-center gap-2.5 rounded-xl px-3 py-2 text-start text-sm transition-colors hover:bg-emphasis"
+            [class.bg-highlight]="result.category.id === categoryId()"
+            (click)="selectCategory(result.category)"
+          >
+            @if (result.category.color) {
+              <span
+                class="size-2.5 shrink-0 rounded-full"
+                [style.background]="result.category.color"
+              ></span>
+            }
+            <span class="min-w-0 flex-1 truncate">
+              {{ result.category.name }}
+              <span class="block truncate text-xs text-muted-color">
+                {{ result.groupName }}
+              </span>
+            </span>
+            @if (result.category.id === categoryId()) {
+              <i class="pi pi-check text-xs"></i>
+            }
+          </button>
+        } @empty {
+          <p class="px-3 py-6 text-center text-sm text-muted-color">
+            {{ 'shared.nothingFound' | translate }}
+          </p>
+        }
+      </div>
+    } @else if (isMobile()) {
+      @if (isDrilledIn()) {
+        <div
+          class="flex items-center gap-1 border-b border-surface px-1.5 py-1"
+        >
+          <p-button
+            icon="pi pi-chevron-left"
+            text
+            rounded
+            size="small"
+            [ariaLabel]="'shared.back' | translate"
+            (onClick)="goBackToGroups()"
+          />
+          <span class="truncate text-sm font-semibold">
+            {{ activeGroup()?.name }}
+          </span>
+        </div>
+        <div class="max-h-[50dvh] overflow-y-auto p-1">
+          @for (category of activeCategories(); track category.id) {
+            <ng-container
+              [ngTemplateOutlet]="categoryRow"
+              [ngTemplateOutletContext]="{ $implicit: category }"
+            />
+          }
+        </div>
+        <ng-container [ngTemplateOutlet]="addCategoryButton" />
+      } @else {
+        <div class="max-h-[50dvh] overflow-y-auto p-1">
+          @for (group of groups(); track group.id) {
+            <ng-container
+              [ngTemplateOutlet]="groupRow"
+              [ngTemplateOutletContext]="{ $implicit: group }"
+            />
+          }
+        </div>
+        <ng-container [ngTemplateOutlet]="addGroupButton" />
+      }
+    } @else {
+      <div class="flex h-72">
+        <div class="flex w-1/2 flex-col border-e border-surface">
+          <div class="flex-1 overflow-y-auto p-1">
+            @for (group of groups(); track group.id) {
+              <ng-container
+                [ngTemplateOutlet]="groupRow"
+                [ngTemplateOutletContext]="{ $implicit: group }"
+              />
+            }
+          </div>
+          <ng-container [ngTemplateOutlet]="addGroupButton" />
+        </div>
+
+        <div class="flex w-1/2 flex-col">
+          <div class="flex-1 overflow-y-auto p-1">
+            @for (category of activeCategories(); track category.id) {
+              <ng-container
+                [ngTemplateOutlet]="categoryRow"
+                [ngTemplateOutletContext]="{ $implicit: category }"
+              />
+            } @empty {
+              <p class="px-3 py-6 text-center text-sm text-muted-color">
+                {{ 'shared.noCategories' | translate }}
+              </p>
+            }
+          </div>
+          <ng-container [ngTemplateOutlet]="addCategoryButton" />
+        </div>
+      </div>
+    }
+  </div>
+</app-responsive-overlay>
+
+<ng-template #groupRow let-group>
+  <button
+    #groupOption
+    type="button"
+    [attr.data-group-id]="group.id"
+    class="flex w-full items-center gap-2.5 rounded-xl px-3 py-2.5 text-start text-sm transition-colors hover:bg-emphasis"
+    [class.bg-highlight]="group.id === groupId()"
+    [class.bg-emphasis]="group.id !== groupId() && group.id === activeGroupId()"
+    [class.font-semibold]="group.id === activeGroupId()"
+    (click)="selectGroup(group.id)"
+  >
+    @if (group.color) {
+      <span
+        class="size-2.5 shrink-0 rounded-full"
+        [style.background]="group.color"
+      ></span>
+    }
+    <span class="min-w-0 flex-1 truncate">{{ group.name }}</span>
+    <i class="pi pi-chevron-right text-[0.625rem] text-muted-color"></i>
+  </button>
+</ng-template>
+
+<ng-template #categoryRow let-category>
+  <button
+    type="button"
+    class="flex w-full items-center gap-2.5 rounded-xl px-3 py-2.5 text-start text-sm transition-colors hover:bg-emphasis"
+    [class.bg-highlight]="category.id === categoryId()"
+    (click)="selectCategory(category)"
+  >
+    @if (category.color) {
+      <span
+        class="size-2.5 shrink-0 rounded-full"
+        [style.background]="category.color"
+      ></span>
+    }
+    <span class="min-w-0 flex-1 truncate">{{ category.name }}</span>
+    @if (category.id === categoryId()) {
+      <i class="pi pi-check text-xs"></i>
+    }
+  </button>
+</ng-template>
+
+<ng-template #addGroupButton>
+  <div class="border-t border-surface p-1.5">
+    <p-button
+      fluid
+      text
+      size="small"
+      severity="secondary"
+      icon="pi pi-plus"
+      [label]="'shared.addGroup' | translate"
+      (onClick)="addGroup()"
+    />
+  </div>
+</ng-template>
+
+<ng-template #addCategoryButton>
+  <div class="border-t border-surface p-1.5">
+    <p-button
+      fluid
+      text
+      size="small"
+      severity="secondary"
+      icon="pi pi-plus"
+      [label]="'shared.addCategory' | translate"
+      [disabled]="!activeGroupId()"
+      (onClick)="addCategory()"
+    />
+  </div>
+</ng-template>
