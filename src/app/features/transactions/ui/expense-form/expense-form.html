@@ -1,4 +1,4 @@
-<form [formGroup]="form" class="flex flex-col gap-4 text-start mt-6">
+<form [formGroup]="form" class="mt-6 flex flex-col gap-4 text-start">
   <app-account-select
     formControlName="accountId"
     [accounts]="accounts()"
@@ -8,180 +8,117 @@
     "
   />
 
-  <div class="flex flex-col sm:flex-row gap-4">
-    <div class="w-full">
-      <app-select
-        formControlName="groupId"
-        [options]="groups()"
-        [label]="'shared.group' | translate"
-        inputId="group"
-        optionLabel="name"
-        optionValue="id"
-        [hasAddButton]="true"
-        [isInvalid]="
-          form.controls.groupId.invalid && form.controls.groupId.dirty
-        "
-        (clickAddNew)="isNewGroupDialogVisible = true"
-      />
-    </div>
-
-    <div class="w-full">
-      <app-select
-        formControlName="categoryId"
-        [options]="filteredCategories()"
-        [label]="'shared.category' | translate"
-        inputId="category"
-        optionLabel="name"
-        optionValue="id"
-        [hasAddButton]="form.controls.groupId.valid"
-        [isInvalid]="
-          form.controls.categoryId.invalid && form.controls.categoryId.dirty
-        "
-        (clickAddNew)="isNewCategoryDialogVisible = true"
-      />
-    </div>
+  <div>
+    <app-amount-field
+      formControlName="transactionAmount"
+      inputId="transactionAmount"
+      [label]="'transactions.expenseForm.expenseAmount' | translate"
+      [currencies]="currencies()"
+      [currencyCode]="transactionCurrencyCode()"
+      (currencyCodeChange)="onTransactionCurrencyChange($event)"
+      [isInvalid]="
+        (form.controls.transactionAmount.invalid ||
+          form.hasError('transactionAndChargedAmountsEquals')) &&
+        form.controls.transactionAmount.dirty
+      "
+    />
+    @if (
+      (form.invalid && form.controls.transactionAmount.dirty) ||
+      (form.controls.transactionAmount.invalid &&
+        form.controls.transactionAmount.dirty)
+    ) {
+      <div class="pt-0.5 pl-2 text-xs text-red-500">
+        @if (form.controls.transactionAmount.hasError('required')) {
+          {{ 'shared.amountRequired' | translate }}
+        } @else if (form.controls.transactionAmount.hasError('min')) {
+          {{ 'shared.mustBeGreaterThanZero' | translate }}
+        } @else if (form.hasError('transactionAndChargedAmountsEquals')) {
+          {{ 'transactions.expenseForm.shouldNotEqualCharged' | translate }}
+        }
+      </div>
+    }
   </div>
 
-  <div class="flex flex-col sm:flex-row gap-4">
-    <div class="w-full">
-      <label class="text-sm font-medium" for="transactionAmount">
-        {{ 'transactions.expenseForm.transactionAmount' | translate }}
-      </label>
-      <p-inputnumber
-        formControlName="transactionAmount"
-        inputId="transactionAmount"
-        mode="decimal"
-        [minFractionDigits]="0"
-        [maxFractionDigits]="2"
-        class="w-full"
-        [placeholder]="'shared.enterAmount' | translate"
-        autocomplete="off"
-        [inputStyle]="{ borderRadius: '16px' }"
+  @if (shouldShowChargedAmount()) {
+    <div>
+      <app-amount-field
+        formControlName="chargedAmount"
+        inputId="chargedAmount"
+        [label]="'transactions.expenseForm.chargedFromAccount' | translate"
+        [currencyCode]="accountCurrencyCode()"
+        [hint]="exchangeRateHint()"
+        [isInvalid]="
+          (form.controls.chargedAmount.invalid ||
+            form.hasError('chargedAmountRequired') ||
+            form.hasError('transactionAndChargedAmountsEquals')) &&
+          form.controls.chargedAmount.dirty
+        "
       />
       @if (
-        (form.invalid && form.controls.transactionAmount.dirty) ||
-        (form.controls.transactionAmount.invalid &&
-          form.controls.transactionAmount.dirty)
+        (form.invalid && form.controls.chargedAmount.dirty) ||
+        (form.controls.chargedAmount.invalid &&
+          form.controls.chargedAmount.dirty)
       ) {
-        <div class="text-xs text-red-500 pl-2 pt-0.5">
-          @if (form.controls.transactionAmount.hasError('required')) {
-            {{ 'shared.amountRequired' | translate }}
-          } @else if (form.controls.transactionAmount.hasError('min')) {
+        <div class="pt-0.5 pl-2 text-xs text-red-500">
+          @if (form.controls.chargedAmount.hasError('min')) {
             {{ 'shared.mustBeGreaterThanZero' | translate }}
+          } @else if (form.hasError('chargedAmountRequired')) {
+            {{ 'shared.amountRequired' | translate }}
           } @else if (form.hasError('transactionAndChargedAmountsEquals')) {
-            {{ 'transactions.expenseForm.shouldNotEqualCharged' | translate }}
+            {{ 'transactions.expenseForm.shouldNotEqualExpense' | translate }}
           }
         </div>
       }
     </div>
-
-    <div class="w-full">
-      <app-select
-        formControlName="transactionCurrencyCode"
-        [options]="currenciesOptions()"
-        [label]="'transactions.expenseForm.transactionCurrency' | translate"
-        inputId="transactionCurrencyCode"
-        optionLabel="name"
-        optionValue="name"
-        [isInvalid]="
-          form.controls.transactionCurrencyCode.invalid &&
-          form.controls.transactionCurrencyCode.dirty
-        "
-      />
-    </div>
-  </div>
-
-  @if (shouldShowChargedAmount$ | async) {
-    <div class="flex flex-col sm:flex-row gap-4">
-      <div class="w-full">
-        <div class="flex gap-2 justify-between mb-1">
-          <label class="text-sm font-medium" for="chargedAmount">
-            {{ 'transactions.expenseForm.chargedAmount' | translate }}
-          </label>
-
-          <div class="flex gap-2">
-            <app-currency-code-chip
-              [currencyCode]="selectedAccountCurrencyCode$ | async"
-            />
-            <app-exchange-rate-chip [exchangeRate]="exchangeRate()" />
-          </div>
-        </div>
-
-        <p-inputnumber
-          formControlName="chargedAmount"
-          inputId="chargedAmount"
-          mode="decimal"
-          [minFractionDigits]="0"
-          [maxFractionDigits]="2"
-          class="w-full"
-          [placeholder]="'shared.enterAmount' | translate"
-          autocomplete="off"
-          [inputStyle]="{ borderRadius: '16px' }"
-        />
-
-        @if (
-          (form.invalid && form.controls.chargedAmount.dirty) ||
-          (form.controls.chargedAmount.invalid &&
-            form.controls.chargedAmount.dirty)
-        ) {
-          <div class="text-xs text-red-500 pl-2 pt-0.5">
-            <div class="text-xs text-red-500 pl-2 pt-0.5">
-              @if (form.controls.chargedAmount.hasError('min')) {
-                {{ 'shared.mustBeGreaterThanZero' | translate }}
-              } @else if (form.hasError('chargedAmountRequired')) {
-                {{ 'shared.amountRequired' | translate }}
-              } @else if (form.hasError('transactionAndChargedAmountsEquals')) {
-                {{
-                  'transactions.expenseForm.shouldNotEqualTransaction'
-                    | translate
-                }}
-              }
-            </div>
-          </div>
-        }
-      </div>
-    </div>
   }
 
-  <div class="flex flex-col sm:flex-row gap-4">
-    <div>
-      <label class="text-sm font-medium" for="transactedAt">
-        {{ 'shared.dateAndTime' | translate }}
-      </label>
-      <p-datepicker
-        inputId="calendar-24h"
-        formControlName="transactedAt"
-        [showTime]="true"
-        [hourFormat]="'24'"
-        [inputStyle]="{ borderRadius: '16px' }"
-        class="w-full"
-      />
-      @if (
-        form.controls.transactedAt.invalid && form.controls.transactedAt.dirty
-      ) {
-        <div class="text-xs text-red-500 pl-2 pt-0.5">
-          {{ 'shared.shouldBeSelected' | translate }}
-        </div>
-      }
-    </div>
+  <div class="flex flex-col gap-4 sm:flex-row">
+    <app-category-picker
+      formControlName="categoryId"
+      inputId="category"
+      [label]="'shared.category' | translate"
+      [groups]="groups()"
+      [categories]="categories()"
+      [groupId]="selectedGroupId()"
+      (groupIdChange)="onGroupIdChange($event)"
+      [isInvalid]="
+        form.controls.categoryId.invalid && form.controls.categoryId.dirty
+      "
+      (clickAddGroup)="isNewGroupDialogVisible = true"
+      (clickAddCategory)="onAddCategoryClick($event)"
+    />
 
-    <div class="w-full">
-      <label class="text-sm font-medium" for="comment">{{
-        'shared.comment' | translate
-      }}</label>
-      <input
-        pInputText
-        formControlName="comment"
-        type="text"
-        class="w-full"
-        [dt]="{ root: { borderRadius: '16px' } }"
-      />
-      @if (form.controls.comment.invalid && form.controls.comment.dirty) {
-        <div class="text-xs text-red-500 pl-2 pt-0.5">
-          {{ 'shared.maxLength100' | translate }}
-        </div>
-      }
-    </div>
+    <app-date-time-field
+      formControlName="transactedAt"
+      inputId="transactedAt"
+      [label]="'shared.dateAndTime' | translate"
+      [isInvalid]="
+        form.controls.transactedAt.invalid && form.controls.transactedAt.dirty
+      "
+    />
+  </div>
+
+  <div>
+    <label class="text-sm font-medium" for="comment">
+      {{ 'shared.comment' | translate }}
+      <span class="font-normal text-muted-color">
+        {{ 'shared.optional' | translate }}
+      </span>
+    </label>
+    <input
+      pInputText
+      formControlName="comment"
+      id="comment"
+      type="text"
+      class="mt-1 w-full"
+      autocomplete="off"
+      [dt]="{ root: { borderRadius: '16px' } }"
+    />
+    @if (form.controls.comment.invalid && form.controls.comment.dirty) {
+      <div class="pt-0.5 pl-2 text-xs text-red-500">
+        {{ 'shared.maxLength100' | translate }}
+      </div>
+    }
   </div>
 
   <app-form-action-buttons
@@ -204,7 +141,7 @@
   (clickSave)="
     clickAddCategory.emit({
       name: $event,
-      groupId: form.controls.groupId.value!,
+      groupId: newCategoryGroupId!,
     })
   "
 />

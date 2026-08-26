@@ -1,6 +1,6 @@
 <p-toast />
 
-<app-form-page-layout [header]="title()" (back)="gotoBack()">
+<app-form-page-layout class="max-w-135!" [header]="title()" (back)="gotoBack()">
   @if (selectedTransactionStore.isCreatingMode()) {
     <p-selectbutton
       [ngModel]="transactionType()"

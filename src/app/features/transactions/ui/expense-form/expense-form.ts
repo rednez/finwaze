@@ -1,11 +1,13 @@
-import { CommonModule } from '@angular/common';
+import { formatNumber } from '@angular/common';
 import {
   Component,
   computed,
   DestroyRef,
   inject,
   input,
+  LOCALE_ID,
   output,
+  signal,
 } from '@angular/core';
 import {
   takeUntilDestroyed,
@@ -15,15 +17,12 @@ import {
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Account } from '@core/models/accounts';
 import { Category, Group } from '@core/models/categories';
+import { InputTextModule } from '@openng/optimus-ui/inputtext';
 import { TranslatePipe } from '@shared/pipes/translate.pipe';
 import { AccountSelect } from '@shared/ui/account-select';
-import { CurrencyCodeChip } from '@shared/ui/currency-code-chip';
-import { ExchangeRateChip } from '@shared/ui/exchange-rate-chip';
-import { Select } from '@shared/ui/select';
-import { DatePickerModule } from '@openng/optimus-ui/datepicker';
-import { InputNumberModule } from '@openng/optimus-ui/inputnumber';
-import { InputTextModule } from '@openng/optimus-ui/inputtext';
-import { SelectButtonModule } from '@openng/optimus-ui/selectbutton';
+import { AmountField } from '@shared/ui/amount-field';
+import { CategoryPicker } from '@shared/ui/category-picker';
+import { DateTimeField } from '@shared/ui/date-time-field';
 import { combineLatest, filter, map, shareReplay, take, tap } from 'rxjs';
 import { ExpenseFormData } from '../../models';
 import { expenseChargedAmountValidator } from '../../utils';
@@ -34,17 +33,13 @@ import { NamePromptDialog } from '../name-prompt-dialog';
   selector: 'app-expense-form',
   imports: [
     ReactiveFormsModule,
-    CommonModule,
     InputTextModule,
-    InputNumberModule,
-    DatePickerModule,
-    SelectButtonModule,
     FormActionButtons,
     AccountSelect,
-    Select,
+    AmountField,
+    CategoryPicker,
+    DateTimeField,
     NamePromptDialog,
-    ExchangeRateChip,
-    CurrencyCodeChip,
     TranslatePipe,
   ],
   templateUrl: './expense-form.html',
@@ -68,6 +63,7 @@ export class ExpenseForm {
 
   private readonly formBuilder = inject(FormBuilder);
   private readonly destroyRef = inject(DestroyRef);
+  private readonly locale = inject(LOCALE_ID);
 
   protected readonly form = this.formBuilder.group(
     {
@@ -87,11 +83,8 @@ export class ExpenseForm {
     { validators: [expenseChargedAmountValidator] },
   );
 
-  protected readonly filteredCategories = computed(() => {
-    return this.categories().filter(
-      (c) => c.groupId === this.selectedGroupId(),
-    );
-  });
+  /** Mirrors `groupId` so the category picker can highlight the current group. */
+  protected readonly selectedGroupId = signal<number | null>(null);
 
   private readonly selectedAccount$ =
     this.form.controls.accountId.valueChanges.pipe(
@@ -99,11 +92,7 @@ export class ExpenseForm {
       shareReplay(1),
     );
 
-  protected readonly selectedAccountCurrencyCode$ = this.selectedAccount$.pipe(
-    map((acc) => (acc ? acc.currencyCode : '')),
-  );
-
-  protected readonly shouldShowChargedAmount$ = combineLatest([
+  private readonly shouldShowChargedAmount$ = combineLatest([
     this.selectedAccount$,
     this.form.controls.transactionCurrencyCode.valueChanges,
   ]).pipe(
@@ -115,7 +104,22 @@ export class ExpenseForm {
     shareReplay(1),
   );
 
-  protected readonly exchangeRate = toSignal(
+  protected readonly shouldShowChargedAmount = toSignal(
+    this.shouldShowChargedAmount$,
+    { initialValue: false },
+  );
+
+  protected readonly accountCurrencyCode = toSignal(
+    this.selectedAccount$.pipe(map((acc) => acc?.currencyCode ?? '')),
+    { initialValue: '' },
+  );
+
+  protected readonly transactionCurrencyCode = toSignal(
+    this.form.controls.transactionCurrencyCode.valueChanges,
+    { initialValue: null },
+  );
+
+  private readonly exchangeRate = toSignal(
     combineLatest([
       this.form.controls.transactionAmount.valueChanges,
       this.form.controls.chargedAmount.valueChanges,
@@ -128,27 +132,27 @@ export class ExpenseForm {
     ),
   );
 
-  protected readonly currenciesOptions = computed(() => [
-    ...this.currencies().map((currency) => ({
-      name: currency,
-      value: currency,
-    })),
-  ]);
+  protected readonly exchangeRateHint = computed(() => {
+    const rate = this.exchangeRate();
+    const from = this.transactionCurrencyCode();
+    const to = this.accountCurrencyCode();
+
+    if (!rate || !from || !to) {
+      return '';
+    }
+
+    return `1 ${from} = ${formatNumber(rate, this.locale, '1.2-4')} ${to}`;
+  });
 
   protected isNewGroupDialogVisible = false;
   protected isNewCategoryDialogVisible = false;
+  protected newCategoryGroupId: number | null = null;
+
   private readonly accounts$ = toObservable(this.accounts);
   private readonly groups$ = toObservable(this.groups);
   private readonly categories$ = toObservable(this.categories);
   private readonly currencies$ = toObservable(this.currencies);
   private readonly initialValues$ = toObservable(this.initialValues);
-  private readonly shouldShowChargedAmount = toSignal(
-    this.shouldShowChargedAmount$,
-    { initialValue: false },
-  );
-  private readonly selectedGroupId = toSignal(
-    this.form.controls.groupId.valueChanges,
-  );
 
   constructor() {
     this.initFormValues();
@@ -165,6 +169,21 @@ export class ExpenseForm {
           : this.form.value.transactionAmount,
       } as ExpenseFormData);
     }
+  }
+
+  protected onTransactionCurrencyChange(code: string | null) {
+    this.form.controls.transactionCurrencyCode.setValue(code);
+    this.form.controls.transactionCurrencyCode.markAsDirty();
+  }
+
+  protected onGroupIdChange(groupId: number | null) {
+    this.selectedGroupId.set(groupId);
+    this.form.controls.groupId.setValue(groupId);
+  }
+
+  protected onAddCategoryClick(groupId: number) {
+    this.newCategoryGroupId = groupId;
+    this.isNewCategoryDialogVisible = true;
   }
 
   private initFormValues() {
@@ -188,6 +207,7 @@ export class ExpenseForm {
         tap((initialValues) => {
           this.startWatchFormChanges();
           this.form.patchValue(initialValues!);
+          this.selectedGroupId.set(initialValues?.groupId ?? null);
         }),
         take(1),
       )
@@ -196,7 +216,6 @@ export class ExpenseForm {
 
   private startWatchFormChanges() {
     this.watchAccountChanges();
-    this.watchGroupIdChanges();
     this.watchCategoryIdChanges();
     this.watchTransactionCurrencyCodeChanges();
     this.watchChargedAmountVisability();
@@ -217,22 +236,16 @@ export class ExpenseForm {
       });
   }
 
-  private watchGroupIdChanges() {
-    this.form.controls.groupId.valueChanges
-      .pipe(filter(Boolean), takeUntilDestroyed(this.destroyRef))
-      .subscribe((value) => {
-        this.groupChanged.emit(value);
-        this.form.controls.categoryId.reset();
-        this.groupChanged.emit(value);
-        this.categoryChanged.emit(null);
-      });
-  }
-
   private watchCategoryIdChanges() {
     this.form.controls.categoryId.valueChanges
       .pipe(filter(Boolean), takeUntilDestroyed(this.destroyRef))
       .subscribe((value) => {
-        this.groupChanged.emit(this.form.controls.groupId.value!);
+        const groupId = this.form.controls.groupId.value;
+
+        if (groupId) {
+          this.groupChanged.emit(groupId);
+        }
+
         this.categoryChanged.emit(value);
       });
   }

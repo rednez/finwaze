@@ -1,11 +1,10 @@
-import { CommonModule } from '@angular/common';
 import {
   Component,
-  computed,
   DestroyRef,
   inject,
   input,
   output,
+  signal,
 } from '@angular/core';
 import {
   takeUntilDestroyed,
@@ -15,14 +14,12 @@ import {
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Account } from '@core/models/accounts';
 import { Category, Group } from '@core/models/categories';
-import { SelectDesignTokens } from '@openng/optimus-ui-themes/types/select';
 import { TranslatePipe } from '@shared/pipes/translate.pipe';
 import { AccountSelect } from '@shared/ui/account-select';
-import { Select } from '@shared/ui/select';
-import { DatePickerModule } from '@openng/optimus-ui/datepicker';
-import { InputNumberModule } from '@openng/optimus-ui/inputnumber';
+import { AmountField } from '@shared/ui/amount-field';
+import { CategoryPicker } from '@shared/ui/category-picker';
+import { DateTimeField } from '@shared/ui/date-time-field';
 import { InputTextModule } from '@openng/optimus-ui/inputtext';
-import { SelectButtonModule } from '@openng/optimus-ui/selectbutton';
 import { combineLatest, filter, map, shareReplay, take, tap } from 'rxjs';
 import { IncomeFormData } from '../../models';
 import { FormActionButtons } from '../form-action-buttons';
@@ -32,19 +29,16 @@ import { NamePromptDialog } from '../name-prompt-dialog';
   selector: 'app-income-form',
   imports: [
     ReactiveFormsModule,
-    CommonModule,
     InputTextModule,
-    InputNumberModule,
-    DatePickerModule,
-    SelectButtonModule,
     FormActionButtons,
     AccountSelect,
-    Select,
+    AmountField,
+    CategoryPicker,
+    DateTimeField,
     NamePromptDialog,
     TranslatePipe,
   ],
   templateUrl: './income-form.html',
-  styles: ``,
 })
 export class IncomeForm {
   readonly isCreatingMode = input(false);
@@ -76,17 +70,8 @@ export class IncomeForm {
     comment: [null as string | null, [Validators.maxLength(100)]],
   });
 
-  protected readonly selectDt: SelectDesignTokens = {
-    root: {
-      borderRadius: '16px',
-    },
-  };
-
-  protected readonly filteredCategories = computed(() => {
-    return this.categories().filter(
-      (c) => c.groupId === this.selectedGroupId(),
-    );
-  });
+  /** Mirrors `groupId` so the category picker can highlight the current group. */
+  protected readonly selectedGroupId = signal<number | null>(null);
 
   private readonly selectedAccount$ =
     this.form.controls.accountId.valueChanges.pipe(
@@ -95,19 +80,18 @@ export class IncomeForm {
     );
 
   protected readonly selectedCurrencyCode = toSignal(
-    this.selectedAccount$.pipe(map((acc) => (acc ? acc.currencyCode : ''))),
+    this.selectedAccount$.pipe(map((acc) => acc?.currencyCode ?? '')),
     { initialValue: '' },
   );
 
   protected isNewGroupDialogVisible = false;
   protected isNewCategoryDialogVisible = false;
+  protected newCategoryGroupId: number | null = null;
+
   private readonly accounts$ = toObservable(this.accounts);
   private readonly groups$ = toObservable(this.groups);
   private readonly categories$ = toObservable(this.categories);
   private readonly initialValues$ = toObservable(this.initialValues);
-  private readonly selectedGroupId = toSignal(
-    this.form.controls.groupId.valueChanges,
-  );
 
   constructor() {
     this.initFormValues();
@@ -122,6 +106,16 @@ export class IncomeForm {
         currencyCode: this.selectedCurrencyCode(),
       } as IncomeFormData);
     }
+  }
+
+  protected onGroupIdChange(groupId: number | null) {
+    this.selectedGroupId.set(groupId);
+    this.form.controls.groupId.setValue(groupId);
+  }
+
+  protected onAddCategoryClick(groupId: number) {
+    this.newCategoryGroupId = groupId;
+    this.isNewCategoryDialogVisible = true;
   }
 
   private initFormValues() {
@@ -143,6 +137,7 @@ export class IncomeForm {
         tap((initialValues) => {
           this.startWatchFormChanges();
           this.form.patchValue(initialValues!);
+          this.selectedGroupId.set(initialValues?.groupId ?? null);
         }),
         take(1),
       )
@@ -151,7 +146,6 @@ export class IncomeForm {
 
   private startWatchFormChanges() {
     this.watchAccountChanges();
-    this.watchGroupIdChanges();
     this.watchCategoryIdChanges();
   }
 
@@ -161,22 +155,16 @@ export class IncomeForm {
       .subscribe((acc) => this.accountChanged.emit(acc.id));
   }
 
-  private watchGroupIdChanges() {
-    this.form.controls.groupId.valueChanges
-      .pipe(filter(Boolean), takeUntilDestroyed(this.destroyRef))
-      .subscribe((value) => {
-        this.groupChanged.emit(value);
-        this.form.controls.categoryId.reset();
-        this.groupChanged.emit(value);
-        this.categoryChanged.emit(null);
-      });
-  }
-
   private watchCategoryIdChanges() {
     this.form.controls.categoryId.valueChanges
       .pipe(filter(Boolean), takeUntilDestroyed(this.destroyRef))
       .subscribe((value) => {
-        this.groupChanged.emit(this.form.controls.groupId.value!);
+        const groupId = this.form.controls.groupId.value;
+
+        if (groupId) {
+          this.groupChanged.emit(groupId);
+        }
+
         this.categoryChanged.emit(value);
       });
   }
