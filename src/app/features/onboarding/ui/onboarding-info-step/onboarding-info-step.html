@@ -1,0 +1,81 @@
+@let s = step();
+
+<div class="grid grid-cols-1 md:grid-cols-2 gap-8 p-6 sm:p-10">
+  <div class="flex flex-col justify-center order-2 md:order-1">
+    <span
+      class="text-xs font-semibold uppercase tracking-wider text-violet-500 mb-3"
+    >
+      {{ s.eyebrow }}
+    </span>
+    <h1 class="text-3xl sm:text-4xl font-semibold whitespace-pre-line">
+      {{ s.title }}
+    </h1>
+    <p class="text-slate-500 dark:text-zinc-400 mt-4 font-light">
+      {{ s.description }}
+    </p>
+    <ul class="mt-6 flex flex-col gap-3">
+      @for (bullet of s.bullets; track $index) {
+        <li class="flex items-start gap-3 text-sm">
+          <span
+            class="mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-violet-500/15 text-violet-500"
+          >
+            <svg
+              viewBox="0 0 20 20"
+              fill="currentColor"
+              class="h-3 w-3"
+              aria-hidden="true"
+            >
+              <path
+                fill-rule="evenodd"
+                d="M16.7 5.3a1 1 0 0 1 0 1.4l-7.5 7.5a1 1 0 0 1-1.4 0L3.3 9.7a1 1 0 1 1 1.4-1.4l3.1 3.1 6.8-6.8a1 1 0 0 1 1.4 0Z"
+                clip-rule="evenodd"
+              />
+            </svg>
+          </span>
+          <span class="text-slate-600 dark:text-zinc-300">{{ bullet }}</span>
+        </li>
+      }
+    </ul>
+  </div>
+
+  <div class="flex items-center justify-center order-1 md:order-2">
+    @for (image of [s.image]; track image.name) {
+      <img
+        [ngSrc]="imageName()"
+        ngSrcset="622w, 1244w, 1866w"
+        sizes="(min-width: 768px) 391px, (min-width: 640px) 622px, 495px"
+        [alt]="s.title"
+        [width]="image.width"
+        [height]="image.height"
+        placeholder
+        priority
+        class="w-full rounded-3xl border border-white/60 dark:border-zinc-800/60 shadow-lg shadow-violet-500/10"
+      />
+    }
+  </div>
+</div>
+
+<!-- Footer navigation -->
+<div class="flex items-center justify-between gap-4 px-6 pb-6 sm:px-10 sm:pb-8">
+  @if (showBack()) {
+    <p-button
+      [label]="'misc.onboarding.back' | translate"
+      severity="secondary"
+      text
+      rounded
+      (onClick)="back.emit()"
+    />
+  } @else {
+    <span></span>
+  }
+  <div class="flex items-center gap-2">
+    <p-button
+      [label]="'misc.onboarding.skip' | translate"
+      severity="secondary"
+      text
+      rounded
+      (onClick)="skip.emit()"
+    />
+    <p-button [label]="nextLabel()" rounded (onClick)="next.emit()" />
+  </div>
+</div>

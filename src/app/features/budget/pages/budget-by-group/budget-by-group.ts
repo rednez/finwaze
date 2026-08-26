@@ -1,9 +1,9 @@
-import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import { Component, inject } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 import { BudgetsByGroupStore, BudgetStore } from '../../stores';
 import { BudgetCard } from '../../ui/budget-card';
 import { BudgetMostExpensesCard } from '../../ui/budget-most-expenses-card';
 import { MonthlySummaryCard } from '../../ui/monthly-summary-card';
-import { ActivatedRoute } from '@angular/router';
 
 @Component({
   imports: [BudgetCard, MonthlySummaryCard, BudgetMostExpensesCard],
@@ -11,7 +11,6 @@ import { ActivatedRoute } from '@angular/router';
   host: {
     class: 'flex flex-col gap-4 md:flex-row md:flex-wrap',
   },
-  changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [BudgetsByGroupStore],
 })
 export class BudgetByGroup {

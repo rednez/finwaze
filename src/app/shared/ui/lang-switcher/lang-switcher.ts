@@ -2,7 +2,7 @@ import { Component, computed, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Lang } from '@core/i18n';
 import { LocalizationService } from '@core/services/localization.service';
-import { SelectModule } from 'primeng/select';
+import { SelectModule } from '@openng/optimus-ui/select';
 
 interface LangOption {
   code: Lang;

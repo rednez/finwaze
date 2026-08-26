@@ -1,10 +1,8 @@
-import { Injectable, Signal } from '@angular/core';
+import { Service, Signal } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { fromEvent, map, Observable, startWith } from 'rxjs';
 
-@Injectable({
-  providedIn: 'root',
-})
+@Service()
 export class DarkModeHelper {
   readonly isDarkModeChanges$: Observable<boolean>;
   readonly isDark: Signal<boolean>;

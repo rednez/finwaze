@@ -1,10 +1,8 @@
-import { Injectable } from '@angular/core';
+import { Service } from '@angular/core';
 import { CategoryWithTxCount, GroupWithCategories } from '../models';
 import { TransactionType } from '@core/models/transactions';
 
-@Injectable({
-  providedIn: 'root',
-})
+@Service()
 export class GroupsAndCategoriesMapper {
   fromGroupWithCategoriesDto = (dto: {
     id: number;

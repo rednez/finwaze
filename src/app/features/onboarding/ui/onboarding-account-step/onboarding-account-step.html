@@ -1,0 +1,44 @@
+@let s = step();
+
+<div class="grid grid-cols-1 md:grid-cols-2 gap-8 p-6 sm:p-10">
+  <div class="flex flex-col justify-center order-2 md:order-1">
+    <span
+      class="text-xs font-semibold uppercase tracking-wider text-violet-500 mb-3"
+    >
+      {{ s.eyebrow }}
+    </span>
+    <h1
+      class="text-3xl sm:text-4xl font-semibold tracking-tight leading-tight whitespace-pre-line"
+    >
+      {{ s.title }}
+    </h1>
+    <p class="text-slate-500 dark:text-zinc-400 mt-4 font-light leading-relaxed">
+      {{ s.description }}
+    </p>
+    <div
+      class="mt-6 flex items-start gap-3 rounded-2xl bg-violet-500/8 p-4 text-sm text-slate-600 dark:text-zinc-300"
+    >
+      <i class="pi pi-compass mt-0.5 text-violet-500"></i>
+      <span class="leading-relaxed">{{ s.guideHint }}</span>
+    </div>
+  </div>
+
+  <div class="flex flex-col justify-center order-1 md:order-2">
+    <app-new-account-form
+      [isCurrenciesLoading]="isCurrenciesLoading()"
+      [currencies]="currencies()"
+      [submitBtnLabel]="s.createBtn"
+      (submitForm)="submit($event)"
+    />
+  </div>
+</div>
+
+<div class="px-6 pb-6 sm:px-10 sm:pb-8">
+  <p-button
+    [label]="'misc.onboarding.back' | translate"
+    severity="secondary"
+    text
+    rounded
+    (onClick)="back.emit()"
+  />
+</div>

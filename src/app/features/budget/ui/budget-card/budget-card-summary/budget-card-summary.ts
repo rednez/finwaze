@@ -1,10 +1,5 @@
 import { CommonModule } from '@angular/common';
-import {
-  ChangeDetectionStrategy,
-  Component,
-  computed,
-  input,
-} from '@angular/core';
+import { Component, computed, input } from '@angular/core';
 import { TranslatePipe } from '@shared/pipes/translate.pipe';
 import { StyledAmount } from '@shared/ui/styled-amount/styled-amount';
 import { BudgetStatusBadge } from '../../budget-status-badge/budget-status-badge';
@@ -45,7 +40,6 @@ import { BudgetStatusBadge } from '../../budget-status-badge/budget-status-badge
     />
   `,
   host: { class: 'flex flex-col gap-4' },
-  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class BudgetCardSummary {
   readonly plannedAmount = input(0);

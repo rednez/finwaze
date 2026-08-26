@@ -1,11 +1,9 @@
-import { inject, Injectable, signal } from '@angular/core';
+import { inject, Service, signal } from '@angular/core';
 import { AccountsStore } from '@core/store/accounts-store';
 import { CurrenciesStore } from '@core/store/currencies-store';
 
-@Injectable({
-  providedIn: 'root',
-})
-export class SetupAccountService {
+@Service()
+export class OnboardingService {
   private readonly accountsStore = inject(AccountsStore);
   private readonly currenciesStore = inject(CurrenciesStore);
 

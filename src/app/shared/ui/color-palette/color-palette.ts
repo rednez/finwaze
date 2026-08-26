@@ -1,11 +1,5 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  input,
-  output,
-  viewChild,
-} from '@angular/core';
-import { Popover, PopoverModule } from 'primeng/popover';
+import { Component, input, output, viewChild } from '@angular/core';
+import { Popover, PopoverModule } from '@openng/optimus-ui/popover';
 
 export const COLOR_PALETTE = [
   '#6366F1',
@@ -38,7 +32,6 @@ export const COLOR_PALETTE = [
   selector: 'app-color-palette',
   imports: [PopoverModule],
   templateUrl: './color-palette.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ColorPalette {
   readonly color = input<string | null>(null);

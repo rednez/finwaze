@@ -1,17 +1,13 @@
-import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
-import {
-  FormBuilder,
-  ReactiveFormsModule,
-  Validators,
-} from '@angular/forms';
+import { Component, inject } from '@angular/core';
+import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { AuthService } from '@core/services/auth-service';
 import { TranslatePipe } from '@shared/pipes/translate.pipe';
-import { passwordsMatchValidator } from '@shared/utils/passwords-match-validator';
 import { AuthCard } from '@shared/ui/auth-card/auth-card';
 import { AuthRedirectLink } from '@shared/ui/auth-redirect-link/auth-redirect-link';
-import { ButtonModule } from 'primeng/button';
-import { InputTextModule } from 'primeng/inputtext';
-import { PasswordModule } from 'primeng/password';
+import { passwordsMatchValidator } from '@shared/utils/passwords-match-validator';
+import { ButtonModule } from '@openng/optimus-ui/button';
+import { InputTextModule } from '@openng/optimus-ui/inputtext';
+import { PasswordModule } from '@openng/optimus-ui/password';
 
 @Component({
   imports: [
@@ -24,7 +20,6 @@ import { PasswordModule } from 'primeng/password';
     TranslatePipe,
   ],
   templateUrl: './signup.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class Signup {
   private readonly formBuilder = inject(FormBuilder);

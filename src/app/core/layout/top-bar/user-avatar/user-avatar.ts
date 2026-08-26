@@ -1,9 +1,9 @@
 import { Component, computed, inject, input, output } from '@angular/core';
 import { LocalizationService } from '@core/services/localization.service';
-import { AvatarModule } from 'primeng/avatar';
-import { ButtonModule } from 'primeng/button';
-import { MenuModule } from 'primeng/menu';
-import { SkeletonModule } from 'primeng/skeleton';
+import { AvatarModule } from '@openng/optimus-ui/avatar';
+import { ButtonModule } from '@openng/optimus-ui/button';
+import { MenuModule } from '@openng/optimus-ui/menu';
+import { SkeletonModule } from '@openng/optimus-ui/skeleton';
 
 export interface UserData {
   name?: string;
@@ -64,9 +64,15 @@ export class UserAvatar {
 
   readonly user = input<UserData | undefined>(undefined);
   readonly settings = output();
+  readonly guide = output();
   readonly logout = output();
 
   protected items = computed(() => [
+    {
+      label: this.localizationService.translate('core.guide'),
+      icon: 'pi pi-compass',
+      command: () => this.guide.emit(),
+    },
     {
       label: this.localizationService.translate('core.settings'),
       icon: 'pi pi-cog',

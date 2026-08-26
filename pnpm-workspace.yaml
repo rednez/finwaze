@@ -5,6 +5,9 @@ allowBuilds:
   lmdb: true
   msgpackr-extract: true
   protobufjs: true
+minimumReleaseAgeExclude:
+  - '@ngrx/eslint-plugin@22.0.0'
+  - '@ngrx/signals@22.0.0'
 onlyBuiltDependencies:
   - '@firebase/util'
   - '@parcel/watcher'

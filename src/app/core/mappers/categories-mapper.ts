@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Service } from '@angular/core';
 import {
   Category,
   CategoryDto,
@@ -6,9 +6,7 @@ import {
   GroupDto,
 } from '@core/models/categories';
 
-@Injectable({
-  providedIn: 'root',
-})
+@Service()
 export class CategoriesMapper {
   fromGroupDto(dto: GroupDto): Group {
     return {

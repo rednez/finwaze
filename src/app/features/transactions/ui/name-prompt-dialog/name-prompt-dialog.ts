@@ -1,5 +1,4 @@
 import {
-  ChangeDetectionStrategy,
   Component,
   computed,
   inject,
@@ -10,9 +9,9 @@ import {
 import { FormControl, ReactiveFormsModule, Validators } from '@angular/forms';
 import { LocalizationService } from '@core/services/localization.service';
 import { TranslatePipe } from '@shared/pipes/translate.pipe';
-import { ButtonModule } from 'primeng/button';
-import { DialogModule } from 'primeng/dialog';
-import { InputTextModule } from 'primeng/inputtext';
+import { ButtonModule } from '@openng/optimus-ui/button';
+import { DialogModule } from '@openng/optimus-ui/dialog';
+import { InputTextModule } from '@openng/optimus-ui/inputtext';
 
 @Component({
   selector: 'app-name-prompt-dialog',
@@ -60,7 +59,6 @@ import { InputTextModule } from 'primeng/inputtext';
       />
     </p-dialog>
   `,
-  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class NamePromptDialog {
   private readonly localizationService = inject(LocalizationService);

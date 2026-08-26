@@ -1,5 +1,4 @@
 import {
-  ChangeDetectionStrategy,
   Component,
   forwardRef,
   input,
@@ -12,16 +11,15 @@ import {
   FormsModule,
   NG_VALUE_ACCESSOR,
 } from '@angular/forms';
+import { SelectDesignTokens } from '@openng/optimus-ui-themes/types/select';
 import { TranslatePipe } from '@shared/pipes/translate.pipe';
-import { SelectDesignTokens } from '@primeuix/themes/types/select';
-import { ButtonModule } from 'primeng/button';
-import { SelectModule } from 'primeng/select';
+import { ButtonModule } from '@openng/optimus-ui/button';
+import { SelectModule } from '@openng/optimus-ui/select';
 
 @Component({
   selector: 'app-select',
   imports: [SelectModule, FormsModule, ButtonModule, TranslatePipe],
   templateUrl: './select.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [
     {
       provide: NG_VALUE_ACCESSOR,

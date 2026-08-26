@@ -1,16 +1,11 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  inject,
-  input,
-} from '@angular/core';
+import { Component, inject, input } from '@angular/core';
 import { Router } from '@angular/router';
 import { TranslatePipe } from '@shared/pipes/translate.pipe';
 import { Card } from '@shared/ui/card';
 import { CardEmptyState } from '@shared/ui/card-empty-state';
 import { CardHeaderTitle } from '@shared/ui/card-header-title/card-header-title';
 import { CardHeader } from '@shared/ui/card-header/card-header';
-import { SkeletonModule } from 'primeng/skeleton';
+import { SkeletonModule } from '@openng/optimus-ui/skeleton';
 import { MonthlyExpense } from '../../models';
 import { BudgetExpenseItem } from './budget-expense-item/budget-expense-item';
 
@@ -67,7 +62,6 @@ import { BudgetExpenseItem } from './budget-expense-item/budget-expense-item';
       }
     </app-card>
   `,
-  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class BudgetMostExpensesCard {
   readonly loading = input(false);

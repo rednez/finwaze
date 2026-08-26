@@ -1,17 +1,12 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  inject,
-  signal,
-} from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { SavingsGoal } from '@core/models/savings-goal';
 import { LocalizationService } from '@core/services/localization.service';
 import { AccountsStore } from '@core/store/accounts-store';
-import { MessageService } from 'primeng/api';
-import { ButtonModule } from 'primeng/button';
-import { SkeletonModule } from 'primeng/skeleton';
-import { ToastModule } from 'primeng/toast';
+import { MessageService } from '@openng/optimus-ui/api';
+import { ButtonModule } from '@openng/optimus-ui/button';
+import { SkeletonModule } from '@openng/optimus-ui/skeleton';
+import { ToastModule } from '@openng/optimus-ui/toast';
 import { GoalsListStore, SavingsOverviewStore } from '../../stores';
 import { GoalCard } from '../../ui/goal-card/goal-card';
 import { GoalsFilters } from '../../ui/goals-filters/goals-filters';
@@ -37,7 +32,6 @@ import { EmptyGoalsListState } from './empty-goals-list-state';
   ],
   templateUrl: './goals.html',
   host: { class: 'flex flex-col gap-4' },
-  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class Goals {
   protected readonly accountsStore = inject(AccountsStore);

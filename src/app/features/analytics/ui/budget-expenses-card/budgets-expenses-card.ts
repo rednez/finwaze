@@ -1,10 +1,10 @@
-import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { TranslatePipe } from '@shared/pipes/translate.pipe';
 import { Card } from '@shared/ui/card';
 import { CardHeaderTitle } from '@shared/ui/card-header-title/card-header-title';
 import { CardHeader } from '@shared/ui/card-header/card-header';
-import { DatePickerModule } from 'primeng/datepicker';
+import { DatePickerModule } from '@openng/optimus-ui/datepicker';
 import { BudgetsExpensesChart } from '../budgets-expenses-chart/budgets-expenses-chart';
 import { BudgetsExpensesCardStore } from './budgets-expenses-card-store';
 
@@ -47,7 +47,6 @@ import { BudgetsExpensesCardStore } from './budgets-expenses-card-store';
       />
     </app-card>
   `,
-  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class BudgetsExpensesCard {
   protected readonly store = inject(BudgetsExpensesCardStore);

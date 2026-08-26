@@ -1,10 +1,4 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  computed,
-  inject,
-  input,
-} from '@angular/core';
+import { Component, computed, inject, input } from '@angular/core';
 import { LocalizationService } from '@core/services/localization.service';
 import { getBudgetStatus } from '../../utils';
 
@@ -27,7 +21,6 @@ import { getBudgetStatus } from '../../utils';
     '[class.dark:bg-yellow-950]': 'status() === "attention"',
     '[class.dark:bg-red-950]': 'status() === "overBudget"',
   },
-  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class BudgetStatusBadge {
   private readonly localizationService = inject(LocalizationService);

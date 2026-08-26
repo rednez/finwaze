@@ -1,11 +1,4 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  computed,
-  DestroyRef,
-  inject,
-  signal,
-} from '@angular/core';
+import { Component, computed, DestroyRef, inject, signal } from '@angular/core';
 import { takeUntilDestroyed, toSignal } from '@angular/core/rxjs-interop';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -16,13 +9,13 @@ import { TranslatePipe } from '@shared/pipes/translate.pipe';
 import { AccountSelect } from '@shared/ui/account-select';
 import { ExchangeRateChip } from '@shared/ui/exchange-rate-chip';
 import { TransferDirectionPic } from '@shared/ui/transfer-direction-pic';
-import { MessageService } from 'primeng/api';
-import { ButtonModule } from 'primeng/button';
-import { DatePickerModule } from 'primeng/datepicker';
-import { InputNumberModule } from 'primeng/inputnumber';
-import { InputTextModule } from 'primeng/inputtext';
-import { SelectModule } from 'primeng/select';
-import { ToastModule } from 'primeng/toast';
+import { MessageService } from '@openng/optimus-ui/api';
+import { ButtonModule } from '@openng/optimus-ui/button';
+import { DatePickerModule } from '@openng/optimus-ui/datepicker';
+import { InputNumberModule } from '@openng/optimus-ui/inputnumber';
+import { InputTextModule } from '@openng/optimus-ui/inputtext';
+import { SelectModule } from '@openng/optimus-ui/select';
+import { ToastModule } from '@openng/optimus-ui/toast';
 import { combineLatest, distinctUntilChanged, map } from 'rxjs';
 import { WalletRepository } from '../../repositories';
 
@@ -42,7 +35,6 @@ import { WalletRepository } from '../../repositories';
     TranslatePipe,
   ],
   templateUrl: './transfer.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class Transfer {
   protected readonly accountsStore = inject(AccountsStore);

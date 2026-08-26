@@ -1,11 +1,5 @@
 import { CommonModule } from '@angular/common';
-import {
-  ChangeDetectionStrategy,
-  Component,
-  computed,
-  input,
-  output,
-} from '@angular/core';
+import { Component, computed, input, output } from '@angular/core';
 import { SavingsGoal } from '@core/models/savings-goal';
 import { TranslatePipe } from '@shared/pipes/translate.pipe';
 import { Card } from '@shared/ui/card';
@@ -63,7 +57,6 @@ import { ProgressBar } from '@shared/ui/progress-bar';
       }
     </app-card>
   `,
-  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SavingGoalsWidget {
   readonly goals = input<SavingsGoal[]>([]);

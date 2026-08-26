@@ -1,7 +1,7 @@
-import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { TranslatePipe } from '@shared/pipes/translate.pipe';
 import { Card } from '@shared/ui/card';
-import { SkeletonModule } from 'primeng/skeleton';
+import { SkeletonModule } from '@openng/optimus-ui/skeleton';
 import { AnalyticsStore } from './stores';
 import { AnalyticStatisticsCard } from './ui/analytic-statistics-card';
 import { BudgetsExpensesCard } from './ui/budget-expenses-card';
@@ -21,7 +21,6 @@ import { StatsFilters } from './ui/stats-filters';
     TranslatePipe,
   ],
   templateUrl: './analytics.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
   host: {
     class: 'flex flex-col gap-4',
   },

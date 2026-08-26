@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, input } from '@angular/core';
+import { Component, input } from '@angular/core';
 import { DonutBudgetSpentChart } from '../../donut-budget-spent-chart/donut-budget-spent-chart';
 
 @Component({
@@ -20,8 +20,6 @@ import { DonutBudgetSpentChart } from '../../donut-budget-spent-chart/donut-budg
       class="hidden sm:block"
     />
   `,
-  styles: ``,
-  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class BudgetCardChart {
   readonly plannedAmount = input(0);

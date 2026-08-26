@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { ChangeDetectionStrategy, Component, input } from '@angular/core';
+import { Component, input } from '@angular/core';
 import { FinancialTrendBadge } from '@shared/ui/financial-trend-badge';
 
 @Component({
@@ -21,7 +21,6 @@ import { FinancialTrendBadge } from '@shared/ui/financial-trend-badge';
   host: {
     class: 'flex items-center justify-between',
   },
-  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class BudgetExpenseItem {
   readonly name = input<string>();

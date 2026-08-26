@@ -1,13 +1,13 @@
-import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { RouterLink } from '@angular/router';
 import { AuthService } from '@core/services/auth-service';
 import { TranslatePipe } from '@shared/pipes/translate.pipe';
 import { AuthCard } from '@shared/ui/auth-card/auth-card';
 import { AuthRedirectLink } from '@shared/ui/auth-redirect-link/auth-redirect-link';
-import { ButtonModule } from 'primeng/button';
-import { InputTextModule } from 'primeng/inputtext';
-import { PasswordModule } from 'primeng/password';
+import { ButtonModule } from '@openng/optimus-ui/button';
+import { InputTextModule } from '@openng/optimus-ui/inputtext';
+import { PasswordModule } from '@openng/optimus-ui/password';
 
 @Component({
   imports: [
@@ -21,7 +21,6 @@ import { PasswordModule } from 'primeng/password';
     TranslatePipe,
   ],
   templateUrl: './signin-with-email.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SigninWithEmail {
   private readonly formBuilder = inject(FormBuilder);

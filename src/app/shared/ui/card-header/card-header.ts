@@ -1,5 +1,5 @@
-import { ChangeDetectionStrategy, Component, input } from '@angular/core';
-import { ProgressSpinnerModule } from 'primeng/progressspinner';
+import { Component, input } from '@angular/core';
+import { ProgressSpinnerModule } from '@openng/optimus-ui/progressspinner';
 
 @Component({
   selector: 'app-card-header',
@@ -24,7 +24,6 @@ import { ProgressSpinnerModule } from 'primeng/progressspinner';
   host: {
     class: 'flex flex-col md:flex-row justify-between gap-4 mb-4',
   },
-  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CardHeader {
   readonly isLoading = input(false);

@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { ChangeDetectionStrategy, Component, input } from '@angular/core';
+import { Component, input } from '@angular/core';
 
 @Component({
   selector: 'app-account-card',
@@ -45,7 +45,6 @@ import { ChangeDetectionStrategy, Component, input } from '@angular/core';
       );
     }
   `,
-  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AccountCard {
   readonly balance = input(0);

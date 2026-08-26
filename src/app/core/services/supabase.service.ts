@@ -1,4 +1,4 @@
-import { inject, Injectable } from '@angular/core';
+import { inject, Service } from '@angular/core';
 import { environment } from '@env';
 import {
   createClient,
@@ -12,9 +12,7 @@ import { DemoSupabaseClient } from './demo-mode/demo-supabase-client';
 
 export type Passkey = PasskeyListItem;
 
-@Injectable({
-  providedIn: 'root',
-})
+@Service()
 export class SupabaseService {
   private supabase?: SupabaseClient;
   private readonly demoModeService = inject(DemoModeService);

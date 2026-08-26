@@ -1,18 +1,12 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  computed,
-  inject,
-  model,
-} from '@angular/core';
+import { Component, computed, inject, model } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { LocalizationService } from '@core/services/localization.service';
 import { TranslatePipe } from '@shared/pipes/translate.pipe';
 import { Card } from '@shared/ui/card';
 import { CardHeaderTitle } from '@shared/ui/card-header-title/card-header-title';
 import { CardHeader } from '@shared/ui/card-header/card-header';
-import { SelectModule } from 'primeng/select';
-import { SkeletonModule } from 'primeng/skeleton';
+import { SelectModule } from '@openng/optimus-ui/select';
+import { SkeletonModule } from '@openng/optimus-ui/skeleton';
 import { AnalyticsStore } from '../../stores';
 import { FinancialMonthlyOverviewChart } from '../financial-monthly-overview-chart/financial-monthly-overview-chart';
 
@@ -57,7 +51,6 @@ type OverviewType = 'balance' | 'income' | 'expenses';
       />
     </app-card>
   `,
-  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class FinancialMonthlyOverviewCard {
   private readonly localizationService = inject(LocalizationService);

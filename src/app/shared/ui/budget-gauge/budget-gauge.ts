@@ -1,9 +1,4 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  computed,
-  input,
-} from '@angular/core';
+import { Component, computed, input } from '@angular/core';
 
 @Component({
   selector: 'app-budget-gauge',
@@ -51,7 +46,6 @@ import {
       stroke: light-dark(var(--p-primary-500), var(--p-primary-700));
     }
   `,
-  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class BudgetGauge {
   readonly totalAmount = input(0);

@@ -1,5 +1,5 @@
 import { CurrencyPipe } from '@angular/common';
-import { ChangeDetectionStrategy, Component, input } from '@angular/core';
+import { Component, input } from '@angular/core';
 import { TranslatePipe } from '@shared/pipes/translate.pipe';
 
 @Component({
@@ -27,7 +27,6 @@ import { TranslatePipe } from '@shared/pipes/translate.pipe';
     class:
       'grid grid-cols-[1fr_repeat(4,minmax(110px,130px))_40px] gap-2 items-center px-4 py-4 rounded-2xl bg-surface-200 dark:bg-surface-800 text-surface-600 dark:text-surface-200 mt-2',
   },
-  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CreateBudgetTotals {
   readonly totalPlanned = input(0);

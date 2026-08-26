@@ -1,16 +1,15 @@
-import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { AuthService } from '@core/services/auth-service';
 import { TranslatePipe } from '@shared/pipes/translate.pipe';
 import { passwordsMatchValidator } from '@shared/utils/passwords-match-validator';
-import { ButtonModule } from 'primeng/button';
-import { PasswordModule } from 'primeng/password';
+import { ButtonModule } from '@openng/optimus-ui/button';
+import { PasswordModule } from '@openng/optimus-ui/password';
 
 @Component({
   selector: 'app-update-password',
   imports: [ReactiveFormsModule, PasswordModule, ButtonModule, TranslatePipe],
   templateUrl: './update-password.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class UpdatePassword {
   private readonly formBuilder = inject(FormBuilder);

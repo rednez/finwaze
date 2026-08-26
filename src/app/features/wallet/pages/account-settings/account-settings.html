@@ -18,9 +18,11 @@
 
   <app-new-account-form
     [currencies]="currenciesStore.currencies()"
-    [initialAccountName]="selectedAccount()?.name"
-    [initialCurrencyId]="selectedAccount()?.currency?.id"
-    [initialBalance]="selectedAccount()?.balance"
+    [initialAccountName]="$safeNavigationMigration(selectedAccount()?.name)"
+    [initialCurrencyId]="
+      $safeNavigationMigration(selectedAccount()?.currency?.id)
+    "
+    [initialBalance]="$safeNavigationMigration(selectedAccount()?.balance)"
     [hasBalance]="true"
     [isCurrencyDisabled]="!selectedAccount()?.canDelete"
     [submitBtnLabel]="'shared.update' | translate"

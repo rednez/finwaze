@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, output } from '@angular/core';
+import { Component, output } from '@angular/core';
 import { TranslatePipe } from '@shared/pipes/translate.pipe';
 
 @Component({
@@ -35,7 +35,6 @@ import { TranslatePipe } from '@shared/pipes/translate.pipe';
       display: block;
     }
   `,
-  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class PasskeyButton {
   readonly clickLogin = output();

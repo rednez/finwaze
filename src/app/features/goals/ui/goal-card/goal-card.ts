@@ -1,19 +1,12 @@
 import { CommonModule } from '@angular/common';
-import {
-  ChangeDetectionStrategy,
-  Component,
-  computed,
-  inject,
-  input,
-  output,
-} from '@angular/core';
+import { Component, computed, inject, input, output } from '@angular/core';
 import { Router } from '@angular/router';
-import { LocalizationService } from '@core/services/localization.service';
 import { SavingsGoal } from '@core/models/savings-goal';
+import { LocalizationService } from '@core/services/localization.service';
 import { TranslatePipe } from '@shared/pipes/translate.pipe';
 import { ProgressBar } from '@shared/ui/progress-bar';
 import { StyledAmount } from '@shared/ui/styled-amount';
-import { ButtonModule } from 'primeng/button';
+import { ButtonModule } from '@openng/optimus-ui/button';
 import { GoalCardStatus } from '../goal-card-status/goal-card-status';
 
 @Component({
@@ -92,7 +85,6 @@ import { GoalCardStatus } from '../goal-card-status/goal-card-status';
       'relative flex flex-col gap-4 border border-gray-200 dark:border-gray-600 rounded-3xl p-4 cursor-pointer hover:border-primary-400 dark:hover:border-primary-500 transition-colors',
     '(click)': 'navigate()',
   },
-  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class GoalCard {
   private readonly localizationService = inject(LocalizationService);

@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { Component } from '@angular/core';
 
 @Component({
   selector: 'app-gradient-block',
@@ -38,6 +38,5 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
       pointer-events: none;
     }
   `,
-  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class GradientBlock {}

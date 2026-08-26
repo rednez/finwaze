@@ -1,4 +1,4 @@
-import { registerLocaleData } from '@angular/common';
+import { provideCloudinaryLoader, registerLocaleData } from '@angular/common';
 import localeCs from '@angular/common/locales/cs';
 import localeUk from '@angular/common/locales/uk';
 import {
@@ -15,8 +15,8 @@ import {
 } from '@angular/router';
 import { APP_CONFIG } from '@core/configs';
 import { environment } from '@env';
-import { MessageService } from 'primeng/api';
-import { providePrimeNG } from 'primeng/config';
+import { MessageService } from '@openng/optimus-ui/api';
+import { provideOptimus } from '@openng/optimus-ui/config';
 import { routes } from './app.routes';
 import { CustomPreset } from './custom-theme';
 
@@ -27,12 +27,13 @@ export const appConfig: ApplicationConfig = {
   providers: [
     MessageService,
     provideBrowserGlobalErrorListeners(),
+    provideCloudinaryLoader('https://res.cloudinary.com/df95utrzg'),
     provideRouter(
       routes,
       withComponentInputBinding(),
       withRouterConfig({ onSameUrlNavigation: 'reload' }),
     ),
-    providePrimeNG({
+    provideOptimus({
       ripple: true,
       theme: {
         preset: CustomPreset,

@@ -1,11 +1,5 @@
 import { CommonModule } from '@angular/common';
-import {
-  ChangeDetectionStrategy,
-  Component,
-  computed,
-  inject,
-  signal,
-} from '@angular/core';
+import { Component, computed, inject, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FormPageLayout } from '@core/layout/form-page-layout';
@@ -14,15 +8,15 @@ import { LocalizationService } from '@core/services/localization.service';
 import { AccountsStore } from '@core/store/accounts-store';
 import { CategoriesStore } from '@core/store/categories-store';
 import { UiStore } from '@core/store/ui-store';
-import { MessageService } from 'primeng/api';
-import { ButtonModule } from 'primeng/button';
-import { DatePickerModule } from 'primeng/datepicker';
-import { InputNumberModule } from 'primeng/inputnumber';
-import { InputTextModule } from 'primeng/inputtext';
-import { ProgressSpinnerModule } from 'primeng/progressspinner';
-import { SelectModule } from 'primeng/select';
-import { SelectButtonModule } from 'primeng/selectbutton';
-import { ToastModule } from 'primeng/toast';
+import { MessageService } from '@openng/optimus-ui/api';
+import { ButtonModule } from '@openng/optimus-ui/button';
+import { DatePickerModule } from '@openng/optimus-ui/datepicker';
+import { InputNumberModule } from '@openng/optimus-ui/inputnumber';
+import { InputTextModule } from '@openng/optimus-ui/inputtext';
+import { ProgressSpinnerModule } from '@openng/optimus-ui/progressspinner';
+import { SelectModule } from '@openng/optimus-ui/select';
+import { SelectButtonModule } from '@openng/optimus-ui/selectbutton';
+import { ToastModule } from '@openng/optimus-ui/toast';
 import { ExpenseFormData, IncomeFormData } from '../../models';
 import {
   ExpenseTransactionStore,
@@ -50,7 +44,6 @@ import { IncomeForm } from '../../ui/income-form';
     FormPageLayout,
   ],
   templateUrl: './edit-transaction.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class EditTransaction {
   protected readonly transactionsStore = inject(TransactionsStore);

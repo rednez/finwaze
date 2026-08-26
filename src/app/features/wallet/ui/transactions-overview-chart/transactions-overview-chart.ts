@@ -1,14 +1,8 @@
 import { DatePipe } from '@angular/common';
-import {
-  ChangeDetectionStrategy,
-  Component,
-  computed,
-  inject,
-  input,
-} from '@angular/core';
+import { Component, computed, inject, input } from '@angular/core';
 import { LocalizationService } from '@core/services/localization.service';
 import { ThemeService } from '@core/services/theme.service';
-import { ChartModule } from 'primeng/chart';
+import { ChartModule } from '@openng/optimus-ui/chart';
 
 @Component({
   selector: 'app-transactions-overview-chart',
@@ -17,7 +11,6 @@ import { ChartModule } from 'primeng/chart';
     <p-chart type="line" [data]="data()" [options]="options()" class="h-50" />
   `,
   providers: [DatePipe],
-  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class TransactionsOverviewChart {
   readonly labels = input<string[]>([]);

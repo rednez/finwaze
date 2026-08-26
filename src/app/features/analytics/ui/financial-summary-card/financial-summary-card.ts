@@ -1,11 +1,5 @@
 import { CommonModule } from '@angular/common';
-import {
-  ChangeDetectionStrategy,
-  Component,
-  computed,
-  inject,
-  input,
-} from '@angular/core';
+import { Component, computed, inject, input } from '@angular/core';
 import { LocalizationService } from '@core/services/localization.service';
 import { TranslatePipe } from '@shared/pipes/translate.pipe';
 import { Card } from '@shared/ui/card';
@@ -13,7 +7,7 @@ import { CardHeaderTitle } from '@shared/ui/card-header-title/card-header-title'
 import { CardHeader } from '@shared/ui/card-header/card-header';
 import { FinancialTrendBadge } from '@shared/ui/financial-trend-badge';
 import { StyledAmount } from '@shared/ui/styled-amount';
-import { ButtonModule } from 'primeng/button';
+import { ButtonModule } from '@openng/optimus-ui/button';
 import { FinancialSummaryCardButton } from './financial-summary-card-button/financial-summary-card-button';
 
 @Component({
@@ -30,7 +24,6 @@ import { FinancialSummaryCardButton } from './financial-summary-card-button/fina
     TranslatePipe,
   ],
   templateUrl: './financial-summary-card.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
   host: {
     class: 'block grow',
   },

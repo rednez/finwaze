@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, output } from '@angular/core';
+import { Component, output } from '@angular/core';
 import { TranslatePipe } from '@shared/pipes/translate.pipe';
 import { GooglePic } from '../google-pic/google-pic';
 
@@ -20,7 +20,6 @@ import { GooglePic } from '../google-pic/google-pic';
       </span>
     </button>
   `,
-  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class GoogleButton {
   readonly clickLogin = output();

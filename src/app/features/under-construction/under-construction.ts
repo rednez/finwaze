@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { Component } from '@angular/core';
 import { TranslatePipe } from '@shared/pipes/translate.pipe';
 import { LogoPic } from '@shared/ui/logo-pic';
 import { ThemeSwitcher } from '@shared/ui/theme-switcher';
@@ -42,7 +42,6 @@ import { ThemeSwitcher } from '@shared/ui/theme-switcher';
       </p>
     </section>
   `,
-  changeDetection: ChangeDetectionStrategy.OnPush,
   host: {
     class: 'flex flex-col items-center mt-8 mx-4 lg:max-w-210 lg:mx-auto',
   },

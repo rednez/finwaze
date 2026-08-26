@@ -5,6 +5,7 @@ import { CORE_TRANSLATIONS } from './core.translations';
 import { DASHBOARD_TRANSLATIONS } from './dashboard.translations';
 import { GOALS_TRANSLATIONS } from './goals.translations';
 import { GROUPS_TRANSLATIONS } from './groups.translations';
+import { GUIDE_TRANSLATIONS } from './guide.translations';
 import { LANDING_TRANSLATIONS } from './landing.translations';
 import { LOGIN_TRANSLATIONS } from './login.translations';
 import { MISC_TRANSLATIONS } from './misc.translations';
@@ -36,6 +37,7 @@ export const TRANSLATIONS = {
     analytics: ANALYTICS_TRANSLATIONS.en,
     groups: GROUPS_TRANSLATIONS.en,
     settings: SETTINGS_TRANSLATIONS.en,
+    guide: GUIDE_TRANSLATIONS.en,
     misc: MISC_TRANSLATIONS.en,
   },
   uk: {
@@ -55,6 +57,7 @@ export const TRANSLATIONS = {
     analytics: ANALYTICS_TRANSLATIONS.uk,
     groups: GROUPS_TRANSLATIONS.uk,
     settings: SETTINGS_TRANSLATIONS.uk,
+    guide: GUIDE_TRANSLATIONS.uk,
     misc: MISC_TRANSLATIONS.uk,
   },
   cs: {
@@ -74,6 +77,7 @@ export const TRANSLATIONS = {
     analytics: ANALYTICS_TRANSLATIONS.cs,
     groups: GROUPS_TRANSLATIONS.cs,
     settings: SETTINGS_TRANSLATIONS.cs,
+    guide: GUIDE_TRANSLATIONS.cs,
     misc: MISC_TRANSLATIONS.cs,
   },
 } satisfies Record<Lang, {
@@ -93,5 +97,6 @@ export const TRANSLATIONS = {
   analytics: typeof ANALYTICS_TRANSLATIONS.en;
   groups: typeof GROUPS_TRANSLATIONS.en;
   settings: typeof SETTINGS_TRANSLATIONS.en;
+  guide: typeof GUIDE_TRANSLATIONS.en;
   misc: typeof MISC_TRANSLATIONS.en;
 }>;

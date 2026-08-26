@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, input } from '@angular/core';
+import { Component, input } from '@angular/core';
 
 @Component({
   selector: 'app-description-section',
@@ -45,7 +45,6 @@ import { ChangeDetectionStrategy, Component, input } from '@angular/core';
       transform: translateY(-2px);
     }
   `,
-  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class DescriptionSection {
   readonly title = input('');

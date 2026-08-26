@@ -1,6 +1,5 @@
 import { CommonModule } from '@angular/common';
 import {
-  ChangeDetectionStrategy,
   Component,
   computed,
   effect,
@@ -14,10 +13,10 @@ import { Account } from '@core/models/accounts';
 import { SavingsGoal } from '@core/models/savings-goal';
 import { TranslatePipe } from '@shared/pipes/translate.pipe';
 import { AccountSelect } from '@shared/ui/account-select';
-import { ButtonModule } from 'primeng/button';
-import { DatePickerModule } from 'primeng/datepicker';
-import { DialogModule } from 'primeng/dialog';
-import { InputNumberModule } from 'primeng/inputnumber';
+import { ButtonModule } from '@openng/optimus-ui/button';
+import { DatePickerModule } from '@openng/optimus-ui/datepicker';
+import { DialogModule } from '@openng/optimus-ui/dialog';
+import { InputNumberModule } from '@openng/optimus-ui/inputnumber';
 
 @Component({
   selector: 'app-withdraw-from-goal-dialog',
@@ -32,7 +31,6 @@ import { InputNumberModule } from 'primeng/inputnumber';
     TranslatePipe,
   ],
   templateUrl: './withdraw-from-goal-dialog.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class WithdrawFromGoalDialog {
   readonly goal = input.required<SavingsGoal>();

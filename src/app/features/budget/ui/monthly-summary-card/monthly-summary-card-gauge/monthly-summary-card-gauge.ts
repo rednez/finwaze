@@ -1,9 +1,4 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  computed,
-  input,
-} from '@angular/core';
+import { Component, computed, input } from '@angular/core';
 import { BudgetGauge } from '@shared/ui/budget-gauge';
 import { StyledAmount } from '@shared/ui/styled-amount';
 
@@ -53,7 +48,6 @@ import { StyledAmount } from '@shared/ui/styled-amount';
   host: {
     class: 'block relative',
   },
-  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class MonthlySummaryCardGauge {
   readonly plannedAmount = input(0);

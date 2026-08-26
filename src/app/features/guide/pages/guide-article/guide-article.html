@@ -1,0 +1,57 @@
+@if (article(); as article) {
+  <article class="mx-auto w-full max-w-3xl px-4 py-6 sm:px-6">
+    <!-- Back link -->
+    <a
+      routerLink="/guide"
+      class="inline-flex items-center gap-1.5 text-sm font-medium text-slate-500 dark:text-zinc-400 hover:text-violet-500 transition-colors"
+    >
+      <i class="pi pi-arrow-left text-xs"></i>
+      {{ backToGuide() }}
+    </a>
+
+    <!-- Header -->
+    <header class="mt-6">
+      <span
+        class="text-xs font-semibold uppercase tracking-wider"
+        [class]="article.config.accentClass"
+      >
+        {{ article.eyebrow }}
+      </span>
+      <h1
+        class="mt-2 text-3xl sm:text-4xl font-semibold tracking-tight leading-tight"
+      >
+        {{ article.title }}
+      </h1>
+      <p
+        class="mt-4 text-lg text-slate-500 dark:text-zinc-400 font-light leading-relaxed"
+      >
+        {{ article.lead }}
+      </p>
+    </header>
+
+    <!-- Illustration -->
+    <app-guide-article-image
+      class="block mt-8"
+      [topic]="article.config"
+      [alt]="article.title"
+    />
+
+    <app-guide-article-sections
+      class="mt-10 flex flex-col gap-8"
+      [sections]="article.sections"
+    />
+
+    <app-guide-tips
+      class="block mt-10"
+      [label]="tipsLabel()"
+      [tips]="article.tips"
+    />
+
+    <app-guide-article-nav
+      class="block mt-10"
+      [prev]="article.prev"
+      [next]="article.next"
+      [backLabel]="backToGuide()"
+    />
+  </article>
+}

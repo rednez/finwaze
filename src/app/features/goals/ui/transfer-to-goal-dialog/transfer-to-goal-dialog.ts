@@ -1,5 +1,4 @@
 import {
-  ChangeDetectionStrategy,
   Component,
   computed,
   inject,
@@ -10,12 +9,12 @@ import {
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Account } from '@core/models/accounts';
 import { SavingsGoal } from '@core/models/savings-goal';
-import { AccountSelect } from '@shared/ui/account-select';
 import { TranslatePipe } from '@shared/pipes/translate.pipe';
-import { ButtonModule } from 'primeng/button';
-import { DatePickerModule } from 'primeng/datepicker';
-import { DialogModule } from 'primeng/dialog';
-import { InputNumberModule } from 'primeng/inputnumber';
+import { AccountSelect } from '@shared/ui/account-select';
+import { ButtonModule } from '@openng/optimus-ui/button';
+import { DatePickerModule } from '@openng/optimus-ui/datepicker';
+import { DialogModule } from '@openng/optimus-ui/dialog';
+import { InputNumberModule } from '@openng/optimus-ui/inputnumber';
 
 @Component({
   selector: 'app-transfer-to-goal-dialog',
@@ -29,7 +28,6 @@ import { InputNumberModule } from 'primeng/inputnumber';
     TranslatePipe,
   ],
   templateUrl: './transfer-to-goal-dialog.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class TransferToGoalDialog {
   readonly goal = input.required<SavingsGoal>();

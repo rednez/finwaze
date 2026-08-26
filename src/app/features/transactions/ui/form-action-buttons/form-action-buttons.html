@@ -3,6 +3,8 @@
     [label]="'transactions.formActions.create' | translate"
     rounded
     icon="pi pi-plus"
+    class="w-full"
+    fluid
     [loading]="isSubmitting()"
     (onClick)="clickSubmit.emit()"
   />

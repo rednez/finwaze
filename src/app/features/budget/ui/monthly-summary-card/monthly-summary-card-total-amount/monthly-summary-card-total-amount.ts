@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { ChangeDetectionStrategy, Component, input } from '@angular/core';
+import { Component, input } from '@angular/core';
 import { StyledAmount } from '@shared/ui/styled-amount/styled-amount';
 import { BudgetStatusBadge } from '../../budget-status-badge/budget-status-badge';
 
@@ -27,7 +27,6 @@ import { BudgetStatusBadge } from '../../budget-status-badge/budget-status-badge
       [spentAmount]="spentAmount()"
     />
   `,
-  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class MonthlySummaryCardTotalAmount {
   readonly plannedAmount = input(0);

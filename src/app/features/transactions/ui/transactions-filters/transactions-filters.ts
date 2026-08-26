@@ -1,6 +1,5 @@
 import { CommonModule } from '@angular/common';
 import {
-  ChangeDetectionStrategy,
   Component,
   computed,
   inject,
@@ -12,11 +11,11 @@ import { FormsModule } from '@angular/forms';
 import { Account } from '@core/models/accounts';
 import { Category, Group } from '@core/models/categories';
 import { LocalizationService } from '@core/services/localization.service';
-import { SelectDesignTokens } from '@primeuix/themes/types/select';
+import { SelectDesignTokens } from '@openng/optimus-ui-themes/types/select';
 import { TranslatePipe } from '@shared/pipes/translate.pipe';
-import { DatePickerModule } from 'primeng/datepicker';
-import { FloatLabelModule } from 'primeng/floatlabel';
-import { SelectModule } from 'primeng/select';
+import { DatePickerModule } from '@openng/optimus-ui/datepicker';
+import { FloatLabelModule } from '@openng/optimus-ui/floatlabel';
+import { SelectModule } from '@openng/optimus-ui/select';
 
 @Component({
   selector: 'app-transactions-filters',
@@ -35,7 +34,6 @@ import { SelectModule } from 'primeng/select';
       @apply flex gap-x-2 gap-y-4 flex-wrap;
     }
   `,
-  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class TransactionsFilters {
   private readonly localizationService = inject(LocalizationService);

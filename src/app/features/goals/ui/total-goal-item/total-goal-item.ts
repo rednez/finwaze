@@ -1,10 +1,4 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  computed,
-  inject,
-  input,
-} from '@angular/core';
+import { Component, computed, inject, input } from '@angular/core';
 import { GoalStatus } from '@core/models/savings-goal';
 import { LocalizationService } from '@core/services/localization.service';
 
@@ -51,7 +45,6 @@ import { LocalizationService } from '@core/services/localization.service';
       <div class="font-medium">{{ count() }}</div>
     </div>
   `,
-  changeDetection: ChangeDetectionStrategy.OnPush,
   host: {
     class:
       'flex gap-2 items-center border border-surface-200 dark:border-surface-600 rounded-full pl-1 pr-4 py-1 min-w-39 grow',

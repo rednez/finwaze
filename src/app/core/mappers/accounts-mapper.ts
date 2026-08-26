@@ -1,9 +1,7 @@
-import { Injectable } from '@angular/core';
+import { Service } from '@angular/core';
 import { Account, AccountDto } from '@core/models/accounts';
 
-@Injectable({
-  providedIn: 'root',
-})
+@Service()
 export class AccountsMapper {
   fromAccountDto(dto: AccountDto): Account {
     return {

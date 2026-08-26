@@ -1,11 +1,5 @@
 import { CommonModule } from '@angular/common';
-import {
-  ChangeDetectionStrategy,
-  Component,
-  computed,
-  input,
-  output,
-} from '@angular/core';
+import { Component, computed, input, output } from '@angular/core';
 import { Transaction } from '@core/models/transactions';
 import { TransactionTypeChip } from '../transaction-type-chip';
 
@@ -21,7 +15,6 @@ export type TransactionDataTableColumnType =
 @Component({
   selector: 'app-transactions-data-table',
   imports: [CommonModule, TransactionTypeChip],
-  changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './transactions-data-table.html',
   styles: `
     @reference "tailwindcss";

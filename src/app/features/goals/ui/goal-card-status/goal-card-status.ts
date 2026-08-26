@@ -1,16 +1,10 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  computed,
-  input,
-} from '@angular/core';
+import { Component, computed, input } from '@angular/core';
 import { GoalStatus } from '@core/models/savings-goal';
 
 @Component({
   selector: 'app-goal-card-status',
   imports: [],
   template: ``,
-  changeDetection: ChangeDetectionStrategy.OnPush,
   host: {
     class: 'absolute top-0 left-1/2 -translate-x-1/2 w-1/4 h-1 rounded-b-lg',
     '[class.bg-emerald-600]': 'isInProgress()',

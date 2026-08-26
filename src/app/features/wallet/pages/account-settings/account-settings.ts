@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FormPageLayout } from '@core/layout/form-page-layout';
 import { LocalizationService } from '@core/services/localization.service';
@@ -6,10 +6,10 @@ import { AccountsStore } from '@core/store/accounts-store';
 import { CurrenciesStore } from '@core/store/currencies-store';
 import { TranslatePipe } from '@shared/pipes/translate.pipe';
 import { NewAccountForm } from '@shared/ui/new-account-form';
-import { MessageService } from 'primeng/api';
-import { ButtonModule } from 'primeng/button';
-import { MessageModule } from 'primeng/message';
-import { ToastModule } from 'primeng/toast';
+import { MessageService } from '@openng/optimus-ui/api';
+import { ButtonModule } from '@openng/optimus-ui/button';
+import { MessageModule } from '@openng/optimus-ui/message';
+import { ToastModule } from '@openng/optimus-ui/toast';
 import { WalletAccountsStore } from '../../stores';
 
 @Component({
@@ -22,7 +22,6 @@ import { WalletAccountsStore } from '../../stores';
     TranslatePipe,
   ],
   templateUrl: './account-settings.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AccountSettings {
   protected readonly currenciesStore = inject(CurrenciesStore);

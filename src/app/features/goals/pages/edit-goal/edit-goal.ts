@@ -1,10 +1,4 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  computed,
-  inject,
-  signal,
-} from '@angular/core';
+import { Component, computed, inject, signal } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FormPageLayout } from '@core/layout/form-page-layout';
 import { SavingsGoal } from '@core/models/savings-goal';
@@ -12,11 +6,11 @@ import { LocalizationService } from '@core/services/localization.service';
 import { AccountsStore } from '@core/store/accounts-store';
 import { CurrenciesStore } from '@core/store/currencies-store';
 import { TranslatePipe } from '@shared/pipes/translate.pipe';
-import { ConfirmationService, MessageService } from 'primeng/api';
-import { ButtonModule } from 'primeng/button';
-import { ConfirmDialogModule } from 'primeng/confirmdialog';
-import { ProgressSpinnerModule } from 'primeng/progressspinner';
-import { ToastModule } from 'primeng/toast';
+import { ConfirmationService, MessageService } from '@openng/optimus-ui/api';
+import { ButtonModule } from '@openng/optimus-ui/button';
+import { ConfirmDialogModule } from '@openng/optimus-ui/confirmdialog';
+import { ProgressSpinnerModule } from '@openng/optimus-ui/progressspinner';
+import { ToastModule } from '@openng/optimus-ui/toast';
 import { GoalsRepository } from '../../repositories/goals-repository';
 import { SavingsOverviewStore } from '../../stores';
 import { GoalsListStore } from '../../stores/goals-list-store';
@@ -39,7 +33,6 @@ import { GoalNotFound } from './goal-not-found';
     TranslatePipe,
   ],
   templateUrl: './edit-goal.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [ConfirmationService],
 })
 export class EditGoal {

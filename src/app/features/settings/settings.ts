@@ -1,18 +1,12 @@
 import { Location } from '@angular/common';
-import {
-  ChangeDetectionStrategy,
-  Component,
-  computed,
-  inject,
-  signal,
-} from '@angular/core';
+import { Component, computed, inject, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { FormPageLayout } from '@core/layout/form-page-layout';
 import { LocalizationService } from '@core/services/localization.service';
 import { AuthStore } from '@core/store/auth-store';
 import { TranslatePipe } from '@shared/pipes/translate.pipe';
-import { SelectButtonModule } from 'primeng/selectbutton';
-import { ToastModule } from 'primeng/toast';
+import { SelectButtonModule } from '@openng/optimus-ui/selectbutton';
+import { ToastModule } from '@openng/optimus-ui/toast';
 import { Passkeys } from './passkeys';
 import { UpdatePassword } from './update-password';
 
@@ -29,7 +23,6 @@ type SettingsSection = 'password' | 'passkeys';
     Passkeys,
   ],
   templateUrl: './settings.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class Settings {
   private readonly location = inject(Location);

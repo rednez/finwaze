@@ -1,15 +1,9 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  input,
-  linkedSignal,
-  output,
-} from '@angular/core';
+import { Component, input, linkedSignal, output } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Transaction } from '@core/models/transactions';
 import { toNameOptions } from '@core/utils/input-transforms';
 import { RecentTransactionsWidget } from '@shared/ui/recent-transactions-widget';
-import { SelectModule } from 'primeng/select';
+import { SelectModule } from '@openng/optimus-ui/select';
 
 @Component({
   selector: 'app-wallet-recent-transactions-card',
@@ -37,7 +31,6 @@ import { SelectModule } from 'primeng/select';
       </div>
     </app-recent-transactions-widget>
   `,
-  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class WalletRecentTransactionsCard {
   readonly transactions = input<Transaction[]>([]);

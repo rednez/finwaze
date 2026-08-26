@@ -1,6 +1,5 @@
 import { CommonModule } from '@angular/common';
 import {
-  ChangeDetectionStrategy,
   Component,
   computed,
   inject,
@@ -11,10 +10,10 @@ import {
 import { FormsModule } from '@angular/forms';
 import { TransactionType } from '@core/models/transactions';
 import { LocalizationService } from '@core/services/localization.service';
+import { SelectDesignTokens } from '@openng/optimus-ui-themes/types/select';
 import { TranslatePipe } from '@shared/pipes/translate.pipe';
-import { SelectDesignTokens } from '@primeuix/themes/types/select';
-import { FloatLabelModule } from 'primeng/floatlabel';
-import { SelectModule } from 'primeng/select';
+import { FloatLabelModule } from '@openng/optimus-ui/floatlabel';
+import { SelectModule } from '@openng/optimus-ui/select';
 
 @Component({
   selector: 'app-groups-filters',
@@ -26,7 +25,6 @@ import { SelectModule } from 'primeng/select';
     TranslatePipe,
   ],
   templateUrl: './groups-filters.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class GroupsFilters {
   private readonly localizationService = inject(LocalizationService);

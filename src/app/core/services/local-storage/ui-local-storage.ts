@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Service } from '@angular/core';
 import {
   UiExpenseTransactionForm,
   UiIncomeTransactionForm,
@@ -22,9 +22,7 @@ const initialValue: UiState = {
   },
 };
 
-@Injectable({
-  providedIn: 'root',
-})
+@Service()
 export class UiLocalStorage {
   updateExpenseTransactionForm(data: Partial<UiExpenseTransactionForm>) {
     const store = this.parsedStore;

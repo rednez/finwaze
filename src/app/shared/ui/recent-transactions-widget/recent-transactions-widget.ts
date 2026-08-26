@@ -1,10 +1,5 @@
 import { CommonModule } from '@angular/common';
-import {
-  ChangeDetectionStrategy,
-  Component,
-  input,
-  output,
-} from '@angular/core';
+import { Component, input, output } from '@angular/core';
 import { Transaction } from '@core/models/transactions';
 import { Card } from '@shared/ui/card';
 import { CardHeaderTitle } from '@shared/ui/card-header-title/card-header-title';
@@ -25,7 +20,6 @@ import { CardEmptyState } from '../card-empty-state';
     TransactionsDataTable,
     CardEmptyState,
   ],
-  changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <app-card>
       <app-card-header>

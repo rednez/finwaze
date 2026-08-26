@@ -1,10 +1,8 @@
-import { Injectable } from '@angular/core';
+import { Service } from '@angular/core';
 
 const KEY = 'accountsSettings';
 
-@Injectable({
-  providedIn: 'root',
-})
+@Service()
 export class AccountsLocalStorage {
   get hasAccounts(): boolean {
     return this.parsedValue.hasAccounts || false;

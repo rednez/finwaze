@@ -1,34 +1,86 @@
-<label class="text-sm font-medium" for="account">{{ label() }}</label>
-<p-select
-  [(ngModel)]="selectedAccount"
-  [options]="accounts()"
-  inputId="account"
-  optionValue="id"
-  [placeholder]="placeholder() || ('shared.selectAccount' | translate)"
-  class="w-full"
-  emptyMessage="No accounts to select"
-  appendTo="body"
-  [dt]="selectDt"
-  [invalid]="isInvalid()"
-  (ngModelChange)="onModelChanges($event)"
->
-  <ng-template #selectedItem let-selectedOption>
-    <div class="flex items-center gap-2">
-      <div>{{ selectedOption.name }}</div>
-      <app-currency-code-chip [currencyCode]="selectedOption.currencyCode" />
+<label class="text-sm font-medium" [for]="fieldId">{{ label() }}</label>
+
+@if (isMobile()) {
+  <button
+    type="button"
+    [id]="fieldId"
+    class="mt-1 flex w-full items-center gap-2.5 rounded-2xl border bg-(--p-form-field-background) px-3 py-2.5 text-start transition-colors"
+    [class]="triggerClass()"
+    [disabled]="isDisabled()"
+    [attr.aria-expanded]="overlay.isOpen()"
+    aria-haspopup="listbox"
+    (click)="overlay.toggle($event)"
+  >
+    @if (selectedOption(); as account) {
+      <span class="min-w-0 flex-1 truncate">{{ account.name }}</span>
+      <app-currency-code-chip [currencyCode]="account.currencyCode" />
+    } @else {
+      <span class="flex-1 truncate text-muted-color">
+        {{ placeholder() || ('shared.selectAccount' | translate) }}
+      </span>
+    }
+    <i class="pi pi-chevron-down text-[0.625rem] text-muted-color"></i>
+  </button>
+
+  <app-responsive-overlay
+    #overlay
+    [header]="label() || ('shared.selectAccount' | translate)"
+  >
+    <div class="max-h-[60dvh] w-full overflow-y-auto" role="listbox">
+      @for (account of accounts(); track account.id) {
+        <button
+          type="button"
+          role="option"
+          class="flex w-full items-center gap-2.5 rounded-xl px-3 py-2.5 text-start transition-colors hover:bg-emphasis"
+          [class.bg-highlight]="account.id === selectedAccount()"
+          [attr.aria-selected]="account.id === selectedAccount()"
+          (click)="select(account.id)"
+        >
+          <span class="min-w-0 flex-1 truncate">{{ account.name }}</span>
+          <app-currency-code-chip [currencyCode]="account.currencyCode" />
+          @if (account.id === selectedAccount()) {
+            <i class="pi pi-check text-xs"></i>
+          }
+        </button>
+      } @empty {
+        <p class="px-3 py-6 text-center text-sm text-muted-color">
+          {{ 'shared.noAccounts' | translate }}
+        </p>
+      }
     </div>
-  </ng-template>
-  <ng-template let-account #item>
-    <div class="flex items-center gap-2">
-      <div>{{ account.name }}</div>
-      <div
-        class="text-xs font-medium px-2 py-1 bg-gray-100 dark:bg-gray-800 rounded-lg"
-      >
-        {{ account.currencyCode }}
+  </app-responsive-overlay>
+} @else {
+  <p-select
+    [(ngModel)]="selectedAccount"
+    [ngModelOptions]="{ standalone: true }"
+    [options]="accounts()"
+    [inputId]="fieldId"
+    optionValue="id"
+    [placeholder]="placeholder() || ('shared.selectAccount' | translate)"
+    class="w-full"
+    [emptyMessage]="'shared.noAccounts' | translate"
+    appendTo="body"
+    [dt]="selectDt"
+    [invalid]="isInvalid()"
+    (ngModelChange)="onModelChanges($event)"
+  >
+    <ng-template #selectedItem let-selectedOption>
+      <div class="flex items-center gap-2">
+        <div>{{ selectedOption.name }}</div>
+        <app-currency-code-chip [currencyCode]="selectedOption.currencyCode" />
       </div>
-    </div>
-  </ng-template>
-</p-select>
+    </ng-template>
+    <ng-template let-account #item>
+      <div class="flex items-center gap-2">
+        <div>{{ account.name }}</div>
+        <app-currency-code-chip [currencyCode]="account.currencyCode" />
+      </div>
+    </ng-template>
+  </p-select>
+}
+
 @if (isInvalid()) {
-  <div class="text-xs text-red-500 pl-2 pt-0.5">Should be selected</div>
+  <div class="pt-0.5 pl-2 text-xs text-red-500">
+    {{ 'shared.shouldBeSelected' | translate }}
+  </div>
 }

@@ -1,6 +1,7 @@
 <label class="text-sm font-medium" for="group">{{ label() }}</label>
 <p-select
   [(ngModel)]="selectedOption"
+  [ngModelOptions]="{ standalone: true }"
   [options]="options()"
   [inputId]="inputId()"
   [optionLabel]="optionLabel()"

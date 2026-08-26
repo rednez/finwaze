@@ -1,10 +1,5 @@
 import { CommonModule } from '@angular/common';
-import {
-  ChangeDetectionStrategy,
-  Component,
-  computed,
-  input,
-} from '@angular/core';
+import { Component, computed, input } from '@angular/core';
 
 interface StatisticGroup {
   id: string;
@@ -29,7 +24,6 @@ interface StatisticGroup {
       }
     </div>
   `,
-  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class StatisticsByGroups {
   readonly groups = input<StatisticGroup[]>([]);

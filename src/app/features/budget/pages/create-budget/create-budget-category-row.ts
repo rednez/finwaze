@@ -1,15 +1,10 @@
 import { CurrencyPipe } from '@angular/common';
-import {
-  ChangeDetectionStrategy,
-  Component,
-  input,
-  output,
-} from '@angular/core';
+import { Component, input, output } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { TranslatePipe } from '@shared/pipes/translate.pipe';
-import { ButtonModule } from 'primeng/button';
-import { InputNumberModule } from 'primeng/inputnumber';
-import { TooltipModule } from 'primeng/tooltip';
+import { ButtonModule } from '@openng/optimus-ui/button';
+import { InputNumberModule } from '@openng/optimus-ui/inputnumber';
+import { TooltipModule } from '@openng/optimus-ui/tooltip';
 import { BudgetCategoryRow } from '../../models';
 
 @Component({
@@ -100,7 +95,6 @@ import { BudgetCategoryRow } from '../../models';
     class:
       'relative block rounded-lg overflow-hidden bg-surface-50 dark:bg-surface-900',
   },
-  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CreateBudgetCategoryRow {
   readonly category = input.required<BudgetCategoryRow>();

@@ -15,7 +15,8 @@ export const TRANSACTIONS_TRANSLATIONS = {
       items: 'items',
       addNew: 'Add new',
       noTransactions: 'No transactions yet',
-      startTracking: 'Start tracking your spending by adding your first transaction.',
+      startTracking:
+        'Start tracking your spending by adding your first transaction.',
       addTransaction: 'Add transaction',
     },
     transferDetails: {
@@ -27,15 +28,16 @@ export const TRANSACTIONS_TRANSLATIONS = {
       to: 'To',
     },
     expenseForm: {
+      moneySection: 'Amount & account',
       fromAccount: 'From account',
-      transactionAmount: 'Transaction amount',
-      transactionCurrency: 'Transaction currency',
-      chargedAmount: 'Charged amount',
-      shouldNotEqualCharged: 'Should not be equal to charged amount',
-      shouldNotEqualTransaction: 'Should not be equal to transaction amount',
+      expenseAmount: 'Expense amount',
+      chargedFromAccount: 'Charged from account',
+      shouldNotEqualCharged: 'Should not be equal to the charged amount',
+      shouldNotEqualExpense: 'Should not be equal to the expense amount',
     },
     incomeForm: {
       toAccount: 'To account',
+      incomeAmount: 'Income amount',
     },
     formActions: {
       create: 'Create',
@@ -80,15 +82,16 @@ export const TRANSACTIONS_TRANSLATIONS = {
       to: 'До',
     },
     expenseForm: {
+      moneySection: 'Сума та рахунок',
       fromAccount: 'З рахунку',
-      transactionAmount: 'Сума транзакції',
-      transactionCurrency: 'Валюта транзакції',
-      chargedAmount: 'Нарахована сума',
-      shouldNotEqualCharged: 'Не повинна дорівнювати нарахованій сумі',
-      shouldNotEqualTransaction: 'Не повинна дорівнювати сумі транзакції',
+      expenseAmount: 'Сума витрати',
+      chargedFromAccount: 'Списано з рахунку',
+      shouldNotEqualCharged: 'Не повинна дорівнювати списаній сумі',
+      shouldNotEqualExpense: 'Не повинна дорівнювати сумі витрати',
     },
     incomeForm: {
       toAccount: 'На рахунок',
+      incomeAmount: 'Сума доходу',
     },
     formActions: {
       create: 'Створити',
@@ -133,15 +136,16 @@ export const TRANSACTIONS_TRANSLATIONS = {
       to: 'Na',
     },
     expenseForm: {
+      moneySection: 'Částka a účet',
       fromAccount: 'Z účtu',
-      transactionAmount: 'Částka transakce',
-      transactionCurrency: 'Měna transakce',
-      chargedAmount: 'Účtovaná částka',
-      shouldNotEqualCharged: 'Nesmí se rovnat účtované částce',
-      shouldNotEqualTransaction: 'Nesmí se rovnat částce transakce',
+      expenseAmount: 'Částka výdaje',
+      chargedFromAccount: 'Odepsáno z účtu',
+      shouldNotEqualCharged: 'Nesmí se rovnat odepsané částce',
+      shouldNotEqualExpense: 'Nesmí se rovnat částce výdaje',
     },
     incomeForm: {
       toAccount: 'Na účet',
+      incomeAmount: 'Částka příjmu',
     },
     formActions: {
       create: 'Vytvořit',

@@ -1,9 +1,9 @@
-import { ChangeDetectionStrategy, Component, input } from '@angular/core';
+import { Component, input } from '@angular/core';
 import { Card } from '@shared/ui/card';
 import { CardHeaderTitle } from '@shared/ui/card-header-title/card-header-title';
 import { CardHeader } from '@shared/ui/card-header/card-header';
-import { ButtonModule } from 'primeng/button';
-import { SkeletonModule } from 'primeng/skeleton';
+import { ButtonModule } from '@openng/optimus-ui/button';
+import { SkeletonModule } from '@openng/optimus-ui/skeleton';
 import { BudgetCardChart } from './budget-card-chart/budget-card-chart';
 import { BudgetCardSummary } from './budget-card-summary/budget-card-summary';
 
@@ -65,7 +65,6 @@ import { BudgetCardSummary } from './budget-card-summary/budget-card-summary';
       }
     </app-card>
   `,
-  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class BudgetCard {
   readonly loading = input(false);

@@ -1,4 +1,4 @@
-import { inject, Injectable } from '@angular/core';
+import { inject, Service } from '@angular/core';
 import { Transaction } from '@core/models/transactions';
 import { SupabaseService } from '@core/services/supabase.service';
 import dayjs from 'dayjs';
@@ -11,9 +11,7 @@ import {
 } from '../models';
 import { TransactionsMapper } from '@core/mappers/transactions-mapper';
 
-@Injectable({
-  providedIn: 'root',
-})
+@Service()
 export class WalletRepository {
   private readonly supabase = inject(SupabaseService);
   private readonly mapper = inject(WalletMapper);

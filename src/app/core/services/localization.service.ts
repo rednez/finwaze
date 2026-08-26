@@ -1,13 +1,13 @@
-import { Injectable, signal } from '@angular/core';
+import { Service, signal } from '@angular/core';
 import { Lang, TRANSLATIONS } from '@core/i18n';
 
 const STORAGE_KEY = 'app-language';
 
-@Injectable({
-  providedIn: 'root',
-})
+@Service()
 export class LocalizationService {
-  readonly currentLang = signal<Lang>((localStorage.getItem(STORAGE_KEY) as Lang) ?? 'en');
+  readonly currentLang = signal<Lang>(
+    (localStorage.getItem(STORAGE_KEY) as Lang) ?? 'en',
+  );
 
   setLanguage(lang: Lang): void {
     localStorage.setItem(STORAGE_KEY, lang);

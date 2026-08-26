@@ -1,5 +1,5 @@
-import { ChangeDetectionStrategy, Component, input } from '@angular/core';
-import { ButtonModule } from 'primeng/button';
+import { Component, input } from '@angular/core';
+import { ButtonModule } from '@openng/optimus-ui/button';
 
 @Component({
   selector: 'app-financial-summary-card-button',
@@ -19,7 +19,6 @@ import { ButtonModule } from 'primeng/button';
       </span>
     </div>
   `,
-  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class FinancialSummaryCardButton {
   readonly label = input('');

@@ -1,8 +1,8 @@
-import { inject, Injectable, signal } from '@angular/core';
+import { inject, Service, signal } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthRepository } from '@core/repositories/auth-repository';
 import { AuthStore } from '@core/store/auth-store';
-import { MessageService } from 'primeng/api';
+import { MessageService } from '@openng/optimus-ui/api';
 import { AccountsLocalStorage, UiLocalStorage } from './local-storage';
 import { LocalizationService } from './localization.service';
 import { Passkey } from './supabase.service';
@@ -16,9 +16,7 @@ interface PasskeyError {
   code?: string;
 }
 
-@Injectable({
-  providedIn: 'root',
-})
+@Service()
 export class AuthService {
   private readonly authStore = inject(AuthStore);
   private readonly authRepository = inject(AuthRepository);

@@ -1,11 +1,5 @@
 import { CommonModule, DatePipe } from '@angular/common';
-import {
-  ChangeDetectionStrategy,
-  Component,
-  computed,
-  inject,
-  signal,
-} from '@angular/core';
+import { Component, computed, inject, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { LocalizationService } from '@core/services/localization.service';
 import { generateAnalogColors } from '@core/utils/colors';
@@ -14,9 +8,9 @@ import { Card } from '@shared/ui/card';
 import { CardHeaderTitle } from '@shared/ui/card-header-title/card-header-title';
 import { CardHeader } from '@shared/ui/card-header/card-header';
 import { DonutSummaryChart } from '@shared/ui/donut-summary-chart';
-import { SelectModule } from 'primeng/select';
-import { SelectButtonModule } from 'primeng/selectbutton';
-import { SkeletonModule } from 'primeng/skeleton';
+import { SelectModule } from '@openng/optimus-ui/select';
+import { SelectButtonModule } from '@openng/optimus-ui/selectbutton';
+import { SkeletonModule } from '@openng/optimus-ui/skeleton';
 import { AnalyticsStore } from '../../stores';
 import { StatisticsByGroups } from './statistics-by-groups/statistics-by-groups';
 
@@ -81,7 +75,6 @@ type TypeKey = 'expenses' | 'income' | 'budget';
       }
     </app-card>
   `,
-  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AnalyticStatisticsCard {
   private readonly datePipe = inject(DatePipe);

@@ -1,20 +1,19 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { SetupAccount } from './setup-account';
-import { MessageService } from 'primeng/api';
+import { AmountField } from './amount-field';
 
-describe('SetupAccount', () => {
-  let component: SetupAccount;
-  let fixture: ComponentFixture<SetupAccount>;
+describe('AmountField', () => {
+  let component: AmountField;
+  let fixture: ComponentFixture<AmountField>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [SetupAccount],
-      providers: [MessageService],
+      imports: [AmountField],
     }).compileComponents();
 
-    fixture = TestBed.createComponent(SetupAccount);
+    fixture = TestBed.createComponent(AmountField);
     component = fixture.componentInstance;
+    fixture.componentRef.setInput('inputId', 'test-amount');
     await fixture.whenStable();
   });
 

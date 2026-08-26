@@ -1,9 +1,10 @@
-import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { Router } from '@angular/router';
+import { TranslatePipe } from '@shared/pipes/translate.pipe';
 import { RecentTransactionsWidget } from '@shared/ui/recent-transactions-widget';
-import { CardModule } from 'primeng/card';
-import { TagModule } from 'primeng/tag';
+import { CardModule } from '@openng/optimus-ui/card';
+import { TagModule } from '@openng/optimus-ui/tag';
 import { take } from 'rxjs';
 import { DashboardStore } from './store/dashboard-store';
 import { AmountWidget } from './ui/amount-widget/amount-widget';
@@ -11,7 +12,6 @@ import { BudgetWidget } from './ui/budget-widget/budget-widget';
 import { DashboardFilters } from './ui/dashboard-filters';
 import { MoneyFlowWidget } from './ui/money-flow-widget/money-flow-widget';
 import { SavingGoalsWidget } from './ui/saving-goals-widget/saving-goals-widget';
-import { TranslatePipe } from '@shared/pipes/translate.pipe';
 
 @Component({
   imports: [
@@ -29,7 +29,6 @@ import { TranslatePipe } from '@shared/pipes/translate.pipe';
   host: {
     class: 'flex flex-col gap-4',
   },
-  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class Dashboard {
   protected readonly store = inject(DashboardStore);
