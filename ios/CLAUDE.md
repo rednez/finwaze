@@ -13,13 +13,22 @@ writing any repository.
 ## Stack
 
 **UI:** SwiftUI  
-**Language:** Swift  
+**Language:** Swift 6 (language mode 6 — strict concurrency)  
 **State:** Observation framework (`@Observable`)  
 **Backend SDK:** `supabase-swift` (added via Swift Package Manager)  
 **Testing:** Swift Testing (`import Testing`)  
 
-Open decisions to confirm and record here once made: minimum iOS version, bundle identifier,
-localization languages, whether to use `SwiftData` for offline cache.
+### Decisions
+
+- **Minimum iOS:** 26.0 — the first version with Liquid Glass. Use the native Liquid Glass styling
+  (system components, `glassEffect`) rather than custom blur/material imitations.
+- **Bundle identifier:** `dev.yefimenko.Finwaze` (tests: `dev.yefimenko.FinwazeTests`, `dev.yefimenko.FinwazeUITests`).
+- **Localization:** English (`en`, development language and fallback), Ukrainian (`uk`), Czech (`cs`) —
+  the same set as the web client. The app follows the OS language; if it is not supported, English is used.
+- **Concurrency:** Swift 6 language mode with `SWIFT_DEFAULT_ACTOR_ISOLATION = MainActor`. Mark
+  non-UI code (DTOs, mappers, repositories) `nonisolated` / `Sendable` where needed.
+
+Still open: whether to use `SwiftData` for an offline cache.
 
 ---
 
@@ -110,15 +119,14 @@ Parameter names must match the SQL function parameter names exactly (including t
 
 ## Local Development
 
-Commands run from the repo root (paths are relative to it). Fill in the exact project/scheme names
-once the Xcode project exists.
+Commands run from the repo root (paths are relative to it). Project `Finwaze.xcodeproj`, scheme `Finwaze`.
 
 ```bash
 supabase start                                   # local backend (repo root)
 xcodebuild -project ios/Finwaze.xcodeproj -scheme Finwaze \
-  -destination 'platform=iOS Simulator,name=iPhone 16' build
+  -destination 'platform=iOS Simulator,name=iPhone 18 Pro' build
 xcodebuild -project ios/Finwaze.xcodeproj -scheme Finwaze \
-  -destination 'platform=iOS Simulator,name=iPhone 16' test
+  -destination 'platform=iOS Simulator,name=iPhone 18 Pro' test
 ```
 
 The local Supabase URL and anon key are read from a git-ignored config file — never commit keys.
