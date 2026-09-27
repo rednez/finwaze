@@ -129,7 +129,10 @@ xcodebuild -project ios/Finwaze.xcodeproj -scheme Finwaze \
   -destination 'platform=iOS Simulator,name=iPhone 18 Pro' test
 ```
 
-The local Supabase URL and anon key are read from a git-ignored config file — never commit keys.
+The local Supabase URL and publishable key are read from the git-ignored `ios/Finwaze/Config/Supabase.plist`
+(copy it from `ios/Supabase.example.plist`) — never commit keys.
+
+Known unfinished work is tracked in `ios/TECH_DEBT.md`.
 Demo user (`demo@mail.com` / `password1234`) is described in the root file.
 
 ---
