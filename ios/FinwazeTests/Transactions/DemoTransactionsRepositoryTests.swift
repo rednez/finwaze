@@ -27,11 +27,11 @@ struct DemoTransactionsRepositoryTests {
         TransactionQuery(month: month, type: type, categoryIDs: categoryIDs, currencyCode: nil, accountID: nil)
     }
 
-    @Test func pastMonthHasTheWholeTemplateNewestFirst() async throws {
+    @Test func pastMonthHasTheWholeTemplateAndTheTransferNewestFirst() async throws {
         let transactions = try await repository().transactions(matching: query(month: month(2026, 2)))
 
-        #expect(transactions.count == 12)
-        #expect(Set(transactions.map(\.id)).count == 12)
+        #expect(transactions.count == 14)
+        #expect(Set(transactions.map(\.id)).count == 14)
         #expect(transactions.map(\.transactedAt) == transactions.map(\.transactedAt).sorted(by: >))
         #expect(transactions.allSatisfy { calendar.component(.month, from: $0.transactedAt) == 2 })
     }
@@ -39,12 +39,22 @@ struct DemoTransactionsRepositoryTests {
     @Test func currentMonthStopsAtNow() async throws {
         let transactions = try await repository().transactions(matching: query(month: month(2026, 9)))
 
-        #expect(transactions.count == 7)
+        // 7 template days up to the 16th, plus the transfer on the 14th (2 records).
+        #expect(transactions.count == 9)
         #expect(transactions.allSatisfy { $0.transactedAt <= now })
     }
 
     @Test func laterMonthIsEmpty() async throws {
         #expect(try await repository().transactions(matching: query(month: month(2026, 10))).isEmpty)
+    }
+
+    @Test func monthHasOneTransferBetweenTwoAccounts() async throws {
+        let transfers = try await repository().transactions(matching: query(month: month(2026, 8), type: .transfer))
+
+        #expect(transfers.count == 2)
+        #expect(Set(transfers.compactMap(\.transferID)).count == 1)
+        #expect(transfers.map(\.transactionAmount).sorted() == [-100, 4150])
+        #expect(Set(transfers.map(\.accountID)) == [1, 2])
     }
 
     @Test func expensesAreNegativeAndIncomesPositive() async throws {

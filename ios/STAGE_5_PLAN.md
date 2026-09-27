@@ -1,6 +1,6 @@
 # iOS — План етапу 5 «Перекази»
 
-> **Статус:** не розпочато.
+> **Статус:** реалізовано; лишилась ручна перевірка частини критеріїв (див. крок 6).
 
 ## Контекст
 
@@ -58,48 +58,48 @@
 ## Кроки
 
 ### 1. Дані
-- [ ] `NewTransfer` (from/to account id, fromAmount, toAmount?, transactedAt, localOffset) і `NewTransferDto`
+- [x] `NewTransfer` (from/to account id, fromAmount, toAmount?, transactedAt, localOffset) і `NewTransferDto`
       з `p_`-ключами.
-- [ ] `TransfersRepository` (у `Features/Transfers/Repositories`): `make(_:)`, `transfer(transactionID:) ->
+- [x] `TransfersRepository` (у `Features/Transfers/Repositories`): `make(_:)`, `transfer(transactionID:) ->
       Transfer?` (`nil` — не знайдено), `delete(transferID:)`.
-- [ ] Модель `Transfer` (id переказу, дата, offset, `sent: Transaction`, `received: Transaction`, `exchangeRate`)
+- [x] Модель `Transfer` (id переказу, дата, offset, `sent: Transaction`, `received: Transaction`, `exchangeRate`)
       і `TransferMapper` з пари рядків (від'ємний → sent, додатний → received; неповна пара → `nil`).
-- [ ] `SupabaseTransfersRepository`; `DemoTransfersRepository`; додати в обидва набори
+- [x] `SupabaseTransfersRepository`; `DemoTransfersRepository`; додати в обидва набори
       `Core/Repositories/Repositories.swift`.
-- [ ] `DemoData+Transactions`: щомісячний демо-переказ (обидва записи) — видно в списку, фільтрах і деталях.
-- [ ] Тести: мапер пари (порядок, курс у `Decimal`, неповна пара), DTO-ключі, демо-пошук переказу.
+- [x] `DemoData+Transactions`: щомісячний демо-переказ (обидва записи) — видно в списку, фільтрах і деталях.
+- [x] Тести: мапер пари (порядок, курс у `Decimal`, неповна пара), DTO-ключі, демо-пошук переказу.
 
 ### 2. Форма переказу (`TRF-01…05`)
-- [ ] `TransferFormViewModel`: стан полів, `toAccounts`, скидання «На рахунок», `showsReceivedAmount`, очищення
+- [x] `TransferFormViewModel`: стан полів, `toAccounts`, скидання «На рахунок», `showsReceivedAmount`, очищення
       отриманої суми при появі, валідація, `exchangeRateHint`, `submit()` з `isSubmitting` і `failure`.
-- [ ] Спільне форматування курсу в `Core/Formatting`; `TransactionFormViewModel` переходить на нього.
-- [ ] `TransferView` (sheet): поля за зразком `TransactionFormFields`/`FormField`, стрілка між блоками «З» і «На».
-- [ ] `AppViewModel.transferMade()` / `transferDeleted()` → `dataChanged()`.
-- [ ] Тести ViewModel: скидання одержувача, список без джерела, поява/зникнення отриманої суми, помилки полів,
+- [x] Спільне форматування курсу в `Core/Formatting`; `TransactionFormViewModel` переходить на нього.
+- [x] `TransferView` (sheet): поля за зразком `TransactionFormFields`/`FormField`, стрілка між блоками «З» і «На».
+- [x] `AppViewModel.transferMade()` / `transferDeleted()` → `dataChanged()`.
+- [x] Тести ViewModel: скидання одержувача, список без джерела, поява/зникнення отриманої суми, помилки полів,
       курс `4300 / 100 = 43`, запит з `p_to_amount = nil` для однакових валют, дата не в майбутньому, помилка
       зберігає дані.
 
 ### 3. Гаманець (`ACC-01`)
-- [ ] `AppSection.transferTitle` + `onTransfer` у `SectionToolbar`; кнопка ⇄ поруч із «+».
-- [ ] `SectionContentView`/`WalletView`: стан `isTransferring` і `.sheet { TransferView }`.
+- [x] `AppSection.transferTitle` + `onTransfer` у `SectionToolbar`; кнопка ⇄ поруч із «+».
+- [x] `SectionContentView`/`WalletView`: стан `isTransferring` і `.sheet { TransferView }`.
 
 ### 4. Список і деталі (`TRF-06…08`)
-- [ ] `TransferRoute(id:)`; `TransactionRow` для переказу — `NavigationLink`, підзаголовок «з/на <рахунок>».
-- [ ] `TransferDetailsViewModel` (`loading` / `loaded` / `notFound` / `failed`, `delete()` з `isDeleting`,
+- [x] `TransferRoute(id:)`; `TransactionRow` для переказу — `NavigationLink`, підзаголовок «з/на <рахунок>».
+- [x] `TransferDetailsViewModel` (`loading` / `loaded` / `notFound` / `failed`, `delete()` з `isDeleting`,
       `deletionFailure`).
-- [ ] `TransferDetailsView`: блоки «Надіслано»/«Отримано», курс, «Видалити» з `confirmationDialog`, стан «не
+- [x] `TransferDetailsView`: блоки «Надіслано»/«Отримано», курс, «Видалити» з `confirmationDialog`, стан «не
       знайдено». `SectionView.navigationDestination(for: TransferRoute.self)`.
-- [ ] Прибрати коментарі «stage 5» з `TransactionRoute`/`TransactionRow`.
-- [ ] Тести ViewModel: завантаження, «не знайдено», видалення (виклик з `transferID`, `dataVersion`), помилка.
+- [x] Прибрати коментарі «stage 5» з `TransactionRoute`/`TransactionRow`.
+- [x] Тести ViewModel: завантаження, «не знайдено», видалення (виклик з `transferID`, `dataVersion`), помилка.
 
 ### 5. Локалізація (en / uk / cs)
-- [ ] Тексти з web (`wallet.translations.ts`: `transfer.header`, `subheader`, `payFrom`, `amountToSend`,
+- [x] Тексти з web (`wallet.translations.ts`: `transfer.header`, `subheader`, `payFrom`, `amountToSend`,
       `destinationAccount`, `receivedAmount`, `moveMoney`, `creationFailed`; `transactions.translations.ts`:
       `transferDetails.*`, `transferDeletionFailed`) + нові: «з/на <рахунок>», підтвердження видалення переказу,
       «не знайдено», підказка про другий рахунок, мітка кнопки ⇄.
 
 ### 6. Перевірка й документація
-- [ ] Збірка й тести: `xcodebuild … -scheme Finwaze -destination 'platform=iOS Simulator,name=iPhone 18 Pro' test`.
+- [x] Збірка й тести: `xcodebuild … -scheme Finwaze -destination 'platform=iOS Simulator,name=iPhone 18 Pro' test`.
 - [ ] Критерії приймання TRF у симуляторі на локальному Supabase (`supabase start`, користувач із ≥ 2 рахунками):
   - 100 USD «Картка USD» → «Готівка USD»: баланси −100/+100, доходи й витрати місяця не змінились (перевірити на web
     Дашборді), поля «Отримана сума» немає;
@@ -108,8 +108,13 @@
   - видалення з підтвердженням прибирає обидва рядки й повертає баланси; переказ, видалений на web, → «не знайдено»;
   - дата в майбутньому недоступна; зміна «З рахунку» скидає «На рахунок»;
   - демо: переказ видно в списку й деталях; створення й видалення нічого не змінюють.
+
+  Перевірено (UI-прогін, 28.09.2026): 100 UAH → 250 ALL — поле «Отримана сума» й курс 2,5000, баланси обох
+  рахунків змінились, доходи й витрати місяця — ні; два рядки «to …» / «from …»; деталі з курсом; видалення з
+  підтвердженням прибирає обидва рядки. Ще не перевірено в UI: переказ в одній валюті, «не знайдено» для
+  переказу, видаленого на web, демо-режим.
 - [ ] Dark Mode, Dynamic Type, VoiceOver на формі переказу й деталях.
-- [ ] `ios/TECH_DEBT.md`: прибрати «Transfer money» з «Wallet is partial» і деталі переказу з «Transactions are
+- [x] `ios/TECH_DEBT.md`: прибрати «Transfer money» з «Wallet is partial» і деталі переказу з «Transactions are
       partial».
 - [ ] Статус плану — «виконано».
 

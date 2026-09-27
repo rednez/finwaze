@@ -74,3 +74,27 @@ struct MoneyFormattingTests {
         #expect(sum.formattedAmount(currencyCode: "EUR", locale: Locale(identifier: "en_US")) == "€0.30")
     }
 }
+
+struct ExchangeRateFormattingTests {
+    private let english = Locale(identifier: "en_US")
+
+    @Test func showsTwoToFourDecimalPlacesByDefault() {
+        #expect(Decimal(43).formattedExchangeRate(locale: english) == "43.00")
+        #expect(Decimal(string: "43.125")!.formattedExchangeRate(locale: english) == "43.125")
+        #expect(Decimal(string: "0.023256")!.formattedExchangeRate(locale: english) == "0.0233")
+    }
+
+    @Test func fixedFourDecimalPlaces() {
+        #expect(Decimal(43).formattedExchangeRate(fractionLength: 4...4, locale: english) == "43.0000")
+    }
+
+    @Test func followsTheInterfaceLanguage() {
+        let rate = Decimal(43).formattedExchangeRate(fractionLength: 4...4, locale: Locale(identifier: "uk_UA"))
+
+        #expect(rate == "43,0000")
+    }
+
+    @Test func sentenceBetweenCurrencies() {
+        #expect(Decimal(43).formattedExchangeRate(from: "EUR", to: "UAH", locale: english) == "1 EUR = 43.00 UAH")
+    }
+}

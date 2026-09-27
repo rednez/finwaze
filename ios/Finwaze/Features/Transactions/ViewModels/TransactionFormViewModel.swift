@@ -147,8 +147,7 @@ final class TransactionFormViewModel {
         guard let rate = exchangeRate, let purchaseCurrencyCode, let accountCurrencyCode = account?.currencyCode else {
             return nil
         }
-        let formattedRate = rate.formatted(.number.precision(.fractionLength(2...4)))
-        return "1 \(purchaseCurrencyCode) = \(formattedRate) \(accountCurrencyCode)"
+        return rate.formattedExchangeRate(from: purchaseCurrencyCode, to: accountCurrencyCode)
     }
 
     /// The group of the selected category, shown with it in the category field (`TX-11`).
@@ -343,19 +342,11 @@ final class TransactionFormViewModel {
     }
 
     private static func validate(_ text: String) -> AmountValidation {
-        switch DecimalInputParser.parse(text) {
-        case .empty:
-            .invalid(.required)
-        case .invalid:
-            .invalid(.notPositive)
-        case .value(let value, let fractionDigits):
-            if value <= 0 {
-                .invalid(.notPositive)
-            } else if fractionDigits > 2 {
-                .invalid(.tooPrecise)
-            } else {
-                .valid(value)
-            }
+        switch PositiveAmountInput.parse(text) {
+        case .success(let value): .valid(value)
+        case .failure(.required): .invalid(.required)
+        case .failure(.notPositive): .invalid(.notPositive)
+        case .failure(.tooPrecise): .invalid(.tooPrecise)
         }
     }
 }

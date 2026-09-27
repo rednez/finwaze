@@ -19,7 +19,8 @@ struct AppViewModelTests {
                 categories: repository,
                 currencies: repository,
                 wallet: FakeWalletRepository(),
-                transactions: FakeTransactionsRepository()
+                transactions: FakeTransactionsRepository(),
+                transfers: FakeTransfersRepository()
             ),
             preferences: DevicePreferences(defaults: defaults),
             demoMode: DemoModeStorage(defaults: defaults)

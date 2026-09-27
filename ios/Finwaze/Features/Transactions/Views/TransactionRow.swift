@@ -2,20 +2,24 @@ import SwiftUI
 
 /// One transaction in a day card (`TX-02`), in the short form a phone fits: a badge in the category's colour, the
 /// category with its group and time, the comment and the amount. A purchase in another currency also shows the
-/// amount charged to the account. The day is in the card's header. An expense or income opens for editing
-/// (`TX-06`); a transfer has no destination yet (`TRF-07`, stage 5).
+/// amount charged to the account. The day is in the card's header. An expense or income opens for editing, a
+/// transfer opens its details (`TX-06`, `TRF-07`).
 struct TransactionRow: View {
     let transaction: Transaction
 
     var body: some View {
-        if transaction.type == .transfer {
-            content
-        } else {
-            NavigationLink(value: TransactionRoute(id: transaction.id)) {
-                content
+        Group {
+            if transaction.type == .transfer {
+                NavigationLink(value: TransferRoute(transactionID: transaction.id)) {
+                    content
+                }
+            } else {
+                NavigationLink(value: TransactionRoute(id: transaction.id)) {
+                    content
+                }
             }
-            .buttonStyle(.plain)
         }
+        .buttonStyle(.plain)
     }
 
     private var content: some View {
@@ -67,10 +71,17 @@ struct TransactionRow: View {
         }
     }
 
-    /// "Food · 14:05", or the account for a transfer, in the local time of the transaction (`GEN-12`).
+    /// "Food · 14:05", or "from Cash · 14:05" / "to Card · 14:05" for a transfer, in the local time of the
+    /// transaction (`TX-02`, `TRF-06`, `GEN-12`).
     private var subtitle: String {
-        let context = transaction.type == .transfer ? transaction.accountName : transaction.group.name
-        return "\(context) · \(transaction.transactedAt.formattedTransactionTime(offset: transaction.localOffset))"
+        "\(context) · \(transaction.transactedAt.formattedTransactionTime(offset: transaction.localOffset))"
+    }
+
+    private var context: String {
+        guard transaction.type == .transfer else { return transaction.group.name }
+        return transaction.transactionAmount < 0
+            ? String(localized: "transactions.transferFrom \(transaction.accountName)")
+            : String(localized: "transactions.transferTo \(transaction.accountName)")
     }
 
     private var amount: String {

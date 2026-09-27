@@ -6,14 +6,16 @@ extension Repositories {
     /// Live-like repositories over fakes, for view models that read reference data.
     static func fake(
         referenceData: FakeReferenceDataRepository = FakeReferenceDataRepository(),
-        transactions: FakeTransactionsRepository = FakeTransactionsRepository()
+        transactions: FakeTransactionsRepository = FakeTransactionsRepository(),
+        transfers: FakeTransfersRepository = FakeTransfersRepository()
     ) -> Repositories {
         Repositories(
             accounts: referenceData,
             categories: referenceData,
             currencies: referenceData,
             wallet: FakeWalletRepository(),
-            transactions: transactions
+            transactions: transactions,
+            transfers: transfers
         )
     }
 }

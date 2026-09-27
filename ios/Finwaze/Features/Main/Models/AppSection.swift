@@ -53,6 +53,14 @@ enum AppSection: String, Hashable, CaseIterable {
         }
     }
 
+    /// The section's "Transfer money" action, shown before "+", or `nil` when it has none (`ACC-01`).
+    var transferTitle: LocalizedStringKey? {
+        switch self {
+        case .wallet: "wallet.transferMoney"
+        default: nil
+        }
+    }
+
     var systemImage: String {
         switch self {
         case .dashboard: "square.grid.2x2"

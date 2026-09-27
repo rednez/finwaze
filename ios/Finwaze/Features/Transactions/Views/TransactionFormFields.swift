@@ -212,7 +212,7 @@ struct CategoryLabel: View {
 }
 
 /// A currency code in a small capsule, next to an amount field.
-private struct CurrencyBadge: View {
+struct CurrencyBadge: View {
     let code: String
 
     var body: some View {

@@ -1,7 +1,7 @@
 import SwiftUI
 
-/// A primary section with its own navigation stack; secondary sections and transactions are pushed onto it
-/// (`NAV-02`, `TX-06`).
+/// A primary section with its own navigation stack; secondary sections, transactions and transfers are pushed onto
+/// it (`NAV-02`, `TX-06`, `TRF-07`).
 struct SectionView: View {
     let section: AppSection
     @Environment(AppViewModel.self) private var app
@@ -15,6 +15,9 @@ struct SectionView: View {
                 }
                 .navigationDestination(for: TransactionRoute.self) { route in
                     EditTransactionView(app: app, transactionID: route.id)
+                }
+                .navigationDestination(for: TransferRoute.self) { route in
+                    TransferDetailsView(app: app, transactionID: route.transactionID)
                 }
         }
     }
@@ -32,12 +35,19 @@ struct SectionContentView: View {
     @Environment(AppViewModel.self) private var app
     /// The section's "+" was tapped; the section presents its own form.
     @State private var isAdding = false
+    /// The section's "Transfer money" was tapped (`ACC-01`).
+    @State private var isTransferring = false
 
     var body: some View {
         content
             .navigationTitle(section.title)
             .navigationSubtitle(section.subtitle)
-            .sectionToolbar(for: section, onOpen: onOpen, onAdd: { isAdding = true })
+            .sectionToolbar(
+                for: section,
+                onOpen: onOpen,
+                onAdd: { isAdding = true },
+                onTransfer: { isTransferring = true }
+            )
     }
 
     @ViewBuilder
@@ -46,7 +56,11 @@ struct SectionContentView: View {
         case .transactions:
             TransactionsView(app: app, isAdding: $isAdding)
         case .wallet:
-            WalletView(repository: app.repositories.wallet, isAddingAccount: $isAdding)
+            WalletView(
+                repository: app.repositories.wallet,
+                isAddingAccount: $isAdding,
+                isTransferring: $isTransferring
+            )
         default:
             ContentUnavailableView {
                 Label(section.title, systemImage: section.systemImage)

@@ -1,14 +1,16 @@
 import SwiftUI
 
 extension View {
-    /// Adds the "More" menu, the section's "?" and "+" buttons and, apart from them, the profile menu to the
-    /// navigation bar. `onAdd` runs for "+"; sections without one (`AppSection.addTitle`) show no "+".
+    /// Adds the "More" menu, the section's "?", "Transfer money" and "+" buttons and, apart from them, the profile
+    /// menu to the navigation bar. `onAdd` runs for "+" and `onTransfer` for "Transfer money"; sections without them
+    /// (`AppSection.addTitle`, `AppSection.transferTitle`) show no such button.
     func sectionToolbar(
         for section: AppSection,
         onOpen: @escaping (AppSection) -> Void,
-        onAdd: @escaping () -> Void = {}
+        onAdd: @escaping () -> Void = {},
+        onTransfer: @escaping () -> Void = {}
     ) -> some View {
-        modifier(SectionToolbar(section: section, onOpen: onOpen, onAdd: onAdd))
+        modifier(SectionToolbar(section: section, onOpen: onOpen, onAdd: onAdd, onTransfer: onTransfer))
     }
 }
 
@@ -22,6 +24,7 @@ private struct SectionToolbar: ViewModifier {
     let section: AppSection
     let onOpen: (AppSection) -> Void
     let onAdd: () -> Void
+    let onTransfer: () -> Void
     @Environment(AppViewModel.self) private var app
     @State private var sheet: Sheet?
 
@@ -38,10 +41,16 @@ private struct SectionToolbar: ViewModifier {
                     }
                 }
 
-                // "?" and "+" share one group; the profile menu stands apart after the spacer.
+                // "?", "Transfer money" and "+" share one group; the profile menu stands apart after the spacer.
                 ToolbarItem(placement: .topBarTrailing) {
                     Button("section.help", systemImage: "questionmark.circle") {
                         sheet = .sectionGuide
+                    }
+                }
+
+                if let transferTitle = section.transferTitle {
+                    ToolbarItem(placement: .topBarTrailing) {
+                        Button(transferTitle, systemImage: "arrow.left.arrow.right", action: onTransfer)
                     }
                 }
 

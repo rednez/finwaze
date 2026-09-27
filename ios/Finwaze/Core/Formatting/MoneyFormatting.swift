@@ -11,3 +11,21 @@ nonisolated extension Decimal {
         formatted(.currency(code: currencyCode).sign(strategy: .always(showZero: false)).locale(locale))
     }
 }
+
+nonisolated extension Decimal {
+    /// An exchange rate as a plain number with `fractionLength` decimal places, for the interface language:
+    /// `43,1250` (`GEN-10`).
+    func formattedExchangeRate(fractionLength: ClosedRange<Int> = 2...4, locale: Locale = .current) -> String {
+        formatted(.number.precision(.fractionLength(fractionLength)).locale(locale))
+    }
+
+    /// The rate as a sentence between two currencies: `1 EUR = 43,1250 UAH` (`GEN-10`).
+    func formattedExchangeRate(
+        from sourceCode: String,
+        to targetCode: String,
+        fractionLength: ClosedRange<Int> = 2...4,
+        locale: Locale = .current
+    ) -> String {
+        "1 \(sourceCode) = \(formattedExchangeRate(fractionLength: fractionLength, locale: locale)) \(targetCode)"
+    }
+}

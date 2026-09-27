@@ -1,14 +1,18 @@
 import SwiftUI
 
-/// The Wallet: a card per regular account with its balance (`ACC-02`) and "Add account" (`ACC-07`).
+/// The Wallet: a card per regular account with its balance (`ACC-02`), "Transfer money" (`ACC-01`, `TRF`) and
+/// "Add account" (`ACC-07`).
 struct WalletView: View {
     @Environment(AppViewModel.self) private var app
     @State private var viewModel: WalletViewModel
     /// "New account" is open; set by the section's "+" or the empty state.
     @Binding var isAddingAccount: Bool
+    /// "Transfer money" is open; set by the section's toolbar button.
+    @Binding var isTransferring: Bool
 
-    init(repository: any WalletRepository, isAddingAccount: Binding<Bool>) {
+    init(repository: any WalletRepository, isAddingAccount: Binding<Bool>, isTransferring: Binding<Bool>) {
         _isAddingAccount = isAddingAccount
+        _isTransferring = isTransferring
         _viewModel = State(initialValue: WalletViewModel(repository: repository))
     }
 
@@ -16,6 +20,9 @@ struct WalletView: View {
         content
             .sheet(isPresented: $isAddingAccount) {
                 NewAccountView(app: app)
+            }
+            .sheet(isPresented: $isTransferring) {
+                TransferView(app: app)
             }
             // Balances follow every change to the data: a new account or transaction (`GEN-26`).
             .task(id: app.dataVersion) { await viewModel.load() }
@@ -113,7 +120,7 @@ private extension WalletAccount {
 
 #Preview {
     NavigationStack {
-        WalletView(repository: DemoWalletRepository(), isAddingAccount: .constant(false))
+        WalletView(repository: DemoWalletRepository(), isAddingAccount: .constant(false), isTransferring: .constant(false))
     }
     .environment(AppViewModel.preview)
 }

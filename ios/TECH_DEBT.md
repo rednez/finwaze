@@ -49,10 +49,9 @@ Known gaps in the iOS client that still need to be done. Remove an item once it'
 - **Section placeholders.** Every section in `Features/Main/Views/SectionView.swift` except the Wallet and
   Transactions shows "under construction" until its stage lands; the Guide and Settings sheets in `SectionToolbar.swift` wait for stages 15
   and 14.
-- **Wallet is partial.** Stage 2 shows the account cards and "New account". Still missing: "Transfer money"
-  (`ACC-01`, `TRF`), account settings on card tap (stage 6) and the Wallet's charts and recent transactions.
-- **Transactions are partial.** Stages 3 and 4 list, filter, create, edit and delete expenses and incomes, in the
-  account's currency or another one (`TX-21`, `TX-22`). Still missing: transfer details (`TRF-07`, stage 5).
+- **Wallet is partial.** Stages 2 and 5 show the account cards, "New account" and "Transfer money" (`ACC-01`,
+  `TRF`). Still missing: account settings on card tap (stage 6) and the Wallet's charts and recent transactions
+  (stage 12).
 - **Colours are set only on creation.** "New group" / "New category" in the category picker take a palette colour;
   changing or removing the colour of an existing group or category comes with the Groups & categories screen
   (`CAT-10`, stage 7).
