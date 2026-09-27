@@ -2,11 +2,12 @@
   "mcpServers": {
     "supabase": {
       "type": "http",
-      "url": "http://localhost:54321/mcp"
+      "url": "http://localhost:54321/mcp?features=docs%2Cdatabase%2Cdebugging%2Cdevelopment"
     },
     "angular-cli": {
-      "command": "npx",
-      "args": ["-y", "@angular/cli", "mcp"]
+      "type": "stdio",
+      "command": "pnpm",
+      "args": ["exec", "ng", "mcp"]
     }
   }
 }
