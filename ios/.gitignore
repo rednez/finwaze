@@ -4,3 +4,4 @@ build/
 DerivedData/
 .swiftpm/
 *.xcuserstate
+Finwaze/Config/Supabase.plist

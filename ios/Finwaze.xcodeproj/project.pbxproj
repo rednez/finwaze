@@ -6,6 +6,10 @@
 	objectVersion = 110;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		69D81FC630682C2E00B2A385 /* Supabase in Frameworks */ = {isa = PBXBuildFile; productRef = 69D81FC530682C2E00B2A385 /* Supabase */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXContainerItemProxy section */
 		69D81FAA30682C2E00B2A385 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -51,6 +55,7 @@
 		69D81F9930682C2C00B2A385 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			files = (
+				69D81FC630682C2E00B2A385 /* Supabase in Frameworks */,
 			);
 		};
 		69D81FA630682C2E00B2A385 /* Frameworks */ = {
@@ -103,6 +108,9 @@
 				69D81F9E30682C2C00B2A385 /* Finwaze */,
 			);
 			name = Finwaze;
+			packageProductDependencies = (
+				69D81FC530682C2E00B2A385 /* Supabase */,
+			);
 			productName = Finwaze;
 			productReference = 69D81F9C30682C2C00B2A385 /* Finwaze.app */;
 			productType = "com.apple.product-type.application";
@@ -183,6 +191,9 @@
 			);
 			mainGroup = 69D81F9330682C2C00B2A385;
 			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+				69D81FC430682C2E00B2A385 /* XCRemoteSwiftPackageReference "supabase-swift" */,
+			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 69D81F9D30682C2C00B2A385 /* Products */;
 			projectDirPath = "";
@@ -550,6 +561,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		69D81FC430682C2E00B2A385 /* XCRemoteSwiftPackageReference "supabase-swift" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/supabase/supabase-swift";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 2.55.2;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		69D81FC530682C2E00B2A385 /* Supabase */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 69D81FC430682C2E00B2A385 /* XCRemoteSwiftPackageReference "supabase-swift" */;
+			productName = Supabase;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 69D81F9430682C2C00B2A385 /* Project object */;
 	validationLevel = 1;
