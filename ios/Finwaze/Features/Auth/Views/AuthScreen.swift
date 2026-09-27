@@ -16,7 +16,7 @@ struct AuthScreen<Content: View>: View {
       .frame(maxWidth: .infinity)
     }
     .scrollDismissesKeyboard(.interactively)
-    .background { AuthBackground() }
+    .background { BrandBackground() }
   }
 
   private var header: some View {
@@ -42,21 +42,5 @@ struct AuthScreen<Content: View>: View {
           .multilineTextAlignment(.center)
       }
     }
-  }
-}
-
-/// Soft brand glow behind the auth screens.
-private struct AuthBackground: View {
-  var body: some View {
-    ZStack {
-      Color(.systemBackground)
-      RadialGradient(
-        colors: [.brandGradientStart.opacity(0.18), .clear],
-        center: .top,
-        startRadius: 0,
-        endRadius: 420
-      )
-    }
-    .ignoresSafeArea()
   }
 }

@@ -43,7 +43,7 @@ struct SignupView: View {
           VStack(spacing: 16) {
             signupForm
 
-            AuthSubmitButton(
+            SubmitButton(
               title: "signup.submit",
               isLoading: viewModel.isSubmitting
             ) {

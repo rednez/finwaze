@@ -19,7 +19,7 @@ struct LoginView: View {
       VStack(spacing: 16) {
         credentialsForm
 
-        AuthSubmitButton(
+        SubmitButton(
           title: "login.submit",
           isLoading: viewModel.pendingMethod == .email
         ) {

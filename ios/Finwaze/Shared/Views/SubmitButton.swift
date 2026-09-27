@@ -1,7 +1,7 @@
 import SwiftUI
 
 /// Full-width prominent button that shows a spinner while the request is running.
-struct AuthSubmitButton: View {
+struct SubmitButton: View {
   let title: LocalizedStringKey
   let isLoading: Bool
   let action: () -> Void
@@ -24,11 +24,11 @@ struct AuthSubmitButton: View {
 }
 
 #Preview("Idle") {
-  AuthSubmitButton(title: "login.submit", isLoading: false) {}
+  SubmitButton(title: "login.submit", isLoading: false) {}
     .padding()
 }
 
 #Preview("Loading") {
-  AuthSubmitButton(title: "login.submit", isLoading: true) {}
+  SubmitButton(title: "login.submit", isLoading: true) {}
     .padding()
 }

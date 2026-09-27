@@ -15,4 +15,16 @@ nonisolated struct SupabaseAccountsRepository: AccountsRepository {
             .value
         return dtos.map(ReferenceDataMapper.toAccount)
     }
+
+    func createAccount(name: String, currencyID: Int64) async throws -> Account {
+        // `type` defaults to `regular` and `user_id` to `auth.uid()`, like the web insert.
+        let dto: AccountDto = try await client
+            .from("accounts")
+            .insert(NewAccountDto(name: name, currencyID: currencyID))
+            .select("id, name, currencies(code)")
+            .single()
+            .execute()
+            .value
+        return ReferenceDataMapper.toAccount(dto)
+    }
 }

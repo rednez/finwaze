@@ -50,7 +50,7 @@ struct ResetPasswordView: View {
                 .onSubmit(submit)
             }
 
-            AuthSubmitButton(title: "resetPassword.submit", isLoading: viewModel.isSubmitting) {
+            SubmitButton(title: "resetPassword.submit", isLoading: viewModel.isSubmitting) {
               submit()
             }
             .padding(.top, 8)

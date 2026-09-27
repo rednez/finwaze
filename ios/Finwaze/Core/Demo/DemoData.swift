@@ -8,6 +8,16 @@ nonisolated enum DemoData {
         Account(id: 3, name: "Savings", currencyCode: "EUR"),
     ]
 
+    /// Balances of `accounts` on the Wallet screen.
+    static let walletAccounts = [
+        WalletAccount(id: 1, name: "Main Card", currencyCode: "USD", balance: 3200),
+        WalletAccount(id: 2, name: "Cash", currencyCode: "UAH", balance: 18500),
+        WalletAccount(id: 3, name: "Savings", currencyCode: "EUR", balance: 5800),
+    ]
+
+    /// The id the web demo gives every "created" row; nothing is stored.
+    static let createdRowID: Int64 = 90000
+
     static let currencies = [
         Currency(id: 1, code: "USD", name: "US Dollar", countryName: "United States"),
         Currency(id: 2, code: "UAH", name: "Ukrainian Hryvnia", countryName: "Ukraine"),

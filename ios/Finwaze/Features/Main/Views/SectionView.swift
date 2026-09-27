@@ -20,20 +20,31 @@ struct SectionView: View {
 }
 
 /// One section's screen: title, short description, "?" and the menus (`NAV-03`, `NAV-04`).
-/// The content is a placeholder until the section's stage is implemented.
+/// Sections whose stage is not implemented yet show a placeholder.
 struct SectionContentView: View {
     let section: AppSection
     let onOpen: (AppSection) -> Void
+    @Environment(AppViewModel.self) private var app
 
     var body: some View {
-        ContentUnavailableView {
-            Label(section.title, systemImage: section.systemImage)
-        } description: {
-            Text("section.comingSoon")
+        content
+            .navigationTitle(section.title)
+            .navigationSubtitle(section.subtitle)
+            .sectionToolbar(for: section, onOpen: onOpen)
+    }
+
+    @ViewBuilder
+    private var content: some View {
+        switch section {
+        case .wallet:
+            WalletView(repository: app.repositories.wallet)
+        default:
+            ContentUnavailableView {
+                Label(section.title, systemImage: section.systemImage)
+            } description: {
+                Text("section.comingSoon")
+            }
         }
-        .navigationTitle(section.title)
-        .navigationSubtitle(section.subtitle)
-        .sectionToolbar(for: section, onOpen: onOpen)
     }
 }
 

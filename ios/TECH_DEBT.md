@@ -46,9 +46,11 @@ Known gaps in the iOS client that still need to be done. Remove an item once it'
 
 ## App
 
-- **Section placeholders.** Every section in `Features/Main/Views/SectionView.swift` shows "under construction"
-  until its stage lands; `OnboardingPlaceholderView` waits for stage 2, the Guide and Settings sheets in
-  `SectionToolbar.swift` for stages 15 and 14.
+- **Section placeholders.** Every section in `Features/Main/Views/SectionView.swift` except the Wallet shows "under
+  construction" until its stage lands; the Guide and Settings sheets in `SectionToolbar.swift` wait for stages 15
+  and 14.
+- **Wallet is partial.** Stage 2 shows the account cards and "New account". Still missing: "Transfer money"
+  (`ACC-01`, `TRF`), account settings on card tap (stage 6) and the Wallet's charts and recent transactions.
 - **`WEB_APP_URL` for Staging and Release is empty** (`ios/Config/Staging.xcconfig`, `Release.xcconfig`). Until it
   is set, password-reset emails from those builds link to the Supabase project's `site_url` instead of
   `<web app>/change-password`.

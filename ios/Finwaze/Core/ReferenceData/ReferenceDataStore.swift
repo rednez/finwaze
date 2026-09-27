@@ -26,6 +26,12 @@ final class ReferenceDataStore {
         (self.accounts, self.groups, self.categories, self.currencies) = loaded
     }
 
+    /// Adds an account just created, ahead of the reload that brings it from the server.
+    func add(_ account: Account) {
+        guard !accounts.contains(where: { $0.id == account.id }) else { return }
+        accounts.append(account)
+    }
+
     func reset() {
         accounts = []
         groups = []

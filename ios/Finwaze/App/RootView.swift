@@ -18,7 +18,7 @@ struct RootView: View {
             case .signedOut:
                 AuthFlowView(repository: authRepository, enterDemo: app.enterDemo)
             case .onboarding:
-                OnboardingPlaceholderView(onSignOut: signOut)
+                OnboardingView(app: app, onSignOut: signOut)
             case .main:
                 MainTabView()
             case .failed:

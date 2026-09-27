@@ -14,7 +14,12 @@ struct AppViewModelTests {
     ) -> AppViewModel {
         AppViewModel(
             authRepository: auth,
-            liveRepositories: Repositories(accounts: repository, categories: repository, currencies: repository),
+            liveRepositories: Repositories(
+                accounts: repository,
+                categories: repository,
+                currencies: repository,
+                wallet: FakeWalletRepository()
+            ),
             preferences: DevicePreferences(defaults: defaults),
             demoMode: DemoModeStorage(defaults: defaults)
         )
@@ -112,6 +117,72 @@ struct AppViewModelTests {
 
         #expect(viewModel.referenceData.accounts.isEmpty)
         #expect(viewModel.route == .signedOut)
+    }
+
+    // MARK: Changes to reference data (GEN-26, ONB-04)
+
+    @Test func firstAccountOpensMainAppInItsCurrency() async throws {
+        let repository = FakeReferenceDataRepository()
+        let viewModel = makeViewModel(repository: repository)
+        await viewModel.apply(user())
+        #expect(viewModel.route == .onboarding)
+
+        let account = try await repository.createAccount(name: "Card", currencyID: FakeReferenceDataRepository.eur.id)
+        await viewModel.accountCreated(account)
+
+        #expect(viewModel.route == .main)
+        #expect(viewModel.referenceData.accounts == [account])
+        #expect(viewModel.preferences.primaryCurrencyCode == "EUR")
+    }
+
+    @Test func createdAccountCountsEvenIfReloadFails() async throws {
+        let repository = FakeReferenceDataRepository()
+        let viewModel = makeViewModel(repository: repository)
+        await viewModel.apply(user())
+
+        let account = try await repository.createAccount(name: "Cash", currencyID: FakeReferenceDataRepository.uah.id)
+        repository.setFails(true)
+        await viewModel.accountCreated(account)
+
+        #expect(viewModel.route == .main)
+        #expect(viewModel.referenceData.accounts == [account])
+    }
+
+    @Test func reloadKeepsPrimaryCurrencyAndAddsAccount() async {
+        let repository = FakeReferenceDataRepository(accounts: [cash])
+        let viewModel = makeViewModel(repository: repository)
+        await viewModel.apply(user())
+
+        repository.setAccounts([cash, card])
+        await viewModel.reloadReferenceData()
+
+        #expect(viewModel.route == .main)
+        #expect(viewModel.referenceData.accounts == [cash, card])
+        #expect(viewModel.preferences.primaryCurrencyCode == "UAH")
+    }
+
+    @Test func failedReloadKeepsPreviousData() async {
+        let repository = FakeReferenceDataRepository(accounts: [cash])
+        let viewModel = makeViewModel(repository: repository)
+        await viewModel.apply(user())
+
+        repository.setFails(true)
+        await viewModel.reloadReferenceData()
+
+        #expect(viewModel.route == .main)
+        #expect(viewModel.referenceData.accounts == [cash])
+    }
+
+    @Test func demoAccountCreationChangesNothing() async throws {
+        let viewModel = makeViewModel(repository: FakeReferenceDataRepository())
+        try await viewModel.enterDemo()
+        await viewModel.apply(user())
+
+        let account = try await viewModel.repositories.accounts.createAccount(name: "Card", currencyID: 3)
+        await viewModel.accountCreated(account)
+
+        #expect(account.id == DemoData.createdRowID)
+        #expect(viewModel.referenceData.accounts == DemoData.accounts)
     }
 
     // MARK: Demo mode (AUTH-10)

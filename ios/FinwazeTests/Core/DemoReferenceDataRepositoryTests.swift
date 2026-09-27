@@ -1,3 +1,4 @@
+import Foundation
 import Testing
 @testable import Finwaze
 
@@ -25,5 +26,19 @@ struct DemoReferenceDataRepositoryTests {
         let codes = Set(try await repository.currencies().map(\.code))
 
         #expect(try await repository.regularAccounts().allSatisfy { codes.contains($0.currencyCode) })
+    }
+
+    @Test func createAccountIsANoOp() async throws {
+        let account = try await repository.createAccount(name: "Card", currencyID: 3)
+
+        #expect(account == Account(id: DemoData.createdRowID, name: "Card", currencyCode: "EUR"))
+        #expect(try await repository.regularAccounts() == DemoData.accounts)
+    }
+
+    @Test func walletBalancesCoverEveryAccount() async throws {
+        let wallet = try await DemoWalletRepository().accounts()
+
+        #expect(Set(wallet.map(\.id)) == Set(DemoData.accounts.map(\.id)))
+        #expect(wallet.first { $0.name == "Cash" }?.balance == 18500)
     }
 }

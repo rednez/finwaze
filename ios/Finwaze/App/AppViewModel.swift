@@ -121,7 +121,33 @@ final class AppViewModel {
             return
         }
         guard !Task.isCancelled else { return }
+        applyReferenceData()
+    }
 
+    /// Reloads reference data after a change, so every screen sees it (`GEN-26`), then re-derives the route and
+    /// the primary currency (`NAV-11`). Unlike the first load it keeps the current screen; on failure the
+    /// previous data stays.
+    func reloadReferenceData() async {
+        do {
+            try await referenceData.load(using: repositories)
+        } catch {
+            return
+        }
+        applyReferenceData()
+    }
+
+    /// A new account was created: it is usable right away, even if the reload that follows fails — the first one
+    /// moves onboarding to the main app (`ONB-04`) and must not be offered for creation again.
+    /// In demo mode nothing was stored, so the data is only reloaded and stays as it was (`AUTH-10`).
+    func accountCreated(_ account: Account) async {
+        if !isDemo {
+            referenceData.add(account)
+            applyReferenceData()
+        }
+        await reloadReferenceData()
+    }
+
+    private func applyReferenceData() {
         preferences.primaryCurrencyCode = PrimaryCurrencyResolver.resolve(
             stored: preferences.primaryCurrencyCode,
             accounts: referenceData.accounts

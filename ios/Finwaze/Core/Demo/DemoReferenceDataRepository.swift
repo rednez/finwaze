@@ -6,6 +6,12 @@ nonisolated struct DemoReferenceDataRepository: AccountsRepository, CategoriesRe
         DemoData.accounts
     }
 
+    /// A no-op, like on the web: answers with a made-up account and stores nothing, so the demo never changes.
+    func createAccount(name: String, currencyID: Int64) async throws -> Account {
+        let code = DemoData.currencies.first { $0.id == currencyID }?.code ?? ""
+        return Account(id: DemoData.createdRowID, name: name, currencyCode: code)
+    }
+
     func groups() async throws -> [CategoryGroup] {
         DemoData.groups
     }

@@ -37,7 +37,7 @@ struct EmailSentView: View {
         in: .rect(cornerRadius: 24)
       )
 
-      AuthSubmitButton(title: signInTitle, isLoading: false, action: onSignIn)
+      SubmitButton(title: signInTitle, isLoading: false, action: onSignIn)
         .padding(.top, 8)
 
       if let resend {
