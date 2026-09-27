@@ -36,6 +36,8 @@ struct SectionContentView: View {
     @ViewBuilder
     private var content: some View {
         switch section {
+        case .transactions:
+            TransactionsView(app: app)
         case .wallet:
             WalletView(repository: app.repositories.wallet)
         default:

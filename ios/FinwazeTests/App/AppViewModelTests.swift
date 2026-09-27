@@ -18,7 +18,8 @@ struct AppViewModelTests {
                 accounts: repository,
                 categories: repository,
                 currencies: repository,
-                wallet: FakeWalletRepository()
+                wallet: FakeWalletRepository(),
+                transactions: FakeTransactionsRepository()
             ),
             preferences: DevicePreferences(defaults: defaults),
             demoMode: DemoModeStorage(defaults: defaults)
@@ -183,6 +184,80 @@ struct AppViewModelTests {
 
         #expect(account.id == DemoData.createdRowID)
         #expect(viewModel.referenceData.accounts == DemoData.accounts)
+    }
+
+    @Test func createdTransactionSignalsChangedData() async {
+        let viewModel = makeViewModel(repository: FakeReferenceDataRepository(accounts: [cash]))
+        await viewModel.apply(user())
+        let version = viewModel.dataVersion
+
+        viewModel.transactionCreated()
+
+        #expect(viewModel.dataVersion == version + 1)
+    }
+
+    @Test func createdAccountSignalsChangedData() async throws {
+        let repository = FakeReferenceDataRepository(accounts: [cash])
+        let viewModel = makeViewModel(repository: repository)
+        await viewModel.apply(user())
+        let version = viewModel.dataVersion
+
+        let account = try await repository.createAccount(name: "Card", currencyID: FakeReferenceDataRepository.eur.id)
+        await viewModel.accountCreated(account)
+
+        #expect(viewModel.dataVersion == version + 1)
+    }
+
+    // MARK: Groups and categories from the picker (TX-12)
+
+    @Test func createdGroupAndCategoryAreSelectableRightAway() async throws {
+        let repository = FakeReferenceDataRepository(accounts: [cash], groups: [], categories: [])
+        let viewModel = makeViewModel(repository: repository)
+        await viewModel.apply(user())
+
+        let group = try await viewModel.createGroup(name: "Travel", type: .expense, color: "#38BDF8")
+        let category = try await viewModel.createCategory(name: "Hotels", groupID: group.id, color: nil)
+
+        #expect(viewModel.referenceData.groups == [group])
+        #expect(viewModel.referenceData.categories == [category])
+        #expect(group.transactionType == .expense)
+        #expect(group.color == "#38BDF8")
+        #expect(category.groupID == group.id)
+        #expect(category.color == nil)
+    }
+
+    @Test func createdGroupStaysEvenIfReloadFails() async throws {
+        let repository = FakeReferenceDataRepository(accounts: [cash], groups: [], categories: [])
+        let viewModel = makeViewModel(repository: repository)
+        await viewModel.apply(user())
+        repository.setFails(true)
+
+        let group = try await viewModel.createGroup(name: "Travel", type: .income, color: nil)
+
+        #expect(viewModel.referenceData.groups == [group])
+    }
+
+    @Test func failedGroupCreationThrows() async {
+        let repository = FakeReferenceDataRepository(accounts: [cash])
+        let viewModel = makeViewModel(repository: repository)
+        await viewModel.apply(user())
+        repository.setCreateFails(true)
+
+        await #expect(throws: FakeCreateError.self) { try await viewModel.createGroup(name: "Travel", type: .expense, color: nil) }
+        #expect(viewModel.referenceData.groups == [FakeReferenceDataRepository.food])
+    }
+
+    @Test func demoCreatesNoGroupOrCategory() async throws {
+        let viewModel = makeViewModel(repository: FakeReferenceDataRepository())
+        try await viewModel.enterDemo()
+        await viewModel.apply(user())
+
+        let group = try await viewModel.createGroup(name: "Travel", type: .expense, color: "#22C55E")
+        _ = try await viewModel.createCategory(name: "Hotels", groupID: group.id, color: nil)
+
+        #expect(group.id == DemoData.createdRowID)
+        #expect(viewModel.referenceData.groups == DemoData.groups)
+        #expect(viewModel.referenceData.categories == DemoData.categories)
     }
 
     // MARK: Demo mode (AUTH-10)

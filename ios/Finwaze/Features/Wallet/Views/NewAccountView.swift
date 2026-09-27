@@ -33,7 +33,7 @@ struct NewAccountView: View {
                         .disabled(viewModel.isSubmitting)
                 }
             }
-            .accountCreationFailureAlert($viewModel.failure, title: "wallet.newAccount.creationFailed")
+            .failureAlert($viewModel.failure, title: "wallet.newAccount.creationFailed")
         }
         .interactiveDismissDisabled(viewModel.isSubmitting)
     }

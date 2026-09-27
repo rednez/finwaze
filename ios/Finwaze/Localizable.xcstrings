@@ -1,3387 +1,4863 @@
 {
-  "sourceLanguage": "en",
-  "strings": {
-    "accountForm.currency": {
-      "extractionState": "manual",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Currency"
+  "sourceLanguage" : "en",
+  "strings" : {
+    "" : {
+
+    },
+    "%@, %@" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "%1$@, %2$@"
+          }
+        }
+      }
+    },
+    "accountForm.currency" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Měna"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Currency"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Валюта"
+          }
+        }
+      }
+    },
+    "accountForm.currencyError" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Je nutné vybrat"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Should be selected"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Необхідно обрати"
+          }
+        }
+      }
+    },
+    "accountForm.currencyPlaceholder" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Vyberte měnu"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Select a currency"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Оберіть валюту"
+          }
+        }
+      }
+    },
+    "accountForm.name" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Název"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Name"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Назва"
+          }
+        }
+      }
+    },
+    "accountForm.nameError" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Musí mít 3 až 30 znaků"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Should be between 3 and 30 characters"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Має бути від 3 до 30 символів"
+          }
+        }
+      }
+    },
+    "accountForm.namePlaceholder" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Zadejte název účtu"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Enter account name"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Введіть назву рахунку"
+          }
+        }
+      }
+    },
+    "auth.email" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "E-mail"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Email"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Email"
+          }
+        }
+      }
+    },
+    "auth.emailInvalid" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Zadejte platný e-mail"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Enter a valid email"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Введіть коректний email"
+          }
+        }
+      }
+    },
+    "auth.emailPlaceholder" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Zadejte svůj e-mail"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Enter your email"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Введіть ваш email"
+          }
+        }
+      }
+    },
+    "auth.emailRequired" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "E-mail je povinný"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Email is required"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Email є обов'язковим"
+          }
+        }
+      }
+    },
+    "auth.error.emailNotConfirmed" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Váš e-mail ještě není ověřen. Zkontrolujte prosím svou doručenou poštu."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Your email is not confirmed yet. Please check your inbox."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ваш email ще не підтверджено. Будь ласка, перевірте вхідні."
+          }
+        }
+      }
+    },
+    "auth.error.invalidCredentials" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Neplatné přihlašovací údaje"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Invalid login or password"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Невірний логін або пароль"
+          }
+        }
+      }
+    },
+    "auth.error.network" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nelze se připojit k serveru. Zkontrolujte připojení k internetu a zkuste to znovu."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No connection to the server. Check your internet connection and try again."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Немає з'єднання із сервером. Перевірте інтернет і спробуйте ще раз."
+          }
+        }
+      }
+    },
+    "auth.error.rateLimited" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Příliš mnoho pokusů. Počkejte minutu a zkuste to znovu."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Too many attempts. Please wait a minute and try again."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Забагато спроб. Зачекайте хвилину й спробуйте ще раз."
+          }
+        }
+      }
+    },
+    "auth.error.unknown %@" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@"
+          }
+        }
+      }
+    },
+    "auth.error.userExists" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Uživatel již existuje"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "User already exists"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Користувач вже існує"
+          }
+        }
+      }
+    },
+    "auth.error.weakPassword" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Heslo je příliš slabé. Zvolte silnější."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "The password is too weak. Choose a stronger one."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Пароль занадто простий. Оберіть надійніший."
+          }
+        }
+      }
+    },
+    "auth.hidePassword" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Skrýt heslo"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hide password"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Приховати пароль"
+          }
+        }
+      }
+    },
+    "auth.password" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Heslo"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Password"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Пароль"
+          }
+        }
+      }
+    },
+    "auth.passwordRequired" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Heslo je povinné"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Password is required"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Пароль є обов'язковим"
+          }
+        }
+      }
+    },
+    "auth.showPassword" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Zobrazit heslo"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Show password"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Показати пароль"
+          }
+        }
+      }
+    },
+    "categoryPicker.categoryCreationFailed" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Vytvoření kategorie selhalo"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Category creation failed"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Помилка створення категорії"
+          }
+        }
+      }
+    },
+    "categoryPicker.groupCreationFailed" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Vytvoření skupiny selhalo"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Group creation failed"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Помилка створення групи"
+          }
+        }
+      }
+    },
+    "categoryPicker.newCategory" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nová kategorie"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "New Category"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Нова категорія"
+          }
+        }
+      }
+    },
+    "categoryPicker.newGroup" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nová skupina"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "New Group"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Нова група"
+          }
+        }
+      }
+    },
+    "categoryPicker.noCategories.message" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Přidejte do této skupiny první kategorii."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Add the first category to this group."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Додайте першу категорію до цієї групи."
+          }
+        }
+      }
+    },
+    "categoryPicker.noCategories.title" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Zatím žádné kategorie"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No categories yet"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Категорій ще немає"
+          }
+        }
+      }
+    },
+    "categoryPicker.noGroups.message" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Vytvořte skupinu a pak do ní přidejte kategorie."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Create a group, then add categories to it."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Створіть групу, а потім додайте до неї категорії."
+          }
+        }
+      }
+    },
+    "categoryPicker.noGroups.title" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Zatím žádné skupiny"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No groups yet"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Груп ще немає"
+          }
+        }
+      }
+    },
+    "categoryPicker.search" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hledat kategorii"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Search category"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Пошук категорії"
+          }
+        }
+      }
+    },
+    "categoryPicker.title" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Vyberte kategorii"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Select category"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Оберіть категорію"
+          }
+        }
+      }
+    },
+    "colorPalette.label" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Barva"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Colour"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Колір"
+          }
+        }
+      }
+    },
+    "colorPalette.none" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bez barvy"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No colour"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Без кольору"
+          }
+        }
+      }
+    },
+    "colorPalette.option %lld" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Barva %lld"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Colour %lld"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Колір %lld"
+          }
+        }
+      }
+    },
+    "common.cancel" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Zrušit"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cancel"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Скасувати"
+          }
+        }
+      }
+    },
+    "common.done" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hotovo"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Done"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Готово"
+          }
+        }
+      }
+    },
+    "common.loading" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Načítání"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Loading"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Завантаження"
+          }
+        }
+      }
+    },
+    "common.ok" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "OK"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "OK"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "OK"
+          }
+        }
+      }
+    },
+    "common.retry" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Zkusit znovu"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Try again"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Спробувати ще раз"
+          }
+        }
+      }
+    },
+    "currencyPicker.search" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kód nebo název"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Code or name"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Код або назва"
+          }
+        }
+      }
+    },
+    "currencyPicker.title" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Měna"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Currency"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Валюта"
+          }
+        }
+      }
+    },
+    "error.generic.message" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Zkuste to znovu."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Please try again."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Спробуйте ще раз."
+          }
+        }
+      }
+    },
+    "error.generic.title" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Něco se pokazilo"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Something went wrong"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Щось пішло не так"
+          }
+        }
+      }
+    },
+    "guide.comingSoon" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Články průvodce brzy přidáme."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Guide articles are coming soon."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Статті посібника з’являться згодом."
+          }
+        }
+      }
+    },
+    "login.badge" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Zdarma a bezpečně"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Free and secure"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Безкоштовно та безпечно"
+          }
+        }
+      }
+    },
+    "login.error.title" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Přihlášení se nezdařilo"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Couldn't sign in"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Не вдалося увійти"
+          }
+        }
+      }
+    },
+    "login.forgotPassword" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Zapomněli jste heslo?"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Forgot password?"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Забули пароль?"
+          }
+        }
+      }
+    },
+    "login.noAccount" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nemáte účet?"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Don't have an account?"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ще не маєте облікового запису?"
+          }
+        }
+      }
+    },
+    "login.passwordPlaceholder" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Zadejte své heslo"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Enter your password"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Введіть пароль"
+          }
+        }
+      }
+    },
+    "login.signUpLink" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Registrovat se"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sign up"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Зареєструватися"
+          }
+        }
+      }
+    },
+    "login.submit" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Přihlásit se"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sign In"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Увійти"
+          }
+        }
+      }
+    },
+    "login.subtitle" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ovládejte své peníze s jistotou. Nechte výdaje odpovídat za sebe."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Control your money with confidence. Make your expenses answer to you."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Контролюйте свої гроші впевнено. Нехай витрати вам підкоряються."
+          }
+        }
+      }
+    },
+    "login.title" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Přihlásit se do aplikace"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sign In to the App"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Вхід до застосунку"
+          }
+        }
+      }
+    },
+    "login.tryDemo" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Vyzkoušet Demo"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Try Demo Mode"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Демо-режим"
+          }
+        }
+      }
+    },
+    "namePrompt.create" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Vytvořit"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Create"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Створити"
+          }
+        }
+      }
+    },
+    "namePrompt.name" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Název"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Name"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Назва"
+          }
+        }
+      }
+    },
+    "namePrompt.nameRequired" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Název je povinný"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Name required"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Назва обов'язкова"
+          }
+        }
+      }
+    },
+    "namePrompt.nameTooLong" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Maximální délka je 25 znaků"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Maximum length is 25 characters"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Максимальна довжина — 25 символів"
+          }
+        }
+      }
+    },
+    "namePrompt.placeholder" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Zadejte název"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Enter a name"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Введіть назву"
+          }
+        }
+      }
+    },
+    "onboarding.account.create" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Vytvořit účet"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Create account"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Створити рахунок"
+          }
+        }
+      }
+    },
+    "onboarding.account.creationFailed" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nepodařilo se vytvořit účet"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Failed to create account"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Не вдалося створити рахунок"
+          }
+        }
+      }
+    },
+    "onboarding.account.description" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pro začátek sledování financí ve Finwaze potřebujete alespoň jeden účet. Zvolte název a měnu — další účty můžete kdykoliv přidat později."
           }
         },
-        "uk": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Валюта"
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "To start tracking your finances in Finwaze, you need at least one account. Choose a name and currency — you can always add more accounts later."
           }
         },
-        "cs": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Měna"
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Щоб почати вести облік фінансів у Finwaze, потрібен принаймні один рахунок. Виберіть назву та валюту — за потреби ви завжди зможете додати інші рахунки пізніше."
           }
         }
       }
     },
-    "accountForm.currencyError": {
-      "extractionState": "manual",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Should be selected"
+    "onboarding.account.eyebrow" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Poslední krok"
           }
         },
-        "uk": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Необхідно обрати"
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Final step"
           }
         },
-        "cs": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Je nutné vybrat"
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Останній крок"
           }
         }
       }
     },
-    "accountForm.currencyPlaceholder": {
-      "extractionState": "manual",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Select a currency"
+    "onboarding.account.guideHint" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Začínáte se správou osobních financí? Po přihlášení můžete kdykoliv otevřít sekci „Průvodce“ v menu (vpravo nahoře), kde najdete krok za krokem návody a tipy."
           }
         },
-        "uk": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Оберіть валюту"
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "New to personal finance tracking? After signing in, you can open the “Guide” anytime from the menu (top right) for step-by-step examples and tips."
           }
         },
-        "cs": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Vyberte měnu"
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Вперше ведете облік особистих фінансів? Після входу ви будь-коли зможете відкрити розділ «Посібник» у меню (у верхньому правому куті), де знайдете покрокові приклади та корисні поради."
           }
         }
       }
     },
-    "accountForm.name": {
-      "extractionState": "manual",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Name"
+    "onboarding.account.title" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Vytvořte si\nprvní účet"
           }
         },
-        "uk": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Назва"
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Create your\nfirst account"
           }
         },
-        "cs": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Název"
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Створіть свій\nперший рахунок"
           }
         }
       }
     },
-    "accountForm.nameError": {
-      "extractionState": "manual",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Should be between 3 and 30 characters"
+    "onboarding.analytics.bullet1" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Měsíční přehled příjmů a výdajů"
           }
         },
-        "uk": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Має бути від 3 до 30 символів"
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Monthly income and expense overview"
           }
         },
-        "cs": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Musí mít 3 až 30 znaků"
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Огляд доходів і витрат за місяць"
           }
         }
       }
     },
-    "accountForm.namePlaceholder": {
-      "extractionState": "manual",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Enter account name"
+    "onboarding.analytics.bullet2" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Rozdělení výdajů podle kategorií a skupin"
           }
         },
-        "uk": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Введіть назву рахунку"
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Spending breakdown by categories and groups"
           }
         },
-        "cs": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Zadejte název účtu"
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Аналіз витрат за категоріями та групами"
           }
         }
       }
     },
-    "auth.email": {
-      "extractionState": "manual",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Email"
+    "onboarding.analytics.bullet3" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sledování trendů napříč účty"
           }
         },
-        "uk": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Email"
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Track trends across all accounts"
           }
         },
-        "cs": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "E-mail"
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Відстеження тенденцій за всіма рахунками"
           }
         }
       }
     },
-    "auth.emailInvalid": {
-      "extractionState": "manual",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Enter a valid email"
+    "onboarding.analytics.description" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Přehledy a analytika mění vaše transakce na srozumitelné informace: měsíční souhrny, rozdělení výdajů podle kategorií a finanční trendy napříč účty."
           }
         },
-        "uk": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Введіть коректний email"
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Insights and analytics turn your transactions into clear understanding: monthly summaries, spending breakdown by category, and financial trends across all accounts."
           }
         },
-        "cs": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Zadejte platný e-mail"
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Огляд та аналітика перетворюють ваші транзакції на зрозумілі висновки: місячні підсумки, структуру витрат за категоріями та фінансові тенденції за всіма рахунками."
           }
         }
       }
     },
-    "auth.emailPlaceholder": {
-      "extractionState": "manual",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Enter your email"
+    "onboarding.analytics.eyebrow" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Analytika"
           }
         },
-        "uk": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Введіть ваш email"
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Analytics"
           }
         },
-        "cs": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Zadejte svůj e-mail"
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Аналітика"
           }
         }
       }
     },
-    "auth.emailRequired": {
-      "extractionState": "manual",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Email is required"
+    "onboarding.analytics.title" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Analyzujte své finance"
           }
         },
-        "uk": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Email є обов'язковим"
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Analyze your finances"
           }
         },
-        "cs": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "E-mail je povinný"
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Аналізуйте свої фінанси"
           }
         }
       }
     },
-    "auth.error.emailNotConfirmed": {
-      "extractionState": "manual",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Your email is not confirmed yet. Please check your inbox."
+    "onboarding.back" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Zpět"
           }
         },
-        "uk": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Ваш email ще не підтверджено. Будь ласка, перевірте вхідні."
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Back"
           }
         },
-        "cs": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Váš e-mail ještě není ověřen. Zkontrolujte prosím svou doručenou poštu."
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Назад"
           }
         }
       }
     },
-    "auth.error.invalidCredentials": {
-      "extractionState": "manual",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Invalid login or password"
+    "onboarding.budget.bullet1" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Měsíční limity pro kategorie"
           }
         },
-        "uk": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Невірний логін або пароль"
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Monthly limits per category"
           }
         },
-        "cs": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Neplatné přihlašovací údaje"
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Місячні ліміти для категорій"
           }
         }
       }
     },
-    "auth.error.network": {
-      "extractionState": "manual",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "No connection to the server. Check your internet connection and try again."
+    "onboarding.budget.bullet2" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sledování výdajů v reálném čase"
           }
         },
-        "uk": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Немає з'єднання із сервером. Перевірте інтернет і спробуйте ще раз."
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Real-time spending progress"
           }
         },
-        "cs": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Nelze se připojit k serveru. Zkontrolujte připojení k internetu a zkuste to znovu."
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Відстеження прогресу в реальному часі"
           }
         }
       }
     },
-    "auth.error.rateLimited": {
-      "extractionState": "manual",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Too many attempts. Please wait a minute and try again."
+    "onboarding.budget.bullet3" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Vyhněte se překročení rozpočtu"
           }
         },
-        "uk": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Забагато спроб. Зачекайте хвилину й спробуйте ще раз."
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Avoid overspending"
           }
         },
-        "cs": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Příliš mnoho pokusů. Počkejte minutu a zkuste to znovu."
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Уникайте перевитрат"
           }
         }
       }
     },
-    "auth.error.unknown %@": {
-      "extractionState": "manual",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "%@"
+    "onboarding.budget.description" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nastavte měsíční limity výdajů pro jednotlivé kategorie a sledujte svůj pokrok v reálném čase. Finwaze vám pomůže odhalit riziko překročení rozpočtu ještě předtím, než nastane."
           }
         },
-        "uk": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "%@"
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Set monthly spending limits for individual categories and track your progress in real time. Finwaze helps you spot overspending risks before they happen."
           }
         },
-        "cs": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "%@"
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Встановлюйте місячні ліміти витрат для окремих категорій і стежте за прогресом у реальному часі. Finwaze допоможе помітити ризик перевитрат ще до того, як вони стануть проблемою."
           }
         }
       }
     },
-    "auth.error.userExists": {
-      "extractionState": "manual",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "User already exists"
+    "onboarding.budget.eyebrow" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Rozpočty"
           }
         },
-        "uk": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Користувач вже існує"
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Budgets"
           }
         },
-        "cs": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Uživatel již existuje"
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Бюджети"
           }
         }
       }
     },
-    "auth.error.weakPassword": {
-      "extractionState": "manual",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "The password is too weak. Choose a stronger one."
+    "onboarding.budget.title" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Plánujte\ns jistotou"
           }
         },
-        "uk": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Пароль занадто простий. Оберіть надійніший."
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Plan\nwith confidence"
           }
         },
-        "cs": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Heslo je příliš slabé. Zvolte silnější."
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Плануйте\nз упевненістю"
           }
         }
       }
     },
-    "auth.hidePassword": {
-      "extractionState": "manual",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Hide password"
+    "onboarding.categories.bullet1" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Seskupujte související kategorie"
           }
         },
-        "uk": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Приховати пароль"
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Group related categories together"
           }
         },
-        "cs": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Skrýt heslo"
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Об’єднуйте пов’язані категорії в групи"
           }
         }
       }
     },
-    "auth.password": {
-      "extractionState": "manual",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Password"
+    "onboarding.categories.bullet2" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Přizpůsobte si kategorie podle potřeby"
           }
         },
-        "uk": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Пароль"
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Customize categories to fit your needs"
           }
         },
-        "cs": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Heslo"
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Налаштовуйте категорії під свої потреби"
           }
         }
       }
     },
-    "auth.passwordRequired": {
-      "extractionState": "manual",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Password is required"
+    "onboarding.categories.bullet3" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Barevné štítky pro lepší přehled"
           }
         },
-        "uk": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Пароль є обов'язковим"
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Add color labels for better clarity"
           }
         },
-        "cs": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Heslo je povinné"
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Можливість встановлення окремої кольорової мітки"
           }
         }
       }
     },
-    "auth.showPassword": {
-      "extractionState": "manual",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Show password"
+    "onboarding.categories.description" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Organizujte transakce pomocí skupin a kategorií, které odpovídají vašemu životnímu stylu — například „Auto → Palivo“ nebo „Služby → Předplatné“. Jasná struktura pomáhá lépe porozumět financím."
           }
         },
-        "uk": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Показати пароль"
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Structure your transactions using groups and categories that match your lifestyle — for example, “Car → Fuel” or “Services → Subscriptions”. A clear structure helps you better understand your finances."
           }
         },
-        "cs": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Zobrazit heslo"
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Організовуйте транзакції за групами та категоріями, які відповідають саме вашому способу життя — наприклад, «Авто → Пальне» або «Послуги → Підписки». Чітка структура допомагає краще розуміти свої фінанси."
           }
         }
       }
     },
-    "common.cancel": {
-      "extractionState": "manual",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Cancel"
+    "onboarding.categories.eyebrow" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Skupiny a kategorie"
           }
         },
-        "uk": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Скасувати"
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Groups & categories"
           }
         },
-        "cs": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Zrušit"
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Групи та категорії"
           }
         }
       }
     },
-    "common.done": {
-      "extractionState": "manual",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Done"
+    "onboarding.categories.title" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Uspořádejte své výdaje\npo svém"
           }
         },
-        "uk": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Готово"
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Organize your spending\nyour way"
           }
         },
-        "cs": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Hotovo"
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Упорядкуйте витрати\nпо-своєму"
           }
         }
       }
     },
-    "common.loading": {
-      "extractionState": "manual",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Loading"
+    "onboarding.getStarted" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Začít"
           }
         },
-        "uk": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Завантаження"
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Get started"
           }
         },
-        "cs": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Načítání"
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Почнімо"
           }
         }
       }
     },
-    "common.ok": {
-      "extractionState": "manual",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "OK"
+    "onboarding.goals.bullet1" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Samostatný účet pro každý cíl"
           }
         },
-        "uk": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "OK"
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Separate account for each goal"
           }
         },
-        "cs": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "OK"
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Окремий рахунок для кожної цілі"
           }
         }
       }
     },
-    "common.retry": {
-      "extractionState": "manual",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Try again"
+    "onboarding.goals.bullet2" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Jasné sledování pokroku"
           }
         },
-        "uk": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Спробувати ще раз"
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Clear progress tracking"
           }
         },
-        "cs": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Zkusit znovu"
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Наочне відстеження прогресу"
           }
         }
       }
     },
-    "currencyPicker.search": {
-      "extractionState": "manual",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Code or name"
+    "onboarding.goals.bullet3" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Šetřete pravidelně a s jistotou"
           }
         },
-        "uk": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Код або назва"
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Save consistently with confidence"
           }
         },
-        "cs": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Kód nebo název"
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Заощаджуйте регулярно та впевнено"
           }
         }
       }
     },
-    "currencyPicker.title": {
-      "extractionState": "manual",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Currency"
+    "onboarding.goals.description" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Vytvářejte samostatné cíle úspor s vlastním účtem. Sledujte svůj pokrok a motivujte se rostoucím zůstatkem."
           }
         },
-        "uk": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Валюта"
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Create dedicated savings goals with separate accounts. Track your progress and stay motivated as your balance grows."
           }
         },
-        "cs": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Měna"
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Створюйте окремі цілі заощаджень із власними рахунками. Відстежуйте свій прогрес і зберігайте мотивацію, спостерігаючи, як зростають ваші накопичення."
           }
         }
       }
     },
-    "error.generic.message": {
-      "extractionState": "manual",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Please try again."
+    "onboarding.goals.eyebrow" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cíle úspor"
           }
         },
-        "uk": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Спробуйте ще раз."
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Savings goals"
           }
         },
-        "cs": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Zkuste to znovu."
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Цілі заощаджень"
           }
         }
       }
     },
-    "error.generic.title": {
-      "extractionState": "manual",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Something went wrong"
+    "onboarding.goals.title" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Přibližujte se\nsvým cílům"
           }
         },
-        "uk": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Щось пішло не так"
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Move closer to\nyour goals"
           }
         },
-        "cs": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Něco se pokazilo"
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Наближайтеся до\nсвоїх цілей"
           }
         }
       }
     },
-    "guide.comingSoon": {
-      "extractionState": "manual",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Guide articles are coming soon."
+    "onboarding.goToStep %lld" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Přejít na krok %lld"
           }
         },
-        "uk": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Статті посібника з’являться згодом."
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Go to step %lld"
           }
         },
-        "cs": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Články průvodce brzy přidáme."
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Перейти до кроку %lld"
           }
         }
       }
     },
-    "login.badge": {
-      "extractionState": "manual",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Free and secure"
+    "onboarding.next" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Další"
           }
         },
-        "uk": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Безкоштовно та безпечно"
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Next"
           }
         },
-        "cs": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Zdarma a bezpečně"
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Далі"
           }
         }
       }
     },
-    "login.error.title": {
-      "extractionState": "manual",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Couldn't sign in"
+    "onboarding.skip" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Přeskočit"
           }
         },
-        "uk": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Не вдалося увійти"
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Skip"
           }
         },
-        "cs": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Přihlášení se nezdařilo"
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Пропустити"
           }
         }
       }
     },
-    "login.forgotPassword": {
-      "extractionState": "manual",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Forgot password?"
+    "onboarding.stepCounter %lld %lld" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Krok %1$lld z %2$lld"
           }
         },
-        "uk": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Забули пароль?"
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Step %1$lld of %2$lld"
           }
         },
-        "cs": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Zapomněli jste heslo?"
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Крок %1$lld з %2$lld"
           }
         }
       }
     },
-    "login.noAccount": {
-      "extractionState": "manual",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Don't have an account?"
+    "onboarding.transactions.bullet1" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Příjmy, výdaje, převody a úpravy"
           }
         },
-        "uk": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Ще не маєте облікового запису?"
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Income, expenses, transfers, and adjustments"
           }
         },
-        "cs": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Nemáte účet?"
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Доходи, витрати, перекази та коригування"
           }
         }
       }
     },
-    "login.passwordPlaceholder": {
-      "extractionState": "manual",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Enter your password"
+    "onboarding.transactions.bullet2" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Podpora více měn"
           }
         },
-        "uk": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Введіть пароль"
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Multi-currency support"
           }
         },
-        "cs": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Zadejte své heslo"
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Підтримка кількох валют"
           }
         }
       }
     },
-    "login.signUpLink": {
-      "extractionState": "manual",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Sign up"
+    "onboarding.transactions.bullet3" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Rychlé filtrování: měna, účet, kategorie"
           }
         },
-        "uk": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Зареєструватися"
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Quick filtering: currency, account, category"
           }
         },
-        "cs": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Registrovat se"
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Швидка фільтрація: валюта, рахунок, категорія"
           }
         }
       }
     },
-    "login.submit": {
-      "extractionState": "manual",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Sign In"
+    "onboarding.transactions.description" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Zaznamenávejte příjmy, výdaje, převody mezi účty a úpravy zůstatku. Každá transakce ukládá měnu operace a skutečně připsanou nebo odepsanou částku."
           }
         },
-        "uk": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Увійти"
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Record income, expenses, transfers between accounts, and balance adjustments. Each transaction stores the operation currency and the actual amount credited or debited."
           }
         },
-        "cs": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Přihlásit se"
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Фіксуйте доходи, витрати, перекази між рахунками та коригування залишку. Для кожної транзакції зберігаються валюта операції та фактична сума списання або зарахування на рахунок."
           }
         }
       }
     },
-    "login.subtitle": {
-      "extractionState": "manual",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Control your money with confidence. Make your expenses answer to you."
+    "onboarding.transactions.eyebrow" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Transakce"
           }
         },
-        "uk": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Контролюйте свої гроші впевнено. Нехай витрати вам підкоряються."
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Transactions"
           }
         },
-        "cs": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Ovládejte své peníze s jistotou. Nechte výdaje odpovídat za sebe."
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Транзакції"
           }
         }
       }
     },
-    "login.title": {
-      "extractionState": "manual",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Sign In to the App"
+    "onboarding.transactions.title" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Přidávejte transakce\nrychle a jednoduše"
           }
         },
-        "uk": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Вхід до застосунку"
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Add transactions\nquickly and easily"
           }
         },
-        "cs": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Přihlásit se do aplikace"
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Вносьте операції швидко та легко"
           }
         }
       }
     },
-    "login.tryDemo": {
-      "extractionState": "manual",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Try Demo Mode"
+    "onboarding.welcome.bullet1" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Snadné sledování příjmů a výdajů"
           }
         },
-        "uk": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Демо-режим"
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Easily track income and expenses"
           }
         },
-        "cs": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Vyzkoušet Demo"
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Легко відстежуйте доходи та витрати"
           }
         }
       }
     },
-    "onboarding.account.create": {
-      "extractionState": "manual",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Create account"
+    "onboarding.welcome.bullet2" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Plánování rozpočtů a dosažení úspor"
           }
         },
-        "uk": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Створити рахунок"
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Plan budgets and reach your savings goals"
           }
         },
-        "cs": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Vytvořit účet"
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Плануйте бюджети й досягайте цілей заощаджень"
           }
         }
       }
     },
-    "onboarding.account.creationFailed": {
-      "extractionState": "manual",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Failed to create account"
+    "onboarding.welcome.bullet3" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Jasný přehled o vašich výdajích"
           }
         },
-        "uk": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Не вдалося створити рахунок"
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Get a clear view of your spending"
           }
         },
-        "cs": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Nepodařilo se vytvořit účet"
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Майте чітке уявлення про свої витрати"
           }
         }
       }
     },
-    "onboarding.account.description": {
-      "extractionState": "manual",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "To start tracking your finances in Finwaze, you need at least one account. Choose a name and currency — you can always add more accounts later."
+    "onboarding.welcome.description" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Finwaze spojuje všechny vaše účty, transakce a finanční cíle do jednoho přehledného místa. Tato krátká úvodní prohlídka vám ukáže hlavní funkce aplikace — zabere jen minutu."
           }
         },
-        "uk": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Щоб почати вести облік фінансів у Finwaze, потрібен принаймні один рахунок. Виберіть назву та валюту — за потреби ви завжди зможете додати інші рахунки пізніше."
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Finwaze brings all your accounts, transactions, and financial goals into one simple place. This short introduction will walk you through the main features — it only takes a minute."
           }
         },
-        "cs": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Pro začátek sledování financí ve Finwaze potřebujete alespoň jeden účet. Zvolte název a měnu — další účty můžete kdykoliv přidat později."
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Finwaze об’єднує всі ваші рахунки, транзакції та фінансові цілі в одному зручному місці. Це коротке знайомство покаже основні можливості застосунку — воно займе лише хвилину."
           }
         }
       }
     },
-    "onboarding.account.eyebrow": {
-      "extractionState": "manual",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Final step"
+    "onboarding.welcome.eyebrow" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Vítejte ve Finwaze"
           }
         },
-        "uk": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Останній крок"
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Welcome to Finwaze"
           }
         },
-        "cs": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Poslední krok"
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ласкаво просимо до Finwaze"
           }
         }
       }
     },
-    "onboarding.account.guideHint": {
-      "extractionState": "manual",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "New to personal finance tracking? After signing in, you can open the “Guide” anytime from the menu (top right) for step-by-step examples and tips."
+    "onboarding.welcome.title" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Všechny vaše finance —\nna jednom místě"
           }
         },
-        "uk": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Вперше ведете облік особистих фінансів? Після входу ви будь-коли зможете відкрити розділ «Посібник» у меню (у верхньому правому куті), де знайдете покрокові приклади та корисні поради."
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "All your finances —\nat a glance"
           }
         },
-        "cs": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Začínáte se správou osobních financí? Po přihlášení můžete kdykoliv otevřít sekci „Průvodce“ v menu (vpravo nahoře), kde najdete krok za krokem návody a tipy."
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Усі ваші фінанси —\nяк на долоні"
           }
         }
       }
     },
-    "onboarding.account.title": {
-      "extractionState": "manual",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Create your\nfirst account"
+    "profile.demoMode" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Demo režim"
           }
         },
-        "uk": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Створіть свій\nперший рахунок"
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Demo mode"
           }
         },
-        "cs": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Vytvořte si\nprvní účet"
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Демо-режим"
           }
         }
       }
     },
-    "onboarding.analytics.bullet1": {
-      "extractionState": "manual",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Monthly income and expense overview"
+    "profile.guide" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Průvodce"
           }
         },
-        "uk": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Огляд доходів і витрат за місяць"
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Guide"
           }
         },
-        "cs": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Měsíční přehled příjmů a výdajů"
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Посібник"
           }
         }
       }
     },
-    "onboarding.analytics.bullet2": {
-      "extractionState": "manual",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Spending breakdown by categories and groups"
+    "profile.menu" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Profil"
           }
         },
-        "uk": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Аналіз витрат за категоріями та групами"
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Profile"
           }
         },
-        "cs": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Rozdělení výdajů podle kategorií a skupin"
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Профіль"
           }
         }
       }
     },
-    "onboarding.analytics.bullet3": {
-      "extractionState": "manual",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Track trends across all accounts"
+    "profile.settings" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nastavení"
           }
         },
-        "uk": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Відстеження тенденцій за всіма рахунками"
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Settings"
           }
         },
-        "cs": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Sledování trendů napříč účty"
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Налаштування"
           }
         }
       }
     },
-    "onboarding.analytics.description": {
-      "extractionState": "manual",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Insights and analytics turn your transactions into clear understanding: monthly summaries, spending breakdown by category, and financial trends across all accounts."
+    "profile.signOut" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Odhlásit se"
           }
         },
-        "uk": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Огляд та аналітика перетворюють ваші транзакції на зрозумілі висновки: місячні підсумки, структуру витрат за категоріями та фінансові тенденції за всіма рахунками."
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Log out"
           }
         },
-        "cs": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Přehledy a analytika mění vaše transakce na srozumitelné informace: měsíční souhrny, rozdělení výdajů podle kategorií a finanční trendy napříč účty."
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Вийти"
           }
         }
       }
     },
-    "onboarding.analytics.eyebrow": {
-      "extractionState": "manual",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Analytics"
+    "resetPassword.checkEmail.title" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Zkontrolujte e-mail"
           }
         },
-        "uk": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Аналітика"
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Check your email"
           }
         },
-        "cs": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Analytika"
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Перевірте пошту"
           }
         }
       }
     },
-    "onboarding.analytics.title": {
-      "extractionState": "manual",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Analyze your finances"
+    "resetPassword.error.title" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Odkaz se nepodařilo odeslat"
           }
         },
-        "uk": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Аналізуйте свої фінанси"
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Couldn’t send the link"
           }
         },
-        "cs": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Analyzujte své finance"
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Не вдалося надіслати посилання"
           }
         }
       }
     },
-    "onboarding.back": {
-      "extractionState": "manual",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Back"
+    "resetPassword.hint" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Po změně hesla se sem vraťte a přihlaste se novým heslem."
           }
         },
-        "uk": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Назад"
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "After changing your password, come back here and sign in with the new password."
           }
         },
-        "cs": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Zpět"
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Після зміни пароля поверніться сюди й увійдіть з новим паролем."
           }
         }
       }
     },
-    "onboarding.budget.bullet1": {
-      "extractionState": "manual",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Monthly limits per category"
+    "resetPassword.rememberPassword" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Vzpomněli jste si na heslo?"
           }
         },
-        "uk": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Місячні ліміти для категорій"
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Remembered your password?"
           }
         },
-        "cs": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Měsíční limity pro kategorie"
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Згадали пароль?"
           }
         }
       }
     },
-    "onboarding.budget.bullet2": {
-      "extractionState": "manual",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Real-time spending progress"
+    "resetPassword.sent" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Zkontrolujte doručenou poštu — poslali jsme vám odkaz pro obnovení."
           }
         },
-        "uk": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Відстеження прогресу в реальному часі"
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Check your inbox — we sent you a reset link."
           }
         },
-        "cs": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Sledování výdajů v reálném čase"
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Перевірте пошту — ми надіслали вам посилання для скидання."
           }
         }
       }
     },
-    "onboarding.budget.bullet3": {
-      "extractionState": "manual",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Avoid overspending"
+    "resetPassword.signIn" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Přihlásit se"
           }
         },
-        "uk": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Уникайте перевитрат"
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sign In"
           }
         },
-        "cs": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Vyhněte se překročení rozpočtu"
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Увійти"
           }
         }
       }
     },
-    "onboarding.budget.description": {
-      "extractionState": "manual",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Set monthly spending limits for individual categories and track your progress in real time. Finwaze helps you spot overspending risks before they happen."
+    "resetPassword.submit" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Odeslat odkaz"
           }
         },
-        "uk": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Встановлюйте місячні ліміти витрат для окремих категорій і стежте за прогресом у реальному часі. Finwaze допоможе помітити ризик перевитрат ще до того, як вони стануть проблемою."
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Send Reset Link"
           }
         },
-        "cs": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Nastavte měsíční limity výdajů pro jednotlivé kategorie a sledujte svůj pokrok v reálném čase. Finwaze vám pomůže odhalit riziko překročení rozpočtu ještě předtím, než nastane."
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Надіслати посилання"
           }
         }
       }
     },
-    "onboarding.budget.eyebrow": {
-      "extractionState": "manual",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Budgets"
+    "resetPassword.subtitle" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Zadejte svůj e-mail a pošleme vám odkaz pro obnovení."
           }
         },
-        "uk": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Бюджети"
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Enter your email and we’ll send you a reset link."
           }
         },
-        "cs": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Rozpočty"
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Введіть email, і ми надішлемо вам посилання для скидання."
           }
         }
       }
     },
-    "onboarding.budget.title": {
-      "extractionState": "manual",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Plan\nwith confidence"
+    "resetPassword.title" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Obnovení hesla"
           }
         },
-        "uk": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Плануйте\nз упевненістю"
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Reset Password"
           }
         },
-        "cs": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Plánujte\ns jistotou"
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Скидання пароля"
           }
         }
       }
     },
-    "onboarding.categories.bullet1": {
-      "extractionState": "manual",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Group related categories together"
+    "section.analytics.description" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Analýza finančních dat"
           }
         },
-        "uk": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Об’єднуйте пов’язані категорії в групи"
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Analyze your financial data"
           }
         },
-        "cs": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Seskupujte související kategorie"
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Аналіз фінансових даних"
           }
         }
       }
     },
-    "onboarding.categories.bullet2": {
-      "extractionState": "manual",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Customize categories to fit your needs"
+    "section.analytics.title" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Analytika"
           }
         },
-        "uk": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Налаштовуйте категорії під свої потреби"
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Analytics"
           }
         },
-        "cs": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Přizpůsobte si kategorie podle potřeby"
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Аналітика"
           }
         }
       }
     },
-    "onboarding.categories.bullet3": {
-      "extractionState": "manual",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Add color labels for better clarity"
+    "section.budget.description" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tvorba a sledování rozpočtů"
           }
         },
-        "uk": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Можливість встановлення окремої кольорової мітки"
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Create and track your budgets"
           }
         },
-        "cs": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Barevné štítky pro lepší přehled"
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Створення та відстеження бюджетів"
           }
         }
       }
     },
-    "onboarding.categories.description": {
-      "extractionState": "manual",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Structure your transactions using groups and categories that match your lifestyle — for example, “Car → Fuel” or “Services → Subscriptions”. A clear structure helps you better understand your finances."
+    "section.budget.title" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Rozpočet"
           }
         },
-        "uk": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Організовуйте транзакції за групами та категоріями, які відповідають саме вашому способу життя — наприклад, «Авто → Пальне» або «Послуги → Підписки». Чітка структура допомагає краще розуміти свої фінанси."
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Budget"
           }
         },
-        "cs": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Organizujte transakce pomocí skupin a kategorií, které odpovídají vašemu životnímu stylu — například „Auto → Palivo“ nebo „Služby → Předplatné“. Jasná struktura pomáhá lépe porozumět financím."
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Бюджет"
           }
         }
       }
     },
-    "onboarding.categories.eyebrow": {
-      "extractionState": "manual",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Groups & categories"
+    "section.comingSoon" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tato sekce je ve vývoji."
           }
         },
-        "uk": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Групи та категорії"
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "This section is under construction."
           }
         },
-        "cs": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Skupiny a kategorie"
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Цей розділ ще в розробці."
           }
         }
       }
     },
-    "onboarding.categories.title": {
-      "extractionState": "manual",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Organize your spending\nyour way"
+    "section.dashboard.description" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Stručný přehled vašeho finančního stavu"
           }
         },
-        "uk": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Упорядкуйте витрати\nпо-своєму"
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Brief overview of your financial status"
           }
         },
-        "cs": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Uspořádejte své výdaje\npo svém"
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Короткий огляд вашого фінансового стану"
           }
         }
       }
     },
-    "onboarding.getStarted": {
-      "extractionState": "manual",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Get started"
+    "section.dashboard.title" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Přehled"
           }
         },
-        "uk": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Почнімо"
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dashboard"
           }
         },
-        "cs": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Začít"
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Дашборд"
           }
         }
       }
     },
-    "onboarding.goToStep %lld": {
-      "extractionState": "manual",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Go to step %lld"
+    "section.goals.description" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nastavení a sledování finančních cílů"
           }
         },
-        "uk": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Перейти до кроку %lld"
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Set and track your financial goals"
           }
         },
-        "cs": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Přejít na krok %lld"
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Встановлення та відстеження фінансових цілей"
           }
         }
       }
     },
-    "onboarding.goals.bullet1": {
-      "extractionState": "manual",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Separate account for each goal"
+    "section.goals.title" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cíle"
           }
         },
-        "uk": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Окремий рахунок для кожної цілі"
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Goals"
           }
         },
-        "cs": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Samostatný účet pro každý cíl"
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Цілі"
           }
         }
       }
     },
-    "onboarding.goals.bullet2": {
-      "extractionState": "manual",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Clear progress tracking"
+    "section.groups.description" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Organizujte transakce do skupin a kategorií"
           }
         },
-        "uk": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Наочне відстеження прогресу"
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Organize your transactions with groups and categories"
           }
         },
-        "cs": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Jasné sledování pokroku"
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Організуйте транзакції за групами та категоріями"
           }
         }
       }
     },
-    "onboarding.goals.bullet3": {
-      "extractionState": "manual",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Save consistently with confidence"
+    "section.groups.tab" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kategorie"
           }
         },
-        "uk": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Заощаджуйте регулярно та впевнено"
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Categories"
           }
         },
-        "cs": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Šetřete pravidelně a s jistotou"
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Категорії"
           }
         }
       }
     },
-    "onboarding.goals.description": {
-      "extractionState": "manual",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Create dedicated savings goals with separate accounts. Track your progress and stay motivated as your balance grows."
+    "section.groups.title" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Skupiny a kategorie"
           }
         },
-        "uk": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Створюйте окремі цілі заощаджень із власними рахунками. Відстежуйте свій прогрес і зберігайте мотивацію, спостерігаючи, як зростають ваші накопичення."
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Groups & Categories"
           }
         },
-        "cs": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Vytvářejte samostatné cíle úspor s vlastním účtem. Sledujte svůj pokrok a motivujte se rostoucím zůstatkem."
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Групи та категорії"
           }
         }
       }
     },
-    "onboarding.goals.eyebrow": {
-      "extractionState": "manual",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Savings goals"
+    "section.help" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Více o této sekci"
           }
         },
-        "uk": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Цілі заощаджень"
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Learn about this section"
           }
         },
-        "cs": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Cíle úspor"
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Дізнатися про цей розділ"
           }
         }
       }
     },
-    "onboarding.goals.title": {
-      "extractionState": "manual",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Move closer to\nyour goals"
+    "section.more" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Více"
           }
         },
-        "uk": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Наближайтеся до\nсвоїх цілей"
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "More"
           }
         },
-        "cs": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Přibližujte se\nsvým cílům"
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Більше"
           }
         }
       }
     },
-    "onboarding.next": {
-      "extractionState": "manual",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Next"
+    "section.transactions.description" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Zobrazení a správa transakcí"
           }
         },
-        "uk": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Далі"
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "View and manage your transactions"
           }
         },
-        "cs": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Další"
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Перегляд та управління транзакціями"
           }
         }
       }
     },
-    "onboarding.skip": {
-      "extractionState": "manual",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Skip"
+    "section.transactions.title" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Transakce"
           }
         },
-        "uk": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Пропустити"
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Transactions"
           }
         },
-        "cs": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Přeskočit"
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Транзакції"
           }
         }
       }
     },
-    "onboarding.stepCounter %lld %lld": {
-      "extractionState": "manual",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Step %1$lld of %2$lld"
+    "section.wallet.description" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Správa účtů a zůstatků"
           }
         },
-        "uk": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Крок %1$lld з %2$lld"
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Manage your accounts and balances"
           }
         },
-        "cs": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Krok %1$lld z %2$lld"
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Управління рахунками та балансами"
           }
         }
       }
     },
-    "onboarding.transactions.bullet1": {
-      "extractionState": "manual",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Income, expenses, transfers, and adjustments"
+    "section.wallet.title" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peněženka"
           }
         },
-        "uk": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Доходи, витрати, перекази та коригування"
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Wallet"
           }
         },
-        "cs": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Příjmy, výdaje, převody a úpravy"
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Гаманець"
           }
         }
       }
     },
-    "onboarding.transactions.bullet2": {
-      "extractionState": "manual",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Multi-currency support"
+    "settings.comingSoon" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nastavení brzy přidáme."
           }
         },
-        "uk": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Підтримка кількох валют"
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Settings are coming soon."
           }
         },
-        "cs": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Podpora více měn"
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Налаштування з’являться згодом."
           }
         }
       }
     },
-    "onboarding.transactions.bullet3": {
-      "extractionState": "manual",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Quick filtering: currency, account, category"
+    "signup.checkEmail.title" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Zkontrolujte svůj e-mail"
           }
         },
-        "uk": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Швидка фільтрація: валюта, рахунок, категорія"
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Check your email"
           }
         },
-        "cs": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Rychlé filtrování: měna, účet, kategorie"
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Перевірте пошту"
           }
         }
       }
     },
-    "onboarding.transactions.description": {
-      "extractionState": "manual",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Record income, expenses, transfers between accounts, and balance adjustments. Each transaction stores the operation currency and the actual amount credited or debited."
+    "signup.confirmHint" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Po potvrzení se sem vraťte a přihlaste se."
           }
         },
-        "uk": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Фіксуйте доходи, витрати, перекази між рахунками та коригування залишку. Для кожної транзакції зберігаються валюта операції та фактична сума списання або зарахування на рахунок."
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "After confirming, come back here and sign in."
           }
         },
-        "cs": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Zaznamenávejte příjmy, výdaje, převody mezi účty a úpravy zůstatku. Každá transakce ukládá měnu operace a skutečně připsanou nebo odepsanou částku."
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Після підтвердження поверніться сюди й увійдіть."
           }
         }
       }
     },
-    "onboarding.transactions.eyebrow": {
-      "extractionState": "manual",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Transactions"
+    "signup.confirmPassword" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Potvrzení hesla"
           }
         },
-        "uk": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Транзакції"
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Confirm Password"
           }
         },
-        "cs": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Transakce"
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Підтвердження пароля"
           }
         }
       }
     },
-    "onboarding.transactions.title": {
-      "extractionState": "manual",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Add transactions\nquickly and easily"
+    "signup.confirmPlaceholder" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Zopakujte heslo"
           }
         },
-        "uk": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Вносьте операції швидко та легко"
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Repeat your password"
           }
         },
-        "cs": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Přidávejte transakce\nrychle a jednoduše"
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Повторіть пароль"
           }
         }
       }
     },
-    "onboarding.welcome.bullet1": {
-      "extractionState": "manual",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Easily track income and expenses"
+    "signup.confirmRequired" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Potvrďte prosím své heslo"
           }
         },
-        "uk": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Легко відстежуйте доходи та витрати"
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Please confirm your password"
           }
         },
-        "cs": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Snadné sledování příjmů a výdajů"
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Будь ласка, підтвердіть пароль"
           }
         }
       }
     },
-    "onboarding.welcome.bullet2": {
-      "extractionState": "manual",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Plan budgets and reach your savings goals"
+    "signup.error.title" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Chyba registrace"
           }
         },
-        "uk": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Плануйте бюджети й досягайте цілей заощаджень"
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Registration error"
           }
         },
-        "cs": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Plánování rozpočtů a dosažení úspor"
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Помилка реєстрації"
           }
         }
       }
     },
-    "onboarding.welcome.bullet3": {
-      "extractionState": "manual",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Get a clear view of your spending"
+    "signup.haveAccount" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Již máte účet?"
           }
         },
-        "uk": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Майте чітке уявлення про свої витрати"
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Already have an account?"
           }
         },
-        "cs": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Jasný přehled o vašich výdajích"
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Вже маєте обліковий запис?"
           }
         }
       }
     },
-    "onboarding.welcome.description": {
-      "extractionState": "manual",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Finwaze brings all your accounts, transactions, and financial goals into one simple place. This short introduction will walk you through the main features — it only takes a minute."
+    "signup.passwordPlaceholder" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Vytvořte heslo"
           }
         },
-        "uk": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Finwaze об’єднує всі ваші рахунки, транзакції та фінансові цілі в одному зручному місці. Це коротке знайомство покаже основні можливості застосунку — воно займе лише хвилину."
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Create a password"
           }
         },
-        "cs": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Finwaze spojuje všechny vaše účty, transakce a finanční cíle do jednoho přehledného místa. Tato krátká úvodní prohlídka vám ukáže hlavní funkce aplikace — zabere jen minutu."
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Створіть пароль"
           }
         }
       }
     },
-    "onboarding.welcome.eyebrow": {
-      "extractionState": "manual",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Welcome to Finwaze"
+    "signup.passwordsMismatch" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hesla se neshodují"
           }
         },
-        "uk": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Ласкаво просимо до Finwaze"
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Passwords do not match"
           }
         },
-        "cs": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Vítejte ve Finwaze"
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Паролі не збігаються"
           }
         }
       }
     },
-    "onboarding.welcome.title": {
-      "extractionState": "manual",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "All your finances —\nat a glance"
+    "signup.passwordTooShort" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Heslo musí mít alespoň 8 znaků"
           }
         },
-        "uk": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Усі ваші фінанси —\nяк на долоні"
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Password must be at least 8 characters"
           }
         },
-        "cs": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Všechny vaše finance —\nna jednom místě"
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Пароль має містити щонайменше 8 символів"
           }
         }
       }
     },
-    "profile.demoMode": {
-      "extractionState": "manual",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Demo mode"
+    "signup.resend" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Odeslat e-mail znovu"
           }
         },
-        "uk": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Демо-режим"
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Resend email"
           }
         },
-        "cs": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Demo režim"
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Надіслати лист ще раз"
           }
         }
       }
     },
-    "profile.guide": {
-      "extractionState": "manual",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Guide"
+    "signup.resend.error.title" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "E-mail se nepodařilo znovu odeslat"
           }
         },
-        "uk": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Посібник"
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Couldn't resend the email"
           }
         },
-        "cs": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Průvodce"
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Не вдалося надіслати лист ще раз"
           }
         }
       }
     },
-    "profile.menu": {
-      "extractionState": "manual",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Profile"
+    "signup.resent" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "E-mail jsme odeslali znovu."
           }
         },
-        "uk": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Профіль"
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "We've sent the email again."
           }
         },
-        "cs": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Profil"
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Лист надіслано ще раз."
           }
         }
       }
     },
-    "profile.settings": {
-      "extractionState": "manual",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Settings"
+    "signup.signInAfterConfirm" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Přihlásit se"
           }
         },
-        "uk": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Налаштування"
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sign In"
           }
         },
-        "cs": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Nastavení"
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Увійти"
           }
         }
       }
     },
-    "profile.signOut": {
-      "extractionState": "manual",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Log out"
+    "signup.signInLink" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Přihlásit se"
           }
         },
-        "uk": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Вийти"
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sign in"
           }
         },
-        "cs": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Odhlásit se"
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Увійти"
           }
         }
       }
     },
-    "resetPassword.checkEmail.title": {
-      "extractionState": "manual",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Check your email"
+    "signup.submit" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Registrovat se"
           }
         },
-        "uk": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Перевірте пошту"
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sign Up"
           }
         },
-        "cs": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Zkontrolujte e-mail"
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Зареєструватися"
           }
         }
       }
     },
-    "resetPassword.error.title": {
-      "extractionState": "manual",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Couldn’t send the link"
+    "signup.subtitle" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Zaregistrujte se pomocí e-mailu a začněte sledovat své finance."
           }
         },
-        "uk": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Не вдалося надіслати посилання"
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sign up with your email to start tracking your finances."
           }
         },
-        "cs": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Odkaz se nepodařilo odeslat"
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Зареєструйтеся за допомогою email, щоб почати облік фінансів."
           }
         }
       }
     },
-    "resetPassword.hint": {
-      "extractionState": "manual",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "After changing your password, come back here and sign in with the new password."
+    "signup.title" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Vytvořit účet"
           }
         },
-        "uk": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Після зміни пароля поверніться сюди й увійдіть з новим паролем."
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Register new user"
           }
         },
-        "cs": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Po změně hesla se sem vraťte a přihlaste se novým heslem."
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Створити обліковий запис"
           }
         }
       }
     },
-    "resetPassword.rememberPassword": {
-      "extractionState": "manual",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Remembered your password?"
+    "signup.verificationSent" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ověřovací odkaz byl odeslán na váš e-mail. Zkontrolujte prosím svou doručenou poštu."
           }
         },
-        "uk": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Згадали пароль?"
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "A verification link has been sent to your email. Please check your inbox."
           }
         },
-        "cs": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Vzpomněli jste si na heslo?"
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Лист з підтвердженням надіслано на ваш email. Будь ласка, перевірте вхідні."
           }
         }
       }
     },
-    "resetPassword.sent": {
-      "extractionState": "manual",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Check your inbox — we sent you a reset link."
+    "transactionForm.account" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Účet"
           }
         },
-        "uk": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Перевірте пошту — ми надіслали вам посилання для скидання."
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Account"
           }
         },
-        "cs": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Zkontrolujte doručenou poštu — poslali jsme vám odkaz pro obnovení."
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Рахунок"
           }
         }
       }
     },
-    "resetPassword.signIn": {
-      "extractionState": "manual",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Sign In"
+    "transactionForm.accountPlaceholder" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Vyberte účet"
           }
         },
-        "uk": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Увійти"
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Select account"
           }
         },
-        "cs": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Přihlásit se"
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Оберіть рахунок"
           }
         }
       }
     },
-    "resetPassword.submit": {
-      "extractionState": "manual",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Send Reset Link"
+    "transactionForm.amountNotPositive" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Musí být větší než 0"
           }
         },
-        "uk": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Надіслати посилання"
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Must be greater than 0"
           }
         },
-        "cs": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Odeslat odkaz"
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Має бути більше 0"
           }
         }
       }
     },
-    "resetPassword.subtitle": {
-      "extractionState": "manual",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Enter your email and we’ll send you a reset link."
+    "transactionForm.amountPlaceholder" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Zadejte částku"
           }
         },
-        "uk": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Введіть email, і ми надішлемо вам посилання для скидання."
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Enter amount"
           }
         },
-        "cs": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Zadejte svůj e-mail a pošleme vám odkaz pro obnovení."
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Введіть суму"
           }
         }
       }
     },
-    "resetPassword.title": {
-      "extractionState": "manual",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Reset Password"
+    "transactionForm.amountRequired" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Částka je povinná"
           }
         },
-        "uk": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Скидання пароля"
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Amount required"
           }
         },
-        "cs": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Obnovení hesla"
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Сума обов'язкова"
           }
         }
       }
     },
-    "section.analytics.description": {
-      "extractionState": "manual",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Analyze your financial data"
+    "transactionForm.amountTooPrecise" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nejvýše 2 desetinná místa"
           }
         },
-        "uk": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Аналіз фінансових даних"
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "At most 2 decimal places"
           }
         },
-        "cs": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Analýza finančních dat"
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Не більше 2 знаків після коми"
           }
         }
       }
     },
-    "section.analytics.title": {
-      "extractionState": "manual",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Analytics"
+    "transactionForm.category" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kategorie"
           }
         },
-        "uk": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Аналітика"
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Category"
           }
         },
-        "cs": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Analytika"
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Категорія"
           }
         }
       }
     },
-    "section.budget.description": {
-      "extractionState": "manual",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Create and track your budgets"
+    "transactionForm.categoryPlaceholder" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Vyberte kategorii"
           }
         },
-        "uk": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Створення та відстеження бюджетів"
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Select category"
           }
         },
-        "cs": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Tvorba a sledování rozpočtů"
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Оберіть категорію"
           }
         }
       }
     },
-    "section.budget.title": {
-      "extractionState": "manual",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Budget"
+    "transactionForm.comment" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Komentář (volitelné)"
           }
         },
-        "uk": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Бюджет"
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Comment (optional)"
           }
         },
-        "cs": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Rozpočet"
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Коментар (необов'язково)"
           }
         }
       }
     },
-    "section.comingSoon": {
-      "extractionState": "manual",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "This section is under construction."
+    "transactionForm.commentPlaceholder" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Přidejte poznámku"
           }
         },
-        "uk": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Цей розділ ще в розробці."
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Add a note"
           }
         },
-        "cs": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Tato sekce je ve vývoji."
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Додайте нотатку"
           }
         }
       }
     },
-    "section.dashboard.description": {
-      "extractionState": "manual",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Brief overview of your financial status"
+    "transactionForm.commentTooLong" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Maximální délka je 100 znaků"
           }
         },
-        "uk": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Короткий огляд вашого фінансового стану"
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Max length is 100 characters"
           }
         },
-        "cs": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Stručný přehled vašeho finančního stavu"
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Максимальна довжина — 100 символів"
           }
         }
       }
     },
-    "section.dashboard.title": {
-      "extractionState": "manual",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Dashboard"
+    "transactionForm.create" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Vytvořit"
           }
         },
-        "uk": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Дашборд"
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Create"
           }
         },
-        "cs": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Přehled"
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Створити"
           }
         }
       }
     },
-    "section.goals.description": {
-      "extractionState": "manual",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Set and track your financial goals"
+    "transactionForm.creationFailed" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Vytvoření transakce selhalo"
           }
         },
-        "uk": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Встановлення та відстеження фінансових цілей"
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Transaction creation failed"
           }
         },
-        "cs": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Nastavení a sledování finančních cílů"
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Помилка створення транзакції"
           }
         }
       }
     },
-    "section.goals.title": {
-      "extractionState": "manual",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Goals"
+    "transactionForm.currency" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Měna"
           }
         },
-        "uk": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Цілі"
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Currency"
           }
         },
-        "cs": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Cíle"
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Валюта"
           }
         }
       }
     },
-    "section.groups.description": {
-      "extractionState": "manual",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Organize your transactions with groups and categories"
+    "transactionForm.currencyHint" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Měna účtu"
           }
         },
-        "uk": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Організуйте транзакції за групами та категоріями"
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "The account's currency"
           }
         },
-        "cs": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Organizujte transakce do skupin a kategorií"
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Валюта рахунку"
           }
         }
       }
     },
-    "section.groups.tab": {
-      "extractionState": "manual",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Categories"
+    "transactionForm.date" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Datum a čas"
           }
         },
-        "uk": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Категорії"
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Date and time"
           }
         },
-        "cs": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Kategorie"
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Дата і час"
           }
         }
       }
     },
-    "section.groups.title": {
-      "extractionState": "manual",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Groups & Categories"
+    "transactionForm.expenseAmount" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Částka výdaje"
           }
         },
-        "uk": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Групи та категорії"
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Expense amount"
           }
         },
-        "cs": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Skupiny a kategorie"
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Сума витрати"
           }
         }
       }
     },
-    "section.help": {
-      "extractionState": "manual",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Learn about this section"
+    "transactionForm.fromAccount" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Z účtu"
           }
         },
-        "uk": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Дізнатися про цей розділ"
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "From account"
           }
         },
-        "cs": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Více o této sekci"
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "З рахунку"
           }
         }
       }
     },
-    "section.more": {
-      "extractionState": "manual",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "More"
+    "transactionForm.incomeAmount" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Částka příjmu"
           }
         },
-        "uk": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Більше"
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Income amount"
           }
         },
-        "cs": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Více"
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Сума доходу"
           }
         }
       }
     },
-    "section.transactions.description": {
-      "extractionState": "manual",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "View and manage your transactions"
+    "transactionForm.required" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Je nutné vybrat"
           }
         },
-        "uk": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Перегляд та управління транзакціями"
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Should be selected"
           }
         },
-        "cs": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Zobrazení a správa transakcí"
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Необхідно обрати"
           }
         }
       }
     },
-    "section.transactions.title": {
-      "extractionState": "manual",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Transactions"
+    "transactionForm.title" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nová transakce"
           }
         },
-        "uk": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Транзакції"
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "New Transaction"
           }
         },
-        "cs": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Transakce"
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Нова транзакція"
           }
         }
       }
     },
-    "section.wallet.description": {
-      "extractionState": "manual",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Manage your accounts and balances"
+    "transactionForm.toAccount" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Na účet"
           }
         },
-        "uk": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Управління рахунками та балансами"
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "To account"
           }
         },
-        "cs": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Správa účtů a zůstatků"
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "На рахунок"
           }
         }
       }
     },
-    "section.wallet.title": {
-      "extractionState": "manual",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Wallet"
+    "transactionForm.type" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Typ"
           }
         },
-        "uk": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Гаманець"
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Type"
           }
         },
-        "cs": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Peněženka"
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Тип"
           }
         }
       }
     },
-    "settings.comingSoon": {
-      "extractionState": "manual",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Settings are coming soon."
+    "transactions.add" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Přidat transakci"
           }
         },
-        "uk": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Налаштування з’являться згодом."
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Add transaction"
           }
         },
-        "cs": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Nastavení brzy přidáme."
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Додати транзакцію"
           }
         }
       }
     },
-    "signup.checkEmail.title": {
-      "extractionState": "manual",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Check your email"
+    "transactions.count %lld" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "cs" : {
+          "variations" : {
+            "plural" : {
+              "few" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%lld záznamy"
+                }
+              },
+              "many" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%lld záznamu"
+                }
+              },
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%lld záznam"
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%lld záznamů"
+                }
+              }
+            }
           }
         },
-        "uk": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Перевірте пошту"
+        "en" : {
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%lld item"
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%lld items"
+                }
+              }
+            }
           }
         },
-        "cs": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Zkontrolujte svůj e-mail"
+        "uk" : {
+          "variations" : {
+            "plural" : {
+              "few" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%lld записи"
+                }
+              },
+              "many" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%lld записів"
+                }
+              },
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%lld запис"
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%lld запису"
+                }
+              }
+            }
           }
         }
       }
     },
-    "signup.confirmHint": {
-      "extractionState": "manual",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "After confirming, come back here and sign in."
+    "transactions.empty.add" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Přidat transakci"
           }
         },
-        "uk": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Після підтвердження поверніться сюди й увійдіть."
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Add transaction"
           }
         },
-        "cs": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Po potvrzení se sem vraťte a přihlaste se."
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Додати транзакцію"
           }
         }
       }
     },
-    "signup.confirmPassword": {
-      "extractionState": "manual",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Confirm Password"
+    "transactions.empty.message" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Začněte sledovat výdaje přidáním první transakce."
           }
         },
-        "uk": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Підтвердження пароля"
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Start tracking your spending by adding your first transaction."
           }
         },
-        "cs": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Potvrzení hesla"
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Почніть відстежувати витрати, додавши першу транзакцію."
           }
         }
       }
     },
-    "signup.confirmPlaceholder": {
-      "extractionState": "manual",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Repeat your password"
+    "transactions.empty.title" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Zatím žádné transakce"
           }
         },
-        "uk": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Повторіть пароль"
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No transactions yet"
           }
         },
-        "cs": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Zopakujte heslo"
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Транзакцій ще немає"
           }
         }
       }
     },
-    "signup.confirmRequired": {
-      "extractionState": "manual",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Please confirm your password"
+    "transactions.filters.account" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Účet"
           }
         },
-        "uk": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Будь ласка, підтвердіть пароль"
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Account"
           }
         },
-        "cs": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Potvrďte prosím své heslo"
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Рахунок"
           }
         }
       }
     },
-    "signup.error.title": {
-      "extractionState": "manual",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Registration error"
+    "transactions.filters.all" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Vše"
           }
         },
-        "uk": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Помилка реєстрації"
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "All"
           }
         },
-        "cs": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Chyba registrace"
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Всі"
           }
         }
       }
     },
-    "signup.haveAccount": {
-      "extractionState": "manual",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Already have an account?"
+    "transactions.filters.category" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kategorie"
           }
         },
-        "uk": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Вже маєте обліковий запис?"
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Category"
           }
         },
-        "cs": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Již máte účet?"
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Категорія"
           }
         }
       }
     },
-    "signup.passwordPlaceholder": {
-      "extractionState": "manual",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Create a password"
+    "transactions.filters.currency" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Měna"
           }
         },
-        "uk": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Створіть пароль"
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Currency"
           }
         },
-        "cs": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Vytvořte heslo"
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Валюта"
           }
         }
       }
     },
-    "signup.passwordTooShort": {
-      "extractionState": "manual",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Password must be at least 8 characters"
+    "transactions.filters.group" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Skupina"
           }
         },
-        "uk": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Пароль має містити щонайменше 8 символів"
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Group"
           }
         },
-        "cs": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Heslo musí mít alespoň 8 znaků"
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Група"
           }
         }
       }
     },
-    "signup.passwordsMismatch": {
-      "extractionState": "manual",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Passwords do not match"
+    "transactions.filters.month" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Měsíc"
           }
         },
-        "uk": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Паролі не збігаються"
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Month"
           }
         },
-        "cs": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Hesla se neshodují"
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Місяць"
           }
         }
       }
     },
-    "signup.resend": {
-      "extractionState": "manual",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Resend email"
+    "transactions.filters.nextMonth" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Následující měsíc"
           }
         },
-        "uk": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Надіслати лист ще раз"
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Next month"
           }
         },
-        "cs": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Odeslat e-mail znovu"
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Наступний місяць"
           }
         }
       }
     },
-    "signup.resend.error.title": {
-      "extractionState": "manual",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Couldn't resend the email"
+    "transactions.filters.previousMonth" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Předchozí měsíc"
           }
         },
-        "uk": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Не вдалося надіслати лист ще раз"
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Previous month"
           }
         },
-        "cs": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "E-mail se nepodařilo znovu odeslat"
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Попередній місяць"
           }
         }
       }
     },
-    "signup.resent": {
-      "extractionState": "manual",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "We've sent the email again."
+    "transactions.filters.type" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Typ"
           }
         },
-        "uk": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Лист надіслано ще раз."
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Type"
           }
         },
-        "cs": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "E-mail jsme odeslali znovu."
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Тип"
           }
         }
       }
     },
-    "signup.signInAfterConfirm": {
-      "extractionState": "manual",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Sign In"
+    "transactions.noMatches.message" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Těmto filtrům neodpovídají žádné transakce."
           }
         },
-        "uk": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Увійти"
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No transactions match these filters."
           }
         },
-        "cs": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Přihlásit se"
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Немає транзакцій, що відповідають цим фільтрам."
           }
         }
       }
     },
-    "signup.signInLink": {
-      "extractionState": "manual",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Sign in"
+    "transactions.noMatches.title" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nic nenalezeno"
           }
         },
-        "uk": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Увійти"
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nothing found"
           }
         },
-        "cs": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Přihlásit se"
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Нічого не знайдено"
           }
         }
       }
     },
-    "signup.submit": {
-      "extractionState": "manual",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Sign Up"
+    "transactions.transfer" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Převod"
           }
         },
-        "uk": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Зареєструватися"
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Transfer"
           }
         },
-        "cs": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Registrovat se"
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Переказ"
           }
         }
       }
     },
-    "signup.subtitle": {
-      "extractionState": "manual",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Sign up with your email to start tracking your finances."
+    "transactionType.expense" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Výdaj"
           }
         },
-        "uk": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Зареєструйтеся за допомогою email, щоб почати облік фінансів."
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Expense"
           }
         },
-        "cs": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Zaregistrujte se pomocí e-mailu a začněte sledovat své finance."
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Витрата"
           }
         }
       }
     },
-    "signup.title": {
-      "extractionState": "manual",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Register new user"
+    "transactionType.income" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Příjem"
           }
         },
-        "uk": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Створити обліковий запис"
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Income"
           }
         },
-        "cs": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Vytvořit účet"
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Дохід"
           }
         }
       }
     },
-    "signup.verificationSent": {
-      "extractionState": "manual",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "A verification link has been sent to your email. Please check your inbox."
+    "transactionType.transfer" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Převod"
           }
         },
-        "uk": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Лист з підтвердженням надіслано на ваш email. Будь ласка, перевірте вхідні."
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Transfer"
           }
         },
-        "cs": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Ověřovací odkaz byl odeslán na váš e-mail. Zkontrolujte prosím svou doručenou poštu."
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Переказ"
           }
         }
       }
     },
-    "wallet.addAccount": {
-      "extractionState": "manual",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Add account"
+    "wallet.addAccount" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Přidat účet"
           }
         },
-        "uk": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Додати рахунок"
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Add account"
           }
         },
-        "cs": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Přidat účet"
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Додати рахунок"
           }
         }
       }
     },
-    "wallet.empty.message": {
-      "extractionState": "manual",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Add an account to start tracking your money."
+    "wallet.empty.message" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Přidejte účet a začněte sledovat své peníze."
           }
         },
-        "uk": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Додайте рахунок, щоб почати облік грошей."
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Add an account to start tracking your money."
           }
         },
-        "cs": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Přidejte účet a začněte sledovat své peníze."
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Додайте рахунок, щоб почати облік грошей."
           }
         }
       }
     },
-    "wallet.empty.title": {
-      "extractionState": "manual",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "No accounts yet"
+    "wallet.empty.title" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Zatím žádné účty"
           }
         },
-        "uk": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Поки немає рахунків"
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No accounts yet"
           }
         },
-        "cs": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Zatím žádné účty"
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Поки немає рахунків"
           }
         }
       }
     },
-    "wallet.newAccount.creationFailed": {
-      "extractionState": "manual",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Failed to create account"
+    "wallet.newAccount.creationFailed" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nepodařilo se vytvořit účet"
           }
         },
-        "uk": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Не вдалося створити рахунок"
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Failed to create account"
           }
         },
-        "cs": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Nepodařilo se vytvořit účet"
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Не вдалося створити рахунок"
           }
         }
       }
     },
-    "wallet.newAccount.submit": {
-      "extractionState": "manual",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Create"
+    "wallet.newAccount.submit" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Vytvořit"
           }
         },
-        "uk": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Створити"
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Create"
           }
         },
-        "cs": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Vytvořit"
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Створити"
           }
         }
       }
     },
-    "wallet.newAccount.title": {
-      "extractionState": "manual",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "New account"
+    "wallet.newAccount.title" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nový účet"
           }
         },
-        "uk": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Новий рахунок"
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "New account"
           }
         },
-        "cs": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Nový účet"
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Новий рахунок"
           }
         }
       }
     }
   },
-  "version": "1.0"
+  "version" : "1.0"
 }

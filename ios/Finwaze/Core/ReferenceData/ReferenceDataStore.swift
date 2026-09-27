@@ -32,6 +32,18 @@ final class ReferenceDataStore {
         accounts.append(account)
     }
 
+    /// Adds a group just created, ahead of the reload that brings it from the server.
+    func add(_ group: CategoryGroup) {
+        guard !groups.contains(where: { $0.id == group.id }) else { return }
+        groups.append(group)
+    }
+
+    /// Adds a category just created, ahead of the reload that brings it from the server.
+    func add(_ category: Category) {
+        guard !categories.contains(where: { $0.id == category.id }) else { return }
+        categories.append(category)
+    }
+
     func reset() {
         accounts = []
         groups = []

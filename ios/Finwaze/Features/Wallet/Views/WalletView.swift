@@ -20,8 +20,8 @@ struct WalletView: View {
             .sheet(isPresented: $isAddingAccount) {
                 NewAccountView(app: app)
             }
-            // Reference data changes whenever accounts do (e.g. a new account), so the balances follow (`GEN-26`).
-            .task(id: app.referenceData.accounts) { await viewModel.load() }
+            // Balances follow every change to the data: a new account or transaction (`GEN-26`).
+            .task(id: app.dataVersion) { await viewModel.load() }
             .refreshable { await viewModel.load() }
     }
 

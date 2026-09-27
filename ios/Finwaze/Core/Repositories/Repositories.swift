@@ -8,13 +8,15 @@ nonisolated struct Repositories: Sendable {
     let categories: any CategoriesRepository
     let currencies: any CurrenciesRepository
     let wallet: any WalletRepository
+    let transactions: any TransactionsRepository
 
     static func live(client: SupabaseClient) -> Repositories {
         Repositories(
             accounts: SupabaseAccountsRepository(client: client),
             categories: SupabaseCategoriesRepository(client: client),
             currencies: SupabaseCurrenciesRepository(client: client),
-            wallet: SupabaseWalletRepository(client: client)
+            wallet: SupabaseWalletRepository(client: client),
+            transactions: SupabaseTransactionsRepository(client: client)
         )
     }
 
@@ -24,7 +26,8 @@ nonisolated struct Repositories: Sendable {
             accounts: repository,
             categories: repository,
             currencies: repository,
-            wallet: DemoWalletRepository()
+            wallet: DemoWalletRepository(),
+            transactions: DemoTransactionsRepository()
         )
     }()
 }

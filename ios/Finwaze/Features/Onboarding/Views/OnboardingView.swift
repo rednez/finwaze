@@ -35,7 +35,7 @@ struct OnboardingView: View {
         }
         .background { BrandBackground() }
         .animation(.default, value: viewModel.step)
-        .accountCreationFailureAlert($accountForm.failure, title: "onboarding.account.creationFailed")
+        .failureAlert($accountForm.failure, title: "onboarding.account.creationFailed")
     }
 
     private var header: some View {

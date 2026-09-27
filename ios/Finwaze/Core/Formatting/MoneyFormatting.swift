@@ -5,4 +5,9 @@ nonisolated extension Decimal {
     func formattedAmount(currencyCode: String, locale: Locale = .current) -> String {
         formatted(.currency(code: currencyCode).locale(locale))
     }
+
+    /// Like `formattedAmount`, but a positive amount gets an explicit plus: `+$3,200.00` for an income (`GEN-08`).
+    func formattedSignedAmount(currencyCode: String, locale: Locale = .current) -> String {
+        formatted(.currency(code: currencyCode).sign(strategy: .always(showZero: false)).locale(locale))
+    }
 }

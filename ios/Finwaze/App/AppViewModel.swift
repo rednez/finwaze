@@ -20,6 +20,8 @@ final class AppViewModel {
     private(set) var route: Route = .launching
     private(set) var user: UserSession?
     private(set) var isDemo: Bool
+    /// Grows with every change to the user's data; screens reload on it so they show current figures (`GEN-26`).
+    private(set) var dataVersion = 0
 
     let referenceData: ReferenceDataStore
     let preferences: DevicePreferences
@@ -145,6 +147,39 @@ final class AppViewModel {
             applyReferenceData()
         }
         await reloadReferenceData()
+        dataChanged()
+    }
+
+    /// A transaction was created: balances and lists follow (`GEN-26`).
+    func transactionCreated() {
+        dataChanged()
+    }
+
+    /// Creates a group from the category picker (`TX-12`). It is selectable right away, even if the reload that
+    /// follows fails; in demo mode nothing is stored, so it does not appear (`AUTH-10`).
+    func createGroup(name: String, type: TransactionType, color: String?) async throws -> CategoryGroup {
+        let group = try await repositories.categories.createGroup(name: name, type: type, color: color)
+        if !isDemo {
+            referenceData.add(group)
+        }
+        await reloadReferenceData()
+        dataChanged()
+        return group
+    }
+
+    /// Creates a category in `groupID` from the category picker (`TX-12`); see `createGroup(name:type:color:)`.
+    func createCategory(name: String, groupID: Int64, color: String?) async throws -> Category {
+        let category = try await repositories.categories.createCategory(name: name, groupID: groupID, color: color)
+        if !isDemo {
+            referenceData.add(category)
+        }
+        await reloadReferenceData()
+        dataChanged()
+        return category
+    }
+
+    private func dataChanged() {
+        dataVersion += 1
     }
 
     private func applyReferenceData() {
