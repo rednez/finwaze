@@ -35,6 +35,20 @@ nonisolated struct TransactionFilters: Equatable, Sendable {
         month = calendar.dateInterval(of: .month, for: now)?.start ?? now
     }
 
+    /// How many filters besides the month are set to something other than "All".
+    var activeCount: Int {
+        [type != nil, currencyCode != nil, accountID != nil, groupID != nil, categoryID != nil].count(where: \.self)
+    }
+
+    /// Sets every filter back to "All"; the month stays.
+    mutating func reset() {
+        type = nil
+        currencyCode = nil
+        accountID = nil
+        groupID = nil
+        categoryID = nil
+    }
+
     /// Moves the month by `months` (negative for earlier).
     mutating func shiftMonth(by months: Int) {
         guard let shifted = calendar.date(byAdding: .month, value: months, to: month) else { return }

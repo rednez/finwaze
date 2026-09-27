@@ -44,6 +44,15 @@ enum AppSection: String, Hashable, CaseIterable {
         }
     }
 
+    /// The section's "+" action, shown next to "?", or `nil` when it has none.
+    var addTitle: LocalizedStringKey? {
+        switch self {
+        case .transactions: "transactions.add"
+        case .wallet: "wallet.addAccount"
+        default: nil
+        }
+    }
+
     var systemImage: String {
         switch self {
         case .dashboard: "square.grid.2x2"

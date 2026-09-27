@@ -103,4 +103,21 @@ struct TransactionFiltersTests {
         #expect(query?.currencyCode == "EUR")
         #expect(query?.accountID == 3)
     }
+
+    @Test func countsAndResetsActiveFiltersKeepingTheMonth() {
+        var filters = makeFilters()
+        filters.shiftMonth(by: -1)
+        #expect(filters.activeCount == 0)
+
+        filters.type = .expense
+        filters.currencyCode = "UAH"
+        filters.groupID = 1
+        filters.categoryID = 2
+        #expect(filters.activeCount == 4)
+
+        filters.reset()
+
+        #expect(filters.activeCount == 0)
+        #expect(filters.month == month(2026, 8))
+    }
 }

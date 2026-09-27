@@ -11,6 +11,16 @@ nonisolated extension Date {
         formatted(Date.FormatStyle(date: .abbreviated, time: .shortened, locale: locale, timeZone: offset.timeZone))
     }
 
+    /// Time of a transaction in the local time it happened, e.g. "14:05" (`GEN-12`).
+    func formattedTransactionTime(offset: LocalOffset, locale: Locale = .current) -> String {
+        formatted(Date.FormatStyle(date: .omitted, time: .shortened, locale: locale, timeZone: offset.timeZone))
+    }
+
+    /// "Friday, 25 September" in the local time of a transaction (`GEN-12`, `GEN-18`).
+    func formattedTransactionDay(offset: LocalOffset, locale: Locale = .current) -> String {
+        formatted(Date.FormatStyle(locale: locale, timeZone: offset.timeZone).weekday(.wide).day().month(.wide))
+    }
+
     /// "September 2026" in the interface language (`GEN-14`, `GEN-18`).
     func formattedMonth(locale: Locale = .current, timeZone: TimeZone = .current) -> String {
         formatted(Date.FormatStyle(locale: locale, timeZone: timeZone).month(.wide).year())

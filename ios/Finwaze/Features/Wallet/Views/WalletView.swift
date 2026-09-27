@@ -4,19 +4,16 @@ import SwiftUI
 struct WalletView: View {
     @Environment(AppViewModel.self) private var app
     @State private var viewModel: WalletViewModel
-    @State private var isAddingAccount = false
+    /// "New account" is open; set by the section's "+" or the empty state.
+    @Binding var isAddingAccount: Bool
 
-    init(repository: any WalletRepository) {
+    init(repository: any WalletRepository, isAddingAccount: Binding<Bool>) {
+        _isAddingAccount = isAddingAccount
         _viewModel = State(initialValue: WalletViewModel(repository: repository))
     }
 
     var body: some View {
         content
-            .toolbar {
-                ToolbarItem(placement: .primaryAction) {
-                    Button("wallet.addAccount", systemImage: "plus") { isAddingAccount = true }
-                }
-            }
             .sheet(isPresented: $isAddingAccount) {
                 NewAccountView(app: app)
             }
@@ -116,7 +113,7 @@ private extension WalletAccount {
 
 #Preview {
     NavigationStack {
-        WalletView(repository: DemoWalletRepository())
+        WalletView(repository: DemoWalletRepository(), isAddingAccount: .constant(false))
     }
     .environment(AppViewModel.preview)
 }

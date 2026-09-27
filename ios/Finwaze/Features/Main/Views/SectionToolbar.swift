@@ -1,9 +1,14 @@
 import SwiftUI
 
 extension View {
-    /// Adds the "More" menu, the section's "?" button and the profile menu to the navigation bar.
-    func sectionToolbar(for section: AppSection, onOpen: @escaping (AppSection) -> Void) -> some View {
-        modifier(SectionToolbar(section: section, onOpen: onOpen))
+    /// Adds the "More" menu, the section's "?" and "+" buttons and, apart from them, the profile menu to the
+    /// navigation bar. `onAdd` runs for "+"; sections without one (`AppSection.addTitle`) show no "+".
+    func sectionToolbar(
+        for section: AppSection,
+        onOpen: @escaping (AppSection) -> Void,
+        onAdd: @escaping () -> Void = {}
+    ) -> some View {
+        modifier(SectionToolbar(section: section, onOpen: onOpen, onAdd: onAdd))
     }
 }
 
@@ -16,6 +21,7 @@ private struct SectionToolbar: ViewModifier {
 
     let section: AppSection
     let onOpen: (AppSection) -> Void
+    let onAdd: () -> Void
     @Environment(AppViewModel.self) private var app
     @State private var sheet: Sheet?
 
@@ -32,9 +38,16 @@ private struct SectionToolbar: ViewModifier {
                     }
                 }
 
+                // "?" and "+" share one group; the profile menu stands apart after the spacer.
                 ToolbarItem(placement: .topBarTrailing) {
                     Button("section.help", systemImage: "questionmark.circle") {
                         sheet = .sectionGuide
+                    }
+                }
+
+                if let addTitle = section.addTitle {
+                    ToolbarItem(placement: .topBarTrailing) {
+                        Button(addTitle, systemImage: "plus", action: onAdd)
                     }
                 }
 

@@ -19,27 +19,29 @@ struct SectionView: View {
     }
 }
 
-/// One section's screen: title, short description, "?" and the menus (`NAV-03`, `NAV-04`).
+/// One section's screen: title, short description, "?", the section's "+" and the menus (`NAV-03`, `NAV-04`).
 /// Sections whose stage is not implemented yet show a placeholder.
 struct SectionContentView: View {
     let section: AppSection
     let onOpen: (AppSection) -> Void
     @Environment(AppViewModel.self) private var app
+    /// The section's "+" was tapped; the section presents its own form.
+    @State private var isAdding = false
 
     var body: some View {
         content
             .navigationTitle(section.title)
             .navigationSubtitle(section.subtitle)
-            .sectionToolbar(for: section, onOpen: onOpen)
+            .sectionToolbar(for: section, onOpen: onOpen, onAdd: { isAdding = true })
     }
 
     @ViewBuilder
     private var content: some View {
         switch section {
         case .transactions:
-            TransactionsView(app: app)
+            TransactionsView(app: app, isAdding: $isAdding)
         case .wallet:
-            WalletView(repository: app.repositories.wallet)
+            WalletView(repository: app.repositories.wallet, isAddingAccount: $isAdding)
         default:
             ContentUnavailableView {
                 Label(section.title, systemImage: section.systemImage)
