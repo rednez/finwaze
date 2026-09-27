@@ -15,6 +15,8 @@ extension TransactionFormViewModel.AmountIssue {
         case .required: "transactionForm.amountRequired"
         case .notPositive: "transactionForm.amountNotPositive"
         case .tooPrecise: "transactionForm.amountTooPrecise"
+        case .equalsChargedAmount: "transactionForm.amountEqualsCharged"
+        case .equalsExpenseAmount: "transactionForm.amountEqualsExpense"
         }
     }
 }

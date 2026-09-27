@@ -2,11 +2,23 @@ import SwiftUI
 
 /// One transaction in a day card (`TX-02`), in the short form a phone fits: a badge in the category's colour, the
 /// category with its group and time, the comment and the amount. A purchase in another currency also shows the
-/// amount charged to the account. The day is in the card's header.
+/// amount charged to the account. The day is in the card's header. An expense or income opens for editing
+/// (`TX-06`); a transfer has no destination yet (`TRF-07`, stage 5).
 struct TransactionRow: View {
     let transaction: Transaction
 
     var body: some View {
+        if transaction.type == .transfer {
+            content
+        } else {
+            NavigationLink(value: TransactionRoute(id: transaction.id)) {
+                content
+            }
+            .buttonStyle(.plain)
+        }
+    }
+
+    private var content: some View {
         HStack(spacing: 12) {
             TransactionBadge(transaction: transaction)
 

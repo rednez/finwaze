@@ -48,6 +48,50 @@ nonisolated enum TransactionMapper {
         )
     }
 
+    /// The details `select` (`TX-06`): the same shape as the list row, reached through foreign keys.
+    static func toTransaction(_ dto: TransactionDetailsDto) throws -> Transaction {
+        guard let transactedAt = parseTimestamp(dto.transactedAt) else {
+            throw MappingError.invalidDate(dto.transactedAt)
+        }
+        guard let localOffset = LocalOffset(interval: dto.localOffset) else {
+            throw MappingError.invalidOffset(dto.localOffset)
+        }
+        return Transaction(
+            id: dto.id,
+            type: dto.type,
+            transactedAt: transactedAt,
+            localOffset: localOffset,
+            transactionAmount: dto.transactionAmount,
+            transactionCurrencyCode: dto.transactionCurrency.code,
+            chargedAmount: dto.chargedAmount,
+            chargedCurrencyCode: dto.chargedCurrency.code,
+            accountID: dto.account.id,
+            accountName: dto.account.name,
+            group: Transaction.Label(
+                id: dto.category.group.id,
+                name: dto.category.group.name,
+                color: dto.category.group.color
+            ),
+            category: Transaction.Label(id: dto.category.id, name: dto.category.name, color: dto.category.color),
+            comment: dto.comment.flatMap { $0.isEmpty ? nil : $0 },
+            transferID: dto.transferID
+        )
+    }
+
+    static func toDto(_ update: TransactionUpdate) -> TransactionUpdateDto {
+        TransactionUpdateDto(
+            transactedAt: Date.ISO8601FormatStyle(includingFractionalSeconds: true, timeZone: .gmt)
+                .format(update.transactedAt),
+            localOffset: update.localOffset.intervalString,
+            accountID: update.accountID,
+            categoryID: update.categoryID,
+            transactionAmount: update.transactionAmount,
+            transactionCurrencyID: update.transactionCurrencyID,
+            chargedAmount: update.chargedAmount,
+            comment: update.comment
+        )
+    }
+
     /// `TIMESTAMPTZ` as PostgREST returns it: `2026-09-27T10:15:00+00:00`, with or without fractional seconds.
     static func parseTimestamp(_ text: String) -> Date? {
         let withFraction = Date.ISO8601FormatStyle(includingFractionalSeconds: true)

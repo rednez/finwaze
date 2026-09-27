@@ -1,15 +1,20 @@
 import SwiftUI
 
-/// A primary section with its own navigation stack; secondary sections are pushed onto it (`NAV-02`).
+/// A primary section with its own navigation stack; secondary sections and transactions are pushed onto it
+/// (`NAV-02`, `TX-06`).
 struct SectionView: View {
     let section: AppSection
-    @State private var path: [AppSection] = []
+    @Environment(AppViewModel.self) private var app
+    @State private var path = NavigationPath()
 
     var body: some View {
         NavigationStack(path: $path) {
             SectionContentView(section: section, onOpen: open)
                 .navigationDestination(for: AppSection.self) { destination in
                     SectionContentView(section: destination, onOpen: open)
+                }
+                .navigationDestination(for: TransactionRoute.self) { route in
+                    EditTransactionView(app: app, transactionID: route.id)
                 }
         }
     }

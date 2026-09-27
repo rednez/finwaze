@@ -11,6 +11,7 @@ struct TransactionFormViewModelTests {
     private let repository = FakeTransactionsRepository()
 
     private func makeViewModel(
+        mode: TransactionFormViewModel.Mode = .create,
         repository: (any TransactionsRepository)? = nil,
         onCreated: @escaping () async -> Void = {}
     ) async throws -> TransactionFormViewModel {
@@ -22,11 +23,12 @@ struct TransactionFormViewModelTests {
             )
         )
         return TransactionFormViewModel(
+            mode: mode,
             referenceData: referenceData,
             preferences: preferences,
             repository: repository ?? self.repository,
             now: now,
-            onCreated: onCreated
+            onSaved: onCreated
         )
     }
 
@@ -223,5 +225,266 @@ struct TransactionFormViewModelTests {
         #expect(await first.value)
         #expect(repository.createCalls == 1)
         #expect(!viewModel.isSubmitting)
+    }
+
+    // MARK: Purchase currency and charged amount (TX-21, TX-22, GEN-10)
+
+    @Test func purchaseCurrencyCodesAreTheAccountsCurrencies() async throws {
+        let viewModel = try await makeViewModel()
+
+        #expect(viewModel.purchaseCurrencyCodes == ["UAH", "EUR"])
+    }
+
+    @Test func changingAccountResetsThePurchaseCurrencyToItsOwn() async throws {
+        let viewModel = try await makeViewModel()
+        viewModel.account = cash
+        viewModel.purchaseCurrencyCode = "EUR"
+        viewModel.chargedAmountText = "215"
+
+        viewModel.account = card
+
+        #expect(viewModel.purchaseCurrencyCode == "EUR")
+        #expect(!viewModel.showsChargedAmount, "the account's own currency hides the charged field again")
+    }
+
+    @Test func changingThePurchaseCurrencyClearsTheChargedAmount() async throws {
+        let viewModel = try await makeViewModel()
+        viewModel.account = cash
+        viewModel.purchaseCurrencyCode = "EUR"
+        viewModel.chargedAmountText = "215"
+
+        viewModel.purchaseCurrencyCode = "UAH"
+
+        #expect(viewModel.chargedAmountText.isEmpty)
+        #expect(!viewModel.showsChargedAmount)
+    }
+
+    @Test func chargedAmountShowsOnlyWhenCurrencyDiffersFromTheAccount() async throws {
+        let viewModel = try await makeViewModel()
+        viewModel.account = cash
+
+        #expect(!viewModel.showsChargedAmount)
+
+        viewModel.purchaseCurrencyCode = "EUR"
+        #expect(viewModel.showsChargedAmount)
+
+        viewModel.purchaseCurrencyCode = "UAH"
+        #expect(!viewModel.showsChargedAmount)
+    }
+
+    @Test func incomeNeverShowsChargedAmount() async throws {
+        let viewModel = try await makeViewModel()
+        viewModel.type = .income
+        viewModel.account = cash
+
+        #expect(!viewModel.showsChargedAmount)
+    }
+
+    @Test func requiresChargedAmountWhenShown() async throws {
+        let viewModel = try await makeViewModel()
+        fill(viewModel, amount: "5")
+        viewModel.purchaseCurrencyCode = "EUR"
+
+        #expect(await viewModel.submit() == false)
+        #expect(viewModel.chargedAmountIssue == .required)
+        #expect(repository.created.isEmpty)
+    }
+
+    @Test func rejectsBadChargedAmounts() async throws {
+        let viewModel = try await makeViewModel()
+        fill(viewModel, amount: "5")
+        viewModel.purchaseCurrencyCode = "EUR"
+        viewModel.chargedAmountText = "1,234"
+
+        #expect(await viewModel.submit() == false)
+        #expect(viewModel.chargedAmountIssue == .tooPrecise)
+    }
+
+    @Test func chargedAndPurchaseAmountsMustDiffer() async throws {
+        let viewModel = try await makeViewModel()
+        fill(viewModel, amount: "5")
+        viewModel.purchaseCurrencyCode = "EUR"
+        viewModel.chargedAmountText = "5"
+
+        #expect(await viewModel.submit() == false)
+        #expect(viewModel.amountIssue == .equalsChargedAmount)
+        #expect(viewModel.chargedAmountIssue == .equalsExpenseAmount)
+    }
+
+    @Test func computesTheExchangeRate() async throws {
+        let viewModel = try await makeViewModel()
+        viewModel.account = cash
+        viewModel.purchaseCurrencyCode = "EUR"
+        viewModel.amountText = "5"
+        viewModel.chargedAmountText = "215"
+
+        #expect(viewModel.exchangeRate == 43)
+        // The digit formatting itself follows the interface language (`GEN-10`); only the currencies are checked here.
+        #expect(viewModel.exchangeRateHint?.contains("EUR") == true)
+        #expect(viewModel.exchangeRateHint?.contains("UAH") == true)
+    }
+
+    @Test func createsAForeignCurrencyExpense() async throws {
+        let viewModel = try await makeViewModel()
+        fill(viewModel, amount: "5")
+        viewModel.purchaseCurrencyCode = "EUR"
+        viewModel.chargedAmountText = "215"
+
+        #expect(await viewModel.submit())
+
+        let created = try #require(repository.created.first)
+        #expect(created.transactionAmount == 5)
+        #expect(created.transactionCurrencyID == FakeReferenceDataRepository.eur.id)
+        #expect(created.chargedAmount == 215)
+        #expect(preferences.expenseDefaults?.currencyCode == "EUR")
+    }
+
+    @Test func rememberedPurchaseCurrencyAppliesAfterTheAccount() async throws {
+        preferences.expenseDefaults = TransactionFormDefaults(
+            accountID: cash.id, groupID: FakeReferenceDataRepository.food.id,
+            categoryID: FakeReferenceDataRepository.groceries.id, currencyCode: "EUR"
+        )
+
+        let viewModel = try await makeViewModel()
+
+        #expect(viewModel.account == cash)
+        #expect(viewModel.purchaseCurrencyCode == "EUR")
+    }
+
+    @Test func rememberedPurchaseCurrencyIsSkippedWhenNoLongerAnAccountCurrency() async throws {
+        preferences.expenseDefaults = TransactionFormDefaults(
+            accountID: cash.id, groupID: FakeReferenceDataRepository.food.id,
+            categoryID: FakeReferenceDataRepository.groceries.id, currencyCode: "USD"
+        )
+
+        let viewModel = try await makeViewModel()
+
+        #expect(viewModel.purchaseCurrencyCode == "UAH")
+    }
+
+    // MARK: Editing (TX-40, TX-42)
+
+    private var editedForeignExpense: Transaction {
+        Transaction(
+            id: 42,
+            type: .expense,
+            transactedAt: Date(timeIntervalSince1970: 1_790_000_000),
+            localOffset: LocalOffset(seconds: 7_200),
+            transactionAmount: -5,
+            transactionCurrencyCode: "EUR",
+            chargedAmount: -215,
+            chargedCurrencyCode: "UAH",
+            accountID: cash.id,
+            accountName: cash.name,
+            group: Transaction.Label(id: FakeReferenceDataRepository.food.id, name: "Food", color: nil),
+            category: Transaction.Label(
+                id: FakeReferenceDataRepository.groceries.id,
+                name: FakeReferenceDataRepository.groceries.name,
+                color: FakeReferenceDataRepository.groceries.color
+            ),
+            comment: "Lunch",
+            transferID: nil
+        )
+    }
+
+    @Test func editFillsTheFormFromTheTransaction() async throws {
+        let viewModel = try await makeViewModel(mode: .edit(editedForeignExpense))
+
+        #expect(viewModel.type == .expense)
+        #expect(viewModel.account == cash)
+        #expect(viewModel.category == FakeReferenceDataRepository.groceries)
+        #expect(viewModel.amountText == "5")
+        #expect(viewModel.purchaseCurrencyCode == "EUR")
+        #expect(viewModel.chargedAmountText == "215")
+        #expect(viewModel.showsChargedAmount)
+        #expect(viewModel.comment == "Lunch")
+        #expect(viewModel.transactedAt == editedForeignExpense.transactedAt)
+        #expect(viewModel.timeZone.secondsFromGMT() == 7_200)
+    }
+
+    @Test func editFillsAPlainExpenseWithoutChargedAmount() async throws {
+        let transaction = Transaction.fixture(id: 5, amount: -250, currencyCode: "UAH")
+        let viewModel = try await makeViewModel(mode: .edit(transaction))
+
+        #expect(viewModel.amountText == "250")
+        #expect(viewModel.chargedAmountText.isEmpty)
+        #expect(!viewModel.showsChargedAmount)
+    }
+
+    @Test func editFillsAnIncome() async throws {
+        let transaction = Transaction.fixture(id: 6, type: .income, amount: 3200, currencyCode: "UAH")
+        let viewModel = try await makeViewModel(mode: .edit(transaction))
+
+        #expect(viewModel.type == .income)
+        #expect(viewModel.amountText == "3200")
+        #expect(viewModel.purchaseCurrencyCode == "UAH")
+        #expect(!viewModel.showsChargedAmount, "an income never picks a purchase currency (TX-30)")
+    }
+
+    @Test func editSavesAnUpdate() async throws {
+        var savedCalls = 0
+        repository.setDetails(editedForeignExpense)
+        let viewModel = try await makeViewModel(mode: .edit(editedForeignExpense)) { savedCalls += 1 }
+        viewModel.comment = "Dinner"
+
+        #expect(await viewModel.submit())
+
+        let call = try #require(repository.updated.first)
+        #expect(call.id == 42)
+        #expect(call.update.localOffset == LocalOffset(seconds: 7_200))
+        #expect(call.update.accountID == cash.id)
+        #expect(call.update.categoryID == FakeReferenceDataRepository.groceries.id)
+        #expect(call.update.transactionAmount == 5)
+        #expect(call.update.transactionCurrencyID == FakeReferenceDataRepository.eur.id)
+        #expect(call.update.chargedAmount == 215)
+        #expect(call.update.comment == "Dinner")
+        #expect(savedCalls == 1)
+        #expect(preferences.expenseDefaults == nil, "editing must not update TX-16's remembered choices")
+    }
+
+    @Test func editKeepsTheOriginalOffsetEvenIfTheDateChanges() async throws {
+        repository.setDetails(editedForeignExpense)
+        let viewModel = try await makeViewModel(mode: .edit(editedForeignExpense))
+        viewModel.transactedAt = now
+
+        #expect(await viewModel.submit())
+
+        #expect(repository.updated.first?.update.localOffset == LocalOffset(seconds: 7_200))
+    }
+
+    @Test func editNotFoundWhenTheTransactionIsGone() async throws {
+        var savedCalls = 0
+        // Nothing registered under id 42 in `repository`, so `update` answers "not found".
+        let viewModel = try await makeViewModel(mode: .edit(editedForeignExpense)) { savedCalls += 1 }
+
+        #expect(await viewModel.submit() == false)
+
+        #expect(viewModel.isNotFound)
+        #expect(viewModel.failure == nil)
+        #expect(savedCalls == 0)
+    }
+
+    @Test func editFailureSetsFailureNotNotFound() async throws {
+        repository.setUpdateFails(true)
+        let viewModel = try await makeViewModel(mode: .edit(editedForeignExpense))
+
+        #expect(await viewModel.submit() == false)
+
+        #expect(viewModel.failure == "duplicate key value")
+        #expect(!viewModel.isNotFound)
+    }
+
+    @Test func editFailureKeepsTheFormData() async throws {
+        repository.setUpdateFails(true)
+        let viewModel = try await makeViewModel(mode: .edit(editedForeignExpense))
+        viewModel.comment = "Dinner"
+
+        #expect(await viewModel.submit() == false)
+
+        #expect(viewModel.amountText == "5")
+        #expect(viewModel.chargedAmountText == "215")
+        #expect(viewModel.comment == "Dinner")
+        #expect(viewModel.account == cash)
+        #expect(viewModel.category == FakeReferenceDataRepository.groceries)
     }
 }

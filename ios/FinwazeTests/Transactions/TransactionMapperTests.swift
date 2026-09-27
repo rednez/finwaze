@@ -75,6 +75,98 @@ struct TransactionMapperTests {
         #expect(try map(row(comment: #""Lunch""#)).comment == "Lunch")
     }
 
+    // MARK: Details select (TX-06)
+
+    private func detailsRow(
+        transactedAt: String = "2026-09-27T09:15:00+00:00",
+        offset: String = "03:00:00",
+        amount: String = "-250",
+        chargedAmount: String? = nil,
+        chargedCurrencyCode: String = "UAH",
+        comment: String = "null"
+    ) -> String {
+        #"""
+        {"id": 7, "transacted_at": "\#(transactedAt)", "local_offset": "\#(offset)",
+         "transaction_amount": \#(amount), "charged_amount": \#(chargedAmount ?? amount), "type": "expense",
+         "comment": \#(comment), "transfer_id": null,
+         "account": {"id": 2, "name": "Cash"},
+         "transaction_currency": {"code": "UAH"},
+         "charged_currency": {"code": "\#(chargedCurrencyCode)"},
+         "category": {"id": 3, "name": "Groceries", "color": null,
+           "group": {"id": 1, "name": "Food", "color": "#22C55E"}}}
+        """#
+    }
+
+    private func mapDetails(_ json: String) throws -> Transaction {
+        try TransactionMapper.toTransaction(JSONDecoder().decode(TransactionDetailsDto.self, from: Data(json.utf8)))
+    }
+
+    @Test func mapsDetailsRow() throws {
+        let transaction = try mapDetails(detailsRow())
+
+        #expect(transaction.id == 7)
+        #expect(transaction.type == .expense)
+        #expect(transaction.transactedAt == Date(timeIntervalSince1970: 1_790_500_500))
+        #expect(transaction.localOffset == LocalOffset(seconds: 10_800))
+        #expect(transaction.transactionAmount == -250)
+        #expect(transaction.transactionCurrencyCode == "UAH")
+        #expect(transaction.accountID == 2)
+        #expect(transaction.accountName == "Cash")
+        #expect(transaction.group == Transaction.Label(id: 1, name: "Food", color: "#22C55E"))
+        #expect(transaction.category == Transaction.Label(id: 3, name: "Groceries", color: nil))
+        #expect(transaction.comment == nil)
+        #expect(!transaction.isForeignCurrency)
+    }
+
+    @Test func mapsDetailsRowInForeignCurrency() throws {
+        let transaction = try mapDetails(
+            detailsRow(amount: "-5", chargedAmount: "-215", chargedCurrencyCode: "UAH")
+        )
+
+        #expect(transaction.transactionAmount == -5)
+        #expect(transaction.transactionCurrencyCode == "UAH")
+        #expect(transaction.chargedAmount == -215)
+        #expect(transaction.chargedCurrencyCode == "UAH")
+    }
+
+    @Test func detailsEmptyCommentIsNoComment() throws {
+        #expect(try mapDetails(detailsRow(comment: #""""#)).comment == nil)
+        #expect(try mapDetails(detailsRow(comment: #""Lunch""#)).comment == "Lunch")
+    }
+
+    @Test func detailsRejectsUnknownOffset() {
+        #expect(throws: TransactionMapper.MappingError.invalidOffset("2 hours")) {
+            try mapDetails(detailsRow(offset: "2 hours"))
+        }
+    }
+
+    @Test func encodesTransactionUpdateExactly() throws {
+        let update = TransactionUpdate(
+            transactedAt: Date(timeIntervalSince1970: 1_790_500_500),
+            localOffset: LocalOffset(seconds: 10_800),
+            accountID: 2,
+            categoryID: 3,
+            transactionAmount: Decimal(string: "0.1")!,
+            transactionCurrencyID: 5,
+            chargedAmount: Decimal(string: "0.1")!,
+            comment: nil
+        )
+
+        let data = try JSONEncoder().encode(TransactionMapper.toDto(update))
+        let json = try #require(String(data: data, encoding: .utf8))
+        let object = try #require(JSONSerialization.jsonObject(with: data) as? [String: Any])
+
+        #expect(json.contains(#""transaction_amount":0.1"#))
+        #expect(json.contains(#""charged_amount":0.1"#))
+        #expect(object["transacted_at"] as? String == "2026-09-27T09:15:00.000Z")
+        #expect(object["local_offset"] as? String == "+03:00")
+        #expect(object["account_id"] as? Int == 2)
+        #expect(object["category_id"] as? Int == 3)
+        #expect(object["transaction_currency_id"] as? Int == 5)
+        #expect(object["comment"] == nil)
+        #expect(object["type"] == nil)
+    }
+
     @Test func encodesNewTransactionExactly() throws {
         let transaction = NewTransaction(
             type: .expense,

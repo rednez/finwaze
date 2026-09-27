@@ -155,6 +155,16 @@ final class AppViewModel {
         dataChanged()
     }
 
+    /// A transaction was edited (`TX-40`): balances and lists follow (`GEN-26`).
+    func transactionUpdated() {
+        dataChanged()
+    }
+
+    /// A transaction was deleted (`TX-41`): balances and lists follow (`GEN-26`).
+    func transactionDeleted() {
+        dataChanged()
+    }
+
     /// Creates a group from the category picker (`TX-12`). It is selectable right away, even if the reload that
     /// follows fails; in demo mode nothing is stored, so it does not appear (`AUTH-10`).
     func createGroup(name: String, type: TransactionType, color: String?) async throws -> CategoryGroup {

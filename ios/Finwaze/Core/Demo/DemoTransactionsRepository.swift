@@ -16,6 +16,22 @@ nonisolated struct DemoTransactionsRepository: TransactionsRepository {
 
     /// A no-op, like on the web: nothing is stored, so the demo never changes.
     func create(_ transaction: NewTransaction) async throws {}
+
+    /// Looks the id up in its own month: the id encodes it (`YYYYMM · 100 + n`, see `DemoData.transactions`).
+    func transaction(id: Int64) async throws -> Transaction? {
+        let yearMonth = id / 100
+        guard let month = calendar.date(from: DateComponents(year: Int(yearMonth / 100), month: Int(yearMonth % 100), day: 1))
+        else { return nil }
+        return DemoData.transactions(inMonthOf: month, now: now(), calendar: calendar).first { $0.id == id }
+    }
+
+    /// A no-op, like `create`: the demo transaction stays exactly as it was (`AUTH-10`).
+    func update(id: Int64, _ update: TransactionUpdate) async throws -> Bool {
+        true
+    }
+
+    /// A no-op, like `create`: the "deleted" transaction stays in place (`AUTH-10`).
+    func delete(id: Int64) async throws {}
 }
 
 private nonisolated extension Transaction {

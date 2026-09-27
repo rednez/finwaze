@@ -76,4 +76,34 @@ struct DemoTransactionsRepositoryTests {
 
         #expect(try await repository.transactions(matching: query(month: month(2026, 9))) == before)
     }
+
+    // MARK: Details, update, delete (TX-06, TX-40, TX-41)
+
+    @Test func findsATransactionByID() async throws {
+        let repository = repository()
+        let august = try await repository.transactions(matching: query(month: month(2026, 8)))
+        let expected = try #require(august.first)
+
+        #expect(try await repository.transaction(id: expected.id) == expected)
+    }
+
+    @Test func answersNilForAnUnknownID() async throws {
+        #expect(try await repository().transaction(id: 999_999) == nil)
+    }
+
+    @Test func updatingAndDeletingChangeNothing() async throws {
+        let repository = repository()
+        let august = try await repository.transactions(matching: query(month: month(2026, 8)))
+        let target = try #require(august.first)
+
+        let update = TransactionUpdate(
+            transactedAt: now, localOffset: LocalOffset(seconds: 10_800), accountID: 1, categoryID: 1,
+            transactionAmount: 999, transactionCurrencyID: 1, chargedAmount: 999, comment: "changed"
+        )
+        #expect(try await repository.update(id: target.id, update))
+        #expect(try await repository.transaction(id: target.id) == target)
+
+        try await repository.delete(id: target.id)
+        #expect(try await repository.transaction(id: target.id) == target)
+    }
 }

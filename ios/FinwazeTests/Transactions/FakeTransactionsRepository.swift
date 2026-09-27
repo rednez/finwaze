@@ -3,6 +3,12 @@ import Synchronization
 @testable import Finwaze
 
 final class FakeTransactionsRepository: TransactionsRepository {
+    /// One recorded call to `update(id:_:)`.
+    struct UpdateCall: Equatable {
+        let id: Int64
+        let update: TransactionUpdate
+    }
+
     private struct State {
         var transactions: [Transaction]
         var hasTransactions: Bool
@@ -10,6 +16,13 @@ final class FakeTransactionsRepository: TransactionsRepository {
         var createFails = false
         var queries: [TransactionQuery] = []
         var created: [NewTransaction] = []
+        /// Details `transaction(id:)` answers with; an id missing here answers `nil` ("not found", `TX-42`).
+        var detailsByID: [Int64: Transaction] = [:]
+        var updateFails = false
+        var deleteFails = false
+        var requestedIDs: [Int64] = []
+        var updated: [UpdateCall] = []
+        var deletedIDs: [Int64] = []
     }
 
     private let state: Mutex<State>
@@ -28,6 +41,21 @@ final class FakeTransactionsRepository: TransactionsRepository {
         state.withLock { $0.created }
     }
 
+    /// Ids requested through `transaction(id:)`, in call order.
+    var requestedIDs: [Int64] {
+        state.withLock { $0.requestedIDs }
+    }
+
+    /// Calls made to `update(id:_:)`, in call order.
+    var updated: [UpdateCall] {
+        state.withLock { $0.updated }
+    }
+
+    /// Ids passed to `delete(id:)`, in call order.
+    var deletedIDs: [Int64] {
+        state.withLock { $0.deletedIDs }
+    }
+
     func setTransactions(_ transactions: [Transaction]) {
         state.withLock { $0.transactions = transactions }
     }
@@ -38,6 +66,25 @@ final class FakeTransactionsRepository: TransactionsRepository {
 
     func setCreateFails(_ fails: Bool) {
         state.withLock { $0.createFails = fails }
+    }
+
+    /// What `transaction(id:)` answers for `transaction.id`; leave unset to simulate "not found" (`TX-42`).
+    func setDetails(_ transaction: Transaction) {
+        state.withLock { $0.detailsByID[transaction.id] = transaction }
+    }
+
+    /// Simulates the transaction being deleted elsewhere after it was loaded (`TX-42`): the next `update(id:_:)`
+    /// for `id` answers "not found".
+    func removeDetails(id: Int64) {
+        state.withLock { $0.detailsByID[id] = nil }
+    }
+
+    func setUpdateFails(_ fails: Bool) {
+        state.withLock { $0.updateFails = fails }
+    }
+
+    func setDeleteFails(_ fails: Bool) {
+        state.withLock { $0.deleteFails = fails }
     }
 
     func transactions(matching query: TransactionQuery) async throws -> [Transaction] {
@@ -59,6 +106,29 @@ final class FakeTransactionsRepository: TransactionsRepository {
         try state.withLock { state in
             state.created.append(transaction)
             if state.createFails { throw FakeCreateError() }
+        }
+    }
+
+    func transaction(id: Int64) async throws -> Transaction? {
+        try state.withLock { state in
+            state.requestedIDs.append(id)
+            if state.fails { throw FakeLoadError() }
+            return state.detailsByID[id]
+        }
+    }
+
+    func update(id: Int64, _ update: TransactionUpdate) async throws -> Bool {
+        try state.withLock { state in
+            if state.updateFails { throw FakeCreateError() }
+            state.updated.append(UpdateCall(id: id, update: update))
+            return state.detailsByID[id] != nil
+        }
+    }
+
+    func delete(id: Int64) async throws {
+        try state.withLock { state in
+            if state.deleteFails { throw FakeCreateError() }
+            state.deletedIDs.append(id)
         }
     }
 }
@@ -92,6 +162,12 @@ final class SuspendedTransactionsRepository: TransactionsRepository {
     func transactions(matching query: TransactionQuery) async throws -> [Transaction] { [] }
 
     func hasTransactions() async throws -> Bool { false }
+
+    func transaction(id: Int64) async throws -> Transaction? { nil }
+
+    func update(id: Int64, _ update: TransactionUpdate) async throws -> Bool { false }
+
+    func delete(id: Int64) async throws {}
 }
 
 extension Transaction {
