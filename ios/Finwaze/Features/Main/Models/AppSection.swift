@@ -2,13 +2,13 @@ import SwiftUI
 
 /// Top-level sections of the signed-in app (`NAV-01`, `NAV-02`).
 enum AppSection: String, Hashable, CaseIterable {
-    case dashboard, transactions, wallet, budget, goals
-    case groups, analytics
+    case dashboard, transactions, wallet, budget
+    case goals, groups, analytics
 
     /// Always in the tab bar (`NAV-01`).
-    static let primary: [AppSection] = [.dashboard, .transactions, .wallet, .budget, .goals]
+    static let primary: [AppSection] = [.dashboard, .transactions, .wallet, .budget]
     /// Reachable from the "More" menu of any section, not from the tab bar (`NAV-02`).
-    static let secondary: [AppSection] = [.groups, .analytics]
+    static let secondary: [AppSection] = [.goals, .groups, .analytics]
 
     /// Short label for the tab bar or sidebar.
     var tabTitle: LocalizedStringKey {

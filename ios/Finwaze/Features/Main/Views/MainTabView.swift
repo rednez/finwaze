@@ -1,6 +1,6 @@
 import SwiftUI
 
-/// The signed-in app: the five primary sections in the tab bar (`NAV-01`). Secondary sections open from
+/// The signed-in app: the four primary sections in the tab bar (`NAV-01`). Secondary sections open from
 /// the "More" menu of any section (`NAV-02`), so the tab bar never folds a primary section into "More".
 struct MainTabView: View {
     @State private var selection: AppSection = .dashboard
