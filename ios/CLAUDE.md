@@ -22,7 +22,8 @@ writing any repository.
 
 - **Minimum iOS:** 26.0 — the first version with Liquid Glass. Use the native Liquid Glass styling
   (system components, `glassEffect`) rather than custom blur/material imitations.
-- **Bundle identifier:** `dev.yefimenko.Finwaze` (tests: `dev.yefimenko.FinwazeTests`, `dev.yefimenko.FinwazeUITests`).
+- **Bundle identifier:** `dev.yefimenko.Finwaze` for Release, `…Finwaze.staging` for Staging and `…Finwaze.dev` for Debug,
+  so all three builds can sit side by side (tests: `dev.yefimenko.FinwazeTests`, `dev.yefimenko.FinwazeUITests`).
 - **Localization:** English (`en`, development language and fallback), Ukrainian (`uk`), Czech (`cs`) —
   the same set as the web client. The app follows the OS language; if it is not supported, English is used.
 - **Concurrency:** Swift 6 language mode with `SWIFT_DEFAULT_ACTOR_ISOLATION = MainActor`. Mark
@@ -50,6 +51,17 @@ Mirrors the web client's layering, in Swift terms:
 
 Group by feature, like the web app: `Features/<Feature>/{Models,Repositories,Mappers,ViewModels,Views}`,
 with cross-feature code in `Core/` (auth, networking, i18n, extensions) and `Shared/` (reusable views).
+
+### Demo mode
+
+Demo mode (`AUTH-10`) needs no account and no network: it has no Supabase session and reads local data from
+`Core/Demo/DemoData`. Repositories are picked in one place — `Repositories.live(client:)` or `Repositories.demo`,
+exposed as `AppViewModel.repositories`. When a stage adds a repository:
+
+- add it to both sets in `Core/Repositories/Repositories.swift`;
+- give it a demo implementation next to `DemoReferenceDataRepository` that serves `DemoData`;
+- make every write method in the demo implementation a no-op that succeeds without changing any data, so the demo
+  always shows the same data.
 
 ### Calling PostgreSQL functions
 
@@ -119,7 +131,21 @@ Parameter names must match the SQL function parameter names exactly (including t
 
 ## Local Development
 
-Commands run from the repo root (paths are relative to it). Project `Finwaze.xcodeproj`, scheme `Finwaze`.
+Commands run from the repo root (paths are relative to it). Project `Finwaze.xcodeproj`.
+
+### Environments
+
+Like `src/environments/*` on the web, each build configuration talks to its own backend:
+
+| Configuration | Scheme            | Backend                        | App name      |
+|---------------|-------------------|--------------------------------|---------------|
+| Debug         | `Finwaze`         | local Supabase (`supabase start`) | Finwaze Dev |
+| Staging       | `Finwaze Staging` | hosted staging project         | Finwaze β     |
+| Release       | `Finwaze` (archive) | hosted production project    | Finwaze       |
+
+Values (`SUPABASE_URL`, `SUPABASE_PUBLISHABLE_KEY`, `WEB_APP_URL`, bundle id, display name) live in
+`ios/Config/<Configuration>.xcconfig` and reach the app through `ios/Config/Info.plist`; `SupabaseConfig` reads them
+from the bundle. These files are committed: they hold publishable keys only, the same ones the web client ships.
 
 ```bash
 supabase start                                   # local backend (repo root)
@@ -128,9 +154,6 @@ xcodebuild -project ios/Finwaze.xcodeproj -scheme Finwaze \
 xcodebuild -project ios/Finwaze.xcodeproj -scheme Finwaze \
   -destination 'platform=iOS Simulator,name=iPhone 18 Pro' test
 ```
-
-The local Supabase URL and publishable key are read from the git-ignored `ios/Finwaze/Config/Supabase.plist`
-(copy it from `ios/Supabase.example.plist`) — never commit keys.
 
 Known unfinished work is tracked in `ios/TECH_DEBT.md`.
 Demo user (`demo@mail.com` / `password1234`) is described in the root file.
@@ -144,6 +167,8 @@ Database rules are in the root `../CLAUDE.md`.
 1. **Do not call Supabase from a View or ViewModel** — go through a repository that returns mapped domain models.
 2. **Do not use `Double`/`Float` for money** — use `Decimal`.
 3. **Do not rename or reshape backend RPCs from the iOS side** — the API is shared; changes must stay backwards compatible.
-4. **Do not commit secrets** — Supabase keys and signing material stay out of git.
+4. **Do not commit secrets** — publishable Supabase keys go into `ios/Config/*.xcconfig`; secret and `service_role`
+   keys and signing material never enter git.
 5. **Do not hard-code user-facing strings** — use the String Catalog.
 6. **Do not introduce Combine or completion-handler APIs in new code** — use `async`/`await`.
+7. **Do not let demo mode change data or reach the network** — every repository has a demo implementation whose writes are no-ops.

@@ -10,17 +10,11 @@ Known gaps in the iOS client that still need to be done. Remove an item once it'
 - **Sign in with a passkey.** The web client supports it (`passkey-button`, `AuthService.loginWithPasskey`).
   On iOS it needs `AuthenticationServices` (`ASAuthorizationPlatformPublicKeyCredentialProvider`),
   an Associated Domains entitlement (`webcredentials:`) and an `apple-app-site-association` file on the web domain.
-- **Password reset ("Forgot password?").** The web client has the `reset-password` / `change-password` flow.
-  iOS needs a reset request screen plus handling of the recovery link, so the user can set a new password in the app
-  (`AUTH-08`, `AUTH-09`, `Q-11`; see "Email links open the app" below for how the link works). Until the link
-  opens the app, the "check your email" screen must tell the user to come back and sign in with the new password.
-- **Demo mode must be read-only** (`AUTH-10`, `Q-08` in `docs/functional-design.md`). By design, demo mode only
-  lets the user look around: actions that change data (create, edit, delete) do nothing. The web client has a
-  separate data layer for demo mode (`src/app/core/services/demo-mode/`): local demo data, no backend, and every
-  write is a no-op. iOS must work the same way: demo implementations of the repository protocols that serve local
-  demo data and make every write a no-op, selected when the user taps "Try Demo Mode". No network needed. Today the
-  button signs in to the real, shared `demo@mail.com` account, so this must land before any write feature ships —
-  otherwise one demo user's changes would alter the demo data for everyone.
+- **Set a new password in the app** (`AUTH-09`, `Q-11`). The request screen (`AUTH-08`, `ResetPasswordView`) is
+  done: it sends the link and tells the user to come back and sign in with the new password. Still missing: the
+  "set a new password" screen opened by the recovery link, including the expired/used-link message with
+  "send the link again". Depends on "Email links open the app" below; until then the link opens the web client's
+  `/change-password`.
 - **Email links open the app and sign the user in** (`AUTH-05`, `AUTH-09`, `Q-11`). The "check your email" screen
   already tells the user to come back and sign in, and can resend the email. Still missing: a confirmation or
   password-reset link that opens the app and signs the user in right away.
@@ -52,5 +46,9 @@ Known gaps in the iOS client that still need to be done. Remove an item once it'
 
 ## App
 
-- **Home screen placeholder.** `Features/Home/Views/HomePlaceholderView.swift` is temporary. Replace it
-  with the real main navigation (dashboard, transactions, …).
+- **Section placeholders.** Every section in `Features/Main/Views/SectionView.swift` shows "under construction"
+  until its stage lands; `OnboardingPlaceholderView` waits for stage 2, the Guide and Settings sheets in
+  `SectionToolbar.swift` for stages 15 and 14.
+- **`WEB_APP_URL` for Staging and Release is empty** (`ios/Config/Staging.xcconfig`, `Release.xcconfig`). Until it
+  is set, password-reset emails from those builds link to the Supabase project's `site_url` instead of
+  `<web app>/change-password`.

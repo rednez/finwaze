@@ -1,0 +1,18 @@
+import Foundation
+
+nonisolated extension Date {
+    /// `YYYY-MM-DD` in `timeZone`, the format of `DATE` parameters sent to the backend.
+    func isoDateString(in timeZone: TimeZone = .current) -> String {
+        formatted(Date.ISO8601FormatStyle(timeZone: timeZone).year().month().day())
+    }
+
+    /// Date and time of a transaction in the local time it happened, not the device's (`GEN-12`, `GEN-18`).
+    func formattedTransactionDate(offset: LocalOffset, locale: Locale = .current) -> String {
+        formatted(Date.FormatStyle(date: .abbreviated, time: .shortened, locale: locale, timeZone: offset.timeZone))
+    }
+
+    /// "September 2026" in the interface language (`GEN-14`, `GEN-18`).
+    func formattedMonth(locale: Locale = .current, timeZone: TimeZone = .current) -> String {
+        formatted(Date.FormatStyle(locale: locale, timeZone: timeZone).month(.wide).year())
+    }
+}

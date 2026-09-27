@@ -23,14 +23,19 @@ struct SignupView: View {
     Group {
       if let email = viewModel.confirmationEmail {
         AuthScreen(title: "signup.checkEmail.title", subtitle: nil) {
-          ConfirmationSentView(
-            isResending: viewModel.isResending,
-            didResend: viewModel.didResend,
-            onResend: { Task { await viewModel.resendConfirmation() } },
+          EmailSentView(
+            message: "signup.verificationSent",
+            hint: "signup.confirmHint",
+            signInTitle: "signup.signInAfterConfirm",
             onSignIn: {
               onSignIn(email)
               dismiss()
-            }
+            },
+            resend: .init(
+              isResending: viewModel.isResending,
+              didResend: viewModel.didResend,
+              action: { Task { await viewModel.resendConfirmation() } }
+            )
           )
         }
       } else {
@@ -114,72 +119,6 @@ struct SignupView: View {
   private func submit() {
     focusedField = nil
     Task { await viewModel.signUp() }
-  }
-}
-
-/// Shown after sign-up: explains how to get back into the app and lets the user resend the email.
-private struct ConfirmationSentView: View {
-  let isResending: Bool
-  let didResend: Bool
-  let onResend: () -> Void
-  let onSignIn: () -> Void
-
-  var body: some View {
-    VStack(spacing: 16) {
-      Label {
-        VStack(spacing: 8) {
-          Text("signup.verificationSent")
-          Text("signup.confirmHint")
-            .foregroundStyle(.secondary)
-        }
-        .multilineTextAlignment(.center)
-      } icon: {
-        Image(systemName: "envelope.badge")
-          .font(.largeTitle)
-          .foregroundStyle(.green)
-      }
-      .labelStyle(VerticalLabelStyle())
-      .padding(24)
-      .frame(maxWidth: .infinity)
-      .glassEffect(
-        .regular.tint(.green.opacity(0.15)),
-        in: .rect(cornerRadius: 24)
-      )
-
-      AuthSubmitButton(title: "signup.signInAfterConfirm", isLoading: false, action: onSignIn)
-        .padding(.top, 8)
-
-      Button(action: onResend) {
-        ZStack {
-          Text("signup.resend").opacity(isResending ? 0 : 1)
-          if isResending {
-            ProgressView()
-          }
-        }
-        .font(.headline)
-        .frame(maxWidth: .infinity)
-        .padding(.vertical, 6)
-      }
-      .buttonStyle(.glass)
-      .disabled(isResending)
-
-      if didResend {
-        Label("signup.resent", systemImage: "checkmark.circle.fill")
-          .font(.subheadline)
-          .foregroundStyle(.secondary)
-          .transition(.opacity)
-      }
-    }
-    .animation(.default, value: didResend)
-  }
-}
-
-private struct VerticalLabelStyle: LabelStyle {
-  func makeBody(configuration: Configuration) -> some View {
-    VStack(spacing: 12) {
-      configuration.icon
-      configuration.title
-    }
   }
 }
 

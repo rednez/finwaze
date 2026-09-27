@@ -46,13 +46,15 @@ struct LoginViewModelTests {
         #expect(viewModel.failure == .invalidCredentials)
     }
 
-    @Test func demoSignInSkipsValidation() async {
+    @Test func demoOpensDemoModeWithoutRepository() async {
         let repository = FakeAuthRepository()
-        let viewModel = LoginViewModel(repository: repository)
+        var demoEntered = 0
+        let viewModel = LoginViewModel(repository: repository) { demoEntered += 1 }
 
         await viewModel.signInWithDemo()
 
-        #expect(repository.calls.signInWithDemo == 1)
+        #expect(demoEntered == 1)
+        #expect(repository.calls.signIn.isEmpty)
         #expect(viewModel.emailIssue == nil)
     }
 
@@ -60,10 +62,13 @@ struct LoginViewModelTests {
         let repository = SuspendedSignInRepository()
         let viewModel = LoginViewModel(repository: repository)
 
-        let signIn = Task { await viewModel.signInWithDemo() }
+        viewModel.email = "user@mail.com"
+        viewModel.password = "secret"
+
+        let signIn = Task { await viewModel.signIn() }
         await repository.waitUntilCalled()
 
-        #expect(viewModel.pendingMethod == .demo)
+        #expect(viewModel.pendingMethod == .email)
         #expect(viewModel.isSubmitting)
 
         repository.resume()

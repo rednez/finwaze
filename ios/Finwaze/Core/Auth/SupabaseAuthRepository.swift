@@ -2,27 +2,26 @@ import Foundation
 import Supabase
 
 nonisolated struct SupabaseAuthRepository: AuthRepository {
-    // Seeded demo account, same as the web client.
-    private static let demoEmail = "demo@mail.com"
-    private static let demoPassword = "password1234"
-
     let client: SupabaseClient
+    /// The web client of this environment; reset links open its "set a new password" page.
+    var webAppURL: URL?
 
-    func sessionChanges() -> AsyncStream<Bool> {
+    func sessionChanges() -> AsyncStream<UserSession?> {
         let changes = client.auth.authStateChanges
         return AsyncStream { continuation in
             let task = Task {
                 for await (event, session) in changes {
                     guard let session else {
-                        continuation.yield(false)
+                        continuation.yield(nil)
                         continue
                     }
+                    let user = UserSession(userID: session.user.id, email: session.user.email)
                     if event == .initialSession, session.isExpired {
                         // Resolve the stored session before leaving the launch screen, so an expired
                         // token doesn't flash the login screen while it is being refreshed.
-                        continuation.yield(await restoreExpiredSession())
+                        continuation.yield(await restoreExpiredSession() ? user : nil)
                     } else {
-                        continuation.yield(true)
+                        continuation.yield(user)
                     }
                 }
                 continuation.finish()
@@ -52,10 +51,6 @@ nonisolated struct SupabaseAuthRepository: AuthRepository {
         }
     }
 
-    func signInWithDemo() async throws(AuthFailure) {
-        try await signIn(email: Self.demoEmail, password: Self.demoPassword)
-    }
-
     func signUp(email: String, password: String) async throws(AuthFailure) -> SignUpResult {
         do {
             let response = try await client.auth.signUp(email: email, password: password)
@@ -68,6 +63,17 @@ nonisolated struct SupabaseAuthRepository: AuthRepository {
     func resendSignUpConfirmation(email: String) async throws(AuthFailure) {
         do {
             try await client.auth.resend(email: email, type: .signup)
+        } catch {
+            throw AuthErrorMapper.toAuthFailure(error)
+        }
+    }
+
+    func sendPasswordReset(email: String) async throws(AuthFailure) {
+        do {
+            try await client.auth.resetPasswordForEmail(
+                email,
+                redirectTo: webAppURL?.appending(path: "change-password")
+            )
         } catch {
             throw AuthErrorMapper.toAuthFailure(error)
         }

@@ -16,9 +16,12 @@ final class LoginViewModel {
     private(set) var showsValidation = false
 
     private let repository: any AuthRepository
+    /// Opens demo mode; it needs no account and no network (`AUTH-10`).
+    private let enterDemo: () async -> Void
 
-    init(repository: any AuthRepository) {
+    init(repository: any AuthRepository, enterDemo: @escaping () async -> Void = {}) {
         self.repository = repository
+        self.enterDemo = enterDemo
     }
 
     var emailIssue: CredentialsValidator.EmailIssue? {
@@ -41,8 +44,8 @@ final class LoginViewModel {
     }
 
     func signInWithDemo() async {
-        await perform(.demo) { [repository] () async throws(AuthFailure) in
-            try await repository.signInWithDemo()
+        await perform(.demo) { [enterDemo] () async throws(AuthFailure) in
+            await enterDemo()
         }
     }
 

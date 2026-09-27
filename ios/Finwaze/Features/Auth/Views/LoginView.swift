@@ -9,9 +9,9 @@ struct LoginView: View {
   @FocusState private var focusedField: Field?
   private let repository: any AuthRepository
 
-  init(repository: any AuthRepository) {
+  init(repository: any AuthRepository, enterDemo: @escaping () async -> Void = {}) {
     self.repository = repository
-    _viewModel = State(initialValue: LoginViewModel(repository: repository))
+    _viewModel = State(initialValue: LoginViewModel(repository: repository, enterDemo: enterDemo))
   }
 
   var body: some View {
@@ -75,6 +75,15 @@ struct LoginView: View {
         .focused($focusedField, equals: .password)
         .onSubmit(submit)
       }
+
+      NavigationLink("login.forgotPassword") {
+        // After requesting the link the user comes back here with the email already filled in.
+        ResetPasswordView(repository: repository, email: viewModel.email) { email in
+          viewModel.email = email
+        }
+      }
+      .font(.subheadline.weight(.semibold))
+      .frame(maxWidth: .infinity, alignment: .trailing)
     }
   }
 
