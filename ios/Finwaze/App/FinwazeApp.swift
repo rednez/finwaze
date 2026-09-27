@@ -9,9 +9,11 @@ import SwiftUI
 
 @main
 struct FinwazeApp: App {
+    private let authRepository = SupabaseAuthRepository(client: SupabaseProvider.client)
+
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            RootView(authRepository: authRepository)
         }
     }
 }
