@@ -56,7 +56,7 @@ enum AppSection: String, Hashable, CaseIterable {
     var systemImage: String {
         switch self {
         case .dashboard: "square.grid.2x2"
-        case .transactions: "arrow.left.arrow.right"
+        case .transactions: "list.bullet.circle"
         case .wallet: "wallet.bifold"
         case .budget: "chart.pie"
         case .goals: "target"
