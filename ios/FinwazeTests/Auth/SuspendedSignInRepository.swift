@@ -21,6 +21,7 @@ final class SuspendedSignInRepository: AuthRepository {
         _ = await iterator.next()
     }
 
+    func signInWithDemo() async throws(AuthFailure) {}
     func sessionChanges() -> AsyncStream<UserSession?> { AsyncStream { $0.finish() } }
     func signUp(email: String, password: String) async throws(AuthFailure) -> SignUpResult { .confirmationRequired }
     func resendSignUpConfirmation(email: String) async throws(AuthFailure) {}

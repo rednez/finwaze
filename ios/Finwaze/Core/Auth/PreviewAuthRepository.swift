@@ -10,6 +10,8 @@ nonisolated struct PreviewAuthRepository: AuthRepository {
         throw .invalidCredentials
     }
 
+    func signInWithDemo() async throws(AuthFailure) {}
+
     func signUp(email: String, password: String) async throws(AuthFailure) -> SignUpResult {
         .confirmationRequired
     }

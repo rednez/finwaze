@@ -54,7 +54,8 @@ with cross-feature code in `Core/` (auth, networking, i18n, extensions) and `Sha
 
 ### Demo mode
 
-Demo mode (`AUTH-10`) needs no account and no network: it has no Supabase session and reads local data from
+Demo mode (`AUTH-10`), like on the web, signs in to the shared server demo account (`demo@mail.com`) — a regular
+session with email and avatar — but never reads or writes data on the server: it serves local data from
 `Core/Demo/DemoData`. Repositories are picked in one place — `Repositories.live(client:)` or `Repositories.demo`,
 exposed as `AppViewModel.repositories`. When a stage adds a repository:
 
@@ -171,4 +172,4 @@ Database rules are in the root `../CLAUDE.md`.
    keys and signing material never enter git.
 5. **Do not hard-code user-facing strings** — use the String Catalog.
 6. **Do not introduce Combine or completion-handler APIs in new code** — use `async`/`await`.
-7. **Do not let demo mode change data or reach the network** — every repository has a demo implementation whose writes are no-ops.
+7. **Do not let demo mode touch server data** — every repository has a demo implementation that serves local data and whose writes are no-ops.

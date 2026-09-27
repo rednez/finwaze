@@ -2,7 +2,8 @@ import Foundation
 import Observation
 
 /// App-wide state: follows the session and decides which part of the app is shown (`NAV-06…09`).
-/// Also owns demo mode (`AUTH-10`): no Supabase session, local demo data, writes that change nothing.
+/// Also owns demo mode (`AUTH-10`): a session in the shared server demo account, but local demo data
+/// and writes that change nothing.
 @Observable
 final class AppViewModel {
     enum Route: Equatable {
@@ -52,12 +53,7 @@ final class AppViewModel {
 
     /// Follows session changes for as long as the calling task lives.
     func observeSession() async {
-        if isDemo {
-            await startDemo()
-        }
         for await user in authRepository.sessionChanges() {
-            // Demo mode has no Supabase session; auth events don't apply to it.
-            guard !isDemo else { continue }
             // Token refreshes re-emit the same user; the app is already set up (or being set up) for them.
             if let user, user.userID == self.user?.userID {
                 self.user = user
@@ -75,6 +71,8 @@ final class AppViewModel {
     func apply(_ user: UserSession?) async {
         self.user = user
         guard let user else {
+            // Demo mode lives only as long as its session.
+            setDemo(false)
             referenceData.reset()
             route = .signedOut
             return
@@ -83,12 +81,17 @@ final class AppViewModel {
         await loadReferenceData()
     }
 
-    /// "Try demo mode": opens the app with local demo data, without an account or network (`AUTH-10`).
-    func enterDemo() async {
-        sessionTask?.cancel()
-        demoMode.isEnabled = true
-        isDemo = true
-        await startDemo()
+    /// "Try demo mode": signs in to the server demo account; the session then opens the app with local
+    /// demo data (`AUTH-10`, `Q-08`).
+    func enterDemo() async throws(AuthFailure) {
+        // Set before signing in, so the session event that follows is already handled as demo.
+        setDemo(true)
+        do {
+            try await authRepository.signInWithDemo()
+        } catch {
+            setDemo(false)
+            throw error
+        }
     }
 
     func retry() async {
@@ -98,20 +101,14 @@ final class AppViewModel {
     /// Ends the session or leaves demo mode, clearing this device's settings (`AUTH-11`).
     func signOut() async {
         preferences.clear()
-        guard !isDemo else {
-            demoMode.isEnabled = false
-            isDemo = false
-            await apply(nil)
-            return
-        }
+        setDemo(false)
         // A failed server-side sign-out still clears the local session, so there is nothing to report.
         try? await authRepository.signOut()
     }
 
-    private func startDemo() async {
-        user = UserSession(userID: DemoData.userID, email: nil)
-        preferences.prepare(for: DemoData.userID)
-        await loadReferenceData()
+    private func setDemo(_ isDemo: Bool) {
+        demoMode.isEnabled = isDemo
+        self.isDemo = isDemo
     }
 
     private func loadReferenceData() async {

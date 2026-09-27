@@ -116,54 +116,78 @@ struct AppViewModelTests {
 
     // MARK: Demo mode (AUTH-10)
 
-    @Test func demoOpensMainAppWithDemoData() async {
+    @Test func demoSignsInToServerDemoAccount() async throws {
         let auth = FakeAuthRepository()
-        let viewModel = makeViewModel(repository: FakeReferenceDataRepository(fails: true), auth: auth)
+        let viewModel = makeViewModel(repository: FakeReferenceDataRepository(), auth: auth)
 
-        await viewModel.enterDemo()
+        try await viewModel.enterDemo()
 
+        #expect(auth.calls.signInWithDemo == 1)
         #expect(viewModel.isDemo)
+    }
+
+    @Test func demoSessionUsesLocalDemoData() async throws {
+        let viewModel = makeViewModel(repository: FakeReferenceDataRepository(fails: true))
+        try await viewModel.enterDemo()
+
+        await viewModel.apply(user())
+
         #expect(viewModel.route == .main)
         #expect(viewModel.referenceData.accounts == DemoData.accounts)
         #expect(viewModel.preferences.primaryCurrencyCode == "USD")
-        #expect(viewModel.user?.email == nil)
-        #expect(auth.calls.signIn.isEmpty)
     }
 
-    @Test func relaunchStaysInDemoDespiteMissingSession() async {
-        await makeViewModel(repository: FakeReferenceDataRepository()).enterDemo()
-        let relaunched = makeViewModel(
+    @Test func failedDemoSignInLeavesDemoOff() async {
+        let viewModel = makeViewModel(
             repository: FakeReferenceDataRepository(),
-            auth: FakeAuthRepository(sessionEvents: [nil])
+            auth: FakeAuthRepository(signInFailure: .network)
         )
 
-        await relaunched.observeSession()
+        await #expect(throws: AuthFailure.network) { try await viewModel.enterDemo() }
+
+        #expect(!viewModel.isDemo)
+        #expect(!makeViewModel(repository: FakeReferenceDataRepository()).isDemo)
+    }
+
+    @Test func relaunchWithDemoSessionStaysInDemo() async throws {
+        try await makeViewModel(repository: FakeReferenceDataRepository()).enterDemo()
+        let relaunched = makeViewModel(repository: FakeReferenceDataRepository(accounts: [cash]))
+
+        await relaunched.apply(user())
 
         #expect(relaunched.isDemo)
-        #expect(relaunched.route == .main)
         #expect(relaunched.referenceData.accounts == DemoData.accounts)
     }
 
-    @Test func leavingDemoSkipsServerAndDisablesIt() async {
+    @Test func endedSessionTurnsDemoOff() async throws {
+        let viewModel = makeViewModel(repository: FakeReferenceDataRepository())
+        try await viewModel.enterDemo()
+        await viewModel.apply(user())
+
+        await viewModel.apply(nil)
+
+        #expect(!viewModel.isDemo)
+        #expect(viewModel.route == .signedOut)
+    }
+
+    @Test func signOutLeavesDemo() async throws {
         let auth = FakeAuthRepository()
         let viewModel = makeViewModel(repository: FakeReferenceDataRepository(), auth: auth)
-        await viewModel.enterDemo()
+        try await viewModel.enterDemo()
+        await viewModel.apply(user())
 
         await viewModel.signOut()
 
         #expect(!viewModel.isDemo)
-        #expect(viewModel.route == .signedOut)
-        #expect(viewModel.referenceData.accounts.isEmpty)
+        #expect(auth.calls.signOut == 1)
         #expect(viewModel.preferences.primaryCurrencyCode == nil)
-        #expect(auth.calls.signOut == 0)
-        #expect(!makeViewModel(repository: FakeReferenceDataRepository()).isDemo)
     }
 
     @Test func demoAndLiveUseDifferentRepositories() async throws {
         let viewModel = makeViewModel(repository: FakeReferenceDataRepository(accounts: [cash]))
         #expect(try await viewModel.repositories.accounts.regularAccounts() == [cash])
 
-        await viewModel.enterDemo()
+        try await viewModel.enterDemo()
 
         #expect(try await viewModel.repositories.accounts.regularAccounts() == DemoData.accounts)
     }

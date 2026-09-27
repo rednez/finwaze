@@ -16,10 +16,10 @@ final class LoginViewModel {
     private(set) var showsValidation = false
 
     private let repository: any AuthRepository
-    /// Opens demo mode; it needs no account and no network (`AUTH-10`).
-    private let enterDemo: () async -> Void
+    /// Opens demo mode (`AUTH-10`).
+    private let enterDemo: () async throws(AuthFailure) -> Void
 
-    init(repository: any AuthRepository, enterDemo: @escaping () async -> Void = {}) {
+    init(repository: any AuthRepository, enterDemo: @escaping () async throws(AuthFailure) -> Void = {}) {
         self.repository = repository
         self.enterDemo = enterDemo
     }
@@ -45,7 +45,7 @@ final class LoginViewModel {
 
     func signInWithDemo() async {
         await perform(.demo) { [enterDemo] () async throws(AuthFailure) in
-            await enterDemo()
+            try await enterDemo()
         }
     }
 

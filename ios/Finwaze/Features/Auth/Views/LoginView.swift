@@ -9,7 +9,7 @@ struct LoginView: View {
   @FocusState private var focusedField: Field?
   private let repository: any AuthRepository
 
-  init(repository: any AuthRepository, enterDemo: @escaping () async -> Void = {}) {
+  init(repository: any AuthRepository, enterDemo: @escaping () async throws(AuthFailure) -> Void = {}) {
     self.repository = repository
     _viewModel = State(initialValue: LoginViewModel(repository: repository, enterDemo: enterDemo))
   }

@@ -43,6 +43,7 @@ private struct SectionToolbar: ViewModifier {
                 ToolbarItem(placement: .topBarTrailing) {
                     ProfileMenu(
                         email: app.user?.email,
+                        avatarURL: app.user?.avatarURL,
                         isDemo: app.isDemo,
                         onGuide: { sheet = .guide },
                         onSettings: { sheet = .settings },
@@ -66,13 +67,14 @@ private struct SectionToolbar: ViewModifier {
 /// Profile menu: Guide, Settings, Sign out (`NAV-04`). Demo mode has no settings (`AUTH-10`).
 private struct ProfileMenu: View {
     let email: String?
+    let avatarURL: URL?
     let isDemo: Bool
     let onGuide: () -> Void
     let onSettings: () -> Void
     let onSignOut: () -> Void
 
     var body: some View {
-        Menu("profile.menu", systemImage: "person.crop.circle") {
+        Menu {
             Section {
                 Button("profile.guide", systemImage: "book", action: onGuide)
                 if !isDemo {
@@ -87,6 +89,28 @@ private struct ProfileMenu: View {
             }
 
             Button("profile.signOut", systemImage: "rectangle.portrait.and.arrow.right", role: .destructive, action: onSignOut)
+        } label: {
+            UserAvatar(url: avatarURL)
+        }
+        .accessibilityLabel(Text("profile.menu"))
+    }
+}
+
+/// The user's profile picture, or a generic person icon when there is none or it fails to load.
+private struct UserAvatar: View {
+    let url: URL?
+
+    var body: some View {
+        AsyncImage(url: url) { phase in
+            if let image = phase.image {
+                image
+                    .resizable()
+                    .scaledToFill()
+                    .frame(width: 30, height: 30)
+                    .clipShape(.circle)
+            } else {
+                Image(systemName: "person.crop.circle")
+            }
         }
     }
 }

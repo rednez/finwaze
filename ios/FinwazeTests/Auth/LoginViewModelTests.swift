@@ -58,6 +58,17 @@ struct LoginViewModelTests {
         #expect(viewModel.emailIssue == nil)
     }
 
+    @Test func exposesDemoFailure() async {
+        let viewModel = LoginViewModel(repository: FakeAuthRepository()) { () async throws(AuthFailure) in
+            throw .network
+        }
+
+        await viewModel.signInWithDemo()
+
+        #expect(viewModel.failure == .network)
+        #expect(viewModel.pendingMethod == nil)
+    }
+
     @Test func tracksWhichSignInIsPending() async {
         let repository = SuspendedSignInRepository()
         let viewModel = LoginViewModel(repository: repository)

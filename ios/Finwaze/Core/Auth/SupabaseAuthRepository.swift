@@ -2,6 +2,10 @@ import Foundation
 import Supabase
 
 nonisolated struct SupabaseAuthRepository: AuthRepository {
+    // Seeded demo account, same as the web client. It keeps demo mode a regular session; data stays local.
+    private static let demoEmail = "demo@mail.com"
+    private static let demoPassword = "password1234"
+
     let client: SupabaseClient
     /// The web client of this environment; reset links open its "set a new password" page.
     var webAppURL: URL?
@@ -15,7 +19,11 @@ nonisolated struct SupabaseAuthRepository: AuthRepository {
                         continuation.yield(nil)
                         continue
                     }
-                    let user = UserSession(userID: session.user.id, email: session.user.email)
+                    let user = UserSession(
+                        userID: session.user.id,
+                        email: session.user.email,
+                        avatarURL: session.user.userMetadata["avatar_url"]?.stringValue.flatMap(URL.init(string:))
+                    )
                     if event == .initialSession, session.isExpired {
                         // Resolve the stored session before leaving the launch screen, so an expired
                         // token doesn't flash the login screen while it is being refreshed.
@@ -49,6 +57,10 @@ nonisolated struct SupabaseAuthRepository: AuthRepository {
         } catch {
             throw AuthErrorMapper.toAuthFailure(error)
         }
+    }
+
+    func signInWithDemo() async throws(AuthFailure) {
+        try await signIn(email: Self.demoEmail, password: Self.demoPassword)
     }
 
     func signUp(email: String, password: String) async throws(AuthFailure) -> SignUpResult {

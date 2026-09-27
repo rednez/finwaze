@@ -2,9 +2,6 @@ import Foundation
 
 /// Local demo data, the same as the web client's (`src/app/core/services/demo-mode/demo-data.ts`).
 nonisolated enum DemoData {
-    /// Fixed identity of the demo "user", so device preferences survive relaunches in demo mode.
-    static let userID = UUID(uuidString: "00000000-0000-0000-0000-00000000DE70")!
-
     static let accounts = [
         Account(id: 1, name: "Main Card", currencyCode: "USD"),
         Account(id: 2, name: "Cash", currencyCode: "UAH"),
