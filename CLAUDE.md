@@ -52,6 +52,17 @@ Groups and categories with `is_system = true` are reserved for internal use (tra
 
 ---
 
+## Database: Tooling
+
+- Load the **`supabase-postgres-best-practices`** skill before writing or changing anything that
+  lives in Postgres — tables, columns, RLS policies, indexes, triggers, functions — and the
+  **`supabase`** skill for any other Supabase-related task (CLI, Auth, Storage, Realtime, debugging).
+- The **`supabase` MCP server** is available for the local instance. Use its read/inspection tools
+  (`list_tables`, `execute_sql`, `get_advisors`, `query_logs`, `list_migrations`, `search_docs`, …)
+  freely to explore schema and debug. `apply_migration` is also exposed by this server, but
+  **Critical Rule 1 still applies** — never invoke it (and never run a migration via shell) unless
+  the user explicitly asks.
+
 ## Database: Coding Rules
 
 - **Money:** always `NUMERIC`, never `FLOAT`.

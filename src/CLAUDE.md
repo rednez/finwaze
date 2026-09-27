@@ -2,9 +2,18 @@
 
 Angular-specific conventions for the web client in `src/`. Shared backend, database and domain
 rules live in the root `../CLAUDE.md` — read it too.
-This file complements the `angular-expert` skill and `.github/copilot-instructions.md` (the official
+This file complements the `angular-developer` skill and `.github/copilot-instructions.md` (the official
 Angular v22 best-practices baseline) — read all of them before making changes.
 **Where this file disagrees with the generic baseline, this file wins.**
+
+### Tooling
+
+- Load the **`angular-developer`** skill before generating components, services, forms, routing, or
+  giving reactivity/testing/styling guidance — it complements the rules below.
+- The **`angular-cli` MCP server** is available for this workspace. Prefer it over raw shell
+  commands for equivalent actions: call `list_projects` first to discover the workspace, then
+  `get_best_practices` before writing or modifying code, and `search_documentation` for conceptual
+  or API syntax questions instead of answering from memory.
 
 ---
 
