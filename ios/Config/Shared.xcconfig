@@ -1,0 +1,4 @@
+// Settings shared by every build configuration of the Finwaze app target.
+// Only publishable Supabase keys belong here — never secret or service_role keys.
+
+BASE_BUNDLE_IDENTIFIER = dev.yefimenko.Finwaze

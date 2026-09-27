@@ -1,22 +1,24 @@
 import Foundation
 
-/// Connection settings read from the git-ignored `Config/Supabase.plist`.
-/// Copy `ios/Supabase.example.plist` to `ios/Finwaze/Config/Supabase.plist` to create it.
+/// Connection settings of the current build configuration (Debug / Staging / Release).
+/// Values come from `ios/Config/<Configuration>.xcconfig` through `ios/Config/Info.plist`.
 nonisolated struct SupabaseConfig: Sendable {
     let url: URL
     let publishableKey: String
+    /// The web client of the same environment; `nil` when not configured.
+    let webAppURL: URL?
 
     static func load(from bundle: Bundle = .main) -> SupabaseConfig {
         guard
-            let fileURL = bundle.url(forResource: "Supabase", withExtension: "plist"),
-            let data = try? Data(contentsOf: fileURL),
-            let values = try? PropertyListDecoder().decode([String: String].self, from: data),
-            let urlString = values["SUPABASE_URL"],
+            let urlString = bundle.object(forInfoDictionaryKey: "SUPABASE_URL") as? String,
             let url = URL(string: urlString),
-            let key = values["SUPABASE_PUBLISHABLE_KEY"]
+            let key = bundle.object(forInfoDictionaryKey: "SUPABASE_PUBLISHABLE_KEY") as? String,
+            !key.isEmpty
         else {
-            fatalError("Missing or invalid Config/Supabase.plist — copy it from ios/Supabase.example.plist")
+            fatalError("Missing SUPABASE_URL or SUPABASE_PUBLISHABLE_KEY — check ios/Config/*.xcconfig")
         }
-        return SupabaseConfig(url: url, publishableKey: key)
+        let webAppURL = (bundle.object(forInfoDictionaryKey: "WEB_APP_URL") as? String)
+            .flatMap { $0.isEmpty ? nil : URL(string: $0) }
+        return SupabaseConfig(url: url, publishableKey: key, webAppURL: webAppURL)
     }
 }

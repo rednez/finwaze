@@ -1,0 +1,13 @@
+// Production: hosted Supabase project.
+#include "Shared.xcconfig"
+
+// `/$()/` keeps `//` from starting an xcconfig comment.
+SUPABASE_URL = https:/$()/njhdphddoqxoivbbknse.supabase.co
+SUPABASE_PUBLISHABLE_KEY = sb_publishable_MWCcE0Ysohju09-Z-VT9aw_UTz0a8Ly
+
+// Web client: password-reset emails link to <WEB_APP_URL>/change-password.
+// TODO: set to the hosted production web app, e.g. https:/$()/app.example.com
+WEB_APP_URL =
+
+PRODUCT_BUNDLE_IDENTIFIER = $(BASE_BUNDLE_IDENTIFIER)
+APP_DISPLAY_NAME = Finwaze

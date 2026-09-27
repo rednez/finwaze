@@ -1,0 +1,13 @@
+// Staging: hosted Supabase project used for testing before release.
+#include "Shared.xcconfig"
+
+// `/$()/` keeps `//` from starting an xcconfig comment.
+SUPABASE_URL = https:/$()/askfhfgnymgodbyssuzy.supabase.co
+SUPABASE_PUBLISHABLE_KEY = sb_publishable_BoRhpCpK_k-idsaCICa9SQ_tVay6VyJ
+
+// Web client: password-reset emails link to <WEB_APP_URL>/change-password.
+// TODO: set to the hosted staging web app, e.g. https:/$()/staging.example.com
+WEB_APP_URL =
+
+PRODUCT_BUNDLE_IDENTIFIER = $(BASE_BUNDLE_IDENTIFIER).staging
+APP_DISPLAY_NAME = Finwaze β
