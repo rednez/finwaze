@@ -1,7 +1,7 @@
 import SwiftUI
 
-/// A primary section with its own navigation stack; secondary sections, transactions and transfers are pushed onto
-/// it (`NAV-02`, `TX-06`, `TRF-07`).
+/// A primary section with its own navigation stack; secondary sections, transactions, transfers and account
+/// settings are pushed onto it (`NAV-02`, `TX-06`, `TRF-07`, `ACC-02`).
 struct SectionView: View {
     let section: AppSection
     @Environment(AppViewModel.self) private var app
@@ -18,6 +18,9 @@ struct SectionView: View {
                 }
                 .navigationDestination(for: TransferRoute.self) { route in
                     TransferDetailsView(app: app, transactionID: route.transactionID)
+                }
+                .navigationDestination(for: AccountRoute.self) { route in
+                    AccountSettingsView(app: app, accountID: route.id)
                 }
         }
     }

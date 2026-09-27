@@ -1,6 +1,6 @@
 # iOS — План етапу 6 «Керування рахунками»
 
-> **Статус:** не розпочато.
+> **Статус:** реалізовано; лишилась ручна перевірка частини критеріїв (див. крок 5).
 
 ## Контекст
 
@@ -67,38 +67,38 @@
 ## Кроки
 
 ### 1. Дані
-- [ ] `AccountDetails` (id, назва, валюта `id`/`code`, баланс `Decimal`, `canDelete`) і `AccountDetailsDto`.
-- [ ] `AccountUpdate` (назва, `currencyID?`) + DTO; `BalanceAdjustment` (рахунок, ціль, дата, offset) + DTO з
+- [x] `AccountDetails` (id, назва, валюта `id`/`code`, баланс `Decimal`, `canDelete`) і `AccountDetailsDto`.
+- [x] `AccountUpdate` (назва, `currencyID?`) + DTO; `BalanceAdjustment` (рахунок, ціль, дата, offset) + DTO з
       `p_`-ключами.
-- [ ] `WalletRepository`: `accountDetails(id:) -> AccountDetails?`, `updateAccount(id:_:) -> Bool` (`false` — не
+- [x] `WalletRepository`: `accountDetails(id:) -> AccountDetails?`, `updateAccount(id:_:) -> Bool` (`false` — не
       знайдено), `adjustBalance(_:)`, `deleteAccount(id:)`; `WalletMapper` для нових DTO.
-- [ ] `SupabaseWalletRepository` — як web; `DemoWalletRepository` — деталі з `DemoData`, запис no-op.
-- [ ] `FakeWalletRepository` у тестах: деталі, «не знайдено», запис викликів, помилки.
-- [ ] Тести: мапер деталей (`NUMERIC` → `Decimal`, `can_delete`), DTO-ключі, демо-деталі й no-op.
+- [x] `SupabaseWalletRepository` — як web; `DemoWalletRepository` — деталі з `DemoData`, запис no-op.
+- [x] `FakeWalletRepository` у тестах: деталі, «не знайдено», запис викликів, помилки.
+- [x] Тести: мапер деталей (`NUMERIC` → `Decimal`, `can_delete`), DTO-ключі, демо-деталі й no-op.
 
 ### 2. Форма налаштувань (`ACC-09`, `ACC-10`)
-- [ ] `SignedAmountInput` (обов'язкова, ≤ 2 знаків, дозволений мінус) + тести.
-- [ ] `AccountSettingsViewModel`: `loading` / `loaded` / `notFound` / `failed`; поля, заповнені з деталей;
+- [x] `SignedAmountInput` (обов'язкова, ≤ 2 знаків, дозволений мінус) + тести.
+- [x] `AccountSettingsViewModel`: `loading` / `loaded` / `notFound` / `failed`; поля, заповнені з деталей;
       валідація; `isCurrencyEditable`; `submit()` — оновлення, корекція лише при зміні балансу, `onSaved`;
       `delete()` з `isDeleting`, `deletionFailure`.
-- [ ] Тести ViewModel: заповнення, помилки полів, від'ємний баланс, валюта недоступна при `!canDelete` і не
+- [x] Тести ViewModel: заповнення, помилки полів, від'ємний баланс, валюта недоступна при `!canDelete` і не
       потрапляє в запит, без корекції при незміненому балансі, корекція з датою й offset, «не знайдено» при
       відкритті й збереженні, помилка зберігає дані, видалення (виклик, повідомлення, помилка).
 
 ### 3. Екран і навігація (`ACC-02`, `ACC-11`, `ACC-12`)
-- [ ] `AccountRoute(id:)`; картка в `WalletView` — `NavigationLink` з шевроном-підказкою.
-- [ ] `AccountSettingsView`: підказка про валюту, поля, «Оновити» (`SubmitButton`), «Видалити» (руйнівна,
+- [x] `AccountRoute(id:)`; картка в `WalletView` — `NavigationLink` з шевроном-підказкою.
+- [x] `AccountSettingsView`: підказка про валюту, поля, «Оновити» (`SubmitButton`), «Видалити» (руйнівна,
       `confirmationDialog`), стани завантаження / «не знайдено» / помилки. `SectionView.navigationDestination`.
-- [ ] `AppViewModel.accountUpdated()` / `accountDeleted()` — перечитати довідкові дані й `dataChanged()`; тести.
-- [ ] Прибрати коментар «stage 6» з `WalletView`.
+- [x] `AppViewModel.accountUpdated()` / `accountDeleted()` — перечитати довідкові дані й `dataChanged()`; тести.
+- [x] Прибрати коментар «stage 6» з `WalletView`.
 
 ### 4. Локалізація (en / uk / cs)
-- [ ] Тексти з web (`wallet.translations.ts`: `accountSettings.header`, `currencyInfo`, `updateFailed`,
+- [x] Тексти з web (`wallet.translations.ts`: `accountSettings.header`, `currencyInfo`, `updateFailed`,
       `deleteFailed`; `newAccountForm.balanceLabel`, `balancePlaceholder`, `balanceError`, `balanceDateLabel`,
       `shared.update`) + нові: «Станом на іншу дату», підтвердження видалення, «не знайдено», дата в майбутньому.
 
 ### 5. Перевірка й документація
-- [ ] Збірка й тести: `xcodebuild … -scheme Finwaze -destination 'platform=iOS Simulator,name=iPhone 18 Pro' test`.
+- [x] Збірка й тести: `xcodebuild … -scheme Finwaze -destination 'platform=iOS Simulator,name=iPhone 18 Pro' test`.
 - [ ] Критерії приймання ACC у симуляторі на локальному Supabase:
   - баланс 1 000 € на рахунку без операцій → 1 000 € у Гаманці, у списку операцій нічого нового;
   - баланс не змінено, змінено лише назву → корекції немає, нова назва в Гаманці й у пікерах форм;
@@ -108,8 +108,13 @@
   - видалення останнього рахунку веде в Перше знайомство;
   - рахунок, видалений на web, відкривається як «не знайдено»;
   - демо: відкриття, збереження й видалення нічого не змінюють.
+
+  Перевірено (UI-прогін, 28.09.2026) на новому рахунку «Stage Six / EUR»: баланс 1 000 € без нових рядків у
+  списку операцій; перейменування видно в Гаманці; рахунок із витратою — валюта й «Видалити» недоступні, підказка
+  видно; видалення з підтвердженням прибирає рахунок. Ще не перевірено в UI: баланс «станом на» минулу дату,
+  видалення останнього рахунку, «не знайдено» для рахунку, видаленого на web, демо-режим.
 - [ ] Dark Mode, Dynamic Type, VoiceOver на екрані налаштувань.
-- [ ] `ios/TECH_DEBT.md`: прибрати «account settings» з «Wallet is partial»; додати неатомарне видалення й
+- [x] `ios/TECH_DEBT.md`: прибрати «account settings» з «Wallet is partial»; додати неатомарне видалення й
       валюту корекцій.
 - [ ] Статус плану — «виконано».
 

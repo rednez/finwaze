@@ -35,6 +35,10 @@ nonisolated extension DemoData {
     private static let transferSentIndex: Int64 = 50
     private static let transferReceivedIndex: Int64 = 51
 
+    /// Accounts the demo transactions and transfers touch: the Main Card and Cash. Only the others can change their
+    /// currency or be deleted (`ACC-10`, `ACC-11`).
+    static let accountIDsWithTransactions: Set<Int64> = [accounts[0].id, accounts[1].id]
+
     /// The system category transfers are filed under; the list shows "Transfer" instead (`GEN-05`, `TX-02`).
     private static let transferLabel = Transaction.Label(id: 0, name: "internal", color: nil)
 

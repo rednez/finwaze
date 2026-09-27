@@ -150,6 +150,20 @@ final class AppViewModel {
         dataChanged()
     }
 
+    /// An account was renamed, changed currency or got a new balance (`ACC-09`, `ACC-10`): forms, filters and
+    /// balances follow (`GEN-26`), and the primary currency is re-derived if its last account moved on (`NAV-11`).
+    func accountUpdated() async {
+        await reloadReferenceData()
+        dataChanged()
+    }
+
+    /// An account was deleted (`ACC-11`): it disappears everywhere; deleting the last one leads to onboarding
+    /// (`NAV-07`).
+    func accountDeleted() async {
+        await reloadReferenceData()
+        dataChanged()
+    }
+
     /// A transaction was created: balances and lists follow (`GEN-26`).
     func transactionCreated() {
         dataChanged()

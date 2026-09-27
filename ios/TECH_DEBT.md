@@ -49,9 +49,15 @@ Known gaps in the iOS client that still need to be done. Remove an item once it'
 - **Section placeholders.** Every section in `Features/Main/Views/SectionView.swift` except the Wallet and
   Transactions shows "under construction" until its stage lands; the Guide and Settings sheets in `SectionToolbar.swift` wait for stages 15
   and 14.
-- **Wallet is partial.** Stages 2 and 5 show the account cards, "New account" and "Transfer money" (`ACC-01`,
-  `TRF`). Still missing: account settings on card tap (stage 6) and the Wallet's charts and recent transactions
-  (stage 12).
+- **Wallet is partial.** Stages 2, 5 and 6 show the account cards, "New account", "Transfer money" and account
+  settings (`ACC-01`, `ACC-09…12`, `TRF`). Still missing: the Wallet's charts and recent transactions (stage 12).
+- **Deleting an account is not atomic** (`ACC-11`). Like the web, `SupabaseWalletRepository.deleteAccount` first
+  deletes the account's balance corrections, then the account. If the second request fails, the corrections are
+  already gone and the account stays with a different balance. A single SQL function doing both in one transaction
+  would fix it for every client.
+- **Changing the currency keeps the corrections' amounts** (`ACC-10`). An account with only balance corrections may
+  change its currency; the corrections are not converted, so the same number now reads in the new currency. The web
+  behaves the same; ask the product owner whether the balance should be reset or converted.
 - **Colours are set only on creation.** "New group" / "New category" in the category picker take a palette colour;
   changing or removing the colour of an existing group or category comes with the Groups & categories screen
   (`CAT-10`, stage 7).

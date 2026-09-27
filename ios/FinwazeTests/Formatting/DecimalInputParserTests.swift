@@ -40,3 +40,15 @@ struct DecimalInputParserTests {
         #expect(a + b == Decimal(string: "0.3", locale: Locale(identifier: "en_US_POSIX")))
     }
 }
+
+struct SignedAmountInputTests {
+    @Test(arguments: [("250", "250"), ("-250,5", "-250.5"), ("−12.25", "-12.25"), (" - 1 000 ", "-1000"), ("0", "0")])
+    func parsesSignedAmounts(text: String, expected: String) throws {
+        #expect(try SignedAmountInput.parse(text).get() == Decimal(string: expected, locale: Locale(identifier: "en_US_POSIX")))
+    }
+
+    @Test(arguments: [("", SignedAmountInput.Issue.required), ("-", .invalid), ("--5", .invalid), ("+5", .invalid), ("1.005", .tooPrecise)])
+    func rejects(text: String, issue: SignedAmountInput.Issue) {
+        #expect(throws: issue) { try SignedAmountInput.parse(text).get() }
+    }
+}

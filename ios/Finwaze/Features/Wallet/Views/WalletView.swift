@@ -70,8 +70,11 @@ private struct AccountCardGrid: View {
         ScrollView {
             LazyVGrid(columns: [GridItem(.adaptive(minimum: 280), spacing: 16)], spacing: 16) {
                 ForEach(accounts) { account in
-                    // Account settings open from the card in stage 6.
-                    AccountCard(account: account)
+                    // Account settings (`ACC-02`, `ACC-09`).
+                    NavigationLink(value: AccountRoute(id: account.id)) {
+                        AccountCard(account: account)
+                    }
+                    .buttonStyle(.plain)
                 }
             }
             .padding()
@@ -80,7 +83,7 @@ private struct AccountCardGrid: View {
     }
 }
 
-/// Name, balance with its currency and the currency code (`ACC-02`, `GEN-06`).
+/// Name, balance with its currency and the currency code (`ACC-02`, `GEN-06`), with a chevron hinting it opens.
 private struct AccountCard: View {
     let account: WalletAccount
 
@@ -97,6 +100,10 @@ private struct AccountCard: View {
                     .padding(.horizontal, 8)
                     .padding(.vertical, 4)
                     .background(.fill.tertiary, in: .capsule)
+                Image(systemName: "chevron.right")
+                    .font(.footnote.weight(.semibold))
+                    .foregroundStyle(.tertiary)
+                    .accessibilityHidden(true)
             }
             Text(verbatim: account.balance.formattedAmount(currencyCode: account.currencyCode))
                 .font(.title2.weight(.semibold))
