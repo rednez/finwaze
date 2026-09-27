@@ -1,6 +1,6 @@
 # iOS — План етапу 7 «Групи й категорії»
 
-> **Статус:** не розпочато.
+> **Статус:** реалізовано; лишилась ручна перевірка частини критеріїв (див. крок 5).
 
 ## Контекст
 
@@ -60,38 +60,38 @@
 ## Кроки
 
 ### 1. Дані
-- [ ] `GroupWithCategories` (група + `[CategoryWithCount]`) і `GroupWithCategoriesDto` під рядок view (вкладений
+- [x] `GroupWithCategories` (група + `[CategoryWithCount]`) і `GroupWithCategoriesDto` під рядок view (вкладений
       `jsonb` масив категорій); мапер.
-- [ ] `GroupsRepository`: `groups() -> [GroupWithCategories]`, `updateGroup(id:name:color:) -> Bool`,
+- [x] `GroupsRepository`: `groups() -> [GroupWithCategories]`, `updateGroup(id:name:color:) -> Bool`,
       `deleteGroup(id:)`, `updateCategory(id:name:color:) -> Bool`, `deleteCategory(id:)` (`false` — не знайдено).
-- [ ] `SupabaseGroupsRepository` — як web; `DemoGroupsRepository` — з `DemoData`, запис no-op; обидва набори
+- [x] `SupabaseGroupsRepository` — як web; `DemoGroupsRepository` — з `DemoData`, запис no-op; обидва набори
       `Repositories`.
-- [ ] `FakeGroupsRepository` у тестах; тести мапера (`jsonb`, порожні категорії, `null`-колір), payload оновлення
+- [x] `FakeGroupsRepository` у тестах; тести мапера (`jsonb`, порожні категорії, `null`-колір), payload оновлення
       (`color: null` прибирає колір), демо (лічильники, no-op).
 
 ### 2. ViewModel (`CAT-01…12`)
-- [ ] `GroupsViewModel`: `loading` / `loaded` / `failed`; фільтр типу; `visibleGroups`; `canDelete` для групи й
+- [x] `GroupsViewModel`: `loading` / `loaded` / `failed`; фільтр типу; `visibleGroups`; `canDelete` для групи й
       категорії; `create…` / `update…` / `delete…` з банером успіху й `failure`; `categoriesChanged()` після змін.
-- [ ] `NamePromptViewModel`: режим редагування (початкові назва й колір) і необов'язковий вибір типу для нової
+- [x] `NamePromptViewModel`: режим редагування (початкові назва й колір) і необов'язковий вибір типу для нової
       групи.
-- [ ] Тести: фільтр, порожній стан проти порожнього фільтра, правила видалення, успіх/помилка кожної дії,
+- [x] Тести: фільтр, порожній стан проти порожнього фільтра, правила видалення, успіх/помилка кожної дії,
       «не знайдено» при оновленні, повідомлення `AppViewModel`, редагування в `NamePromptViewModel` (лише зміна
       кольору, прибрати колір, обмеження 25 символів).
 
 ### 3. Екран і навігація
-- [ ] `GroupsView`: фільтр, секції груп, рядки категорій, «Додати категорію», контекстне меню й свайпи, діалоги
+- [x] `GroupsView`: фільтр, секції груп, рядки категорій, «Додати категорію», контекстне меню й свайпи, діалоги
       редагування, підтвердження видалення, банер, порожній стан і стани завантаження / помилки (`GEN-23…25`).
-- [ ] `SectionContentView`: `.groups` → `GroupsView`; `AppSection.addTitle` для `.groups` — «Додати групу».
-- [ ] `NamePromptView`: вибір типу, режим «Зберегти»; пікер категорій працює як раніше.
-- [ ] `AppViewModel.categoriesChanged()`.
+- [x] `SectionContentView`: `.groups` → `GroupsView`; `AppSection.addTitle` для `.groups` — «Додати групу».
+- [x] `NamePromptView`: вибір типу, режим «Зберегти»; пікер категорій працює як раніше.
+- [x] `AppViewModel.categoriesChanged()`.
 
 ### 4. Локалізація (en / uk / cs)
-- [ ] Тексти з web (`groups.translations.ts`: заголовки, фільтр типу, «N категорій», порожній стан, усі
+- [x] Тексти з web (`groups.translations.ts`: заголовки, фільтр типу, «N категорій», порожній стан, усі
       `*Successfully` / `*Failed`) + нові: «Змінити», «Додати категорію», підтвердження видалення групи й категорії,
       «Зберегти», вибір типу в діалозі. Плюралізація «N категорій» / «N операцій» для uk і cs.
 
 ### 5. Перевірка й документація
-- [ ] Збірка й тести: `xcodebuild … -scheme Finwaze -destination 'platform=iOS Simulator,name=iPhone 18 Pro' test`.
+- [x] Збірка й тести: `xcodebuild … -scheme Finwaze -destination 'platform=iOS Simulator,name=iPhone 18 Pro' test`.
 - [ ] Критерії приймання CAT у симуляторі на локальному Supabase:
   - створити групу витрат «Подорожі» з категорією «Готелі», дати колір — і одразу вибрати її в новій витраті;
   - категорію з операціями видалити неможливо (видно кількість операцій); після видалення всіх її операцій — можна;
@@ -100,8 +100,15 @@
   - фільтр «Дохід» показує лише групи доходів;
   - кожна дія показує банер успіху або помилку;
   - демо: зміни нічого не змінюють.
+
+  Перевірено (UI-прогони, 28.09.2026) на тестових «Travel S7» / «Hotels S7», які потім видалено: нова група витрат
+  із кольором і вибором типу; категорія в ній; перейменування через свайп «Змінити» — нова назва одразу в пікері
+  категорій; видалення категорії й порожньої групи з підтвердженням; для категорії з операціями контекстне меню має
+  лише «Змінити»; фільтр «Дохід»; банери «Категорію створено» / «Категорію видалено». Ще не перевірено в UI: вибір
+  нової категорії у витраті до кінця, зміна й прибирання кольору наявної групи, видалення категорії з бюджетом,
+  демо-режим.
 - [ ] Dark Mode, Dynamic Type, VoiceOver на екрані груп і діалогах.
-- [ ] `ios/TECH_DEBT.md`: прибрати «Colours are set only on creation» і `.groups` із заглушок; додати видалення
+- [x] `ios/TECH_DEBT.md`: прибрати «Colours are set only on creation» і `.groups` із заглушок; додати видалення
       категорії з бюджетом.
 - [ ] Статус плану — «виконано».
 

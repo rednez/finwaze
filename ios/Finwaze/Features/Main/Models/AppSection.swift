@@ -49,6 +49,7 @@ enum AppSection: String, Hashable, CaseIterable {
         switch self {
         case .transactions: "transactions.add"
         case .wallet: "wallet.addAccount"
+        case .groups: "groups.addGroup"
         default: nil
         }
     }

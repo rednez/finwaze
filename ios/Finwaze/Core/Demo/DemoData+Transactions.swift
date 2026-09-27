@@ -35,6 +35,12 @@ nonisolated extension DemoData {
     private static let transferSentIndex: Int64 = 50
     private static let transferReceivedIndex: Int64 = 51
 
+    /// How many times the category occurs in a month of demo transactions — the count "Groups & categories" shows
+    /// (`CAT-03`). Every demo category occurs, so none can be deleted.
+    static func monthlyTransactionCount(categoryID: Int64) -> Int {
+        templates.count { $0.categoryID == categoryID }
+    }
+
     /// Accounts the demo transactions and transfers touch: the Main Card and Cash. Only the others can change their
     /// currency or be deleted (`ACC-10`, `ACC-11`).
     static let accountIDsWithTransactions: Set<Int64> = [accounts[0].id, accounts[1].id]

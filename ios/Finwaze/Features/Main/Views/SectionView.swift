@@ -64,6 +64,8 @@ struct SectionContentView: View {
                 isAddingAccount: $isAdding,
                 isTransferring: $isTransferring
             )
+        case .groups:
+            GroupsView(app: app, isAddingGroup: $isAdding)
         default:
             ContentUnavailableView {
                 Label(section.title, systemImage: section.systemImage)

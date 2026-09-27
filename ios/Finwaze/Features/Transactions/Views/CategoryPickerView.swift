@@ -67,14 +67,14 @@ struct CategoryPickerView: View {
             switch prompt {
             case .group:
                 NamePromptView(title: "categoryPicker.newGroup", failureTitle: "categoryPicker.groupCreationFailed") {
-                    createdGroupID = try await app.createGroup(name: $0, type: viewModel.type, color: $1).id
+                    createdGroupID = try await app.createGroup(name: $0.name, type: viewModel.type, color: $0.color).id
                 }
             case .category(let groupID):
                 NamePromptView(
                     title: "categoryPicker.newCategory",
                     failureTitle: "categoryPicker.categoryCreationFailed"
                 ) {
-                    createdCategory = try await app.createCategory(name: $0, groupID: groupID, color: $1)
+                    createdCategory = try await app.createCategory(name: $0.name, groupID: groupID, color: $0.color)
                 }
             }
         }

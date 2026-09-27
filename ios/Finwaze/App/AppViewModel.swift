@@ -189,6 +189,13 @@ final class AppViewModel {
         dataChanged()
     }
 
+    /// A group or category was renamed, recoloured or deleted (`CAT-05…10`): the category picker, the transaction
+    /// filters and the transactions list follow (`GEN-26`).
+    func categoriesChanged() async {
+        await reloadReferenceData()
+        dataChanged()
+    }
+
     /// Creates a group from the category picker (`TX-12`). It is selectable right away, even if the reload that
     /// follows fails; in demo mode nothing is stored, so it does not appear (`AUTH-10`).
     func createGroup(name: String, type: TransactionType, color: String?) async throws -> CategoryGroup {

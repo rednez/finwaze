@@ -7,7 +7,8 @@ extension Repositories {
     static func fake(
         referenceData: FakeReferenceDataRepository = FakeReferenceDataRepository(),
         transactions: FakeTransactionsRepository = FakeTransactionsRepository(),
-        transfers: FakeTransfersRepository = FakeTransfersRepository()
+        transfers: FakeTransfersRepository = FakeTransfersRepository(),
+        groups: FakeGroupsRepository = FakeGroupsRepository()
     ) -> Repositories {
         Repositories(
             accounts: referenceData,
@@ -15,7 +16,8 @@ extension Repositories {
             currencies: referenceData,
             wallet: FakeWalletRepository(),
             transactions: transactions,
-            transfers: transfers
+            transfers: transfers,
+            groups: groups
         )
     }
 }

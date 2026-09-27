@@ -1,10 +1,11 @@
 import SwiftUI
 
-/// "New group" or "New category" (`TX-12`): a name, an optional colour (`CAT-10`) and "Create". Closes itself on
-/// success.
+/// "New group", "New category" or editing one (`TX-12`, `CAT-04…08`): a name, an optional colour (`CAT-10`), the type
+/// of a new group when asked (`CAT-04`) and "Create" or "Save". Closes itself on success.
 struct NamePromptView: View {
     let title: LocalizedStringKey
     let failureTitle: LocalizedStringKey
+    let submitTitle: LocalizedStringKey
     @State private var viewModel: NamePromptViewModel
     @Environment(\.dismiss) private var dismiss
     @FocusState private var isFocused: Bool
@@ -12,17 +13,31 @@ struct NamePromptView: View {
     init(
         title: LocalizedStringKey,
         failureTitle: LocalizedStringKey,
-        create: @escaping (_ name: String, _ color: String?) async throws -> Void
+        submitTitle: LocalizedStringKey = "namePrompt.create",
+        name: String = "",
+        color: String? = nil,
+        type: TransactionType? = nil,
+        save: @escaping (NamePromptViewModel.Input) async throws -> Void
     ) {
         self.title = title
         self.failureTitle = failureTitle
-        _viewModel = State(initialValue: NamePromptViewModel(create: create))
+        self.submitTitle = submitTitle
+        _viewModel = State(initialValue: NamePromptViewModel(name: name, color: color, type: type, save: save))
     }
 
     var body: some View {
         NavigationStack {
             ScrollView {
                 VStack(spacing: 24) {
+                    if viewModel.type != nil {
+                        Picker("namePrompt.type", selection: $viewModel.type) {
+                            Text("transactionType.expense").tag(TransactionType?.some(.expense))
+                            Text("transactionType.income").tag(TransactionType?.some(.income))
+                        }
+                        .pickerStyle(.segmented)
+                        .disabled(viewModel.isSubmitting)
+                    }
+
                     FormField(label: "namePrompt.name", error: viewModel.nameIssue?.message, isFocused: isFocused) {
                         TextField("namePrompt.placeholder", text: $viewModel.name)
                             .textInputAutocapitalization(.sentences)
@@ -35,7 +50,7 @@ struct NamePromptView: View {
                     ColorPaletteField(selection: $viewModel.color)
                         .disabled(viewModel.isSubmitting)
 
-                    SubmitButton(title: "namePrompt.create", isLoading: viewModel.isSubmitting, action: submit)
+                    SubmitButton(title: submitTitle, isLoading: viewModel.isSubmitting, action: submit)
                 }
                 .padding(24)
             }
@@ -66,5 +81,5 @@ struct NamePromptView: View {
 }
 
 #Preview {
-    NamePromptView(title: "categoryPicker.newGroup", failureTitle: "categoryPicker.groupCreationFailed") { _, _ in }
+    NamePromptView(title: "categoryPicker.newGroup", failureTitle: "categoryPicker.groupCreationFailed", type: .expense) { _ in }
 }

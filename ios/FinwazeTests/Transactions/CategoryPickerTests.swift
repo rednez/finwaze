@@ -68,7 +68,7 @@ struct NamePromptViewModelTests {
     ])
     func nameIsRequiredAndAtMostTwentyFiveCharacters(_ name: String, issue: NamePromptViewModel.NameIssue?) async {
         var created: [String] = []
-        let viewModel = NamePromptViewModel { name, _ in created.append(name) }
+        let viewModel = NamePromptViewModel { created.append($0.name) }
         viewModel.name = name
 
         let succeeded = await viewModel.submit()
@@ -79,12 +79,12 @@ struct NamePromptViewModelTests {
     }
 
     @Test func hidesErrorUntilSubmit() {
-        #expect(NamePromptViewModel { _, _ in }.nameIssue == nil)
+        #expect(NamePromptViewModel { _ in }.nameIssue == nil)
     }
 
     @Test func sendsChosenColorOrNone() async {
         var created: [(name: String, color: String?)] = []
-        let viewModel = NamePromptViewModel { created.append(($0, $1)) }
+        let viewModel = NamePromptViewModel { created.append(($0.name, $0.color)) }
         viewModel.name = "Travel"
         #expect(viewModel.color == nil)
 
@@ -95,8 +95,33 @@ struct NamePromptViewModelTests {
         #expect(created.map(\.color) == [nil, "#38BDF8"])
     }
 
+    @Test func editingStartsFromTheCurrentNameAndColor() async {
+        var saved: NamePromptViewModel.Input?
+        let viewModel = NamePromptViewModel(name: "Food", color: "#22C55E") { saved = $0 }
+
+        #expect(viewModel.name == "Food")
+        #expect(viewModel.color == "#22C55E")
+        #expect(viewModel.type == nil)
+
+        viewModel.color = nil
+        #expect(await viewModel.submit())
+
+        #expect(saved == .init(name: "Food", color: nil, type: nil))
+    }
+
+    @Test func newGroupCarriesTheChosenType() async {
+        var saved: NamePromptViewModel.Input?
+        let viewModel = NamePromptViewModel(type: .expense) { saved = $0 }
+        viewModel.name = "  Salary "
+        viewModel.type = .income
+
+        #expect(await viewModel.submit())
+
+        #expect(saved == .init(name: "Salary", color: nil, type: .income))
+    }
+
     @Test func failureKeepsTheName() async {
-        let viewModel = NamePromptViewModel { _, _ in throw FakeCreateError() }
+        let viewModel = NamePromptViewModel { _ in throw FakeCreateError() }
         viewModel.name = "Travel"
 
         #expect(await viewModel.submit() == false)

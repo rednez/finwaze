@@ -46,8 +46,8 @@ Known gaps in the iOS client that still need to be done. Remove an item once it'
 
 ## App
 
-- **Section placeholders.** Every section in `Features/Main/Views/SectionView.swift` except the Wallet and
-  Transactions shows "under construction" until its stage lands; the Guide and Settings sheets in `SectionToolbar.swift` wait for stages 15
+- **Section placeholders.** Every section in `Features/Main/Views/SectionView.swift` except the Wallet,
+  Transactions and Groups & categories shows "under construction" until its stage lands; the Guide and Settings sheets in `SectionToolbar.swift` wait for stages 15
   and 14.
 - **Wallet is partial.** Stages 2, 5 and 6 show the account cards, "New account", "Transfer money" and account
   settings (`ACC-01`, `ACC-09…12`, `TRF`). Still missing: the Wallet's charts and recent transactions (stage 12).
@@ -58,9 +58,10 @@ Known gaps in the iOS client that still need to be done. Remove an item once it'
 - **Changing the currency keeps the corrections' amounts** (`ACC-10`). An account with only balance corrections may
   change its currency; the corrections are not converted, so the same number now reads in the new currency. The web
   behaves the same; ask the product owner whether the balance should be reset or converted.
-- **Colours are set only on creation.** "New group" / "New category" in the category picker take a palette colour;
-  changing or removing the colour of an existing group or category comes with the Groups & categories screen
-  (`CAT-10`, stage 7).
+- **A category with a planned budget cannot be deleted** (`CAT-09`). The screen offers "Delete" for any category
+  without transactions, but `monthly_budgets` references categories without `ON DELETE`, so the server refuses when
+  a budget exists and the app shows its foreign-key error. The web behaves the same; ask the product owner whether to
+  hide "Delete" in that case or delete the budgets together with the category.
 - **`WEB_APP_URL` for Staging and Release is empty** (`ios/Config/Staging.xcconfig`, `Release.xcconfig`). Until it
   is set, password-reset emails from those builds link to the Supabase project's `site_url` instead of
   `<web app>/change-password`.
