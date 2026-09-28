@@ -57,6 +57,8 @@ private struct DonutRing: View {
                         Text(caption)
                             .font(.caption)
                             .foregroundStyle(.secondary)
+                            .lineLimit(2)
+                            .multilineTextAlignment(.center)
                         Text(verbatim: summary.total.formattedAmount(currencyCode: currencyCode))
                             .font(.subheadline.weight(.semibold))
                             .monospacedDigit()

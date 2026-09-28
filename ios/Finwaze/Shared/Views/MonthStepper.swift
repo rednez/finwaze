@@ -7,23 +7,60 @@ struct MonthStepper: View {
     let onShift: (Int) -> Void
 
     var body: some View {
+        PeriodStepper(
+            title: month.title,
+            previousTitle: "budget.previousMonth",
+            nextTitle: "budget.nextMonth",
+            font: font,
+            onShift: onShift
+        )
+    }
+}
+
+/// "‹ 2026 ›": the year between buttons for the previous and the next one (`ANL-04`).
+struct YearStepper: View {
+    let year: Int
+    var font: Font = .subheadline.weight(.semibold)
+    let onShift: (Int) -> Void
+
+    var body: some View {
+        PeriodStepper(
+            // No grouping: "2026", not "2 026".
+            title: year.formatted(.number.grouping(.never)),
+            previousTitle: "analytics.previousYear",
+            nextTitle: "analytics.nextYear",
+            font: font,
+            onShift: onShift
+        )
+    }
+}
+
+/// A period between glass buttons that move it back or forward by one.
+private struct PeriodStepper: View {
+    let title: String
+    let previousTitle: LocalizedStringKey
+    let nextTitle: LocalizedStringKey
+    let font: Font
+    let onShift: (Int) -> Void
+
+    var body: some View {
         HStack(spacing: 8) {
-            Button("budget.previousMonth", systemImage: "chevron.left") { shift(by: -1) }
-            Text(verbatim: month.title)
+            Button(previousTitle, systemImage: "chevron.left") { shift(by: -1) }
+            Text(verbatim: title)
                 .font(font)
                 .lineLimit(1)
                 .minimumScaleFactor(0.8)
                 .contentTransition(.numericText())
                 .frame(maxWidth: .infinity)
-            Button("budget.nextMonth", systemImage: "chevron.right") { shift(by: 1) }
+            Button(nextTitle, systemImage: "chevron.right") { shift(by: 1) }
         }
         .labelStyle(.iconOnly)
         .buttonStyle(.glass)
         .buttonBorderShape(.circle)
     }
 
-    private func shift(by months: Int) {
-        withAnimation(.snappy) { onShift(months) }
+    private func shift(by steps: Int) {
+        withAnimation(.snappy) { onShift(steps) }
     }
 }
 

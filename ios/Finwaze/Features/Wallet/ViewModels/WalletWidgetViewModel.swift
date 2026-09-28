@@ -11,17 +11,11 @@ final class WalletWidgetViewModel<Value: Equatable & Sendable> {
         let currencyCode: String
     }
 
-    private(set) var state: CardState<Value> = .loading
     let filter: WalletWidgetFilter
 
     private let referenceData: ReferenceDataStore
     private let preferences: DevicePreferences
-    private let fetch: (Key) async throws -> Value
-    /// What `state` holds data for, and the data version it was loaded at.
-    @ObservationIgnored private var shownKey: Key?
-    @ObservationIgnored private var shownDataVersion: Int?
-    /// The latest data version the view asked for.
-    @ObservationIgnored private var dataVersion = 0
+    private let loader: CardLoader<Key, Value>
 
     init(
         referenceData: ReferenceDataStore,
@@ -32,21 +26,31 @@ final class WalletWidgetViewModel<Value: Equatable & Sendable> {
         self.referenceData = referenceData
         self.preferences = preferences
         self.filter = filter
-        self.fetch = fetch
+        loader = CardLoader(
+            key: {
+                Self.currencyCode(filter: filter, referenceData: referenceData, preferences: preferences)
+                    .map { Key(month: filter.month, currencyCode: $0) }
+            },
+            fetch: fetch
+        )
+    }
+
+    var state: CardState<Value> {
+        loader.state
     }
 
     /// The currencies of the user's accounts, alphabetically (`GEN-11`).
     var currencyCodes: [String] {
-        referenceData.accountCurrencyCodes.sorted()
+        Self.currencyCodes(referenceData)
     }
 
     /// The currency picked here; until then the primary currency (`ACC-06`, `DASH-01`).
     var currencyCode: String? {
-        filter.currencyCode(among: currencyCodes, primary: preferences.primaryCurrencyCode)
+        Self.currencyCode(filter: filter, referenceData: referenceData, preferences: preferences)
     }
 
     var key: Key? {
-        currencyCode.map { Key(month: filter.month, currencyCode: $0) }
+        loader.key
     }
 
     func selectCurrency(_ code: String) {
@@ -57,45 +61,25 @@ final class WalletWidgetViewModel<Value: Equatable & Sendable> {
         filter.shiftMonth(by: months)
     }
 
-    /// Brings the widget up to date. Another month or currency shows a skeleton — figures of the previous one would
-    /// be wrong; a change to the data keeps the figures until the new ones arrive (`GEN-26`). Nothing loads when both
-    /// are as shown, e.g. when coming back to the tab.
+    /// Brings the widget up to date; see `CardLoader.load(dataVersion:)`.
     func load(dataVersion: Int) async {
-        self.dataVersion = dataVersion
-        guard let key else {
-            // Only without accounts, which the main app never is (`NAV-07`).
-            state = .failed
-            return
-        }
-        if key != shownKey {
-            state = .loading
-        } else if dataVersion == shownDataVersion, state != .loading {
-            return
-        }
-        await reload(key)
+        await loader.load(dataVersion: dataVersion)
     }
 
     /// Pull to refresh or "Try again": reloads, keeping the figures until the new ones arrive.
     func refresh() async {
-        guard let key else { return }
-        await reload(key)
+        await loader.refresh()
     }
 
-    private func reload(_ key: Key) async {
-        let dataVersion = dataVersion
-        if case .failed = state {
-            state = .loading
-        }
-        let result: CardState<Value>
-        do {
-            result = .loaded(try await fetch(key))
-        } catch {
-            result = .failed
-        }
-        // A response for a filter no longer selected, or for a load the view gave up on, is dropped.
-        guard !Task.isCancelled, self.key == key else { return }
-        state = result
-        shownKey = key
-        shownDataVersion = dataVersion
+    private static func currencyCodes(_ referenceData: ReferenceDataStore) -> [String] {
+        referenceData.accountCurrencyCodes.sorted()
+    }
+
+    private static func currencyCode(
+        filter: WalletWidgetFilter,
+        referenceData: ReferenceDataStore,
+        preferences: DevicePreferences
+    ) -> String? {
+        filter.currencyCode(among: currencyCodes(referenceData), primary: preferences.primaryCurrencyCode)
     }
 }

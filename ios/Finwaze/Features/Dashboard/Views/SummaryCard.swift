@@ -44,22 +44,34 @@ struct SummaryCard: View {
     var body: some View {
         ContentCard(title: kind.title) {
             CardStateView(state: state, placeholder: .placeholder, onRetry: onRetry) { totals in
-                let current = kind.current(in: totals)
-                let trend = TrendChange(
-                    current: current,
+                SummaryFigure(
+                    kind: kind,
+                    current: kind.current(in: totals),
                     previous: kind.previous(in: totals),
-                    growthIsGood: kind.growthIsGood
+                    currencyCode: currencyCode
                 )
-                VStack(alignment: .leading, spacing: 8) {
-                    Text(verbatim: current.formattedAmount(currencyCode: currencyCode))
-                        .font(.title2.weight(.semibold))
-                        .monospacedDigit()
-                        .minimumScaleFactor(0.6)
-                        .lineLimit(1)
-                    TrendBadge(trend: trend)
-                }
                 .accessibilityElement(children: .combine)
             }
+        }
+    }
+}
+
+/// A summary card's figure with its change against last month (`DASH-02`, `DASH-03`, `ANL-02`): shared by the
+/// Dashboard and Analytics.
+struct SummaryFigure: View {
+    let kind: SummaryKind
+    let current: Decimal
+    let previous: Decimal
+    let currencyCode: String
+
+    var body: some View {
+        VStack(alignment: .leading, spacing: 8) {
+            Text(verbatim: current.formattedAmount(currencyCode: currencyCode))
+                .font(.title2.weight(.semibold))
+                .monospacedDigit()
+                .minimumScaleFactor(0.6)
+                .lineLimit(1)
+            TrendBadge(trend: TrendChange(current: current, previous: previous, growthIsGood: kind.growthIsGood))
         }
     }
 }

@@ -27,8 +27,6 @@ final class WalletWidgetFilter {
     /// The currency shown: the one picked here, else the primary currency, else the first of `codes`. One no account
     /// has any more falls back the same way (`GEN-11`).
     func currencyCode(among codes: [String], primary: String?) -> String? {
-        if let code = pickedCurrencyCode, codes.contains(code) { return code }
-        if let primary, codes.contains(primary) { return primary }
-        return codes.first
+        CurrencySelection.currencyCode(picked: pickedCurrencyCode, among: codes, primary: primary)
     }
 }
