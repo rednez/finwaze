@@ -1,16 +1,24 @@
 import SwiftUI
 
 extension View {
-    /// Adds the "More" menu (other sections and the section's guide article), the section's actions — the Dashboard's
-    /// primary currency, "Transfer money" and "+" — and, apart from them, the profile menu to the navigation bar. `onAdd` runs for "+" and `onTransfer` for "Transfer money"; sections without them
+    /// Adds the "More" menu (other sections, the section's guide article and the guide), the section's actions — the
+    /// Dashboard's primary currency, "Transfer money" and "+" — and, apart from them, the profile menu to the navigation
+    /// bar. The profile menu is only on a tab's root screen (`showsProfile`), not on a section pushed onto it. `onAdd` runs for "+" and `onTransfer` for "Transfer money"; sections without them
     /// (`AppSection.addTitle`, `AppSection.transferTitle`) show no such button.
     func sectionToolbar(
         for section: AppSection,
         onOpen: @escaping (AppSection) -> Void,
         onAdd: @escaping () -> Void = {},
-        onTransfer: @escaping () -> Void = {}
+        onTransfer: @escaping () -> Void = {},
+        showsProfile: Bool = true
     ) -> some View {
-        modifier(SectionToolbar(section: section, onOpen: onOpen, onAdd: onAdd, onTransfer: onTransfer))
+        modifier(SectionToolbar(
+            section: section,
+            onOpen: onOpen,
+            onAdd: onAdd,
+            onTransfer: onTransfer,
+            showsProfile: showsProfile
+        ))
     }
 }
 
@@ -25,8 +33,10 @@ private struct SectionToolbar: ViewModifier {
     let onOpen: (AppSection) -> Void
     let onAdd: () -> Void
     let onTransfer: () -> Void
+    let showsProfile: Bool
     @Environment(AppViewModel.self) private var app
     @State private var sheet: Sheet?
+    @State private var isConfirmingSignOut = false
 
     func body(content: Content) -> some View {
         content
@@ -39,10 +49,13 @@ private struct SectionToolbar: ViewModifier {
                             }
                         }
 
-                        // Here rather than as a "?" in the bar, which keeps the bar for the section's actions.
+                        // Help lives here rather than in the bar, which keeps the bar for the section's actions.
                         Section {
                             Button("section.help", systemImage: "questionmark.circle") {
                                 sheet = .sectionGuide
+                            }
+                            Button("profile.guide", systemImage: "book") {
+                                sheet = .guide
                             }
                         }
                     }
@@ -68,17 +81,29 @@ private struct SectionToolbar: ViewModifier {
                     }
                 }
 
-                ToolbarSpacer(.fixed, placement: .topBarTrailing)
+                if showsProfile {
+                    ToolbarSpacer(.fixed, placement: .topBarTrailing)
 
-                ToolbarItem(placement: .topBarTrailing) {
-                    ProfileMenu(
-                        email: app.user?.email,
-                        avatarURL: app.user?.avatarURL,
-                        isDemo: app.isDemo,
-                        onGuide: { sheet = .guide },
-                        onSettings: { sheet = .settings },
-                        onSignOut: { Task { await app.signOut() } }
-                    )
+                    ToolbarItem(placement: .topBarTrailing) {
+                        ProfileMenu(
+                            email: app.user?.email,
+                            avatarURL: app.user?.avatarURL,
+                            isDemo: app.isDemo,
+                            onSettings: { sheet = .settings },
+                            onSignOut: { isConfirmingSignOut = true }
+                        )
+                        // Confirmed first, as a sign-out is two taps away on every tab (`AUTH-11`).
+                        .confirmationDialog(
+                            "profile.signOut.confirmTitle",
+                            isPresented: $isConfirmingSignOut,
+                            titleVisibility: .visible
+                        ) {
+                            Button("profile.signOut", role: .destructive) {
+                                Task { await app.signOut() }
+                            }
+                            Button("common.cancel", role: .cancel) {}
+                        }
+                    }
                 }
             }
             .sheet(item: $sheet) { sheet in
@@ -94,22 +119,27 @@ private struct SectionToolbar: ViewModifier {
     }
 }
 
-/// Profile menu: Guide, Settings, Sign out (`NAV-04`). Demo mode has no settings (`AUTH-10`).
+/// Profile menu: Settings, Sign out (`NAV-04`). Demo mode has no settings (`AUTH-10`).
 private struct ProfileMenu: View {
     let email: String?
     let avatarURL: URL?
     let isDemo: Bool
-    let onGuide: () -> Void
     let onSettings: () -> Void
     let onSignOut: () -> Void
 
     var body: some View {
         Menu {
+            // One section: in demo mode it has only "Sign out", which still needs the header above it.
             Section {
-                Button("profile.guide", systemImage: "book", action: onGuide)
                 if !isDemo {
                     Button("profile.settings", systemImage: "gearshape", action: onSettings)
                 }
+                Button(
+                    "profile.signOut",
+                    systemImage: "rectangle.portrait.and.arrow.right",
+                    role: .destructive,
+                    action: onSignOut
+                )
             } header: {
                 if isDemo {
                     Text("profile.demoMode")
@@ -117,8 +147,6 @@ private struct ProfileMenu: View {
                     Text(verbatim: email)
                 }
             }
-
-            Button("profile.signOut", systemImage: "rectangle.portrait.and.arrow.right", role: .destructive, action: onSignOut)
         } label: {
             UserAvatar(url: avatarURL)
         }

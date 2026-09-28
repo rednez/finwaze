@@ -8670,6 +8670,29 @@
         }
       }
     },
+    "profile.signOut.confirmTitle": {
+      "extractionState": "manual",
+      "localizations": {
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Odhlásit se z Finwaze?"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Log out of Finwaze?"
+          }
+        },
+        "uk": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Вийти з Finwaze?"
+          }
+        }
+      }
+    },
     "resetPassword.checkEmail.title": {
       "extractionState": "manual",
       "localizations": {

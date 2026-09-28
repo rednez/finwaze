@@ -11,7 +11,7 @@ struct SectionView: View {
         NavigationStack(path: $path) {
             SectionContentView(section: section, onOpen: open)
                 .navigationDestination(for: AppSection.self) { destination in
-                    SectionContentView(section: destination, onOpen: open)
+                    SectionContentView(section: destination, onOpen: open, isRoot: false)
                 }
                 .navigationDestination(for: TransactionRoute.self) { route in
                     EditTransactionView(app: app, transactionID: route.id)
@@ -36,6 +36,8 @@ struct SectionView: View {
 struct SectionContentView: View {
     let section: AppSection
     let onOpen: (AppSection) -> Void
+    /// The tab's first screen rather than a section pushed onto it: only it shows the profile menu (`NAV-04`).
+    var isRoot = true
     @Environment(AppViewModel.self) private var app
     /// The section's "+" was tapped; the section presents its own form.
     @State private var isAdding = false
@@ -50,7 +52,8 @@ struct SectionContentView: View {
                 for: section,
                 onOpen: onOpen,
                 onAdd: { isAdding = true },
-                onTransfer: { isTransferring = true }
+                onTransfer: { isTransferring = true },
+                showsProfile: isRoot
             )
     }
 
