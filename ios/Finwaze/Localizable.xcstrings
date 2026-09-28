@@ -7907,25 +7907,2854 @@
         }
       }
     },
-    "guide.comingSoon": {
+    "guide.analytics.cardSummary": {
       "extractionState": "manual",
       "localizations": {
         "cs": {
           "stringUnit": {
             "state": "translated",
-            "value": "Články průvodce brzy přidáme."
+            "value": "Uvidíte trendy a vzorce za vašimi výdaji."
           }
         },
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "Guide articles are coming soon."
+            "value": "See the trends and patterns behind your spending."
           }
         },
         "uk": {
           "stringUnit": {
             "state": "translated",
-            "value": "Статті посібника з’являться згодом."
+            "value": "Побачте тренди й закономірності за вашими витратами."
+          }
+        }
+      }
+    },
+    "guide.analytics.cardTitle": {
+      "extractionState": "manual",
+      "localizations": {
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Analytika"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Analytics"
+          }
+        },
+        "uk": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Аналітика"
+          }
+        }
+      }
+    },
+    "guide.analytics.eyebrow": {
+      "extractionState": "manual",
+      "localizations": {
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Vhledy"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Insights"
+          }
+        },
+        "uk": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Інсайти"
+          }
+        }
+      }
+    },
+    "guide.analytics.lead": {
+      "extractionState": "manual",
+      "localizations": {
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "„Analytika“ je místo, kde se vaše každodenní transakce mění ve vhled. Místo jednotlivých čísel vidíte, jak se vaše peníze chovají v čase a napříč kategoriemi — takže se rozhodujete podle faktů, ne podle dohadů."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Analytics is where your day-to-day transactions become insight. Instead of single numbers, you see how your money behaves over time and across categories — so you can make decisions based on facts rather than guesses."
+          }
+        },
+        "uk": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "«Аналітика» — це місце, де щоденні транзакції перетворюються на розуміння. Замість окремих чисел ви бачите, як ваші гроші поводяться в часі та за категоріями, — тож рішення спираються на факти, а не на здогади."
+          }
+        }
+      }
+    },
+    "guide.analytics.section1.body": {
+      "extractionState": "manual",
+      "localizations": {
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Otevřete „Analytiku“ na kartě „Více“ a nahoře zvolte měsíc, měnu a účty. Souhrnné karty porovnávají měsíc s předchozím; „Měsíční přehled“ sleduje zůstatek, příjmy či výdaje den po dni proti minulému měsíci; „Rozpočty vs Výdaje“ staví plán proti výdajům za každý měsíc roku; a „Statistiky“ rozkládají výdaje, příjmy či rozpočet měsíce podle skupin. Na první pohled poznáte, kam plynou největší části peněz a jak se vaše výdaje mění měsíc od měsíce."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Open Analytics in the More tab and choose the month, the currency and the accounts at the top. Summary cards compare the month with the one before; “Monthly overview” follows your balance, income or expenses day by day against last month; “Budgets vs Expenses” sets the plan against spending for every month of the year; and “Statistics” breaks the month’s expenses, income or budget down by group. At a glance you can tell where the biggest chunks of your money go and how your spending changes from month to month."
+          }
+        },
+        "uk": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Відкрийте «Аналітику» на вкладці «Більше» й виберіть угорі місяць, валюту та рахунки. Підсумкові картки порівнюють місяць із попереднім; «Місячний огляд» показує баланс, доходи чи витрати день за днем проти минулого місяця; «Бюджети vs Витрати» зіставляє план і витрати за кожен місяць року; а «Статистика» розкладає витрати, доходи чи бюджет місяця за групами. З першого погляду видно, куди йдуть найбільші частки грошей і як ваші витрати змінюються від місяця до місяця."
+          }
+        }
+      }
+    },
+    "guide.analytics.section1.heading": {
+      "extractionState": "manual",
+      "localizations": {
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Co můžete vidět"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "What you can see"
+          }
+        },
+        "uk": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Що ви бачите"
+          }
+        }
+      }
+    },
+    "guide.analytics.section2.body": {
+      "extractionState": "manual",
+      "localizations": {
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Hledejte své největší skupiny a měsíce s neobvykle vysokými výdaji. Právě tato fakta vysvětlují, kam peníze skutečně jdou — často docela jinam, než předpokládáme. Bez soudů, jen jasnější zrcadlo."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Look for your largest groups and any months that ran unusually high. These are the facts that explain where your money actually goes — often quite different from where we assume it goes. No judgement, just a clearer mirror."
+          }
+        },
+        "uk": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Шукайте найбільші групи та місяці з незвично високими витратами. Саме ці факти пояснюють, куди насправді йдуть гроші, — часто зовсім не туди, куди ми думаємо. Без осуду, лише чесніше дзеркало."
+          }
+        }
+      }
+    },
+    "guide.analytics.section2.heading": {
+      "extractionState": "manual",
+      "localizations": {
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Jak porozumět sám sobě"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Using it to understand yourself"
+          }
+        },
+        "uk": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Як зрозуміти себе"
+          }
+        }
+      }
+    },
+    "guide.analytics.section3.body": {
+      "extractionState": "manual",
+      "localizations": {
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "„Analytika“ říká, co se už stalo; „Rozpočet“ pomáhá plánovat, co se má stát dál. Používejte je společně: prostudujte si zde své skutečné výdaje a pak nastavte limity rozpočtu, které jsou reálné, protože vycházejí z vašich vlastních čísel."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Analytics tells you what already happened; Budgets help you plan what should happen next. Use them together: study your real spending here, then set budget limits that are realistic because they are based on your own numbers."
+          }
+        },
+        "uk": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "«Аналітика» каже, що вже сталося; «Бюджет» допомагає планувати, що має статися далі. Використовуйте їх разом: вивчіть свої реальні витрати тут, а потім задайте ліміти бюджету, реалістичні, бо вони ґрунтуються на ваших власних цифрах."
+          }
+        }
+      }
+    },
+    "guide.analytics.section3.heading": {
+      "extractionState": "manual",
+      "localizations": {
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Od vhledu k činu"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Turning insight into action"
+          }
+        },
+        "uk": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Від інсайту до дії"
+          }
+        }
+      }
+    },
+    "guide.analytics.tip1": {
+      "extractionState": "manual",
+      "localizations": {
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Než sestavíte jakýkoli rozpočet, podívejte se nejdřív do „Analytiky“ — limity opřete o to, co skutečně utrácíte, ne o dohad."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Before setting any budget, look at Analytics first — base your limits on what you really spend, not on a guess."
+          }
+        },
+        "uk": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Перш ніж складати бюджет, спершу подивіться «Аналітику» — спирайте ліміти на те, що справді витрачаєте, а не на здогад."
+          }
+        }
+      }
+    },
+    "guide.analytics.tip2": {
+      "extractionState": "manual",
+      "localizations": {
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sledujte trendy napříč několika měsíci, ne jediným. Jeden neobvyklý měsíc ještě není vzorec."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Watch trends across several months, not a single one. One unusual month is not a pattern."
+          }
+        },
+        "uk": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Стежте за трендами протягом кількох місяців, а не одного. Один незвичний місяць — ще не закономірність."
+          }
+        }
+      }
+    },
+    "guide.analytics.tip3": {
+      "extractionState": "manual",
+      "localizations": {
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Vaše největší kategorie jsou tam, kde malé procentní úspory přinesou největší rozdíl — tam zaměřte pozornost."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Your biggest categories are where small percentage savings make the biggest difference — focus your attention there."
+          }
+        },
+        "uk": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Найбільші категорії — там, де невеликі відсотки заощаджень дають найбільший ефект; зосередьте увагу там."
+          }
+        }
+      }
+    },
+    "guide.analytics.tip4": {
+      "extractionState": "manual",
+      "localizations": {
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Čím důsledněji transakce zařazujete do kategorií, tím spolehlivější „Analytika“ je."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The more consistently you categorise transactions, the more trustworthy Analytics becomes."
+          }
+        },
+        "uk": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Що послідовніше ви розподіляєте транзакції за категоріями, то надійнішою стає «Аналітика»."
+          }
+        }
+      }
+    },
+    "guide.analytics.title": {
+      "extractionState": "manual",
+      "localizations": {
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Analytika"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Analytics"
+          }
+        },
+        "uk": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Аналітика"
+          }
+        }
+      }
+    },
+    "guide.backToGuide": {
+      "extractionState": "manual",
+      "localizations": {
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Všechny příručky"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "All guides"
+          }
+        },
+        "uk": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Усі посібники"
+          }
+        }
+      }
+    },
+    "guide.budget.cardSummary": {
+      "extractionState": "manual",
+      "localizations": {
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Nastavte měsíční limity podle kategorií a zastavte přečerpání včas."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Set monthly limits per category and stop overspending before it happens."
+          }
+        },
+        "uk": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Встановіть місячні ліміти за категоріями й зупиняйте перевитрати завчасно."
+          }
+        }
+      }
+    },
+    "guide.budget.cardTitle": {
+      "extractionState": "manual",
+      "localizations": {
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sestavení rozpočtu"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Build a budget"
+          }
+        },
+        "uk": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Складання бюджету"
+          }
+        }
+      }
+    },
+    "guide.budget.eyebrow": {
+      "extractionState": "manual",
+      "localizations": {
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Plánujte dopředu"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Plan ahead"
+          }
+        },
+        "uk": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Плануйте наперед"
+          }
+        }
+      }
+    },
+    "guide.budget.lead": {
+      "extractionState": "manual",
+      "localizations": {
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Rozpočet je prostě plán, kolik hodláte v každé kategorii během měsíce utratit. Nejde o omezování sebe sama — jde o to rozhodnout, kam peníze půjdou, ještě než zmizí, aby konec měsíce nepřinášel překvapení."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "A budget is simply a plan for how much you intend to spend in each category during a month. It is not about restricting yourself — it is about deciding where your money should go before it disappears, so the end of the month holds no surprises."
+          }
+        },
+        "uk": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Бюджет — це просто план, скільки ви маєте намір витратити в кожній категорії протягом місяця. Це не про обмеження себе, а про те, щоб вирішити, куди підуть гроші, ще до того, як вони зникнуть, — і тоді кінець місяця не принесе несподіванок."
+          }
+        }
+      }
+    },
+    "guide.budget.section1.body": {
+      "extractionState": "manual",
+      "localizations": {
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Rozpočet přiřadí kategorii měsíční limit výdajů — například 4 000 CZK na „Potraviny“ nebo 1 000 CZK na „Restaurace“. Jak zaznamenáváte výdaje, Finwaze je porovnává s těmito limity, takže vždy víte, kolik ještě zbývá."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "A budget assigns a monthly spending limit to a category — for example, 4,000 UAH for “Groceries” or 1,000 UAH for “Eating out”. As you record expenses, Finwaze compares them against these limits so you always know how much room is left."
+          }
+        },
+        "uk": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Бюджет призначає категорії місячний ліміт витрат — наприклад, 4 000 UAH на «Продукти» чи 1 000 UAH на «Кафе». Коли ви записуєте витрати, Finwaze звіряє їх із цими лімітами, тож ви завжди знаєте, скільки ще залишилося."
+          }
+        }
+      }
+    },
+    "guide.budget.section1.heading": {
+      "extractionState": "manual",
+      "localizations": {
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Co je rozpočet"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "What a budget is"
+          }
+        },
+        "uk": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Що таке бюджет"
+          }
+        }
+      }
+    },
+    "guide.budget.section2.body": {
+      "extractionState": "manual",
+      "localizations": {
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Otevřete sekci „Rozpočet“, zvolte měsíc a měnu a klepněte na „Přidat rozpočet“. „Vygenerovat“ vyplní plán podle předchozího měsíce; „Vytvořit ručně“ začne od nuly — přidejte skupinu, pak její kategorie a zadejte, kolik na každou chcete tento měsíc vynaložit. Klepněte na „Uložit“ a plán později měňte tlačítkem „Upravit rozpočet“. Začněte jen dvěma třemi kategoriemi, na kterých vám nejvíc záleží — další lze vždy přidat později. Není nutné rozpočtovat vše od prvního dne."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Open the Budget section, choose the month and currency, and tap “Add budget”. “Generate” fills the plan from the previous month; “Create manually” starts from scratch — add a group, then its categories, and enter how much you want to spend on each this month. Tap “Save”, and change the plan later with “Edit budget”. Start with just two or three categories you care about most — you can always add more later. There is no need to budget every category from day one."
+          }
+        },
+        "uk": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Відкрийте розділ «Бюджет», виберіть місяць і валюту та натисніть «Додати бюджет». «Згенерувати» заповнить план за попереднім місяцем; «Створити вручну» — почати з нуля: додайте групу, потім її категорії й введіть, скільки хочете витратити на кожну цього місяця. Натисніть «Зберегти», а згодом змінюйте план кнопкою «Редагувати бюджет». Почніть лише з двох-трьох найважливіших категорій — решту завжди можна додати пізніше. Не обов’язково планувати все з першого дня."
+          }
+        }
+      }
+    },
+    "guide.budget.section2.heading": {
+      "extractionState": "manual",
+      "localizations": {
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "První rozpočet"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Setting your first budget"
+          }
+        },
+        "uk": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Перший бюджет"
+          }
+        }
+      }
+    },
+    "guide.budget.section3.body": {
+      "extractionState": "manual",
+      "localizations": {
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Každý rozpočet ukazuje prstenec utracené částky, zbývající částku a stav: „V normě“, „Pozor“, když zbývá méně než pětina, nebo „Překročen“. Výdaje tak upravíte včas, místo abyste to zjistili až poté. Každý měsíc má vlastní plán — když začne nový měsíc, vygenerujte ho z předchozího."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Each budget shows a ring of how much is spent, the amount left and a status: “On track”, “Attention” when less than a fifth is left, or “Over budget”. So you can adjust before you overspend rather than discovering it afterwards. Every month has its own plan — when a new month starts, generate it from the previous one."
+          }
+        },
+        "uk": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Кожен бюджет показує кільце витраченого, залишок і статус: «В межах», «Увага», коли лишилося менше п’ятої частини, або «Перевищено». Тож ви скоригуєте витрати завчасно, а не дізнаєтеся постфактум. Кожен місяць має власний план — коли починається новий місяць, згенеруйте його з попереднього."
+          }
+        }
+      }
+    },
+    "guide.budget.section3.heading": {
+      "extractionState": "manual",
+      "localizations": {
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sledování postupu"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tracking your progress"
+          }
+        },
+        "uk": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Відстеження прогресу"
+          }
+        }
+      }
+    },
+    "guide.budget.tip1": {
+      "extractionState": "manual",
+      "localizations": {
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Nastavujte limity podle reality, ne podle přání. Nejdřív měsíc sledujte, podívejte se do „Analytiky“ a pak nastavte limity blízké skutečným výdajům."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Base your limits on reality, not hope. Track for a month first, check Analytics, then set limits close to what you actually spend."
+          }
+        },
+        "uk": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Встановлюйте ліміти за реальністю, а не за надією. Спершу ведіть облік місяць, перегляньте «Аналітику», а потім задайте ліміти, близькі до фактичних витрат."
+          }
+        }
+      }
+    },
+    "guide.budget.tip2": {
+      "extractionState": "manual",
+      "localizations": {
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Začněte s několika kategoriemi. Rozpočet, který dodržíte, je lepší než dokonalý, který za týden opustíte."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Begin with a few categories. A budget you can follow beats a perfect one you abandon after a week."
+          }
+        },
+        "uk": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Почніть з кількох категорій. Бюджет, якого ви дотримуєтеся, кращий за ідеальний, який кинете за тиждень."
+          }
+        }
+      }
+    },
+    "guide.budget.tip3": {
+      "extractionState": "manual",
+      "localizations": {
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ponechte si malou rezervní kategorii na nečekané — vždycky se něco najde."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Leave a small buffer category for the unexpected — there is always something."
+          }
+        },
+        "uk": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Залиште невелику категорію-буфер на непередбачене — воно завжди є."
+          }
+        }
+      }
+    },
+    "guide.budget.tip4": {
+      "extractionState": "manual",
+      "localizations": {
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Jednoduchý začátek je pravidlo 50/30/20: zhruba 50 % příjmu na potřeby, 30 % na přání, 20 % na spoření a dluhy."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "A simple starting point is the 50/30/20 idea: roughly 50% of income on needs, 30% on wants, 20% on saving and debt."
+          }
+        },
+        "uk": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Простий старт — правило 50/30/20: приблизно 50% доходу на потреби, 30% на бажання, 20% на заощадження та борги."
+          }
+        }
+      }
+    },
+    "guide.budget.tip5": {
+      "extractionState": "manual",
+      "localizations": {
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Na začátku každého měsíce rozpočet projděte a limity upravte podle změn ve svém životě."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Revisit your budget at the start of each month and adjust limits as your life changes."
+          }
+        },
+        "uk": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Переглядайте бюджет на початку кожного місяця й коригуйте ліміти зі змінами у житті."
+          }
+        }
+      }
+    },
+    "guide.budget.title": {
+      "extractionState": "manual",
+      "localizations": {
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Rozpočet"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Budgets"
+          }
+        },
+        "uk": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Бюджет"
+          }
+        }
+      }
+    },
+    "guide.dashboard.cardSummary": {
+      "extractionState": "manual",
+      "localizations": {
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Vaše finanční domovská obrazovka — peníze za měsíc na první pohled."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Your financial home screen — this month’s money at a glance."
+          }
+        },
+        "uk": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ваш фінансовий головний екран — гроші за місяць з першого погляду."
+          }
+        }
+      }
+    },
+    "guide.dashboard.cardTitle": {
+      "extractionState": "manual",
+      "localizations": {
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Přehled"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Dashboard"
+          }
+        },
+        "uk": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Дашборд"
+          }
+        }
+      }
+    },
+    "guide.dashboard.eyebrow": {
+      "extractionState": "manual",
+      "localizations": {
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Váš souhrn"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Your overview"
+          }
+        },
+        "uk": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ваш огляд"
+          }
+        }
+      }
+    },
+    "guide.dashboard.lead": {
+      "extractionState": "manual",
+      "localizations": {
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Přehled je první, co po otevření Finwaze uvidíte: snímek vašich peněz za tento měsíc — kolik přišlo, kolik odešlo a co zbývá. Shromáždí vše z ostatních sekcí, takže za pár vteřin zjistíte, jak na tom jste."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The Dashboard is the first thing you see when you open Finwaze: a snapshot of your money this month — how much came in, how much went out, and what is left. It gathers everything from the other sections so you can check where you stand in just a few seconds."
+          }
+        },
+        "uk": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Дашборд — перше, що ви бачите, відкриваючи Finwaze: знімок ваших грошей цього місяця — скільки надійшло, скільки пішло й що залишилось. Він збирає все з інших розділів, тож ви оцінюєте свій стан за кілька секунд."
+          }
+        }
+      }
+    },
+    "guide.dashboard.section1.body": {
+      "extractionState": "manual",
+      "localizations": {
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Nahoře vidíte souhrnné karty: celkový zůstatek a příjmy a výdaje tohoto měsíce, každou s porovnáním s minulým měsícem. Níže najdete peněžní tok po měsících, rozpočet tohoto měsíce podle kategorií, poslední transakce a cíle spoření. Vše je v hlavní měně — změníte ji tlačítkem měny v navigačním panelu. Počítají se zde jen skutečné příjmy a výdaje — peníze přesunuté mezi vlastními účty se vynechávají, takže čísla odrážejí opravdové vydělávání a utrácení."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "At the top you see summary cards: your total balance and this month’s income and expenses, each compared with last month. Below them you find the monthly cash flow, this month’s budget by category, your recent transactions and your savings goals. Everything is shown in your primary currency — change it with the currency button in the navigation bar. Only real income and expenses are counted here — money moved between your own accounts is left out, so the figures reflect genuine earning and spending."
+          }
+        },
+        "uk": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Угорі — підсумкові картки: загальний баланс, а також доходи й витрати цього місяця, кожна з порівнянням із минулим місяцем. Нижче — рух коштів по місяцях, бюджет цього місяця за категоріями, останні транзакції та цілі заощаджень. Усе показано в основній валюті — змініть її кнопкою валюти в панелі навігації. Тут рахуються лише реальні доходи та витрати — переміщення між вашими рахунками не враховуються, тож цифри відображають справжні заробіток і витрати."
+          }
+        }
+      }
+    },
+    "guide.dashboard.section1.heading": {
+      "extractionState": "manual",
+      "localizations": {
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Co Přehled ukazuje"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "What the Dashboard shows"
+          }
+        },
+        "uk": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Що показує Дашборд"
+          }
+        }
+      }
+    },
+    "guide.dashboard.section2.body": {
+      "extractionState": "manual",
+      "localizations": {
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Jsou-li příjmy vyšší než výdaje, skončili jste období v plusu — ušetřili jste. Jsou-li výdaje vyšší, utratili jste víc, než vydělali; občas to nevadí, ale stojí za sledování. Berte Přehled jako denní či týdenní kontrolu, ne jako něco ke dlouhému studiu."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "If income is higher than expenses, you ended the period ahead — you saved money. If expenses are higher, you spent more than you earned, which is fine occasionally but worth watching. Think of the Dashboard as a daily or weekly check-in rather than something to study for a long time."
+          }
+        },
+        "uk": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Якщо дохід більший за витрати, період завершено в плюс — ви заощадили. Якщо витрати більші, ви витратили більше, ніж заробили: інколи це нормально, але варто стежити. Сприймайте Дашборд як щоденну чи щотижневу звірку, а не як те, що потрібно довго вивчати."
+          }
+        }
+      }
+    },
+    "guide.dashboard.section2.heading": {
+      "extractionState": "manual",
+      "localizations": {
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Jak číst na první pohled"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Reading it at a glance"
+          }
+        },
+        "uk": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Як читати з першого погляду"
+          }
+        }
+      }
+    },
+    "guide.dashboard.section3.body": {
+      "extractionState": "manual",
+      "localizations": {
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Vše v Přehledu se sestavuje automaticky z transakcí, které zaznamenáte. Není zde co přímo vyplňovat — čím důsledněji transakce zapisujete, tím přesnější a užitečnější tento souhrn je."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Everything on the Dashboard is built automatically from the transactions you record. There is nothing to fill in here directly — the more consistently you log transactions, the more accurate and useful this overview becomes."
+          }
+        },
+        "uk": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Усе на Дашборді будується автоматично з записаних вами транзакцій. Тут нічого не треба заповнювати напряму — що послідовніше ви фіксуєте транзакції, то точнішим і кориснішим стає цей огляд."
+          }
+        }
+      }
+    },
+    "guide.dashboard.section3.heading": {
+      "extractionState": "manual",
+      "localizations": {
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Odkud čísla pocházejí"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Where the numbers come from"
+          }
+        },
+        "uk": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Звідки беруться цифри"
+          }
+        }
+      }
+    },
+    "guide.dashboard.tip1": {
+      "extractionState": "manual",
+      "localizations": {
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Mrkněte na Přehled každý den, nebo aspoň jednou týdně — je to nejrychlejší způsob, jak mít peníze na očích."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Glance at the Dashboard each day, or at least once a week — it is the fastest way to stay aware of your money."
+          }
+        },
+        "uk": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Зазирайте на Дашборд щодня або хоча б раз на тиждень — це найшвидший спосіб тримати гроші у полі зору."
+          }
+        }
+      }
+    },
+    "guide.dashboard.tip2": {
+      "extractionState": "manual",
+      "localizations": {
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Pokud nějaké číslo vypadá divně, obvykle chybí transakce nebo je ve špatné kategorii. Opravte to v sekci „Transakce“."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "If a number looks off, it usually means a transaction is missing or sits in the wrong category. Fix it in the Transactions section."
+          }
+        },
+        "uk": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Якщо цифра виглядає дивно, зазвичай бракує транзакції або вона в неправильній категорії. Виправте це в розділі «Транзакції»."
+          }
+        }
+      }
+    },
+    "guide.dashboard.tip3": {
+      "extractionState": "manual",
+      "localizations": {
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Převody mezi vlastními účty se zde záměrně nezapočítávají, takže součty vždy ukazují vaše skutečné příjmy a výdaje."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Transfers between your own accounts are excluded here on purpose, so the totals always show your real income and spending."
+          }
+        },
+        "uk": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Перекази між вашими рахунками тут навмисно не враховуються, тож підсумки завжди показують справжні доходи й витрати."
+          }
+        }
+      }
+    },
+    "guide.dashboard.title": {
+      "extractionState": "manual",
+      "localizations": {
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Přehled"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The Dashboard"
+          }
+        },
+        "uk": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Дашборд"
+          }
+        }
+      }
+    },
+    "guide.goals.cardSummary": {
+      "extractionState": "manual",
+      "localizations": {
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Spořte na něco konkrétního a sledujte, jak postup roste."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Save toward something specific and watch your progress grow."
+          }
+        },
+        "uk": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Збирайте на щось конкретне й спостерігайте, як росте прогрес."
+          }
+        }
+      }
+    },
+    "guide.goals.cardTitle": {
+      "extractionState": "manual",
+      "localizations": {
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Cíle spoření"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Reach savings goals"
+          }
+        },
+        "uk": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Цілі заощаджень"
+          }
+        }
+      }
+    },
+    "guide.goals.eyebrow": {
+      "extractionState": "manual",
+      "localizations": {
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Spořte s cílem"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Save with purpose"
+          }
+        },
+        "uk": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Заощаджуйте з метою"
+          }
+        }
+      }
+    },
+    "guide.goals.lead": {
+      "extractionState": "manual",
+      "localizations": {
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Cíl spoření promění mlhavé přání („měl bych víc spořit“) v konkrétní cíl, kterého lze opravdu dosáhnout — dovolená, rezerva, nový notebook. Finwaze dá každému cíli vlastní účet, takže peníze zůstávají oddělené a váš postup je vždy vidět."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "A savings goal turns a vague wish (“I should save more”) into a concrete target you can actually reach — a holiday, an emergency fund, a new laptop. Finwaze gives each goal its own account so the money stays separate and your progress is always visible."
+          }
+        },
+        "uk": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ціль заощаджень перетворює розпливчасте бажання («треба більше відкладати») на конкретну мету, якої справді можна досягти, — відпустка, фінансова подушка, новий ноутбук. Finwaze дає кожній цілі окремий рахунок, тож гроші лишаються відокремленими, а прогрес — завжди на видноті."
+          }
+        }
+      }
+    },
+    "guide.goals.section1.body": {
+      "extractionState": "manual",
+      "localizations": {
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Cíl je částka, kterou si chcete odložit, řekněme 30 000 CZK na cestu. Stojí za ním vyhrazený spořicí účet, takže odložené peníze zůstávají stranou od běžných výdajů a nevyčerpají se náhodou."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "A goal is a target amount you want to set aside — say, 30,000 UAH for a trip. It is backed by a dedicated savings account, so the money you set aside for it is kept apart from your everyday spending and is not accidentally used up."
+          }
+        },
+        "uk": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ціль — це сума, яку ви хочете відкласти, скажімо, 30 000 UAH на подорож. Її підтримує окремий ощадний рахунок, тож відкладені гроші тримаються осторонь від щоденних витрат і не витрачаються випадково."
+          }
+        }
+      }
+    },
+    "guide.goals.section1.heading": {
+      "extractionState": "manual",
+      "localizations": {
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Co je cíl spoření"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "What a savings goal is"
+          }
+        },
+        "uk": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Що таке ціль заощаджень"
+          }
+        }
+      }
+    },
+    "guide.goals.section2.body": {
+      "extractionState": "manual",
+      "localizations": {
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Otevřete „Cíle“ na kartě „Více“ a klepněte na „+“: dejte cíli název, cílovou částku, měnu a cílové datum. Finwaze pro něj založí spořicí účet. Od té chvíle máte jasnou cílovou metu, k níž směřovat."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Open Goals in the More tab and tap “+”: give the goal a name, a target amount, a currency and a target date. Finwaze sets up a savings account for it. From that moment you have a clear finish line to aim at."
+          }
+        },
+        "uk": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Відкрийте «Цілі» на вкладці «Більше» й натисніть «+»: дайте цілі назву, цільову суму, валюту й цільову дату. Finwaze створить для неї ощадний рахунок. Відтоді у вас є чітка фінішна межа, до якої прямувати."
+          }
+        }
+      }
+    },
+    "guide.goals.section2.heading": {
+      "extractionState": "manual",
+      "localizations": {
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Vytvoření cíle"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Creating a goal"
+          }
+        },
+        "uk": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Створення цілі"
+          }
+        }
+      }
+    },
+    "guide.goals.section3.body": {
+      "extractionState": "manual",
+      "localizations": {
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Chcete-li dát peníze na cíl, klepněte na jeho kartě na „Vložit“ a vyberte běžný účet, ze kterého je vezmete — účet v měně cíle. Je to převod mezi vašimi účty, takže se nepočítá jako výdaj; „Vybrat“ peníze vrátí zpět. Ukazatel postupu cíle roste s každým příspěvkem a ukazuje, jak blízko jste k metě. Až jí dosáhnete, otevřete cíl a klepněte na „Označit jako splněný“."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "To put money toward a goal, tap “Deposit” on its card and choose the everyday account to take it from — an account in the goal’s currency. It is a transfer between your own accounts, so it does not count as spending; “Withdraw” moves money back. The goal’s progress bar grows with every contribution, showing how close you are to the target. Once you get there, open the goal and tap “Mark as done”."
+          }
+        },
+        "uk": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Щоб скерувати гроші до цілі, натисніть «Внести» на її картці й виберіть щоденний рахунок, з якого їх узяти, — рахунок у валюті цілі. Це переказ між вашими рахунками, тож він не рахується витратою; «Зняти» повертає гроші назад. Смужка прогресу цілі росте з кожним внеском, показуючи, наскільки ви близько до мети. Коли дійдете до неї, відкрийте ціль і натисніть «Позначити досягнутою»."
+          }
+        }
+      }
+    },
+    "guide.goals.section3.heading": {
+      "extractionState": "manual",
+      "localizations": {
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Doplňování a sledování"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Funding and tracking"
+          }
+        },
+        "uk": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Поповнення та відстеження"
+          }
+        }
+      }
+    },
+    "guide.goals.tip1": {
+      "extractionState": "manual",
+      "localizations": {
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Nejdřív si vytvořte rezervu — na tři až šest měsíců výdajů — než začnete spořit na nadstandard. Je to cíl, který chrání všechny ostatní."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Build an emergency fund first — three to six months of expenses — before saving for nice-to-haves. It is the goal that protects all the others."
+          }
+        },
+        "uk": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Спершу створіть фінансову подушку — на три-шість місяців витрат — перш ніж збирати на приємне. Це ціль, що захищає всі інші."
+          }
+        }
+      }
+    },
+    "guide.goals.tip2": {
+      "extractionState": "manual",
+      "localizations": {
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Plaťte nejdřív sobě: peníze na cíl převeďte hned po výplatě, ještě než utratíte cokoli jiného."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Pay yourself first: move money into your goal right after payday, before you spend on anything else."
+          }
+        },
+        "uk": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Платіть собі першими: переказуйте гроші до цілі одразу після зарплати, ще до інших витрат."
+          }
+        }
+      }
+    },
+    "guide.goals.tip3": {
+      "extractionState": "manual",
+      "localizations": {
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Dejte každému cíli jeden jasný účel. Oddělené cíle motivují snáz než jedna velká mlhavá hromada."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Give each goal one clear purpose. Separate goals are easier to stay motivated for than one big vague pile."
+          }
+        },
+        "uk": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Давайте кожній цілі одне чітке призначення. Окремі цілі легше мотивують, ніж одна велика розмита купа."
+          }
+        }
+      }
+    },
+    "guide.goals.tip4": {
+      "extractionState": "manual",
+      "localizations": {
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "I malé pravidelné příspěvky se sčítají rychleji, než čekáte. Důslednost vítězí nad velikostí."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Even small, regular contributions add up faster than you expect. Consistency beats size."
+          }
+        },
+        "uk": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Навіть малі регулярні внески накопичуються швидше, ніж здається. Регулярність важливіша за розмір."
+          }
+        }
+      }
+    },
+    "guide.goals.title": {
+      "extractionState": "manual",
+      "localizations": {
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Cíle spoření"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Savings goals"
+          }
+        },
+        "uk": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Цілі заощаджень"
+          }
+        }
+      }
+    },
+    "guide.groups.cardSummary": {
+      "extractionState": "manual",
+      "localizations": {
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Uspořádejte transakce do struktury, která odpovídá vašemu životu."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Organise transactions into a structure that matches your life."
+          }
+        },
+        "uk": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Упорядкуйте транзакції у структуру, що відповідає вашому життю."
+          }
+        }
+      }
+    },
+    "guide.groups.cardTitle": {
+      "extractionState": "manual",
+      "localizations": {
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Skupiny a kategorie"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Groups & categories"
+          }
+        },
+        "uk": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Групи та категорії"
+          }
+        }
+      }
+    },
+    "guide.groups.eyebrow": {
+      "extractionState": "manual",
+      "localizations": {
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Uspořádání"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Organise"
+          }
+        },
+        "uk": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Упорядкування"
+          }
+        }
+      }
+    },
+    "guide.groups.lead": {
+      "extractionState": "manual",
+      "localizations": {
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Kategorie jsou štítky, které dáváte každé transakci; skupiny seskupují příbuzné kategorie. Právě dobrá struktura promění prostý seznam transakcí v reporty, ze kterých se opravdu dá poučit — vyplatí se věnovat pár minut tomu, aby seděla na váš reálný život."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Categories are the labels you put on each transaction; groups bundle related categories together. Good structure is what turns a plain list of transactions into reports you can actually learn from — it is worth a few minutes to get it close to your real life."
+          }
+        },
+        "uk": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Категорії — це позначки, які ви ставите на кожну транзакцію; групи об’єднують споріднені категорії. Саме хороша структура перетворює простий перелік транзакцій на звіти, з яких справді можна вчитися, — варто кількох хвилин, щоб наблизити її до реального життя."
+          }
+        }
+      }
+    },
+    "guide.groups.section1.body": {
+      "extractionState": "manual",
+      "localizations": {
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Skupina je široká oblast života — například „Auto“. Kategorie je konkrétní položka uvnitř ní — „Palivo“, „Pojištění“, „Opravy“. Každá transakce dostane právě jednu kategorii a ta patří do skupiny. „Palivo → Auto“ tak ukazuje detail i širší obraz."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "A group is a broad area of your life — for example “Car”. A category is a specific item inside it — “Fuel”, “Insurance”, “Repairs”. Every transaction gets exactly one category, and that category belongs to a group. So “Fuel → Car” tells you both the detail and the bigger picture."
+          }
+        },
+        "uk": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Група — це широка сфера життя, наприклад «Авто». Категорія — конкретна стаття всередині неї: «Пальне», «Страхування», «Ремонт». Кожна транзакція отримує рівно одну категорію, а категорія належить групі. Тож «Пальне → Авто» показує і деталь, і ширшу картину."
+          }
+        }
+      }
+    },
+    "guide.groups.section1.heading": {
+      "extractionState": "manual",
+      "localizations": {
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Skupiny versus kategorie"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Groups versus categories"
+          }
+        },
+        "uk": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Групи проти категорій"
+          }
+        }
+      }
+    },
+    "guide.groups.section2.body": {
+      "extractionState": "manual",
+      "localizations": {
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Skupiny a kategorie si vytváříte sami, takže struktura je od začátku vaše. Přidávejte je při zápisu transakce — výběr kategorie nabízí „Nová skupina“ a „Nová kategorie“ — nebo v sekci „Skupiny a kategorie“ na kartě „Více“: „+“ pro skupinu a „Přidat kategorii“ v ní. Postupem času je přejmenovávejte, přidávejte chybějící a odebírejte ty, které nepoužíváte — podržte skupinu či kategorii nebo ji přejeďte prstem — dokud struktura nezrcadlí, jak skutečně žijete a utrácíte. Jediné správné nastavení neexistuje — jen to, které sedí vám."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "You create groups and categories yourself, so the structure is yours from the start. Add them while recording a transaction — the category picker has “New Group” and “New Category” — or in Groups & Categories in the More tab, with “+” for a group and “Add category” inside it. Over time, rename them, add what is missing, and remove what you never use — touch and hold a group or category, or swipe it — until the structure mirrors how you actually live and spend. There is no single correct setup — only the one that fits you."
+          }
+        },
+        "uk": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Групи й категорії ви створюєте самі, тож структура ваша від самого початку. Додавайте їх під час запису транзакції — у виборі категорії є «Нова група» і «Нова категорія» — або в розділі «Групи та категорії» на вкладці «Більше»: «+» для групи й «Додати категорію» в ній. З часом перейменовуйте їх, додавайте відсутнє та прибирайте те, чим не користуєтесь, — натисніть і утримуйте групу чи категорію або змахніть її, — доки структура не відобразить, як ви насправді живете й витрачаєте. Єдино правильного варіанту немає — лише той, що пасує вам."
+          }
+        }
+      }
+    },
+    "guide.groups.section2.heading": {
+      "extractionState": "manual",
+      "localizations": {
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Nastavení kategorií"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Setting up your categories"
+          }
+        },
+        "uk": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Налаштування категорій"
+          }
+        }
+      }
+    },
+    "guide.groups.section3.body": {
+      "extractionState": "manual",
+      "localizations": {
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Rozpočty a „Analytika“ jsou tak jasné, jak jasné jsou vaše kategorie. Když stejný druh výdaje vždy spadne do stejné kategorie, reporty zůstávají smysluplné; když je roztříštěný, čísla se rozmažou. Důslednost se zde vyplatí všude jinde."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Budgets and Analytics are only as clear as your categories. If the same kind of expense always lands in the same category, your reports stay meaningful; if it is scattered, the numbers blur. Consistency here pays off everywhere else."
+          }
+        },
+        "uk": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Бюджети й «Аналітика» настільки ж зрозумілі, наскільки ваші категорії. Якщо однаковий тип витрат завжди потрапляє в одну категорію, звіти лишаються змістовними; якщо ж він розсіяний — цифри розмиваються. Послідовність тут окупається всюди."
+          }
+        }
+      }
+    },
+    "guide.groups.section3.heading": {
+      "extractionState": "manual",
+      "localizations": {
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Proč na tom záleží"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Why it matters"
+          }
+        },
+        "uk": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Чому це важливо"
+          }
+        }
+      }
+    },
+    "guide.groups.tip1": {
+      "extractionState": "manual",
+      "localizations": {
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Začněte několika skupinami pro nejčastější výdaje a další přidávejte postupně — nesnažte se navrhnout dokonalou strukturu hned první den."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Start with a few groups for your most frequent expenses and add the rest as you go — do not try to design a perfect structure on day one."
+          }
+        },
+        "uk": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Почніть із кількох груп для найчастіших витрат і додавайте решту поступово — не намагайтеся створити ідеальну структуру з першого дня."
+          }
+        }
+      }
+    },
+    "guide.groups.tip2": {
+      "extractionState": "manual",
+      "localizations": {
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Méně jasných kategorií je lepší než desítky překrývajících se. Pokud se na nějakou kategorii nikdy nedíváte, sloučte ji s jinou."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Fewer, clearer categories beat dozens of overlapping ones. If you never look at a category, merge it into another."
+          }
+        },
+        "uk": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Менше чітких категорій краще за десятки тих, що перетинаються. Якщо ви ніколи не дивитесь на категорію — об’єднайте її з іншою."
+          }
+        }
+      }
+    },
+    "guide.groups.tip3": {
+      "extractionState": "manual",
+      "localizations": {
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Mějte jednu kategorii „Ostatní“ pro vzácné věci — když ale narůstá, je to signál, že je potřeba nová kategorie."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Keep one “Other” category for rare things — but if it grows large, that is a sign a new category is needed."
+          }
+        },
+        "uk": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Тримайте одну категорію «Інше» для рідкісного — але якщо вона розростається, це сигнал, що потрібна нова категорія."
+          }
+        }
+      }
+    },
+    "guide.groups.tip4": {
+      "extractionState": "manual",
+      "localizations": {
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Některé kategorie si Finwaze vyhrazuje pro převody a úpravy zůstatku; ty jsou spravovány za vás a zůstávají skryté."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Some categories are reserved by Finwaze for transfers and balance adjustments; these are managed for you and stay hidden."
+          }
+        },
+        "uk": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Деякі категорії зарезервовані Finwaze для переказів і коригувань балансу; ними керує застосунок, і вони лишаються прихованими."
+          }
+        }
+      }
+    },
+    "guide.groups.title": {
+      "extractionState": "manual",
+      "localizations": {
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Skupiny a kategorie"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Groups & categories"
+          }
+        },
+        "uk": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Групи та категорії"
+          }
+        }
+      }
+    },
+    "guide.hub.eyebrow": {
+      "extractionState": "manual",
+      "localizations": {
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Průvodce a tipy"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Guide & tips"
+          }
+        },
+        "uk": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Посібник і поради"
+          }
+        }
+      }
+    },
+    "guide.hub.lead": {
+      "extractionState": "manual",
+      "localizations": {
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Začínáte se sledováním peněz? Tyto krátké praktické příručky vás krok za krokem provedou každou částí aplikace — bez znalostí financí. Čtěte v libovolném pořadí, nebo v nabídce „…“ kterékoli sekce zvolte „Více o této sekci“ a přejděte rovnou k její příručce."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "New to tracking your money? These short, practical guides walk you through every part of the app step by step — no finance background needed. Read them in any order, or choose “Learn about this section” in the “…” menu of any section to jump straight to its guide."
+          }
+        },
+        "uk": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Тільки починаєте вести облік грошей? Ці короткі практичні посібники крок за кроком пояснюють кожну частину застосунку — без жодної фінансової освіти. Читайте в будь-якому порядку або виберіть «Дізнатися про цей розділ» у меню «…» будь-якого розділу, щоб одразу перейти до його посібника."
+          }
+        }
+      }
+    },
+    "guide.hub.quickStart.step1": {
+      "extractionState": "manual",
+      "localizations": {
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "První účet jste si vytvořili už při nastavení — právě tam ve Finwaze leží vaše peníze."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "You already created your first account during setup — that is where your money lives in Finwaze."
+          }
+        },
+        "uk": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Перший рахунок ви вже створили під час налаштування — саме там у Finwaze зберігаються ваші гроші."
+          }
+        }
+      }
+    },
+    "guide.hub.quickStart.step2": {
+      "extractionState": "manual",
+      "localizations": {
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Otevřete „Transakce“ a zapisujte, co utratíte a vyděláte. Stačí minuta denně."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Open Transactions and record what you spend and earn. A minute a day is enough."
+          }
+        },
+        "uk": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Відкрийте «Транзакції» та записуйте, що витрачаєте і отримуєте. Достатньо хвилини на день."
+          }
+        }
+      }
+    },
+    "guide.hub.quickStart.step3": {
+      "extractionState": "manual",
+      "localizations": {
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Vytvořte si skupiny a kategorie, aby každý výdaj spadl tam, kde to dává smysl vám — rovnou při výběru kategorie během zápisu transakce."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Create groups and categories so each expense lands in a place that makes sense to you — right from the category picker while you record a transaction."
+          }
+        },
+        "uk": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Створіть групи й категорії, щоб кожна витрата потрапляла туди, де вам це зрозуміло, — просто у виборі категорії під час запису транзакції."
+          }
+        }
+      }
+    },
+    "guide.hub.quickStart.step4": {
+      "extractionState": "manual",
+      "localizations": {
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Až budete připraveni, sestavte rozpočet a vytvořte cíl spoření — obojí je volitelné a může počkat."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "When you feel ready, set a budget and create a savings goal — both are optional and can wait."
+          }
+        },
+        "uk": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Коли будете готові, складіть бюджет і створіть ціль заощаджень — це не обов’язково й може зачекати."
+          }
+        }
+      }
+    },
+    "guide.hub.quickStart.title": {
+      "extractionState": "manual",
+      "localizations": {
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Co dělat hned po registraci"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "What to do right after signing up"
+          }
+        },
+        "uk": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Що робити одразу після реєстрації"
+          }
+        }
+      }
+    },
+    "guide.hub.title": {
+      "extractionState": "manual",
+      "localizations": {
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Naučte se Finwaze za pár minut"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Learn Finwaze in a few minutes"
+          }
+        },
+        "uk": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Опануйте Finwaze за кілька хвилин"
+          }
+        }
+      }
+    },
+    "guide.hub.topicsTitle": {
+      "extractionState": "manual",
+      "localizations": {
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Průvodce pro každou sekci"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "A guide for every section"
+          }
+        },
+        "uk": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Посібник для кожного розділу"
+          }
+        }
+      }
+    },
+    "guide.next": {
+      "extractionState": "manual",
+      "localizations": {
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Další"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Next"
+          }
+        },
+        "uk": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Наступна"
+          }
+        }
+      }
+    },
+    "guide.next.accessibility %@": {
+      "extractionState": "manual",
+      "localizations": {
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Další článek: %@"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Next article: %@"
+          }
+        },
+        "uk": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Наступна стаття: %@"
+          }
+        }
+      }
+    },
+    "guide.previous": {
+      "extractionState": "manual",
+      "localizations": {
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Předchozí"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Previous"
+          }
+        },
+        "uk": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Попередня"
+          }
+        }
+      }
+    },
+    "guide.previous.accessibility %@": {
+      "extractionState": "manual",
+      "localizations": {
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Předchozí článek: %@"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Previous article: %@"
+          }
+        },
+        "uk": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Попередня стаття: %@"
+          }
+        }
+      }
+    },
+    "guide.quickStart.step.accessibility %lld %lld %@": {
+      "extractionState": "manual",
+      "localizations": {
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Krok %1$lld z %2$lld, %3$@"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Step %1$lld of %2$lld, %3$@"
+          }
+        },
+        "uk": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Крок %1$lld з %2$lld, %3$@"
+          }
+        }
+      }
+    },
+    "guide.tipsLabel": {
+      "extractionState": "manual",
+      "localizations": {
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Osvědčené postupy"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Best practices"
+          }
+        },
+        "uk": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Найкращі практики"
+          }
+        }
+      }
+    },
+    "guide.transactions.cardSummary": {
+      "extractionState": "manual",
+      "localizations": {
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Srdce Finwaze: zapisujte, co přijde a co odejde."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The heart of Finwaze: record what comes in and what goes out."
+          }
+        },
+        "uk": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Серце Finwaze: записуйте, що приходить і що йде."
+          }
+        }
+      }
+    },
+    "guide.transactions.cardTitle": {
+      "extractionState": "manual",
+      "localizations": {
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sledování výdajů"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Track your spending"
+          }
+        },
+        "uk": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Облік витрат"
+          }
+        }
+      }
+    },
+    "guide.transactions.eyebrow": {
+      "extractionState": "manual",
+      "localizations": {
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Základ"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The essentials"
+          }
+        },
+        "uk": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Основи"
+          }
+        }
+      }
+    },
+    "guide.transactions.lead": {
+      "extractionState": "manual",
+      "localizations": {
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Transakce jsou srdcem Finwaze. Nejsnazší je začít prostě zapisovat pohyb svých peněz — všechny ostatní sekce z toho vycházejí. Nepotřebujete nejdřív rozpočet ani žádné nastavení: zaznamenávejte příjmy a výdaje a Finwaze z nich vytvoří jasný obraz, kam vaše peníze plynou."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Transactions are the heart of Finwaze. The easiest way to start is to simply write down your money as it moves — every other section is built from this. You do not need a budget or any setup first: just record income and expenses, and Finwaze turns them into a clear picture of where your money goes."
+          }
+        },
+        "uk": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Транзакції — серце Finwaze. Найлегше почати — просто записувати рух своїх грошей, адже всі інші розділи будуються саме на цьому. Вам не потрібен ані бюджет, ані налаштування: фіксуйте доходи та витрати, а Finwaze перетворить їх на чітку картину того, куди йдуть ваші гроші."
+          }
+        }
+      }
+    },
+    "guide.transactions.section1.body": {
+      "extractionState": "manual",
+      "localizations": {
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Transakce je jeden pohyb peněz. Výdaj jsou peníze odcházející z účtu (káva, nájem, potraviny). Příjem jsou peníze přicházející (mzda, vrácení, dárek). Pokaždé, když se peníze pohnou, přidáte jednu transakci — to je celý princip."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "A transaction is a single movement of money. An expense is money leaving an account (a coffee, rent, groceries). Income is money coming in (salary, a refund, a gift). Every time money moves, you add one transaction — that is the whole idea."
+          }
+        },
+        "uk": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Транзакція — це один рух грошей. Витрата — це гроші, що залишають рахунок (кава, оренда, продукти). Дохід — гроші, що надходять (зарплата, повернення, подарунок). Щоразу, коли гроші рухаються, ви додаєте одну транзакцію — ось і вся ідея."
+          }
+        }
+      }
+    },
+    "guide.transactions.section1.heading": {
+      "extractionState": "manual",
+      "localizations": {
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Co je transakce?"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "What is a transaction?"
+          }
+        },
+        "uk": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Що таке транзакція?"
+          }
+        }
+      }
+    },
+    "guide.transactions.section2.body": {
+      "extractionState": "manual",
+      "localizations": {
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Přejděte do „Transakce“ a klepněte na „+“ v navigačním panelu. Zvolte „Výdaj“, vyberte účet, ze kterého jste platili, zadejte částku a vyberte kategorii (například „Potraviny“) — pokud ještě neexistuje, vytvořte ji rovnou při výběru kategorie. Nastavte datum a čas a volitelně přidejte komentář. Klepněte na „Vytvořit“ — zůstatek účtu se aktualizuje automaticky. Příjem funguje stejně, jen zvolte „Příjem“."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Go to Transactions and tap “+” in the navigation bar. Pick “Expense”, choose the account you paid from, type the amount, and pick a category (for example “Groceries”) — if it does not exist yet, create it right in the category picker. Set the date and time and, if you like, add a comment. Tap “Create” — your account balance updates automatically. Income works the same way; just pick “Income”."
+          }
+        },
+        "uk": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Перейдіть у «Транзакції» й натисніть «+» у панелі навігації. Оберіть «Витрата», виберіть рахунок, з якого платили, введіть суму й оберіть категорію (наприклад, «Продукти») — якщо її ще немає, створіть її просто у виборі категорії. Вкажіть дату й час і за бажанням додайте коментар. Натисніть «Створити» — баланс рахунку оновиться автоматично. Дохід працює так само: оберіть «Дохід»."
+          }
+        }
+      }
+    },
+    "guide.transactions.section2.heading": {
+      "extractionState": "manual",
+      "localizations": {
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Jak zaznamenat výdaj"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Recording an expense"
+          }
+        },
+        "uk": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Як записати витрату"
+          }
+        }
+      }
+    },
+    "guide.transactions.section3.body": {
+      "extractionState": "manual",
+      "localizations": {
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Platili jste v cizí měně? Klepněte na měnu vedle částky a vyberte tu, kterou jste platili — v seznamu jsou měny vašich účtů. Finwaze uchová obě čísla: částku transakce (co bylo na cenovce, např. 5 EUR) a zaúčtovanou částku (co skutečně odešlo z účtu v jeho měně, např. 130 CZK), kterou zadáte do pole „Odepsáno z účtu“. Zadáváte jen to, co vidíte — žádný ruční převod není potřeba."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Paid in a foreign currency? Tap the currency next to the amount and pick the one you paid in — the list offers the currencies of your accounts. Finwaze keeps both numbers: the transaction amount (what the price tag said, e.g. 5 EUR) and the charged amount (what actually left your account in its own currency, e.g. 130 UAH), which you enter in “Charged from account”. You only enter what you see — no manual conversion needed."
+          }
+        },
+        "uk": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Платили в іноземній валюті? Натисніть валюту біля суми й оберіть ту, якою платили, — у списку валюти ваших рахунків. Finwaze зберігає обидва числа: суму транзакції (те, що на ціннику, напр. 5 EUR) і списану суму (те, що насправді пішло з рахунку у його валюті, напр. 130 UAH), яку ви вводите в полі «Списано з рахунку». Ви вводите лише те, що бачите — конвертувати вручну не потрібно."
+          }
+        }
+      }
+    },
+    "guide.transactions.section3.heading": {
+      "extractionState": "manual",
+      "localizations": {
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Výdaje v jiné měně"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Spending in another currency"
+          }
+        },
+        "uk": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Витрати в іншій валюті"
+          }
+        }
+      }
+    },
+    "guide.transactions.section4.body": {
+      "extractionState": "manual",
+      "localizations": {
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Přesun peněz mezi vlastními účty — výběr hotovosti, splacení karty, doplnění spoření — je převod, ne výdaj. Zaznamenejte ho tlačítkem „Převést peníze“ v „Peněžence“, aby vám nenafoukl výdaje. Váš celkový majetek se nezměnil, jen jeho umístění."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Moving money between your own accounts — withdrawing cash, paying a card, topping up savings — is a transfer, not an expense. Record it with “Transfer money” in the Wallet so it does not inflate your spending. Your total wealth has not changed, only its location."
+          }
+        },
+        "uk": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Переміщення грошей між вашими рахунками — зняття готівки, погашення картки, поповнення заощаджень — це переказ, а не витрата. Записуйте його кнопкою «Перевести кошти» в «Гаманці», щоб не роздувати витрати. Ваш загальний статок не змінився, змінилося лише його місце."
+          }
+        }
+      }
+    },
+    "guide.transactions.section4.heading": {
+      "extractionState": "manual",
+      "localizations": {
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Převody nejsou výdaje"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Transfers are not expenses"
+          }
+        },
+        "uk": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Перекази — це не витрати"
+          }
+        }
+      }
+    },
+    "guide.transactions.tip1": {
+      "extractionState": "manual",
+      "localizations": {
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Zaznamenávejte transakce hned, jak nastanou, nebo jednou na konci dne, aby nic nezapadlo."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Record transactions the moment they happen, or once at the end of each day, so nothing is forgotten."
+          }
+        },
+        "uk": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Записуйте транзакції одразу, щойно вони стаються, або раз наприкінці дня, щоб нічого не забути."
+          }
+        }
+      }
+    },
+    "guide.transactions.tip2": {
+      "extractionState": "manual",
+      "localizations": {
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Pro stejný druh výdaje používejte pokaždé stejnou kategorii — právě důslednost dělá vaše reporty spolehlivými."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Use the same category for the same kind of expense every time — consistency is what makes your reports trustworthy."
+          }
+        },
+        "uk": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Щоразу використовуйте ту саму категорію для того самого типу витрат — саме послідовність робить звіти надійними."
+          }
+        }
+      }
+    },
+    "guide.transactions.tip3": {
+      "extractionState": "manual",
+      "localizations": {
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Nezapisujte přesun peněz mezi vlastními účty jako výdaj. To je převod a neměl by se počítat jako výdaj."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Do not log moving money between your own accounts as an expense. That is a transfer, and it should not count as spending."
+          }
+        },
+        "uk": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Не записуйте переміщення грошей між власними рахунками як витрату. Це переказ, і він не має рахуватися витратою."
+          }
+        }
+      }
+    },
+    "guide.transactions.tip4": {
+      "extractionState": "manual",
+      "localizations": {
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Procházejte svůj týden každou neděli. Pět minut stačí, abyste si všimli překvapení a měli vše pod kontrolou."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Review your week every Sunday. Five minutes is enough to notice surprises and stay in control."
+          }
+        },
+        "uk": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Переглядайте свій тиждень щонеділі. П’яти хвилин досить, щоб помітити несподіванки й тримати все під контролем."
+          }
+        }
+      }
+    },
+    "guide.transactions.title": {
+      "extractionState": "manual",
+      "localizations": {
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Transakce"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Transactions"
+          }
+        },
+        "uk": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Транзакції"
+          }
+        }
+      }
+    },
+    "guide.wallet.cardSummary": {
+      "extractionState": "manual",
+      "localizations": {
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Vaše účty v jakékoli měně — banka, hotovost, karty a spoření na jednom místě."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Your accounts in any currency — bank, cash, cards and savings, all in one place."
+          }
+        },
+        "uk": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ваші рахунки в будь-якій валюті — банк, готівка, картки та заощадження в одному місці."
+          }
+        }
+      }
+    },
+    "guide.wallet.cardTitle": {
+      "extractionState": "manual",
+      "localizations": {
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sekce „Peněženka“"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Understand the Wallet"
+          }
+        },
+        "uk": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Розділ «Гаманець»"
+          }
+        }
+      }
+    },
+    "guide.wallet.eyebrow": {
+      "extractionState": "manual",
+      "localizations": {
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Vaše účty"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Your accounts"
+          }
+        },
+        "uk": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ваші рахунки"
+          }
+        }
+      }
+    },
+    "guide.wallet.lead": {
+      "extractionState": "manual",
+      "localizations": {
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "„Peněženka“ je domovem všech vašich účtů. Účet ve Finwaze odráží reálné místo, kde leží vaše peníze — bankovní účet, hotovost, kartu nebo spořicí pokladničku. Můžete jich vytvořit, kolik chcete, každý ve své měně, a „Peněženka“ vždy ukazuje zůstatek každého z nich."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The Wallet is the home of all your accounts. An account in Finwaze mirrors a real place your money sits — a bank account, a cash stash, a card, or a savings pot. You can create as many as you like, each in its own currency, and the Wallet always shows the balance of each one."
+          }
+        },
+        "uk": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "«Гаманець» — це дім усіх ваших рахунків. Рахунок у Finwaze відображає реальне місце, де лежать ваші гроші, — банківський рахунок, готівку, картку чи скарбничку заощаджень. Ви можете створити їх скільки завгодно, кожен у своїй валюті, і «Гаманець» завжди показує баланс кожного."
+          }
+        }
+      }
+    },
+    "guide.wallet.section1.body": {
+      "extractionState": "manual",
+      "localizations": {
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "„Peněženka“ vypisuje všechny vaše účty s aktuálním zůstatkem. Každá zaznamenaná transakce patří jednomu účtu a mění jeho zůstatek. Právě udržování účtů v souladu se skutečností dělá každý součet ve Finwaze přesným. Liší-li se zůstatek od banky, klepněte na účet a v jeho nastavení zadejte správný zůstatek — Finwaze zapíše rozdíl jako úpravu zůstatku, která se nepočítá jako příjem ani výdaj."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The Wallet lists every account you own with its current balance. Each transaction you record belongs to one account and changes its balance. Keeping your accounts here in step with real life is what makes every total in Finwaze accurate. If a balance differs from your bank, tap the account and enter the right balance in its settings — Finwaze records the difference as a balance adjustment, which does not count as income or an expense."
+          }
+        },
+        "uk": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "«Гаманець» перелічує всі ваші рахунки з поточним балансом. Кожна записана транзакція належить одному рахунку і змінює його баланс. Саме підтримання рахунків тут у відповідності з реальним життям робить кожен підсумок у Finwaze точним. Якщо баланс відрізняється від банківського, натисніть рахунок і введіть правильний баланс у його налаштуваннях — Finwaze запише різницю як коригування балансу, яке не рахується ні доходом, ні витратою."
+          }
+        }
+      }
+    },
+    "guide.wallet.section1.heading": {
+      "extractionState": "manual",
+      "localizations": {
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Co je „Peněženka“"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "What the Wallet is"
+          }
+        },
+        "uk": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Що таке «Гаманець»"
+          }
+        }
+      }
+    },
+    "guide.wallet.section2.body": {
+      "extractionState": "manual",
+      "localizations": {
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Žádný limit neexistuje. Klepnutím na „+“ v navigačním panelu si vytvořte samostatné účty pro banku, hotovost v peněžence, každou kartu i jakékoli spoření — a každému dejte měnu, kterou skutečně používá (CZK, EUR, USD, UAH a další). Když utrácíte v zahraničí, Finwaze uchová původní cenu i částku zaúčtovanou na účet, takže život s více měnami prostě funguje."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "There is no limit. Tap “+” in the navigation bar to create separate accounts for your bank, your wallet cash, each card, and any savings — and give each one whatever currency it really uses (UAH, EUR, USD, CZK, and more). When you spend abroad, Finwaze stores both the original price and the amount charged to your account, so multi-currency life just works."
+          }
+        },
+        "uk": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Обмежень немає. Натисніть «+» у панелі навігації, щоб створити окремі рахунки для банку, готівки в гаманці, кожної картки та будь-яких заощаджень, — і задавайте кожному ту валюту, якою він насправді користується (UAH, EUR, USD, CZK тощо). Коли витрачаєте за кордоном, Finwaze зберігає і початкову ціну, і списану з рахунку суму, тож мультивалютне життя просто працює."
+          }
+        }
+      }
+    },
+    "guide.wallet.section2.heading": {
+      "extractionState": "manual",
+      "localizations": {
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tolik účtů a měn, kolik potřebujete"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "As many accounts and currencies as you need"
+          }
+        },
+        "uk": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Скільки завгодно рахунків і валют"
+          }
+        }
+      }
+    },
+    "guide.wallet.section3.body": {
+      "extractionState": "manual",
+      "localizations": {
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Výběr hotovosti, splacení karty či doplnění spoření znamená přesun peněz mezi vašimi účty. To je převod, ne výdaj — váš celkový majetek se nemění. Zaznamenejte ho tlačítkem „Převést peníze“ v navigačním panelu. Finwaze drží převody mimo reporty výdajů, takže čísla výdajů zůstávají poctivá."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Withdrawing cash, paying a card, or topping up savings means moving money between your own accounts. That is a transfer, not an expense — it leaves your total wealth unchanged. Record it with “Transfer money” in the navigation bar. Finwaze keeps transfers out of your spending reports so your expense figures stay honest."
+          }
+        },
+        "uk": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Зняти готівку, погасити картку чи поповнити заощадження — це переміщення грошей між вашими рахунками. Це переказ, а не витрата: ваш загальний статок не змінюється. Записуйте його кнопкою «Перевести кошти» в панелі навігації. Finwaze не включає перекази у звіти про витрати, тож цифри витрат лишаються чесними."
+          }
+        }
+      }
+    },
+    "guide.wallet.section3.heading": {
+      "extractionState": "manual",
+      "localizations": {
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Přesun peněz mezi účty"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Moving money between accounts"
+          }
+        },
+        "uk": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Переміщення грошей між рахунками"
+          }
+        }
+      }
+    },
+    "guide.wallet.tip1": {
+      "extractionState": "manual",
+      "localizations": {
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Založte si jeden účet pro každé reálné místo, kde držíte peníze. Čím víc „Peněženka“ odráží realitu, tím užitečnější je každý report."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Set up one account for each real place you keep money. The closer the Wallet mirrors reality, the more useful every report becomes."
+          }
+        },
+        "uk": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Створіть по рахунку на кожне реальне місце, де тримаєте гроші. Що ближче «Гаманець» до реальності, то кориснішим стає кожен звіт."
+          }
+        }
+      }
+    },
+    "guide.wallet.tip2": {
+      "extractionState": "manual",
+      "localizations": {
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Po přidání účtu ho otevřete a nastavte jeho aktuální zůstatek jako výchozí bod, aby čísla od prvního dne odpovídala bance."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "After you add an account, open it and set its current balance as the starting point so figures match your bank from day one."
+          }
+        },
+        "uk": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Додавши рахунок, відкрийте його й задайте поточний баланс як відправну точку, щоб цифри збігалися з банком із першого дня."
+          }
+        }
+      }
+    },
+    "guide.wallet.tip3": {
+      "extractionState": "manual",
+      "localizations": {
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Veďte si samostatný hotovostní účet — drobné hotovostní výdaje se ztrácejí nejsnáz."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Keep a separate cash account — small cash spending is the easiest to lose track of."
+          }
+        },
+        "uk": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Тримайте окремий готівковий рахунок — дрібні готівкові витрати найлегше загубити."
+          }
+        }
+      }
+    },
+    "guide.wallet.tip4": {
+      "extractionState": "manual",
+      "localizations": {
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Zvolte jednu hlavní měnu, ve které denně přemýšlíte; ostatní ať jen odrážejí účty, které je používají."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Pick one main currency you think in day to day; let the others simply reflect the accounts that use them."
+          }
+        },
+        "uk": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Оберіть одну основну валюту, в якій думаєте щодня; решта нехай просто відображає рахунки, що ними користуються."
+          }
+        }
+      }
+    },
+    "guide.wallet.tip5": {
+      "extractionState": "manual",
+      "localizations": {
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Cíle spoření používejte k oddělení peněz, které nechcete utratit omylem — každý cíl drží peníze na vlastním účtu."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Use savings goals to ring-fence money you do not want to spend by accident — each goal keeps its money in its own account."
+          }
+        },
+        "uk": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Використовуйте цілі заощаджень, щоб відгородити гроші, які не хочете витратити випадково, — кожна ціль тримає гроші на власному рахунку."
+          }
+        }
+      }
+    },
+    "guide.wallet.title": {
+      "extractionState": "manual",
+      "localizations": {
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Peněženka"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The Wallet"
+          }
+        },
+        "uk": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Гаманець"
           }
         }
       }
@@ -8396,19 +11225,19 @@
         "cs": {
           "stringUnit": {
             "state": "translated",
-            "value": "Začínáte se správou osobních financí? Po přihlášení můžete kdykoliv otevřít sekci „Průvodce“ v menu (vpravo nahoře), kde najdete krok za krokem návody a tipy."
+            "value": "Začínáte se správou osobních financí? Po přihlášení můžete kdykoliv otevřít „Průvodce“ v nabídce „…“ (vlevo nahoře), kde najdete krok za krokem návody a tipy."
           }
         },
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "New to personal finance tracking? After signing in, you can open the “Guide” anytime from the menu (top right) for step-by-step examples and tips."
+            "value": "New to personal finance tracking? After signing in, you can open the “Guide” anytime from the “…” menu (top left) for step-by-step examples and tips."
           }
         },
         "uk": {
           "stringUnit": {
             "state": "translated",
-            "value": "Вперше ведете облік особистих фінансів? Після входу ви будь-коли зможете відкрити розділ «Посібник» у меню (у верхньому правому куті), де знайдете покрокові приклади та корисні поради."
+            "value": "Вперше ведете облік особистих фінансів? Після входу ви будь-коли зможете відкрити «Посібник» у меню «…» (у верхньому лівому куті), де знайдете покрокові приклади та корисні поради."
           }
         }
       }
