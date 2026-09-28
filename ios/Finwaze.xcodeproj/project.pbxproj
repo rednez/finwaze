@@ -28,6 +28,16 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		698E7184306A6E4600577F13 /* STAGE_1_PLAN.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = STAGE_1_PLAN.md; sourceTree = "<group>"; };
+		698E7185306A6E4600577F13 /* STAGE_1A_PLAN.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = STAGE_1A_PLAN.md; sourceTree = "<group>"; };
+		698E7186306A6E4600577F13 /* STAGE_2_PLAN.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = STAGE_2_PLAN.md; sourceTree = "<group>"; };
+		698E7187306A6E4600577F13 /* STAGE_3_PLAN.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = STAGE_3_PLAN.md; sourceTree = "<group>"; };
+		698E7188306A6E4600577F13 /* STAGE_4_PLAN.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = STAGE_4_PLAN.md; sourceTree = "<group>"; };
+		698E7189306A6E4600577F13 /* STAGE_5_PLAN.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = STAGE_5_PLAN.md; sourceTree = "<group>"; };
+		698E718A306A6E4600577F13 /* STAGE_6_PLAN.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = STAGE_6_PLAN.md; sourceTree = "<group>"; };
+		698E718B306A6E4600577F13 /* STAGE_7_PLAN.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = STAGE_7_PLAN.md; sourceTree = "<group>"; };
+		698E718C306A6E4600577F13 /* STAGE_8_PLAN.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = STAGE_8_PLAN.md; sourceTree = "<group>"; };
+		698E718D306A6E4600577F13 /* TECH_DEBT.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = TECH_DEBT.md; sourceTree = "<group>"; };
 		69D81F9C30682C2C00B2A385 /* Finwaze.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Finwaze.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		69D81FA930682C2E00B2A385 /* FinwazeTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = FinwazeTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		69D81FB330682C2E00B2A385 /* FinwazeUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = FinwazeUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -76,6 +86,23 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		698E718E306A6E4600577F13 /* docs */ = {
+			isa = PBXGroup;
+			children = (
+				698E7184306A6E4600577F13 /* STAGE_1_PLAN.md */,
+				698E7185306A6E4600577F13 /* STAGE_1A_PLAN.md */,
+				698E7186306A6E4600577F13 /* STAGE_2_PLAN.md */,
+				698E7187306A6E4600577F13 /* STAGE_3_PLAN.md */,
+				698E7188306A6E4600577F13 /* STAGE_4_PLAN.md */,
+				698E7189306A6E4600577F13 /* STAGE_5_PLAN.md */,
+				698E718A306A6E4600577F13 /* STAGE_6_PLAN.md */,
+				698E718B306A6E4600577F13 /* STAGE_7_PLAN.md */,
+				698E718C306A6E4600577F13 /* STAGE_8_PLAN.md */,
+				698E718D306A6E4600577F13 /* TECH_DEBT.md */,
+			);
+			path = docs;
+			sourceTree = "<group>";
+		};
 		69D81F9330682C2C00B2A385 = {
 			isa = PBXGroup;
 			children = (
@@ -83,6 +110,7 @@
 				69D81F9E30682C2C00B2A385 /* Finwaze */,
 				69D81FAC30682C2E00B2A385 /* FinwazeTests */,
 				69D81FB630682C2E00B2A385 /* FinwazeUITests */,
+				698E718E306A6E4600577F13 /* docs */,
 				69D81F9D30682C2C00B2A385 /* Products */,
 			);
 			sourceTree = "<group>";
