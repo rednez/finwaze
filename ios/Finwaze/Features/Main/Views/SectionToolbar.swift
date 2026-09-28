@@ -102,9 +102,9 @@ private struct SectionToolbar: ViewModifier {
             .sheet(item: $sheet) { sheet in
                 switch sheet {
                 case .sectionGuide:
-                    PlaceholderSheet(title: section?.title ?? "profile.guide", message: "guide.comingSoon", systemImage: "book")
+                    GuideView(initialTopic: section.map(GuideTopic.init(section:)))
                 case .guide:
-                    PlaceholderSheet(title: "profile.guide", message: "guide.comingSoon", systemImage: "book")
+                    GuideView(initialTopic: nil)
                 case .settings:
                     PlaceholderSheet(title: "profile.settings", message: "settings.comingSoon", systemImage: "gearshape")
                 }
@@ -166,7 +166,7 @@ private struct UserAvatar: View {
     }
 }
 
-/// A sheet for screens that come in later stages (Guide — stage 14, Settings — stage 15).
+/// A sheet for a screen that comes in a later stage (Settings — stage 15).
 private struct PlaceholderSheet: View {
     let title: LocalizedStringKey
     let message: LocalizedStringKey
