@@ -28,31 +28,20 @@ final class DashboardViewModel {
     private(set) var goals: CardState<[SavingsGoal]> = .loading
 
     private let repository: any DashboardRepository
-    private let referenceData: ReferenceDataStore
     private let preferences: DevicePreferences
     /// What the cards on screen were loaded for; `load(dataVersion:)` reloads only what changed.
     @ObservationIgnored private var loadedDataVersion: Int?
     @ObservationIgnored private var loadedCurrencyCode: String?
 
-    init(repository: any DashboardRepository, referenceData: ReferenceDataStore, preferences: DevicePreferences) {
+    init(repository: any DashboardRepository, preferences: DevicePreferences) {
         self.repository = repository
-        self.referenceData = referenceData
         self.preferences = preferences
     }
 
-    /// The currencies of the user's accounts, alphabetically (`GEN-11`).
-    var currencyCodes: [String] {
-        referenceData.accountCurrencyCodes.sorted()
-    }
-
-    /// The primary currency, remembered on the device (`DASH-01`, `GEN-17`).
+    /// The primary currency, remembered on the device and chosen in the navigation bar (`DASH-01`, `GEN-17`,
+    /// `PrimaryCurrencyMenu`); when it changes, the view calls `load(dataVersion:)`, which reloads the cards in it.
     var currencyCode: String? {
         preferences.primaryCurrencyCode
-    }
-
-    /// Makes `code` the primary currency; the view then calls `load(dataVersion:)`, which reloads the cards in it.
-    func selectCurrency(_ code: String) {
-        preferences.primaryCurrencyCode = code
     }
 
     /// Brings the cards up to date: every card after a change to the data (`GEN-26`), only the currency's cards after

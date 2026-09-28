@@ -22,17 +22,12 @@ struct DashboardViewModelTests {
 
     private func makeViewModel(currency: String? = "USD") async throws -> DashboardViewModel {
         preferences.primaryCurrencyCode = currency
-        let referenceData = try await makeReferenceData(FakeReferenceDataRepository(accounts: [
-            Account(id: 1, name: "Card", currencyCode: "USD"),
-            Account(id: 2, name: "Savings", currencyCode: "EUR"),
-            Account(id: 3, name: "Cash", currencyCode: "USD"),
-        ]))
         repository.setTotals(usdTotals, currencyCode: "USD")
         repository.setTotals(eurTotals, currencyCode: "EUR")
         repository.setBudgets([CategoryBudget(name: "Rent", amount: 1200)], currencyCode: "USD")
         repository.setRecentTransactions(Array(DemoData.transactions(inMonthOf: .now).prefix(3)))
         repository.setGoals([goal])
-        return DashboardViewModel(repository: repository, referenceData: referenceData, preferences: preferences)
+        return DashboardViewModel(repository: repository, preferences: preferences)
     }
 
     // MARK: Loading (DASH-02…08)
@@ -72,21 +67,20 @@ struct DashboardViewModelTests {
 
     // MARK: Primary currency (DASH-01)
 
-    @Test func offersTheAccountsCurrenciesOnceAlphabetically() async throws {
+    @Test func usesThePrimaryCurrency() async throws {
         let viewModel = try await makeViewModel()
 
-        #expect(viewModel.currencyCodes == ["EUR", "USD"])
         #expect(viewModel.currencyCode == "USD")
     }
 
-    @Test func changingTheCurrencyRemembersItAndReloadsOnlyItsCards() async throws {
+    @Test func changingTheCurrencyReloadsOnlyItsCards() async throws {
         let viewModel = try await makeViewModel()
         await viewModel.load(dataVersion: 0)
 
-        viewModel.selectCurrency("EUR")
+        preferences.primaryCurrencyCode = "EUR"
         await viewModel.load(dataVersion: 0)
 
-        #expect(preferences.primaryCurrencyCode == "EUR")
+        #expect(viewModel.currencyCode == "EUR")
         #expect(viewModel.totals == .loaded(eurTotals))
         #expect(repository.currencies(.totals) == ["USD", "EUR"])
         #expect(repository.currencies(.cashFlow) == ["USD", "EUR"])
