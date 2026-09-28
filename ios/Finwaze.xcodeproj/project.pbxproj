@@ -30,6 +30,7 @@
 /* Begin PBXFileReference section */
 		695C3AC4306AB7E7002E274B /* STAGE_10_PLAN.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = STAGE_10_PLAN.md; sourceTree = "<group>"; };
 		695C3AC5306AB7E7002E274B /* STAGE_11_PLAN.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = STAGE_11_PLAN.md; sourceTree = "<group>"; };
+		695C3AC6306AB7E7002E274B /* STAGE_12_PLAN.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = STAGE_12_PLAN.md; sourceTree = "<group>"; };
 		69649072306AA7660067BE91 /* STAGE_9_PLAN.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = STAGE_9_PLAN.md; sourceTree = "<group>"; };
 		698E7184306A6E4600577F13 /* STAGE_1_PLAN.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = STAGE_1_PLAN.md; sourceTree = "<group>"; };
 		698E7185306A6E4600577F13 /* STAGE_1A_PLAN.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = STAGE_1A_PLAN.md; sourceTree = "<group>"; };
@@ -104,6 +105,7 @@
 				69649072306AA7660067BE91 /* STAGE_9_PLAN.md */,
 				695C3AC4306AB7E7002E274B /* STAGE_10_PLAN.md */,
 				695C3AC5306AB7E7002E274B /* STAGE_11_PLAN.md */,
+				695C3AC6306AB7E7002E274B /* STAGE_12_PLAN.md */,
 				698E718D306A6E4600577F13 /* TECH_DEBT.md */,
 			);
 			path = docs;
