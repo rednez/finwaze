@@ -30,7 +30,7 @@
     часовому поясі пристрою, інакше на заході від UTC місяць з'їде на попередній;
   - «Поточний місяць» сервер визначає за `now()` у своєму часовому поясі (UTC), а не за місцевим часом
     користувача. У перші години місяця (для UTC+) операції нового місяця ще рахуються як «минулий». Відтворюємо як
-    є, записуємо в `ios/TECH_DEBT.md` (виправлення для всіх клієнтів — новий параметр `p_local_offset` з `DEFAULT`);
+    є, записуємо в `ios/docs/TECH_DEBT.md` (виправлення для всіх клієнтів — новий параметр `p_local_offset` з `DEFAULT`);
   - `get_current_month_budgets_by_category` групує за **назвою** категорії: однакові назви в різних групах
     зливаються в один сектор. Як web; теж у `TECH_DEBT.md`.
 - **Де живе код.** Новий `Features/Dashboard`: `DashboardRepository` (п'ять методів вище), моделі
@@ -150,7 +150,7 @@
   минулим місяцем, кільце бюджету з даними, цілі з прогресом, відкриття операції / переказу з картки, помилка й
   повтор однієї картки, демо-режим.
 - [ ] Dark Mode, Dynamic Type (найбільші розміри — картки не обрізаються), VoiceOver, iPad у двох колонках.
-- [x] `ios/TECH_DEBT.md`: прибрати `.dashboard` із заглушок; додати «поточний місяць за UTC сервера» і
+- [x] `ios/docs/TECH_DEBT.md`: прибрати `.dashboard` із заглушок; додати «поточний місяць за UTC сервера» і
       «бюджети дашборда групуються за назвою категорії».
 - [ ] Статус плану — «виконано».
 
@@ -161,7 +161,7 @@
   `Core/Demo/DemoDashboardRepository.swift`, `Core/Demo/DemoData+Dashboard.swift`, тести в
   `ios/FinwazeTests/{Dashboard,Goals}/`.
 - Змінюються: `Core/Repositories/Repositories.swift`, `Core/Formatting/DateFormatting.swift`, `Features/Main/Views/{MainTabView,SectionView}.swift`,
-  `Features/Transactions/Views/TransactionRow.swift`, `Localizable.xcstrings`, `ios/TECH_DEBT.md`.
+  `Features/Transactions/Views/TransactionRow.swift`, `Localizable.xcstrings`, `ios/docs/TECH_DEBT.md`.
 - Перевикористовуємо: `TransactionDto` / `TransactionMapper` / `TransactionRow`, `DevicePreferences.primaryCurrencyCode`,
   `PrimaryCurrencyResolver`, `MoneyFormatting` (`formattedAmount(currencyCode:)`), стиль `AccountCard` і скелетони
   з `WalletView`, патерн `.task(id:)` + `dataVersion` з `TransactionsView`.

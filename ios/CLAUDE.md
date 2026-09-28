@@ -156,7 +156,9 @@ xcodebuild -project ios/Finwaze.xcodeproj -scheme Finwaze \
   -destination 'platform=iOS Simulator,name=iPhone 18 Pro' test
 ```
 
-Known unfinished work is tracked in `ios/TECH_DEBT.md`.
+Known unfinished work is tracked in `ios/docs/TECH_DEBT.md`.
+Implementation plans for the stages of `docs/functional-design.md` (section 6) live next to it as
+`ios/docs/STAGE_<N>_PLAN.md`; put a new stage's plan there too.
 Demo user (`demo@mail.com` / `password1234`) is described in the root file.
 
 ---

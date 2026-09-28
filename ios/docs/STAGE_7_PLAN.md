@@ -51,7 +51,7 @@
   фільтруємо.
 - **Відома особливість web, яку відтворюємо:** категорію без операцій, але із запланованим бюджетом
   (`monthly_budgets` посилається на неї без `ON DELETE`), видалити не вдасться — сервер поверне помилку
-  зовнішнього ключа, і її покаже `failureAlert`. Записуємо в `ios/TECH_DEBT.md` як питання: чи ховати дію
+  зовнішнього ключа, і її покаже `failureAlert`. Записуємо в `ios/docs/TECH_DEBT.md` як питання: чи ховати дію
   «Видалити», чи видаляти бюджети разом із категорією.
 - **Демо (`AUTH-10`).** `DemoGroupsRepository` будує список із `DemoData.groups` / `categories`; кількість операцій —
   скільки разів категорія трапляється в місячному шаблоні демо-операцій (усі демо-категорії мають операції, тож
@@ -108,7 +108,7 @@
   нової категорії у витраті до кінця, зміна й прибирання кольору наявної групи, видалення категорії з бюджетом,
   демо-режим.
 - [ ] Dark Mode, Dynamic Type, VoiceOver на екрані груп і діалогах.
-- [x] `ios/TECH_DEBT.md`: прибрати «Colours are set only on creation» і `.groups` із заглушок; додати видалення
+- [x] `ios/docs/TECH_DEBT.md`: прибрати «Colours are set only on creation» і `.groups` із заглушок; додати видалення
       категорії з бюджетом.
 - [ ] Статус плану — «виконано».
 
@@ -119,7 +119,7 @@
 - Змінюються: `Core/Repositories/Repositories.swift`, `App/AppViewModel.swift`,
   `Features/Main/{Models/AppSection.swift,Views/SectionView.swift}`,
   `Features/Transactions/{ViewModels/NamePromptViewModel.swift,Views/NamePromptView.swift}`, `Localizable.xcstrings`,
-  `ios/TECH_DEBT.md`.
+  `ios/docs/TECH_DEBT.md`.
 - Перевикористовуємо: `NamePromptView` / `NamePromptViewModel` (назва ≤ 25, колір), `ColorPaletteField`, `ColorTag`,
   `SuccessBanner`, `FailureAlert`, `AppViewModel.createGroup` / `createCategory`, патерн станів і видалення з
   `EditTransactionViewModel`.

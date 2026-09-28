@@ -23,7 +23,7 @@
   - видалення — як web: спершу `delete` корекцій (`transactions`, `account_id` + `type = internal`), потім
     `delete` рахунку. Два запити не атомарні: якщо другий упаде, корекції вже зникнуть, а рахунок лишиться з
     іншим балансом. Web поводиться так само; окрему SQL-функцію не додаємо, але записуємо ризик у
-    `ios/TECH_DEBT.md`.
+    `ios/docs/TECH_DEBT.md`.
 - **Де живе код.** Усе в `Features/Wallet`: `WalletRepository` отримує `accountDetails(id:)`,
   `updateAccount(id:_:)`, `adjustBalance(_:)`, `deleteAccount(id:)` — як на web, де це `WalletRepository`.
 - **Відкриття (`ACC-02`)** — картка стає `NavigationLink(value: AccountRoute(id:))`; «Налаштування рахунку» —
@@ -59,7 +59,7 @@
   - видалення **останнього** рахунку переводить у Перше знайомство (`NAV-07`) — як і на web після перезапуску.
   Запам'ятований вибір для нових операцій із видаленим рахунком уже пропускається (`TX-16`).
 - **Відома особливість web, яку відтворюємо:** зміна валюти рахунку, на якому є лише корекції, не перераховує їх —
-  баланс лишається тим самим числом у новій валюті. Записуємо в `ios/TECH_DEBT.md` як питання до власника продукту.
+  баланс лишається тим самим числом у новій валюті. Записуємо в `ios/docs/TECH_DEBT.md` як питання до власника продукту.
 - **Демо (`AUTH-10`).** `DemoWalletRepository.accountDetails(id:)` — з `DemoData.walletAccounts`; `can_delete` —
   `false` для рахунків, що мають демо-операції чи переказ (Main Card, Cash), `true` для Savings. `updateAccount`,
   `adjustBalance`, `deleteAccount` — no-op; після «збереження» чи «видалення» рахунок лишається як був.
@@ -114,7 +114,7 @@
   видно; видалення з підтвердженням прибирає рахунок. Ще не перевірено в UI: баланс «станом на» минулу дату,
   видалення останнього рахунку, «не знайдено» для рахунку, видаленого на web, демо-режим.
 - [ ] Dark Mode, Dynamic Type, VoiceOver на екрані налаштувань.
-- [x] `ios/TECH_DEBT.md`: прибрати «account settings» з «Wallet is partial»; додати неатомарне видалення й
+- [x] `ios/docs/TECH_DEBT.md`: прибрати «account settings» з «Wallet is partial»; додати неатомарне видалення й
       валюту корекцій.
 - [ ] Статус плану — «виконано».
 
@@ -126,7 +126,7 @@
 - Змінюються: `Features/Wallet/Repositories/{WalletRepository,SupabaseWalletRepository}.swift`,
   `Features/Wallet/Mappers/WalletMapper.swift`, `Core/Demo/DemoWalletRepository.swift`,
   `Features/Wallet/Views/WalletView.swift`, `Features/Main/Views/SectionView.swift`, `App/AppViewModel.swift`,
-  `Localizable.xcstrings`, `ios/TECH_DEBT.md`.
+  `Localizable.xcstrings`, `ios/docs/TECH_DEBT.md`.
 - Перевикористовуємо: `AccountFormViewModel.nameLength`, `CurrencyPicker`, `FormField`, `SubmitButton`,
   `FailureAlert`, `LocalOffset`, `DecimalInputParser`, `PositiveAmountInput` (як зразок), патерн
   `EditTransactionViewModel` / `TransferDetailsViewModel` (стани, «не знайдено», видалення з підтвердженням).

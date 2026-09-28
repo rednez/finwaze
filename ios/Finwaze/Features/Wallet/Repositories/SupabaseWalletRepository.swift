@@ -53,7 +53,7 @@ nonisolated struct SupabaseWalletRepository: WalletRepository {
     }
 
     /// Like the web: the corrections first, then the account — the only records it may still have (`ACC-11`).
-    /// Not atomic: see `ios/TECH_DEBT.md`.
+    /// Not atomic: see `ios/docs/TECH_DEBT.md`.
     func deleteAccount(id: Int64) async throws {
         try await client
             .from("transactions")

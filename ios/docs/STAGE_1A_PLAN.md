@@ -68,7 +68,7 @@
 ### 7. Документація
 
 - [x] `docs/functional-design.md`: у Q-08 описано, як демо-режим працює на iOS тепер.
-- [x] `ios/TECH_DEBT.md`: прибрати пункт «Demo mode must be read-only».
+- [x] `ios/docs/TECH_DEBT.md`: прибрати пункт «Demo mode must be read-only».
 - [x] `ios/CLAUDE.md`: правило про демо-реалізації репозиторіїв.
 
 ## Зміни після реалізації

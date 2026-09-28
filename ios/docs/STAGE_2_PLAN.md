@@ -86,5 +86,5 @@
 
 - [x] Критерії приймання ONB і ACC у симуляторі: новий користувач → «Пропустити» → «Готівка / UAH» → Дашборд;
       після перезапуску туру немає; «Картка / EUR» у Гаманці з балансом 0 €; у демо створення нічого не змінює.
-- [x] `ios/TECH_DEBT.md`: прибрати `OnboardingPlaceholderView` з «Section placeholders»; позначити Гаманець.
+- [x] `ios/docs/TECH_DEBT.md`: прибрати `OnboardingPlaceholderView` з «Section placeholders»; позначити Гаманець.
 - [x] Статус плану — «виконано».

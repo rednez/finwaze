@@ -114,7 +114,7 @@
   підтвердженням прибирає обидва рядки. Ще не перевірено в UI: переказ в одній валюті, «не знайдено» для
   переказу, видаленого на web, демо-режим.
 - [ ] Dark Mode, Dynamic Type, VoiceOver на формі переказу й деталях.
-- [x] `ios/TECH_DEBT.md`: прибрати «Transfer money» з «Wallet is partial» і деталі переказу з «Transactions are
+- [x] `ios/docs/TECH_DEBT.md`: прибрати «Transfer money» з «Wallet is partial» і деталі переказу з «Transactions are
       partial».
 - [ ] Статус плану — «виконано».
 
@@ -126,7 +126,7 @@
   `Features/Main/{Models/AppSection.swift,Views/SectionToolbar.swift,Views/SectionView.swift}`,
   `Features/Wallet/Views/WalletView.swift`, `Features/Transactions/Views/TransactionRow.swift`,
   `Features/Transactions/Models/TransactionRoute.swift`, `Features/Transactions/ViewModels/TransactionFormViewModel.swift`,
-  `Core/Demo/DemoData+Transactions.swift`, `Localizable.xcstrings`, `ios/TECH_DEBT.md`.
+  `Core/Demo/DemoData+Transactions.swift`, `Localizable.xcstrings`, `ios/docs/TECH_DEBT.md`.
 - Перевикористовуємо: `TransactionDto`/`TransactionMapper`, `LocalOffset`, `DecimalInputParser`, `FormField`,
   `SubmitButton`, `FailureAlert`, `MoneyFormatting`, `DateFormatting.formattedTransactionDate(offset:)`,
   патерн `EditTransactionViewModel` (стани, «не знайдено», видалення).
