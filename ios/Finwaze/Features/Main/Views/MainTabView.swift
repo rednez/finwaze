@@ -1,7 +1,7 @@
 import SwiftUI
 
-/// The signed-in app: the four primary sections in the tab bar (`NAV-01`). Secondary sections open from
-/// the "More" menu of any section (`NAV-02`), so the tab bar never folds a primary section into "More".
+/// The signed-in app: the four primary sections in the tab bar (`NAV-01`) and "More" with the secondary ones
+/// (`NAV-02`), so the tab bar always shows the section on screen.
 struct MainTabView: View {
     @State private var navigation = MainNavigation()
 
@@ -9,8 +9,14 @@ struct MainTabView: View {
         @Bindable var navigation = navigation
         TabView(selection: $navigation.selection) {
             ForEach(AppSection.primary, id: \.self) { section in
-                Tab(section.tabTitle, systemImage: section.systemImage, value: section) {
+                Tab(section.tabTitle, systemImage: section.systemImage, value: MainTab.section(section)) {
                     SectionView(section: section)
+                }
+            }
+
+            Tab("section.more", systemImage: "ellipsis", value: MainTab.more) {
+                TabStack(path: $navigation.morePath) {
+                    MoreView()
                 }
             }
         }

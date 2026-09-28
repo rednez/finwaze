@@ -1,20 +1,20 @@
 import SwiftUI
 
 extension View {
-    /// Adds the "More" menu (other sections, the section's guide article and the guide), the section's actions — the
-    /// Dashboard's primary currency, "Transfer money" and "+" — and, apart from them, the profile menu to the navigation
-    /// bar. The profile menu is only on a tab's root screen (`showsProfile`), not on a section pushed onto it. `onAdd` runs for "+" and `onTransfer` for "Transfer money"; sections without them
-    /// (`AppSection.addTitle`, `AppSection.transferTitle`) show no such button.
+    /// Adds the "…" help menu (the section's guide article and the guide), the section's actions — the Dashboard's
+    /// primary currency, "Transfer money" and "+" — and, apart from them, the profile menu to the navigation bar. The
+    /// profile menu is only on a tab's root screen (`showsProfile`), not on a section pushed onto it. `onAdd` runs for
+    /// "+" and `onTransfer` for "Transfer money"; sections without them (`AppSection.addTitle`,
+    /// `AppSection.transferTitle`) show no such button. A screen that is not a section (`nil`, the "More" tab) gets
+    /// only the guide and the profile menu.
     func sectionToolbar(
-        for section: AppSection,
-        onOpen: @escaping (AppSection) -> Void,
+        for section: AppSection?,
         onAdd: @escaping () -> Void = {},
         onTransfer: @escaping () -> Void = {},
         showsProfile: Bool = true
     ) -> some View {
         modifier(SectionToolbar(
             section: section,
-            onOpen: onOpen,
             onAdd: onAdd,
             onTransfer: onTransfer,
             showsProfile: showsProfile
@@ -29,8 +29,7 @@ private struct SectionToolbar: ViewModifier {
         var id: Self { self }
     }
 
-    let section: AppSection
-    let onOpen: (AppSection) -> Void
+    let section: AppSection?
     let onAdd: () -> Void
     let onTransfer: () -> Void
     let showsProfile: Bool
@@ -42,21 +41,15 @@ private struct SectionToolbar: ViewModifier {
         content
             .toolbar {
                 ToolbarItem(placement: .topBarLeading) {
-                    Menu("section.more", systemImage: "ellipsis") {
-                        ForEach(AppSection.secondary.filter { $0 != section }, id: \.self) { destination in
-                            Button(destination.title, systemImage: destination.systemImage) {
-                                onOpen(destination)
-                            }
-                        }
-
-                        // Help lives here rather than in the bar, which keeps the bar for the section's actions.
-                        Section {
+                    // Help lives here rather than in the bar, which keeps the bar for the section's actions.
+                    Menu("section.helpMenu", systemImage: "ellipsis") {
+                        if section != nil {
                             Button("section.help", systemImage: "questionmark.circle") {
                                 sheet = .sectionGuide
                             }
-                            Button("profile.guide", systemImage: "book") {
-                                sheet = .guide
-                            }
+                        }
+                        Button("profile.guide", systemImage: "book") {
+                            sheet = .guide
                         }
                     }
                 }
@@ -69,13 +62,13 @@ private struct SectionToolbar: ViewModifier {
                     }
                 }
 
-                if let transferTitle = section.transferTitle {
+                if let transferTitle = section?.transferTitle {
                     ToolbarItem(placement: .topBarTrailing) {
                         Button(transferTitle, systemImage: "arrow.left.arrow.right", action: onTransfer)
                     }
                 }
 
-                if let addTitle = section.addTitle {
+                if let addTitle = section?.addTitle {
                     ToolbarItem(placement: .topBarTrailing) {
                         Button(addTitle, systemImage: "plus", action: onAdd)
                     }
@@ -109,7 +102,7 @@ private struct SectionToolbar: ViewModifier {
             .sheet(item: $sheet) { sheet in
                 switch sheet {
                 case .sectionGuide:
-                    PlaceholderSheet(title: section.title, message: "guide.comingSoon", systemImage: "book")
+                    PlaceholderSheet(title: section?.title ?? "profile.guide", message: "guide.comingSoon", systemImage: "book")
                 case .guide:
                     PlaceholderSheet(title: "profile.guide", message: "guide.comingSoon", systemImage: "book")
                 case .settings:

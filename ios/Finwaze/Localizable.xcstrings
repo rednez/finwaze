@@ -9199,6 +9199,29 @@
         }
       }
     },
+    "section.helpMenu": {
+      "extractionState": "manual",
+      "localizations": {
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Nápověda"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Help"
+          }
+        },
+        "uk": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Довідка"
+          }
+        }
+      }
+    },
     "section.more": {
       "extractionState": "manual",
       "localizations": {

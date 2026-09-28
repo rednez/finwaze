@@ -7,7 +7,7 @@ enum AppSection: String, Hashable, CaseIterable {
 
     /// Always in the tab bar (`NAV-01`).
     static let primary: [AppSection] = [.dashboard, .transactions, .wallet, .budget]
-    /// Reachable from the "More" menu of any section, not from the tab bar (`NAV-02`).
+    /// In the "More" tab, not in the tab bar (`NAV-02`).
     static let secondary: [AppSection] = [.goals, .groups, .analytics]
 
     /// Short label for the tab bar or sidebar.

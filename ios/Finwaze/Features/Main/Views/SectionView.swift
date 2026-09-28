@@ -1,17 +1,29 @@
 import SwiftUI
 
-/// A primary section with its own navigation stack; secondary sections, transactions, transfers and account
-/// settings are pushed onto it (`NAV-02`, `TX-06`, `TRF-07`, `ACC-02`).
+/// A primary section's tab, with the section as the first screen of its stack.
 struct SectionView: View {
     let section: AppSection
-    @Environment(AppViewModel.self) private var app
     @State private var path = NavigationPath()
 
     var body: some View {
+        TabStack(path: $path) {
+            SectionContentView(section: section)
+        }
+    }
+}
+
+/// A tab's navigation stack; secondary sections (in "More"), transactions, transfers and account settings are pushed
+/// onto it (`NAV-02`, `TX-06`, `TRF-07`, `ACC-02`).
+struct TabStack<Root: View>: View {
+    @Binding var path: NavigationPath
+    @ViewBuilder let root: Root
+    @Environment(AppViewModel.self) private var app
+
+    var body: some View {
         NavigationStack(path: $path) {
-            SectionContentView(section: section, onOpen: open)
+            root
                 .navigationDestination(for: AppSection.self) { destination in
-                    SectionContentView(section: destination, onOpen: open, isRoot: false)
+                    SectionContentView(section: destination, isRoot: false)
                 }
                 .navigationDestination(for: TransactionRoute.self) { route in
                     EditTransactionView(app: app, transactionID: route.id)
@@ -25,17 +37,12 @@ struct SectionView: View {
         }
         .environment(\.pushRoute, PushRouteAction { route in path.append(route) })
     }
-
-    private func open(_ destination: AppSection) {
-        path.append(destination)
-    }
 }
 
 /// One section's screen: title, short description, the section's actions and the menus (`NAV-03`, `NAV-04`).
 /// Sections whose stage is not implemented yet show a placeholder.
 struct SectionContentView: View {
     let section: AppSection
-    let onOpen: (AppSection) -> Void
     /// The tab's first screen rather than a section pushed onto it: only it shows the profile menu (`NAV-04`).
     var isRoot = true
     @Environment(AppViewModel.self) private var app
@@ -50,7 +57,6 @@ struct SectionContentView: View {
             .navigationSubtitle(section.subtitle)
             .sectionToolbar(
                 for: section,
-                onOpen: onOpen,
                 onAdd: { isAdding = true },
                 onTransfer: { isTransferring = true },
                 showsProfile: isRoot
@@ -61,7 +67,7 @@ struct SectionContentView: View {
     private var content: some View {
         switch section {
         case .dashboard:
-            DashboardView(app: app, onOpen: onOpen)
+            DashboardView(app: app)
         case .transactions:
             TransactionsView(app: app, isAdding: $isAdding)
         case .wallet:

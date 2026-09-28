@@ -13,11 +13,8 @@ struct DashboardView: View {
     @Environment(AppViewModel.self) private var app
     @Environment(MainNavigation.self) private var navigation: MainNavigation?
     @State private var viewModel: DashboardViewModel
-    /// Opens a secondary section on top of the Dashboard (`NAV-02`).
-    let onOpen: (AppSection) -> Void
 
-    init(app: AppViewModel, onOpen: @escaping (AppSection) -> Void) {
-        self.onOpen = onOpen
+    init(app: AppViewModel) {
         _viewModel = State(initialValue: DashboardViewModel(
             repository: app.repositories.dashboard,
             preferences: app.preferences
@@ -67,7 +64,7 @@ struct DashboardView: View {
                 SavingsGoalsCard(
                     state: viewModel.goals,
                     onRetry: { retry(.goals) },
-                    onOpenGoals: { onOpen(.goals) }
+                    onOpenGoals: { navigation?.open(.goals) }
                 )
             }
         }
@@ -86,7 +83,7 @@ struct DashboardView: View {
 
 #Preview {
     NavigationStack {
-        DashboardView(app: .preview, onOpen: { _ in })
+        DashboardView(app: .preview)
     }
     .environment(AppViewModel.preview)
 }

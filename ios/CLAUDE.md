@@ -108,8 +108,9 @@ Parameter names must match the SQL function parameter names exactly (including t
 - Use native SwiftUI components and system styling; don't restyle system controls (fonts, weights, paddings) without a reason.
 - Liquid Glass is the control layer — navigation bar, tab bar, floating controls; content (cards, lists) is never glass.
 - Navigation bar: controls that act on the whole screen (e.g. the Dashboard currency) go in the toolbar, grouped by
-  function — the section's actions in one group, the profile menu apart. Help and rarely used navigation go into the
-  "More" menu, not the bar. The profile menu is only on a tab's root screen.
+  function — the section's actions in one group, the profile menu apart. Help goes into the "Help" menu ("…"), not
+  the bar; secondary sections live in the "More" tab, never pushed onto another tab. The profile menu is only on a
+  tab's root screen.
 - Destructive or irreversible actions (delete, sign out, cancel a goal) ask for confirmation (`confirmationDialog`).
 - Check UI changes in the simulator (screenshots), not only by building — including neighbouring screens, so the
   navigation bar and menus stay consistent across sections.
