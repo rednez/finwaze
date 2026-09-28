@@ -24,7 +24,8 @@ struct AppViewModelTests {
                 groups: FakeGroupsRepository(),
                 dashboard: FakeDashboardRepository(),
                 budget: FakeBudgetRepository(),
-                goals: FakeGoalsRepository()
+                goals: FakeGoalsRepository(),
+                analytics: FakeAnalyticsRepository()
             ),
             preferences: DevicePreferences(defaults: defaults),
             demoMode: DemoModeStorage(defaults: defaults)

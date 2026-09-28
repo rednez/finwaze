@@ -14,6 +14,7 @@ nonisolated struct Repositories: Sendable {
     let dashboard: any DashboardRepository
     let budget: any BudgetRepository
     let goals: any GoalsRepository
+    let analytics: any AnalyticsRepository
 
     static func live(client: SupabaseClient) -> Repositories {
         Repositories(
@@ -26,7 +27,8 @@ nonisolated struct Repositories: Sendable {
             groups: SupabaseGroupsRepository(client: client),
             dashboard: SupabaseDashboardRepository(client: client),
             budget: SupabaseBudgetRepository(client: client),
-            goals: SupabaseGoalsRepository(client: client)
+            goals: SupabaseGoalsRepository(client: client),
+            analytics: SupabaseAnalyticsRepository(client: client)
         )
     }
 
@@ -42,7 +44,8 @@ nonisolated struct Repositories: Sendable {
             groups: DemoGroupsRepository(),
             dashboard: DemoDashboardRepository(),
             budget: DemoBudgetRepository(),
-            goals: DemoGoalsRepository()
+            goals: DemoGoalsRepository(),
+            analytics: DemoAnalyticsRepository()
         )
     }()
 }

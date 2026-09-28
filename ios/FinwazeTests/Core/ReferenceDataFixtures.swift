@@ -11,7 +11,8 @@ extension Repositories {
         groups: FakeGroupsRepository = FakeGroupsRepository(),
         dashboard: FakeDashboardRepository = FakeDashboardRepository(),
         budget: FakeBudgetRepository = FakeBudgetRepository(),
-        goals: FakeGoalsRepository = FakeGoalsRepository()
+        goals: FakeGoalsRepository = FakeGoalsRepository(),
+        analytics: FakeAnalyticsRepository = FakeAnalyticsRepository()
     ) -> Repositories {
         Repositories(
             accounts: referenceData,
@@ -23,7 +24,8 @@ extension Repositories {
             groups: groups,
             dashboard: dashboard,
             budget: budget,
-            goals: goals
+            goals: goals,
+            analytics: analytics
         )
     }
 }
