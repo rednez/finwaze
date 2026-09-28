@@ -47,4 +47,43 @@ nonisolated enum BudgetMapper {
             previousAmount: abs(dto.previousMonthAmount ?? 0)
         )
     }
+
+    // MARK: Plan (BUD-20…26)
+
+    /// The month's plan: only categories with an amount — the server also returns spending without a plan, which the
+    /// editor does not show (like the web).
+    static func toPlan(_ dtos: [MonthlyBudgetDetailedDto]) -> [BudgetPlanLine] {
+        dtos.map(toPlanLine).filter { $0.planned > 0 }
+    }
+
+    static func toPlanLine(_ dto: MonthlyBudgetDetailedDto) -> BudgetPlanLine {
+        BudgetPlanLine(
+            categoryID: dto.categoryID,
+            categoryName: dto.categoryName,
+            groupID: dto.groupID,
+            groupName: dto.groupName,
+            planned: abs(dto.plannedAmount ?? 0),
+            stats: BudgetPlanStats(
+                previousPlanned: abs(dto.previousPlannedAmount ?? 0),
+                spent: abs(dto.spentAmount ?? 0),
+                previousSpent: abs(dto.previousSpentAmount ?? 0)
+            )
+        )
+    }
+
+    static func toStats(_ dto: CategoryBudgetStatsDto?) -> BudgetPlanStats {
+        guard let dto else { return .zero }
+        return BudgetPlanStats(
+            previousPlanned: abs(dto.previousPlannedAmount ?? 0),
+            spent: abs(dto.spentAmount ?? 0),
+            previousSpent: abs(dto.previousSpentAmount ?? 0)
+        )
+    }
+
+    /// `p_categories` of `upsert_monthly_budgets`, by category id so the request is the same for the same plan.
+    static func toPlanAmounts(_ amounts: [Int64: Decimal]) -> [BudgetPlanAmountDto] {
+        amounts
+            .sorted { $0.key < $1.key }
+            .map { BudgetPlanAmountDto(categoryID: $0.key, plannedAmount: $0.value) }
+    }
 }

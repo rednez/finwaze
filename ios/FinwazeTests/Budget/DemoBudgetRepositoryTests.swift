@@ -90,4 +90,71 @@ struct DemoBudgetRepositoryTests {
         #expect(try await repository.budgets(query(october)).isEmpty)
         #expect(try await repository.totals(query(october)) == .zero)
     }
+
+    // MARK: Plan (BUD-20…26)
+
+    private func line(
+        _ categoryID: Int64,
+        _ category: String,
+        _ groupID: Int64,
+        _ group: String,
+        planned: Decimal,
+        previousPlanned: Decimal,
+        spent: Decimal,
+        previousSpent: Decimal
+    ) -> BudgetPlanLine {
+        BudgetPlanLine(
+            categoryID: categoryID,
+            categoryName: category,
+            groupID: groupID,
+            groupName: group,
+            planned: planned,
+            stats: BudgetPlanStats(previousPlanned: previousPlanned, spent: spent, previousSpent: previousSpent)
+        )
+    }
+
+    @Test func septemberPlanHasReferenceFigures() async throws {
+        let plan = try await repository.plan(month: september, currencyCode: "USD")
+
+        #expect(plan == [
+            line(7, "Rent", 4, "Housing", planned: 1200, previousPlanned: 1200, spent: 1200, previousSpent: 1200),
+            line(1, "Groceries", 1, "Food", planned: 250, previousPlanned: 250, spent: 150, previousSpent: 205),
+            line(3, "Taxi", 2, "Transport", planned: 60, previousPlanned: 60, spent: 15, previousSpent: 33),
+            line(4, "Public Transport", 2, "Transport", planned: 40, previousPlanned: 40, spent: 0, previousSpent: 5),
+        ])
+    }
+
+    @Test func laterMonthHasNoPlan() async throws {
+        #expect(try await repository.plan(month: YearMonth(year: 2026, month: 10), currencyCode: "USD").isEmpty)
+    }
+
+    /// October from September: the plan where there is one, September's spending for Restaurants and Subscriptions.
+    @Test func generatesFromLastMonthsPlanThenSpending() async throws {
+        let plan = try await repository.generatedPlan(month: YearMonth(year: 2026, month: 10), currencyCode: "USD")
+
+        #expect(plan.map(\.categoryName) == ["Rent", "Groceries", "Taxi", "Restaurants", "Public Transport",
+                                             "Subscriptions"])
+        #expect(plan.map(\.planned) == [1200, 250, 60, 45, 40, 20])
+        #expect(plan[3] == line(2, "Restaurants", 1, "Food", planned: 45, previousPlanned: 0, spent: 0,
+                                previousSpent: 45))
+    }
+
+    @Test func generatesNothingWithoutPlanOrSpending() async throws {
+        #expect(try await repository.generatedPlan(month: YearMonth(year: 2026, month: 12), currencyCode: "USD")
+            .isEmpty)
+        #expect(try await repository.generatedPlan(month: september, currencyCode: "EUR").isEmpty)
+    }
+
+    @Test func categoryStatsComeFromTheDemoExpenses() async throws {
+        let stats = try await repository.categoryStats(month: september, currencyCode: "USD", categoryID: 2)
+
+        #expect(stats == BudgetPlanStats(previousPlanned: 0, spent: 45, previousSpent: 85))
+    }
+
+    /// Saving succeeds but changes nothing (`AUTH-10`).
+    @Test func savingKeepsThePlan() async throws {
+        try await repository.savePlan(month: september, currencyCode: "USD", amounts: [5: 100])
+
+        #expect(try await repository.plan(month: september, currencyCode: "USD").count == 4)
+    }
 }

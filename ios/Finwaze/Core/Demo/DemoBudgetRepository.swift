@@ -1,7 +1,7 @@
 import Foundation
 
 /// Demo-mode Budget (`AUTH-10`): the plan from `DemoData.plannedBudgets` against the same demo expenses the
-/// Transactions list and the Dashboard show, so all three agree. Nothing here writes.
+/// Transactions list and the Dashboard show, so all three agree. Saving a plan succeeds without changing it.
 nonisolated struct DemoBudgetRepository: BudgetRepository {
     var calendar: Calendar = .current
     var now: @Sendable () -> Date = { .now }
@@ -61,6 +61,67 @@ nonisolated struct DemoBudgetRepository: BudgetRepository {
                 MonthlyExpense(id: id, name: name(of: id, query), amount: amount, previousAmount: previous[id] ?? 0)
             }
             .sorted { ($1.amount, $0.name) < ($0.amount, $1.name) }
+    }
+
+    // MARK: Plan (BUD-20…26)
+
+    func plan(month: YearMonth, currencyCode: String) async throws -> [BudgetPlanLine] {
+        let planned = plannedByCategory(in: month, currencyCode: currencyCode)
+        return planLines(month: month, currencyCode: currencyCode) { category, _ in planned[category.id] ?? 0 }
+    }
+
+    /// Like the server: last month's plan, else last month's spending, else this month's.
+    func generatedPlan(month: YearMonth, currencyCode: String) async throws -> [BudgetPlanLine] {
+        planLines(month: month, currencyCode: currencyCode) { _, stats in
+            [stats.previousPlanned, stats.previousSpent, stats.spent].first { $0 > 0 } ?? 0
+        }
+    }
+
+    func categoryStats(month: YearMonth, currencyCode: String, categoryID: Int64) async throws -> BudgetPlanStats {
+        stats(month: month, currencyCode: currencyCode)(categoryID)
+    }
+
+    /// Nothing is stored (`AUTH-10`).
+    func savePlan(month: YearMonth, currencyCode: String, amounts: [Int64: Decimal]) async throws {}
+
+    private func planLines(
+        month: YearMonth,
+        currencyCode: String,
+        amount: (Category, BudgetPlanStats) -> Decimal
+    ) -> [BudgetPlanLine] {
+        let stats = stats(month: month, currencyCode: currencyCode)
+        let lines = DemoData.categories.compactMap { category -> BudgetPlanLine? in
+            guard let group = DemoData.groups.first(where: { $0.id == category.groupID }) else { return nil }
+            let categoryStats = stats(category.id)
+            let planned = amount(category, categoryStats)
+            guard planned > 0 else { return nil }
+            return BudgetPlanLine(
+                categoryID: category.id,
+                categoryName: category.name,
+                groupID: group.id,
+                groupName: group.name,
+                planned: planned,
+                stats: categoryStats
+            )
+        }
+        // Like the server: largest plan first, then by group and category name.
+        return lines.sorted {
+            (-$0.planned, $0.groupName, $0.categoryName) < (-$1.planned, $1.groupName, $1.categoryName)
+        }
+    }
+
+    private func stats(month: YearMonth, currencyCode: String) -> (Int64) -> BudgetPlanStats {
+        let previousMonth = month.adding(months: -1)
+        let previousPlanned = plannedByCategory(in: previousMonth, currencyCode: currencyCode)
+        let spent = spentByCategory(in: month, currencyCode: currencyCode)
+        let previousSpent = spentByCategory(in: previousMonth, currencyCode: currencyCode)
+        return { id in
+            BudgetPlanStats(
+                previousPlanned: previousPlanned[id] ?? 0,
+                spent: spent[id] ?? 0,
+                previousSpent: previousSpent[id] ?? 0
+            )
+        }
     }
 
     /// The month's plan and spending per category within the query's group, if any.

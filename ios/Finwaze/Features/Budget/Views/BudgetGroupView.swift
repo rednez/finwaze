@@ -47,8 +47,11 @@ struct BudgetGroupView: View {
             await viewModel.load(dataVersion: app.dataVersion)
         }
         .refreshable { await viewModel.refresh() }
+        // The whole month's plan, from a group's screen too: a plan is set per month, not per group (`BUD-20`).
         .sheet(isPresented: $isPlanning) {
-            BudgetPlanPlaceholder()
+            if let currencyCode = viewModel.currencyCode {
+                BudgetPlanView(app: app, month: viewModel.filter.month, currencyCode: currencyCode)
+            }
         }
         .sheet(isPresented: $isAddingExpense) {
             NewTransactionView(app: app)

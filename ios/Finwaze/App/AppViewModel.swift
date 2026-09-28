@@ -189,6 +189,11 @@ final class AppViewModel {
         dataChanged()
     }
 
+    /// A month's budget plan was saved (`BUD-26`): the Budget and the Dashboard's budget card follow (`GEN-26`).
+    func budgetSaved() {
+        dataChanged()
+    }
+
     /// A group or category was renamed, recoloured or deleted (`CAT-05…10`): the category picker, the transaction
     /// filters and the transactions list follow (`GEN-26`).
     func categoriesChanged() async {

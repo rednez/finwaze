@@ -1,7 +1,8 @@
 import SwiftUI
 
 /// The Budget section (`BUD-10…16`): the filters, the month's total, a card per group and "Most expenses". A group's
-/// card opens the group's screen (`BUD-17`). Creating and editing the plan comes with stage 10.
+/// card opens the group's screen (`BUD-17`); "Add budget", "Edit budget" and "Create budget" open the plan editor
+/// (`BUD-20`).
 struct BudgetView: View {
     /// Reload trigger: the month, the currency and every change to the data (`GEN-26`).
     private struct LoadKey: Equatable {
@@ -65,8 +66,11 @@ struct BudgetView: View {
         .sheet(isPresented: $isChoosingGroups) {
             BudgetGroupsSheet(options: viewModel.groupOptions, filter: filter)
         }
+        // The whole month's plan, from a group's screen too: a plan is set per month, not per group (`BUD-20`).
         .sheet(isPresented: $isPlanning) {
-            BudgetPlanPlaceholder()
+            if let currencyCode = viewModel.currencyCode {
+                BudgetPlanView(app: app, month: viewModel.filter.month, currencyCode: currencyCode)
+            }
         }
         .sheet(isPresented: $isAddingExpense) {
             NewTransactionView(app: app)

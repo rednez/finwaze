@@ -50,8 +50,6 @@ Known gaps in the iOS client that still need to be done. Remove an item once it'
   Transactions, Budget and Groups & categories shows "under construction" until its stage lands; the Guide and Settings
   sheets in `SectionToolbar.swift` wait for stages 15 and 14. Until stage 11, the Dashboard's "All goals" leads to
   these placeholders.
-- **Budget plan is view-only** (`BUD-15`, `BUD-16`, stage 10). "Add budget", "Edit budget" and "Create budget" open
-  `BudgetPlanPlaceholder` until the plan editor (`BUD-20…26`) lands.
 - **Wallet is partial.** Stages 2, 5 and 6 show the account cards, "New account", "Transfer money" and account
   settings (`ACC-01`, `ACC-09…12`, `TRF`). Still missing: the Wallet's charts and recent transactions (stage 12).
 - **Deleting an account is not atomic** (`ACC-11`). Like the web, `SupabaseWalletRepository.deleteAccount` first
@@ -63,8 +61,9 @@ Known gaps in the iOS client that still need to be done. Remove an item once it'
   behaves the same; ask the product owner whether the balance should be reset or converted.
 - **A category with a planned budget cannot be deleted** (`CAT-09`). The screen offers "Delete" for any category
   without transactions, but `monthly_budgets` references categories without `ON DELETE`, so the server refuses when
-  a budget exists and the app shows its foreign-key error. The web behaves the same; ask the product owner whether to
-  hide "Delete" in that case or delete the budgets together with the category.
+  a budget exists and the app shows its foreign-key error. Since stage 10 the app creates such budgets itself (the plan
+  editor), so this happens more often. The web behaves the same; ask the product owner whether to hide "Delete" in
+  that case or delete the budgets together with the category.
 - **`WEB_APP_URL` for Staging and Release is empty** (`ios/Config/Staging.xcconfig`, `Release.xcconfig`). Until it
   is set, password-reset emails from those builds link to the Supabase project's `site_url` instead of
   `<web app>/change-password`.
