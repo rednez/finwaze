@@ -88,18 +88,27 @@ struct CardStateView<Value: Equatable & Sendable, Content: View>: View {
         case .loaded(let value):
             content(value)
         case .failed:
-            VStack(alignment: .leading, spacing: 8) {
-                Label("error.generic.title", systemImage: "exclamationmark.triangle")
-                    .font(.subheadline.weight(.semibold))
-                Text("error.generic.message")
-                    .font(.footnote)
-                    .foregroundStyle(.secondary)
-                Button("common.retry", systemImage: "arrow.clockwise", action: onRetry)
-                    .buttonStyle(.bordered)
-                    .font(.subheadline)
-            }
-            .frame(maxWidth: .infinity, alignment: .leading)
+            CardErrorView(onRetry: onRetry)
         }
+    }
+}
+
+/// A card's short error with "Try again" that reloads only this card (`GEN-25`).
+struct CardErrorView: View {
+    let onRetry: () -> Void
+
+    var body: some View {
+        VStack(alignment: .leading, spacing: 8) {
+            Label("error.generic.title", systemImage: "exclamationmark.triangle")
+                .font(.subheadline.weight(.semibold))
+            Text("error.generic.message")
+                .font(.footnote)
+                .foregroundStyle(.secondary)
+            Button("common.retry", systemImage: "arrow.clockwise", action: onRetry)
+                .buttonStyle(.bordered)
+                .font(.subheadline)
+        }
+        .frame(maxWidth: .infinity, alignment: .leading)
     }
 }
 

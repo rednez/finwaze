@@ -54,7 +54,7 @@ struct DashboardViewModelTests {
 
         #expect(viewModel.totals == .loaded(usdTotals))
         #expect(viewModel.cashFlow == .loaded([]))
-        #expect(viewModel.budget == .loaded(BudgetSummary([CategoryBudget(name: "Rent", amount: 1200)])))
+        #expect(viewModel.budget == .loaded(SliceSummary(budgets: [CategoryBudget(name: "Rent", amount: 1200)])))
         #expect(viewModel.recentTransactions.value?.count == 3)
         #expect(viewModel.goals == .loaded([goal]))
         #expect(repository.currencies(.totals) == ["USD"])

@@ -113,7 +113,7 @@ struct DashboardDataTests {
             [{"category_name": "Groceries", "total_budget": 250}, {"category_name": "Rent", "total_budget": 1200.5}]
             """)
 
-        let summary = BudgetSummary(rows.map(DashboardMapper.toBudget))
+        let summary = SliceSummary(budgets: rows.map(DashboardMapper.toBudget))
 
         #expect(summary.slices.map(\.name) == ["Rent", "Groceries"])
         #expect(summary.slices.map(\.id) == [0, 1])
@@ -123,7 +123,7 @@ struct DashboardDataTests {
     @Test func sevenCategoriesAreAllShown() {
         let budgets = (1...7).map { CategoryBudget(name: "C\($0)", amount: Decimal($0)) }
 
-        let summary = BudgetSummary(budgets)
+        let summary = SliceSummary(budgets: budgets)
 
         #expect(summary.slices.count == 7)
         #expect(summary.slices.allSatisfy { !$0.isOther })
@@ -132,22 +132,22 @@ struct DashboardDataTests {
     @Test func moreThanSevenCategoriesJoinTheSmallestIntoOther() {
         let budgets = (1...9).map { CategoryBudget(name: "C\($0)", amount: Decimal($0 * 10)) }
 
-        let summary = BudgetSummary(budgets)
+        let summary = SliceSummary(budgets: budgets)
 
         #expect(summary.slices.count == 7)
         #expect(summary.slices.prefix(6).map(\.name) == ["C9", "C8", "C7", "C6", "C5", "C4"])
-        #expect(summary.slices.last == BudgetSlice(id: 6, name: nil, amount: 60)) // 30 + 20 + 10
+        #expect(summary.slices.last == ChartSlice(id: 6, name: nil, amount: 60)) // 30 + 20 + 10
         #expect(summary.total == 450)
     }
 
     @Test func equalAmountsAreOrderedByName() {
-        let summary = BudgetSummary([CategoryBudget(name: "Taxi", amount: 10), CategoryBudget(name: "Bus", amount: 10)])
+        let summary = SliceSummary(budgets: [CategoryBudget(name: "Taxi", amount: 10), CategoryBudget(name: "Bus", amount: 10)])
 
         #expect(summary.slices.map(\.name) == ["Bus", "Taxi"])
     }
 
     @Test func noBudgetsIsEmpty() {
-        let summary = BudgetSummary([])
+        let summary = SliceSummary(budgets: [])
 
         #expect(summary.slices.isEmpty)
         #expect(summary.total == 0)

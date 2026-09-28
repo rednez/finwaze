@@ -1,7 +1,11 @@
 import Foundation
 
-/// Demo-mode Wallet: balances from `DemoData`, never from the network (`AUTH-10`).
+/// Demo-mode Wallet: balances from `DemoData`, never from the network (`AUTH-10`). The widgets are worked out from the
+/// same demo transactions the Transactions list shows, so the two agree — unlike the web demo's fixed numbers.
 nonisolated struct DemoWalletRepository: WalletRepository {
+    var calendar: Calendar = .current
+    var now: @Sendable () -> Date = { .now }
+
     func accounts() async throws -> [WalletAccount] {
         WalletMapper.sortedByName(DemoData.walletAccounts)
     }
@@ -31,4 +35,61 @@ nonisolated struct DemoWalletRepository: WalletRepository {
 
     /// A no-op, like `updateAccount`: the "deleted" account stays in place.
     func deleteAccount(id: Int64) async throws {}
+
+    /// Every day of the month, from the month's incomes and expenses in the purchase currency (`ACC-03`, `GEN-02`).
+    func dailyCashFlow(month: YearMonth, currencyCode: String) async throws -> [DailyCashFlow] {
+        guard
+            let start = month.start(in: calendar),
+            let days = calendar.range(of: .day, in: .month, for: start)
+        else { return [] }
+        let byDay = Dictionary(grouping: incomesAndExpenses(inMonthOf: start, currencyCode: currencyCode)) {
+            calendar.startOfDay(for: $0.transactedAt)
+        }
+        return days.compactMap { day in
+            guard let date = calendar.date(byAdding: .day, value: day - 1, to: start) else { return nil }
+            let transactions = byDay[date] ?? []
+            return DailyCashFlow(day: date, income: Self.income(of: transactions), expense: Self.expense(of: transactions))
+        }
+    }
+
+    /// This month's newest in the purchase currency, topped up from last month early in the month; transfers too,
+    /// like the server.
+    func recentTransactions(currencyCode: String, limit: Int) async throws -> [Transaction] {
+        let now = now()
+        let lastMonth = calendar.date(byAdding: .month, value: -1, to: now) ?? now
+        let recent = DemoData.transactions(inMonthOf: now, now: now, calendar: calendar)
+            + DemoData.transactions(inMonthOf: lastMonth, now: now, calendar: calendar)
+        return Array(recent.filter { $0.transactionCurrencyCode == currencyCode }.prefix(limit))
+    }
+
+    /// The month's incomes and expenses in the purchase currency by group (`ACC-05`).
+    func amountsByGroup(month: YearMonth, currencyCode: String) async throws -> [GroupAmounts] {
+        guard let start = month.start(in: calendar) else { return [] }
+        let byGroup = Dictionary(grouping: incomesAndExpenses(inMonthOf: start, currencyCode: currencyCode), by: \.group.id)
+        return byGroup.values.compactMap { transactions in
+            guard let group = transactions.first?.group else { return nil }
+            return GroupAmounts(
+                id: group.id,
+                name: group.name,
+                income: Self.income(of: transactions),
+                expense: Self.expense(of: transactions)
+            )
+        }
+        .sorted { $0.id < $1.id }
+    }
+
+    /// The month's incomes and expenses in the purchase currency; transfers never count (`GEN-02`).
+    private func incomesAndExpenses(inMonthOf month: Date, currencyCode: String) -> [Transaction] {
+        DemoData.transactions(inMonthOf: month, now: now(), calendar: calendar)
+            .filter { $0.transactionCurrencyCode == currencyCode && ($0.type == .income || $0.type == .expense) }
+    }
+
+    private static func income(of transactions: [Transaction]) -> Decimal {
+        transactions.filter { $0.type == .income }.reduce(0) { $0 + $1.transactionAmount }
+    }
+
+    /// As a positive amount.
+    private static func expense(of transactions: [Transaction]) -> Decimal {
+        abs(transactions.filter { $0.type == .expense }.reduce(0) { $0 + $1.transactionAmount })
+    }
 }

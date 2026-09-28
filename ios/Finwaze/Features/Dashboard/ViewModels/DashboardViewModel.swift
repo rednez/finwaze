@@ -23,7 +23,7 @@ final class DashboardViewModel {
 
     private(set) var totals: CardState<DashboardTotals> = .loading
     private(set) var cashFlow: CardState<[MonthlyCashFlow]> = .loading
-    private(set) var budget: CardState<BudgetSummary> = .loading
+    private(set) var budget: CardState<SliceSummary> = .loading
     private(set) var recentTransactions: CardState<[Transaction]> = .loading
     private(set) var goals: CardState<[SavingsGoal]> = .loading
 
@@ -98,7 +98,7 @@ final class DashboardViewModel {
                 try await self.repository.monthlyCashFlow(currencyCode: $0, months: Self.cashFlowMonths)
             }
         case .budget:
-            await loadInCurrency(\.budget) { BudgetSummary(try await self.repository.currentMonthBudgets(currencyCode: $0)) }
+            await loadInCurrency(\.budget) { SliceSummary(budgets: try await self.repository.currentMonthBudgets(currencyCode: $0)) }
         case .recentTransactions:
             await load(\.recentTransactions) { try await self.repository.recentTransactions(limit: Self.recentLimit) }
         case .goals:

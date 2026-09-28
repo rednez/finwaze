@@ -27,4 +27,43 @@ struct WalletMapperTests {
 
         #expect(WalletMapper.sortedByName(accounts).map(\.name) == ["Card 2", "card 10", "Cash", "Savings", "Ощадний"])
     }
+
+    // MARK: Widgets (ACC-03, ACC-05)
+
+    private func decode<T: Decodable>(_ type: T.Type, _ json: String) throws -> T {
+        try JSONDecoder().decode(type, from: Data(json.utf8))
+    }
+
+    /// The day is a calendar date: it stays the 30th wherever the device is, east or west of UTC.
+    @Test(arguments: ["America/New_York", "Europe/Kyiv", "UTC"])
+    func dayStaysTheSameInEveryTimeZone(_ identifier: String) throws {
+        let timeZone = try #require(TimeZone(identifier: identifier))
+        var calendar = Calendar(identifier: .gregorian)
+        calendar.timeZone = timeZone
+        let dto = try decode(DailyCashFlowDto.self, #"{"day": "2026-09-30", "total_income": 0.1, "total_expense": -12.35}"#)
+
+        let day = try WalletMapper.toDailyCashFlow(dto, timeZone: timeZone)
+
+        #expect(calendar.dateComponents([.year, .month, .day, .hour], from: day.day)
+            == DateComponents(year: 2026, month: 9, day: 30, hour: 0))
+        #expect(day.income == Decimal(string: "0.1"))
+        #expect(day.expense == Decimal(string: "12.35"))
+    }
+
+    @Test func invalidDayIsAnError() throws {
+        let dto = try decode(DailyCashFlowDto.self, #"{"day": "30.09.2026", "total_income": 0, "total_expense": 0}"#)
+
+        #expect(throws: WalletMapper.MappingError.invalidDay("30.09.2026")) {
+            try WalletMapper.toDailyCashFlow(dto)
+        }
+    }
+
+    @Test func groupAmountsTakeExpensesAsPositive() throws {
+        let dto = try decode(
+            GroupAmountsDto.self,
+            #"{"group_id": 4, "group_name": "Housing", "total_income": null, "total_expense": -1200.5}"#
+        )
+
+        #expect(WalletMapper.toGroupAmounts(dto) == GroupAmounts(id: 4, name: "Housing", income: 0, expense: 1200.5))
+    }
 }

@@ -15,21 +15,12 @@ struct SavingsOverviewCard: View {
         ContentCard(title: "goals.overview.title", subtitle: "goals.overview.subtitle") {
             VStack(alignment: .leading, spacing: 12) {
                 if currencyCodes.count > 1 {
-                    Menu {
-                        Picker(
-                            "goals.overview.currency",
-                            selection: Binding(get: { currencyCode }, set: onSelectCurrency)
-                        ) {
-                            ForEach(currencyCodes, id: \.self) { code in
-                                Text(verbatim: code).tag(code)
-                            }
-                        }
-                    } label: {
-                        FilterChip(systemImage: "banknote", value: Text(verbatim: currencyCode))
-                    }
-                    .buttonStyle(.plain)
-                    .accessibilityLabel(Text("goals.overview.currency"))
-                    .accessibilityValue(Text(verbatim: currencyCode))
+                    CurrencyFilterMenu(
+                        title: "goals.overview.currency",
+                        currencyCodes: currencyCodes,
+                        selection: currencyCode,
+                        onSelect: onSelectCurrency
+                    )
                 }
                 CardStateView(state: state, placeholder: .placeholder(year: year), onRetry: onRetry) { months in
                     SavingsOverviewChart(months: months, year: year, currencyCode: currencyCode)

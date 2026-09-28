@@ -63,7 +63,7 @@ struct SectionContentView: View {
             TransactionsView(app: app, isAdding: $isAdding)
         case .wallet:
             WalletView(
-                repository: app.repositories.wallet,
+                app: app,
                 isAddingAccount: $isAdding,
                 isTransferring: $isTransferring
             )

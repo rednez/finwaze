@@ -10,17 +10,7 @@ struct BudgetFilterCard: View {
 
     var body: some View {
         VStack(spacing: 16) {
-            HStack(spacing: 8) {
-                Button("budget.previousMonth", systemImage: "chevron.left") { shiftMonth(by: -1) }
-                Text(verbatim: viewModel.filter.month.title)
-                    .font(.title3.weight(.semibold))
-                    .contentTransition(.numericText())
-                    .frame(maxWidth: .infinity)
-                Button("budget.nextMonth", systemImage: "chevron.right") { shiftMonth(by: 1) }
-            }
-            .labelStyle(.iconOnly)
-            .buttonStyle(.glass)
-            .buttonBorderShape(.circle)
+            MonthStepper(month: viewModel.filter.month, onShift: viewModel.shiftMonth(by:))
 
             // One row that scrolls when the chips do not fit, e.g. at the largest text sizes.
             ScrollView(.horizontal) {
@@ -50,18 +40,12 @@ struct BudgetFilterCard: View {
 
     @ViewBuilder
     private var filters: some View {
-        Menu {
-            Picker("budget.filter.currency", selection: Binding(get: { currencyCode }, set: viewModel.selectCurrency)) {
-                ForEach(viewModel.currencyCodes, id: \.self) { code in
-                    Text(verbatim: code).tag(code)
-                }
-            }
-        } label: {
-            FilterChip(systemImage: "banknote", value: Text(verbatim: currencyCode))
-        }
-        .buttonStyle(.plain)
-        .accessibilityLabel(Text("budget.filter.currency"))
-        .accessibilityValue(Text(verbatim: currencyCode))
+        CurrencyFilterMenu(
+            title: "budget.filter.currency",
+            currencyCodes: viewModel.currencyCodes,
+            selection: currencyCode,
+            onSelect: viewModel.selectCurrency
+        )
 
         Menu {
             Picker("budget.filter.status", selection: Binding(
@@ -95,19 +79,5 @@ struct BudgetFilterCard: View {
     private var groupsText: Text {
         let count = viewModel.filter.groupIDs.count
         return count == 0 ? Text("budget.filter.allGroups") : Text("budget.filter.groupsSelected \(count)")
-    }
-
-    private func shiftMonth(by months: Int) {
-        withAnimation(.snappy) { viewModel.shiftMonth(by: months) }
-    }
-}
-
-extension YearMonth {
-    /// "September 2026" in the interface language, capitalised, since some languages write months in lowercase
-    /// ("вересень") (`GEN-18`).
-    var title: String {
-        guard let start = start(in: .current) else { return "" }
-        let text = start.formattedMonth()
-        return text.prefix(1).uppercased() + text.dropFirst()
     }
 }
