@@ -137,7 +137,7 @@ private struct UserAvatar: View {
     }
 }
 
-/// A sheet for screens that come in later stages (Guide — stage 15, Settings — stage 14).
+/// A sheet for screens that come in later stages (Guide — stage 14, Settings — stage 15).
 private struct PlaceholderSheet: View {
     let title: LocalizedStringKey
     let message: LocalizedStringKey
