@@ -100,7 +100,19 @@ Parameter names must match the SQL function parameter names exactly (including t
 
 ## UI
 
-- Use native SwiftUI components and system styling; follow Apple Human Interface Guidelines.
+- **Every screen follows Apple's [Human Interface Guidelines](https://developer.apple.com/design/human-interface-guidelines/)
+  (HIG) for iOS 26 and Liquid Glass.** When designing or changing UI, check the relevant HIG pages (layout,
+  toolbars, menus, sheets, alerts, typography, colour) and prefer the system pattern over a custom one. If the
+  functional design asks for something the HIG advises against, say so and propose the HIG-conforming alternative
+  before building it (as `NAV-03` does for the "?" on iOS).
+- Use native SwiftUI components and system styling; don't restyle system controls (fonts, weights, paddings) without a reason.
+- Liquid Glass is the control layer — navigation bar, tab bar, floating controls; content (cards, lists) is never glass.
+- Navigation bar: controls that act on the whole screen (e.g. the Dashboard currency) go in the toolbar, grouped by
+  function — the section's actions in one group, the profile menu apart. Help and rarely used navigation go into the
+  "More" menu, not the bar. The profile menu is only on a tab's root screen.
+- Destructive or irreversible actions (delete, sign out, cancel a goal) ask for confirmation (`confirmationDialog`).
+- Check UI changes in the simulator (screenshots), not only by building — including neighbouring screens, so the
+  navigation bar and menus stay consistent across sections.
 - Support Dark Mode, Dynamic Type and VoiceOver from the start: label every control, don't hard-code font sizes or colours (use semantic colours / asset catalog).
 - All user-facing strings go through a String Catalog (`Localizable.xcstrings`) — no hard-coded strings in Views.
 - Keep Views small; extract subviews rather than growing `body`.
@@ -175,3 +187,5 @@ Database rules are in the root `../CLAUDE.md`.
 5. **Do not hard-code user-facing strings** — use the String Catalog.
 6. **Do not introduce Combine or completion-handler APIs in new code** — use `async`/`await`.
 7. **Do not let demo mode touch server data** — every repository has a demo implementation that serves local data and whose writes are no-ops.
+8. **Do not build UI that departs from Apple's Human Interface Guidelines** — use system components and patterns; flag
+   any conflict with the functional design instead of silently following either.
