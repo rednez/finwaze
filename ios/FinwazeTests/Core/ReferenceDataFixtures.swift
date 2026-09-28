@@ -8,7 +8,8 @@ extension Repositories {
         referenceData: FakeReferenceDataRepository = FakeReferenceDataRepository(),
         transactions: FakeTransactionsRepository = FakeTransactionsRepository(),
         transfers: FakeTransfersRepository = FakeTransfersRepository(),
-        groups: FakeGroupsRepository = FakeGroupsRepository()
+        groups: FakeGroupsRepository = FakeGroupsRepository(),
+        dashboard: FakeDashboardRepository = FakeDashboardRepository()
     ) -> Repositories {
         Repositories(
             accounts: referenceData,
@@ -17,7 +18,8 @@ extension Repositories {
             wallet: FakeWalletRepository(),
             transactions: transactions,
             transfers: transfers,
-            groups: groups
+            groups: groups,
+            dashboard: dashboard
         )
     }
 }

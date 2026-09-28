@@ -3,9 +3,12 @@ import SwiftUI
 /// One transaction in a day card (`TX-02`), in the short form a phone fits: a badge in the category's colour, the
 /// category with its group and time, the comment and the amount. A purchase in another currency also shows the
 /// amount charged to the account. The day is in the card's header. An expense or income opens for editing, a
-/// transfer opens its details (`TX-06`, `TRF-07`).
+/// transfer opens its details (`TX-06`, `TRF-07`). Outside a day card, e.g. on the Dashboard, the row shows the date
+/// too (`DASH-06`).
 struct TransactionRow: View {
     let transaction: Transaction
+    /// The date besides the time, for a row outside a day card.
+    var showsDate = false
 
     var body: some View {
         Group {
@@ -72,9 +75,13 @@ struct TransactionRow: View {
     }
 
     /// "Food · 14:05", or "from Cash · 14:05" / "to Card · 14:05" for a transfer, in the local time of the
-    /// transaction (`TX-02`, `TRF-06`, `GEN-12`).
+    /// transaction (`TX-02`, `TRF-06`, `GEN-12`); with `showsDate`, "Food · 25 Sep, 14:05".
     private var subtitle: String {
-        "\(context) · \(transaction.transactedAt.formattedTransactionTime(offset: transaction.localOffset))"
+        let offset = transaction.localOffset
+        let moment = showsDate
+            ? transaction.transactedAt.formattedTransactionShortDate(offset: offset)
+            : transaction.transactedAt.formattedTransactionTime(offset: offset)
+        return "\(context) · \(moment)"
     }
 
     private var context: String {

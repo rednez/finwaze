@@ -56,6 +56,8 @@ struct SectionContentView: View {
     @ViewBuilder
     private var content: some View {
         switch section {
+        case .dashboard:
+            DashboardView(app: app, onOpen: onOpen)
         case .transactions:
             TransactionsView(app: app, isAdding: $isAdding)
         case .wallet:
