@@ -31,7 +31,7 @@ struct SectionView: View {
     }
 }
 
-/// One section's screen: title, short description, "?", the section's "+" and the menus (`NAV-03`, `NAV-04`).
+/// One section's screen: title, short description, the section's actions and the menus (`NAV-03`, `NAV-04`).
 /// Sections whose stage is not implemented yet show a placeholder.
 struct SectionContentView: View {
     let section: AppSection

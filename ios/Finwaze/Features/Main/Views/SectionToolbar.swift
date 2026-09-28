@@ -1,8 +1,8 @@
 import SwiftUI
 
 extension View {
-    /// Adds the "More" menu, the Dashboard's primary currency, the section's "?", "Transfer money" and "+" buttons and,
-    /// apart from them, the profile menu to the navigation bar. `onAdd` runs for "+" and `onTransfer` for "Transfer money"; sections without them
+    /// Adds the "More" menu (other sections and the section's guide article), the section's actions — the Dashboard's
+    /// primary currency, "Transfer money" and "+" — and, apart from them, the profile menu to the navigation bar. `onAdd` runs for "+" and `onTransfer` for "Transfer money"; sections without them
     /// (`AppSection.addTitle`, `AppSection.transferTitle`) show no such button.
     func sectionToolbar(
         for section: AppSection,
@@ -38,21 +38,21 @@ private struct SectionToolbar: ViewModifier {
                                 onOpen(destination)
                             }
                         }
+
+                        // Here rather than as a "?" in the bar, which keeps the bar for the section's actions.
+                        Section {
+                            Button("section.help", systemImage: "questionmark.circle") {
+                                sheet = .sectionGuide
+                            }
+                        }
                     }
                 }
 
-                // Declared here, not in the Dashboard, so it comes before "?" rather than after the profile menu.
+                // The section's actions share one group; the profile menu stands apart after the spacer. The
+                // currency is declared here, not in the Dashboard, which would put it after the profile menu.
                 if section == .dashboard {
                     ToolbarItem(placement: .topBarTrailing) {
                         PrimaryCurrencyMenu()
-                    }
-                    ToolbarSpacer(.fixed, placement: .topBarTrailing)
-                }
-
-                // "?", "Transfer money" and "+" share one group; the profile menu stands apart after the spacer.
-                ToolbarItem(placement: .topBarTrailing) {
-                    Button("section.help", systemImage: "questionmark.circle") {
-                        sheet = .sectionGuide
                     }
                 }
 
