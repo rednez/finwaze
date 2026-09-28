@@ -1,7 +1,7 @@
 import Charts
 import SwiftUI
 
-/// "Monthly cash flow": incomes and expenses charged to accounts in the primary currency over the last 12 months,
+/// "Monthly cash flow": incomes and expenses charged to accounts in the primary currency over the last 6 months,
 /// side by side (`DASH-04`).
 struct CashFlowCard: View {
     let state: CardState<[MonthlyCashFlow]>
@@ -35,7 +35,7 @@ private struct CashFlowChart: View {
             // Every month, by its initial: twelve short names do not fit a phone.
             AxisMarks(values: .stride(by: .month)) { _ in
                 AxisGridLine()
-                AxisValueLabel(format: .dateTime.month(.narrow), centered: true)
+                AxisValueLabel(format: .dateTime.month(.abbreviated), centered: true)
             }
         }
         .chartYAxis {

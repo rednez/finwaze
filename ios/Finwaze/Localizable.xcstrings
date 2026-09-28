@@ -3611,19 +3611,19 @@
         "cs": {
           "stringUnit": {
             "state": "translated",
-            "value": "Příjmy a výdaje na účtech v této měně za posledních 12 měsíců"
+            "value": "Příjmy a výdaje na účtech v této měně za posledních 6 měsíců"
           }
         },
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "Income and expenses charged to accounts in this currency over the last 12 months"
+            "value": "Income and expenses charged to accounts in this currency over the last 6 months"
           }
         },
         "uk": {
           "stringUnit": {
             "state": "translated",
-            "value": "Доходи й витрати на рахунках у цій валюті за останні 12 місяців"
+            "value": "Доходи й витрати на рахунках у цій валюті за останні 6 місяців"
           }
         }
       }

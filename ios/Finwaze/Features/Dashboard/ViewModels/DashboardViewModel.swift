@@ -17,7 +17,7 @@ final class DashboardViewModel {
     }
 
     /// The cash flow chart's period (`DASH-04`).
-    static let cashFlowMonths = 12
+    static let cashFlowMonths = 6
     /// How many recent transactions and goals the cards show (`DASH-06`, `DASH-07`).
     static let recentLimit = 3
 
