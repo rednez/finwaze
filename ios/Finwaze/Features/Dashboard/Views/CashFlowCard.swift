@@ -9,7 +9,7 @@ struct CashFlowCard: View {
     let onRetry: () -> Void
 
     var body: some View {
-        DashboardCard(title: "dashboard.cashFlow.title", subtitle: "dashboard.cashFlow.subtitle") {
+        ContentCard(title: "dashboard.cashFlow.title", subtitle: "dashboard.cashFlow.subtitle") {
             CardStateView(state: state, placeholder: .placeholder, onRetry: onRetry) { months in
                 CashFlowChart(months: months, currencyCode: currencyCode)
             }

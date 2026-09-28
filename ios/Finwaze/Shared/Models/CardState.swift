@@ -1,6 +1,6 @@
 import Foundation
 
-/// One dashboard card's data with its own loading and error states, so a failing card leaves the others intact
+/// One card's data with its own loading and error states, so a failing card leaves the others intact
 /// (`DASH-08`, `GEN-23…25`).
 nonisolated enum CardState<Value: Equatable & Sendable>: Equatable, Sendable {
     case loading

@@ -8,7 +8,7 @@ struct RecentTransactionsCard: View {
     let onOpenTransactions: () -> Void
 
     var body: some View {
-        DashboardCard(
+        ContentCard(
             title: "dashboard.recent.title",
             action: .init(title: "dashboard.recent.all", perform: onOpenTransactions)
         ) {

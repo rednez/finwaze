@@ -42,7 +42,7 @@ struct SummaryCard: View {
     let onRetry: () -> Void
 
     var body: some View {
-        DashboardCard(title: kind.title) {
+        ContentCard(title: kind.title) {
             CardStateView(state: state, placeholder: .placeholder, onRetry: onRetry) { totals in
                 let current = kind.current(in: totals)
                 let trend = TrendChange(
@@ -60,75 +60,6 @@ struct SummaryCard: View {
                 }
                 .accessibilityElement(children: .combine)
             }
-        }
-    }
-}
-
-/// "↑ 12.5 % vs last month", green when the change is good and red when bad (`DASH-03`). The arrow and the spoken
-/// label carry the direction, not only the colour.
-struct TrendBadge: View {
-    let trend: TrendChange
-
-    var body: some View {
-        ViewThatFits(in: .horizontal) {
-            HStack(spacing: 6) {
-                badge
-                caption
-            }
-            VStack(alignment: .leading, spacing: 4) {
-                badge
-                caption
-            }
-        }
-        .accessibilityElement(children: .ignore)
-        .accessibilityLabel(accessibilityText)
-    }
-
-    private var badge: some View {
-        HStack(spacing: 2) {
-            if let arrow {
-                Image(systemName: arrow)
-                    .font(.caption.weight(.bold))
-            }
-            Text(verbatim: trend.formattedRatio())
-                .monospacedDigit()
-        }
-        .font(.subheadline.weight(.semibold))
-        .foregroundStyle(color)
-        .padding(.horizontal, 10)
-        .padding(.vertical, 3)
-        .background(color.opacity(0.15), in: .capsule)
-    }
-
-    private var caption: some View {
-        Text("dashboard.vsLastMonth")
-            .font(.footnote)
-            .foregroundStyle(.secondary)
-            .lineLimit(1)
-    }
-
-    private var arrow: String? {
-        switch trend.direction {
-        case .up: "arrow.up"
-        case .down: "arrow.down"
-        case .flat: nil
-        }
-    }
-
-    private var color: Color {
-        switch trend.assessment {
-        case .good: .green
-        case .bad: .red
-        case .neutral: .secondary
-        }
-    }
-
-    private var accessibilityText: Text {
-        let ratio = trend.formattedRatio()
-        return switch trend.direction {
-        case .up: Text("dashboard.trend.up \(ratio)")
-        case .down: Text("dashboard.trend.down \(ratio)")
-        case .flat: Text("dashboard.trend.flat")
         }
     }
 }

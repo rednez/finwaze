@@ -23,6 +23,7 @@ struct SectionView: View {
                     AccountSettingsView(app: app, accountID: route.id)
                 }
         }
+        .environment(\.pushRoute, PushRouteAction { route in path.append(route) })
     }
 
     private func open(_ destination: AppSection) {
@@ -68,6 +69,8 @@ struct SectionContentView: View {
             )
         case .groups:
             GroupsView(app: app, isAddingGroup: $isAdding)
+        case .budget:
+            BudgetView(app: app)
         default:
             ContentUnavailableView {
                 Label(section.title, systemImage: section.systemImage)

@@ -1,23 +1,52 @@
 import SwiftUI
 
-/// A Dashboard card: a title, an optional explanation and link, and the content, on the grouped background.
-struct DashboardCard<Content: View>: View {
-    /// The card's link in its header, e.g. "All transactions".
-    struct Action {
-        let title: LocalizedStringKey
-        let perform: () -> Void
-    }
-
+/// A card's link in its header, e.g. "All transactions".
+struct ContentCardAction {
     let title: LocalizedStringKey
+    let perform: () -> Void
+}
+
+/// A card of the Dashboard or Budget: a title, an optional explanation and link, and the content, on the grouped
+/// background.
+struct ContentCard<Content: View>: View {
+    typealias Action = ContentCardAction
+
+    let title: Text
     var subtitle: LocalizedStringKey?
     var action: Action?
     @ViewBuilder let content: Content
+
+    init(
+        title: LocalizedStringKey,
+        subtitle: LocalizedStringKey? = nil,
+        action: Action? = nil,
+        @ViewBuilder content: () -> Content
+    ) {
+        self.init(title: Text(title), subtitle: subtitle, action: action, content: content)
+    }
+
+    /// A card titled with the user's own words, e.g. a group's name, which is never looked up in the catalog.
+    init(
+        verbatim title: String,
+        subtitle: LocalizedStringKey? = nil,
+        action: Action? = nil,
+        @ViewBuilder content: () -> Content
+    ) {
+        self.init(title: Text(verbatim: title), subtitle: subtitle, action: action, content: content)
+    }
+
+    private init(title: Text, subtitle: LocalizedStringKey?, action: Action?, @ViewBuilder content: () -> Content) {
+        self.title = title
+        self.subtitle = subtitle
+        self.action = action
+        self.content = content()
+    }
 
     var body: some View {
         VStack(alignment: .leading, spacing: 12) {
             HStack(alignment: .firstTextBaseline) {
                 VStack(alignment: .leading, spacing: 2) {
-                    Text(title)
+                    title
                         .font(.headline)
                         .accessibilityAddTraits(.isHeader)
                     if let subtitle {

@@ -1,16 +1,24 @@
 import Foundation
 
-/// Demo budgets and savings goals, the same as the web client's (`get_current_month_budgets_by_category` and
-/// `SAVINGS_GOALS` in `src/app/core/services/demo-mode/demo-data.ts`).
+/// Demo budgets and savings goals. Goals are the web client's (`SAVINGS_GOALS` in
+/// `src/app/core/services/demo-mode/demo-data.ts`); the budget follows the web's too, but per demo category — the web's
+/// "Transport 100" is split between Taxi and Public Transport — so Budget can set it against the demo expenses.
 nonisolated extension DemoData {
-    /// This month's planned budget, in USD — the currency of the demo transactions.
+    /// The planned budget, in USD — the currency of the demo transactions.
     static let budgetCurrencyCode = "USD"
 
-    static let budgets = [
-        CategoryBudget(name: "Groceries", amount: 250),
-        CategoryBudget(name: "Rent", amount: 1200),
-        CategoryBudget(name: "Transport", amount: 100),
+    /// Planned amount per category id; the same plan every month, so last month has one too (`BUD-06`).
+    static let plannedBudgets: [(categoryID: Int64, amount: Decimal)] = [
+        (categoryID: 1, amount: 250), // Groceries
+        (categoryID: 7, amount: 1200), // Rent
+        (categoryID: 3, amount: 60), // Taxi
+        (categoryID: 4, amount: 40), // Public Transport
     ]
+
+    /// This month's plan by category, for the Dashboard (`DASH-05`).
+    static let budgets: [CategoryBudget] = plannedBudgets.compactMap { budget in
+        categories.first { $0.id == budget.categoryID }.map { CategoryBudget(name: $0.name, amount: budget.amount) }
+    }
 
     /// Newest first; target dates are relative to `now`, so the goals never expire.
     static func savingsGoals(now: Date = .now, calendar: Calendar = .current) -> [SavingsGoal] {

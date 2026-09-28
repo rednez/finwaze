@@ -47,8 +47,11 @@ Known gaps in the iOS client that still need to be done. Remove an item once it'
 ## App
 
 - **Section placeholders.** Every section in `Features/Main/Views/SectionView.swift` except the Dashboard, Wallet,
-  Transactions and Groups & categories shows "under construction" until its stage lands; the Guide and Settings sheets in `SectionToolbar.swift` wait for stages 15
-  and 14. Until stages 9 and 11, the Dashboard's "Go to Budget" and "All goals" lead to these placeholders.
+  Transactions, Budget and Groups & categories shows "under construction" until its stage lands; the Guide and Settings
+  sheets in `SectionToolbar.swift` wait for stages 15 and 14. Until stage 11, the Dashboard's "All goals" leads to
+  these placeholders.
+- **Budget plan is view-only** (`BUD-15`, `BUD-16`, stage 10). "Add budget", "Edit budget" and "Create budget" open
+  `BudgetPlanPlaceholder` until the plan editor (`BUD-20…26`) lands.
 - **Wallet is partial.** Stages 2, 5 and 6 show the account cards, "New account", "Transfer money" and account
   settings (`ACC-01`, `ACC-09…12`, `TRF`). Still missing: the Wallet's charts and recent transactions (stage 12).
 - **Deleting an account is not atomic** (`ACC-11`). Like the web, `SupabaseWalletRepository.deleteAccount` first

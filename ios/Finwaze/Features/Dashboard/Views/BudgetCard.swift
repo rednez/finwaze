@@ -10,7 +10,7 @@ struct BudgetCard: View {
     let onOpenBudget: () -> Void
 
     var body: some View {
-        DashboardCard(title: "dashboard.budget.title") {
+        ContentCard(title: "dashboard.budget.title") {
             CardStateView(state: state, placeholder: .placeholder, onRetry: onRetry) { summary in
                 if summary.slices.isEmpty {
                     CardEmptyState(

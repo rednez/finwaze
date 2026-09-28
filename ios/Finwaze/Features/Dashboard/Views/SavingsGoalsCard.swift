@@ -7,7 +7,7 @@ struct SavingsGoalsCard: View {
     let onOpenGoals: () -> Void
 
     var body: some View {
-        DashboardCard(
+        ContentCard(
             title: "dashboard.goals.title",
             action: .init(title: "dashboard.goals.all", perform: onOpenGoals)
         ) {
