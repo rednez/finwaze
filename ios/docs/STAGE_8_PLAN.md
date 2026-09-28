@@ -1,6 +1,6 @@
 # iOS — План етапу 8 «Дашборд»
 
-> **Статус:** план; реалізацію ще не розпочато.
+> **Статус:** реалізовано; лишилась ручна перевірка частини критеріїв (див. крок 5).
 
 ## Контекст
 
@@ -91,45 +91,46 @@
 ## Кроки
 
 ### 1. Дані
-- [ ] Моделі `DashboardTotals`, `MonthlyCashFlow`, `CategoryBudget`; DTO під рядки RPC; `DashboardMapper`
+- [x] Моделі `DashboardTotals`, `MonthlyCashFlow`, `CategoryBudget`; DTO під рядки RPC; `DashboardMapper`
       (модуль витрат, `null` → 0, доповнення 12 місяців нулями в UTC-календарі).
-- [ ] `Features/Goals`: `SavingsGoal`, `SavingsGoalStatus` (`not_started` / `in_progress` / `done` / `cancelled`),
+- [x] `Features/Goals`: `SavingsGoal`, `SavingsGoalStatus` (`not_started` / `in_progress` / `done` / `cancelled`),
       `SavingsGoalDto`, `SavingsGoalsMapper` (прогрес у відсотках).
-- [ ] `DashboardRepository`: `totals(currencyCode:)`, `monthlyCashFlow(currencyCode:months:)`,
+- [x] `DashboardRepository`: `totals(currencyCode:)`, `monthlyCashFlow(currencyCode:months:)`,
       `currentMonthBudgets(currencyCode:)`, `recentTransactions(limit:)`, `recentGoals(limit:)`.
-- [ ] `SupabaseDashboardRepository` — як web; `DemoDashboardRepository` + `DemoData.budgets` / `savingsGoals`;
+- [x] `SupabaseDashboardRepository` — як web; `DemoDashboardRepository` + `DemoData.budgets` / `savingsGoals`;
       обидва набори в `Repositories`.
-- [ ] Тести мапера (від'ємні витрати, `null`, пропущені місяці, межа року, UTC-місяць на пристрої в UTC−5 і UTC+2),
+- [x] Тести мапера (від'ємні витрати, `null`, пропущені місяці, межа року, UTC-місяць на пристрої в UTC−5 і UTC+2),
       мапера цілей, демо-репозиторію (цифри збігаються з демо-операціями, валюта без операцій → нулі).
 
 ### 2. ViewModel (`DASH-01…08`)
-- [ ] `TrendChange` (відсоток, напрям, добре/погано/нейтрально) з тестами: зростання/спад, `growIsGood` для
+- [x] `TrendChange` (відсоток, напрям, добре/погано/нейтрально) з тестами: зростання/спад, `growIsGood` для
       витрат, попереднє 0, від'ємний баланс (−500 проти −1000 — покращення).
-- [ ] `BudgetSlices`: сортування, 6 + «Інші» при > 7 категоріях, сума «Разом за місяць».
-- [ ] `DashboardViewModel`: валюти для вибору, основна валюта через `DevicePreferences`, п'ять незалежних
+- [x] `BudgetSummary`: сортування, 6 + «Інші» при > 7 категоріях, сума «Разом за місяць».
+- [x] `DashboardViewModel`: валюти для вибору, основна валюта через `DevicePreferences`, п'ять незалежних
       `CardState`, паралельне завантаження, повтор однієї картки, перезавантаження лише залежних від валюти карток
       при зміні валюти.
-- [ ] Тести: зміна валюти пише `primaryCurrencyCode` і перезавантажує три картки; помилка однієї картки не
-      зачіпає інших; повтор; перезавантаження зберігає старі дані; порожні бюджет і цілі.
+- [x] Тести: зміна валюти пише `primaryCurrencyCode` і перезавантажує три картки; помилка однієї картки не
+      зачіпає інших; повтор; повернення без змін нічого не вантажить; без валюти падають лише її картки; порожній
+      бюджет.
 
 ### 3. Екран і навігація
-- [ ] `DashboardView` і картки: `CurrencyMenu`, `SummaryCard` + `TrendBadge`, `CashFlowCard` (Swift Charts),
+- [x] `DashboardView` і картки: `CurrencyMenu`, `SummaryCard` + `TrendBadge`, `CashFlowCard` (Swift Charts),
       `BudgetCard` (кільце + легенда), `RecentTransactionsCard`, `SavingsGoalsCard`, спільний `DashboardCard`
       (заголовок, дія, стани завантаження / помилки / порожньо).
-- [ ] `TransactionRow`: режим із датою.
-- [ ] `MainNavigation` (вибір вкладки в середовищі) у `MainTabView`; переходи «Усі операції», «Перейти до бюджету»,
+- [x] `TransactionRow`: режим із датою (коротка дата «27 вер., 19:52» — повна з роком не влазить у рядок).
+- [x] `MainNavigation` (вибір вкладки в середовищі) у `MainTabView`; переходи «Усі операції», «Перейти до бюджету»,
       «Перейти до цілей».
-- [ ] `SectionContentView`: `.dashboard` → `DashboardView`.
-- [ ] VoiceOver: підписи карток і бейджів, `accessibilityLabel` / `AXChartDescriptor` для графіків.
+- [x] `SectionContentView`: `.dashboard` → `DashboardView`.
+- [x] VoiceOver: підписи карток і бейджів, `accessibilityLabel` / `accessibilityValue` на кожному стовпчику й секторі.
 
 ### 4. Локалізація (en / uk / cs)
-- [ ] Тексти з web (`dashboard.translations.ts`: `summaryWidget`, `amountWidget.vsLastMonth`, `moneyFlowWidget`,
+- [x] Тексти з web (`dashboard.translations.ts`: `summaryWidget`, `amountWidget.vsLastMonth`, `moneyFlowWidget`,
       `budgetWidget`, `savingGoalsWidget`, `chart`) + нові: «Усі операції», «Усі цілі», VoiceOver-описи зміни
       («зросло / зменшилось на %@»), порожній стан останніх операцій. Назву графіка беремо з документа — «Рух коштів
       по місяцях» (web: «Місячний грошовий потік»).
 
 ### 5. Перевірка й документація
-- [ ] Збірка й тести: `xcodebuild … -scheme Finwaze -destination 'platform=iOS Simulator,name=iPhone 18 Pro' test`.
+- [x] Збірка й тести: `xcodebuild … -scheme Finwaze -destination 'platform=iOS Simulator,name=iPhone 18 Pro' test`.
 - [ ] Критерії приймання DASH у симуляторі на локальному Supabase:
   - дохід 1 000 ₴ сьогодні збільшує картку «Доходи» в UAH на 1 000 ₴, а переказ між гривневими рахунками картки
     не змінює;
@@ -141,8 +142,15 @@
   - цілі (створені на web або демо) з прогресом; порожній стан веде в розділ Цілі;
   - помилка однієї картки (напр., вимкнений Supabase посеред роботи) — повтор лише її;
   - демо: цифри збігаються з демо-операціями.
+
+  Перевірено (UI-прогони, 28.09.2026, локальний Supabase, en і uk): підсумки в UAH збігаються з розділом Операції
+  (доходи 4 332,90 ₴, витрати 231,80 ₴, баланс 4 101,10 ₴), бейджі 0 % нейтральні без минулого місяця; рух коштів —
+  12 місяців із підписом кожного; порожні стани бюджету й цілей; останні операції з датою; «Усі транзакції»
+  перемикає вкладку. Демо-цифри перевірено юніт-тестами. Ще не перевірено в UI: зміна валюти й перезапуск, бейджі з
+  минулим місяцем, кільце бюджету з даними, цілі з прогресом, відкриття операції / переказу з картки, помилка й
+  повтор однієї картки, демо-режим.
 - [ ] Dark Mode, Dynamic Type (найбільші розміри — картки не обрізаються), VoiceOver, iPad у двох колонках.
-- [ ] `ios/TECH_DEBT.md`: прибрати `.dashboard` із заглушок; додати «поточний місяць за UTC сервера» і
+- [x] `ios/TECH_DEBT.md`: прибрати `.dashboard` із заглушок; додати «поточний місяць за UTC сервера» і
       «бюджети дашборда групуються за назвою категорії».
 - [ ] Статус плану — «виконано».
 
@@ -151,8 +159,8 @@
 - Нові: `Features/Dashboard/{Models,Mappers,Repositories,ViewModels,Views}/…`,
   `Features/Goals/{Models,Mappers}/…`, `Features/Main/Models/MainNavigation.swift`,
   `Core/Demo/DemoDashboardRepository.swift`, `Core/Demo/DemoData+Dashboard.swift`, тести в
-  `ios/FinwazeTests/Dashboard/`.
-- Змінюються: `Core/Repositories/Repositories.swift`, `Features/Main/Views/{MainTabView,SectionView}.swift`,
+  `ios/FinwazeTests/{Dashboard,Goals}/`.
+- Змінюються: `Core/Repositories/Repositories.swift`, `Core/Formatting/DateFormatting.swift`, `Features/Main/Views/{MainTabView,SectionView}.swift`,
   `Features/Transactions/Views/TransactionRow.swift`, `Localizable.xcstrings`, `ios/TECH_DEBT.md`.
 - Перевикористовуємо: `TransactionDto` / `TransactionMapper` / `TransactionRow`, `DevicePreferences.primaryCurrencyCode`,
   `PrimaryCurrencyResolver`, `MoneyFormatting` (`formattedAmount(currencyCode:)`), стиль `AccountCard` і скелетони

@@ -46,9 +46,9 @@ Known gaps in the iOS client that still need to be done. Remove an item once it'
 
 ## App
 
-- **Section placeholders.** Every section in `Features/Main/Views/SectionView.swift` except the Wallet,
+- **Section placeholders.** Every section in `Features/Main/Views/SectionView.swift` except the Dashboard, Wallet,
   Transactions and Groups & categories shows "under construction" until its stage lands; the Guide and Settings sheets in `SectionToolbar.swift` wait for stages 15
-  and 14.
+  and 14. Until stages 9 and 11, the Dashboard's "Go to Budget" and "All goals" lead to these placeholders.
 - **Wallet is partial.** Stages 2, 5 and 6 show the account cards, "New account", "Transfer money" and account
   settings (`ACC-01`, `ACC-09…12`, `TRF`). Still missing: the Wallet's charts and recent transactions (stage 12).
 - **Deleting an account is not atomic** (`ACC-11`). Like the web, `SupabaseWalletRepository.deleteAccount` first
@@ -65,3 +65,12 @@ Known gaps in the iOS client that still need to be done. Remove an item once it'
 - **`WEB_APP_URL` for Staging and Release is empty** (`ios/Config/Staging.xcconfig`, `Release.xcconfig`). Until it
   is set, password-reset emails from those builds link to the Supabase project's `site_url` instead of
   `<web app>/change-password`.
+- **The Dashboard's "this month" is the server's month in UTC** (`DASH-02`, `DASH-04`, `DASH-05`).
+  `get_dashboard_totals`, `get_monthly_charged_cash_flow` and `get_current_month_budgets_by_category` take the current
+  month from `now()` in the database's time zone (UTC), while the transactions are compared in their local time
+  (`GEN-12`). In the first hours of a month east of UTC (or the last hours west of it) the cards still show the previous
+  month. The web behaves the same. A fix for every client: an optional `p_local_offset` parameter with a `DEFAULT`
+  (backwards compatible), used to pick the month.
+- **The Dashboard's budget merges categories with the same name** (`DASH-05`). `get_current_month_budgets_by_category`
+  groups by category name, so "Other" in two groups becomes one sector. The web behaves the same; grouping by category
+  id (and returning the name) would fix it for every client.
