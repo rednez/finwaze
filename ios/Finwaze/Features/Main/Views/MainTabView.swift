@@ -4,6 +4,8 @@ import SwiftUI
 /// (`NAV-02`), so the tab bar always shows the section on screen.
 struct MainTabView: View {
     @State private var navigation = MainNavigation()
+    /// Analytics' filters, kept for the session: Analytics is pushed and gone after "Back" (`ANL-01`).
+    @State private var analyticsFilter = AnalyticsFilter()
 
     var body: some View {
         @Bindable var navigation = navigation
@@ -22,6 +24,7 @@ struct MainTabView: View {
         }
         .tabViewStyle(.sidebarAdaptable)
         .environment(navigation)
+        .environment(analyticsFilter)
     }
 }
 

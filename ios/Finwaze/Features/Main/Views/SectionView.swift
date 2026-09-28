@@ -40,7 +40,6 @@ struct TabStack<Root: View>: View {
 }
 
 /// One section's screen: title, short description, the section's actions and the menus (`NAV-03`, `NAV-04`).
-/// Sections whose stage is not implemented yet show a placeholder.
 struct SectionContentView: View {
     let section: AppSection
     /// The tab's first screen rather than a section pushed onto it: only it shows the profile menu (`NAV-04`).
@@ -82,12 +81,8 @@ struct SectionContentView: View {
             BudgetView(app: app)
         case .goals:
             GoalsView(app: app, isAdding: $isAdding)
-        default:
-            ContentUnavailableView {
-                Label(section.title, systemImage: section.systemImage)
-            } description: {
-                Text("section.comingSoon")
-            }
+        case .analytics:
+            AnalyticsView(app: app)
         }
     }
 }
