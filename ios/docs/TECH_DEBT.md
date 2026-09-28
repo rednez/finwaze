@@ -46,7 +46,7 @@ Known gaps in the iOS client that still need to be done. Remove an item once it'
 
 ## App
 
-- **Section placeholders.** The Guide and Settings sheets in `SectionToolbar.swift` wait for stages 14 and 15.
+- **Section placeholders.** The Settings sheet in `SectionToolbar.swift` waits for stage 15.
 - **Deleting an account is not atomic** (`ACC-11`). Like the web, `SupabaseWalletRepository.deleteAccount` first
   deletes the account's balance corrections, then the account. If the second request fails, the corrections are
   already gone and the account stays with a different balance. A single SQL function doing both in one transaction
