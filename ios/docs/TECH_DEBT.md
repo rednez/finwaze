@@ -46,10 +46,8 @@ Known gaps in the iOS client that still need to be done. Remove an item once it'
 
 ## App
 
-- **Section placeholders.** Every section in `Features/Main/Views/SectionView.swift` except the Dashboard, Wallet,
-  Transactions, Budget and Groups & categories shows "under construction" until its stage lands; the Guide and Settings
-  sheets in `SectionToolbar.swift` wait for stages 15 and 14. Until stage 11, the Dashboard's "All goals" leads to
-  these placeholders.
+- **Section placeholders.** Analytics in `Features/Main/Views/SectionView.swift` shows "under construction" until
+  stage 13; the Guide and Settings sheets in `SectionToolbar.swift` wait for stages 15 and 14.
 - **Wallet is partial.** Stages 2, 5 and 6 show the account cards, "New account", "Transfer money" and account
   settings (`ACC-01`, `ACC-09…12`, `TRF`). Still missing: the Wallet's charts and recent transactions (stage 12).
 - **Deleting an account is not atomic** (`ACC-11`). Like the web, `SupabaseWalletRepository.deleteAccount` first
@@ -64,6 +62,13 @@ Known gaps in the iOS client that still need to be done. Remove an item once it'
   a budget exists and the app shows its foreign-key error. Since stage 10 the app creates such budgets itself (the plan
   editor), so this happens more often. The web behaves the same; ask the product owner whether to hide "Delete" in
   that case or delete the budgets together with the category.
+- **Completing or cancelling a goal is not atomic** (`GOAL-23`, `GOAL-24`). Like the web, the app first transfers the
+  saved money from the goal's account (`make_transfer`), then calls `mark_savings_goal_as_done` /
+  `cancel_savings_goal`. If the second request fails, the money is already back on the regular account;
+  `GoalClosingViewModel` then retries only the second step. If the user gives up instead, a goal being completed has
+  nothing saved any more, so "Mark as done" no longer applies to it. A single SQL function doing both in one
+  transaction (e.g. `complete_savings_goal(p_account_id, p_to_account_id)` and the same for cancelling) would fix it
+  for every client.
 - **`WEB_APP_URL` for Staging and Release is empty** (`ios/Config/Staging.xcconfig`, `Release.xcconfig`). Until it
   is set, password-reset emails from those builds link to the Supabase project's `site_url` instead of
   `<web app>/change-password`.

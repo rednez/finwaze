@@ -71,6 +71,8 @@ struct SectionContentView: View {
             GroupsView(app: app, isAddingGroup: $isAdding)
         case .budget:
             BudgetView(app: app)
+        case .goals:
+            GoalsView(app: app, isAdding: $isAdding)
         default:
             ContentUnavailableView {
                 Label(section.title, systemImage: section.systemImage)

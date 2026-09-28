@@ -10,6 +10,16 @@ nonisolated extension Decimal {
     func formattedSignedAmount(currencyCode: String, locale: Locale = .current) -> String {
         formatted(.currency(code: currencyCode).sign(strategy: .always(showZero: false)).locale(locale))
     }
+
+    /// The amount as the user would type it in the interface language, without grouping, to prefill a field:
+    /// `4101,10`, `-300`.
+    func inputText(locale: Locale = .current) -> String {
+        var value = self
+        var whole = Decimal()
+        NSDecimalRound(&whole, &value, 0, .plain)
+        let fraction = whole == self ? 0 : 2
+        return formatted(.number.precision(.fractionLength(fraction)).grouping(.never).locale(locale))
+    }
 }
 
 nonisolated extension Decimal {

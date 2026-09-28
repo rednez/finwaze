@@ -50,6 +50,7 @@ enum AppSection: String, Hashable, CaseIterable {
         case .transactions: "transactions.add"
         case .wallet: "wallet.addAccount"
         case .groups: "groups.addGroup"
+        case .goals: "goals.add"
         default: nil
         }
     }

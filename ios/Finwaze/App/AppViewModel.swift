@@ -194,6 +194,12 @@ final class AppViewModel {
         dataChanged()
     }
 
+    /// A goal was created, edited, completed, cancelled or deleted, or money went in or out of it (`GOAL-13…25`):
+    /// Goals, the Dashboard's goals and balance, the Wallet's balances and the transactions list follow (`GEN-26`).
+    func goalsChanged() {
+        dataChanged()
+    }
+
     /// A group or category was renamed, recoloured or deleted (`CAT-05…10`): the category picker, the transaction
     /// filters and the transactions list follow (`GEN-26`).
     func categoriesChanged() async {

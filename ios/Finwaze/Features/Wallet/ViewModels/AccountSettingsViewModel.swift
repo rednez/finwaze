@@ -98,7 +98,7 @@ final class AccountSettingsViewModel {
             }
             name = details.name
             currency = referenceData.currencies.first { $0.id == details.currencyID }
-            balanceText = Self.text(for: details.balance, locale: locale)
+            balanceText = details.balance.inputText(locale: locale)
             usesBalanceDate = false
             balanceDate = clock()
             showsValidation = false
@@ -197,15 +197,6 @@ final class AccountSettingsViewModel {
         }
         await onDeleted()
         return true
-    }
-
-    /// The balance as the user would type it in the interface language, without grouping: `4101,10`, `-300`.
-    private static func text(for balance: Decimal, locale: Locale) -> String {
-        var value = balance
-        var whole = Decimal()
-        NSDecimalRound(&whole, &value, 0, .plain)
-        let fraction = whole == balance ? 0 : 2
-        return balance.formatted(.number.precision(.fractionLength(fraction)).grouping(.never).locale(locale))
     }
 
     private var trimmedName: String {

@@ -1,7 +1,7 @@
 import Foundation
 
 /// A goal's status (`GOAL-02`): the first two follow the saved amount, the last two are set by the user.
-nonisolated enum SavingsGoalStatus: String, Decodable, Sendable {
+nonisolated enum SavingsGoalStatus: String, Decodable, CaseIterable, Sendable {
     case notStarted = "not_started"
     case inProgress = "in_progress"
     case done
@@ -35,5 +35,40 @@ nonisolated struct SavingsGoal: Identifiable, Equatable, Sendable {
     /// The progress bar's fill, from 0 to 1.
     var progressFraction: Double {
         min(Double(progressPercent), 100) / 100
+    }
+
+    /// "Not started" or "In progress": money can still go in and out, and the goal can be edited (`GOAL-04`).
+    var isActive: Bool {
+        status == .notStarted || status == .inProgress
+    }
+
+    /// "Deposit" on an active goal (`GOAL-12`).
+    var canDeposit: Bool {
+        isActive
+    }
+
+    /// "Withdraw" on an active goal with money in it (`GOAL-12`).
+    var canWithdraw: Bool {
+        isActive && accumulatedAmount > 0
+    }
+
+    /// "Mark as done" once the target is reached (`GOAL-23`).
+    var canMarkDone: Bool {
+        isActive && accumulatedAmount >= targetAmount
+    }
+
+    /// "Mark as cancelled" while the goal is active (`GOAL-24`).
+    var canCancel: Bool {
+        isActive
+    }
+
+    /// "Delete goal" only without any deposit or withdrawal ever (`GOAL-25`).
+    var canDelete: Bool {
+        !hasTransfers
+    }
+
+    /// "Left to reach the goal", never below zero (`GOAL-11`).
+    var remainingAmount: Decimal {
+        max(targetAmount - accumulatedAmount, 0)
     }
 }
