@@ -17,7 +17,7 @@ struct BudgetPlanView: View {
             currencyCode: currencyCode,
             repository: app.repositories.budget,
             referenceData: app.referenceData,
-            onSaved: { app.budgetSaved() }
+            onSaved: { app.dataChanged() }
         ))
     }
 
@@ -68,16 +68,7 @@ struct BudgetPlanView: View {
             ProgressView()
                 .frame(maxWidth: .infinity, maxHeight: .infinity)
         case .failed:
-            ContentUnavailableView {
-                Label("error.generic.title", systemImage: "exclamationmark.triangle")
-            } description: {
-                Text("error.generic.message")
-            } actions: {
-                Button("common.retry", systemImage: "arrow.clockwise") {
-                    Task { await viewModel.load() }
-                }
-                .buttonStyle(.glassProminent)
-            }
+            ScreenErrorView(onRetry: { Task { await viewModel.load() } })
         case .empty:
             BudgetPlanEmptyView(viewModel: viewModel) {
                 viewModel.startManually()
@@ -246,6 +237,7 @@ private struct BudgetPlanEditor: View {
 
     private func groupSection(_ section: BudgetPlanDraft.Section) -> some View {
         let isExpanded = !viewModel.collapsedGroupIDs.contains(section.id)
+        let totals = viewModel.draft.totals(ofGroup: section.id)
         return Section {
             if isExpanded {
                 if section.lines.isEmpty {
@@ -258,20 +250,19 @@ private struct BudgetPlanEditor: View {
                 if !section.lines.isEmpty {
                     BudgetPlanTotalsRow(
                         title: "budget.plan.groupTotal",
-                        totals: viewModel.draft.totals(ofGroup: section.id),
+                        totals: totals,
                         currencyCode: viewModel.currencyCode
                     )
                 }
                 Button("budget.plan.addCategory", systemImage: "plus") {
                     categoryPick = CategoryPick(id: section.id)
                 }
-                .disabled(viewModel.availableCategories(inGroup: section.id).isEmpty)
+                .disabled(!viewModel.hasAvailableCategories(inGroup: section.id))
             }
         } header: {
             BudgetPlanGroupHeader(
                 name: viewModel.name(ofGroup: section),
-                planned: viewModel.draft.totals(ofGroup: section.id).planned
-                    .formattedAmount(currencyCode: viewModel.currencyCode),
+                planned: totals.planned.formattedAmount(currencyCode: viewModel.currencyCode),
                 isExpanded: isExpanded,
                 onToggle: { withAnimation { viewModel.toggleGroup(section.id) } },
                 onDelete: { withAnimation { viewModel.removeGroup(id: section.id) } }

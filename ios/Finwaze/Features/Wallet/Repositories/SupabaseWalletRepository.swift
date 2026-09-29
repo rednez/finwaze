@@ -32,11 +32,6 @@ nonisolated struct SupabaseWalletRepository: WalletRepository {
         }
     }
 
-    /// The response of an `update` `select("id")`: present only for rows that still exist and are visible under RLS.
-    private struct IDRow: Decodable {
-        let id: Int64
-    }
-
     func accounts() async throws -> [WalletAccount] {
         let dtos: [WalletAccountDto] = try await client
             .from("regular_accounts_with_balance")
@@ -56,14 +51,7 @@ nonisolated struct SupabaseWalletRepository: WalletRepository {
     }
 
     func updateAccount(id: Int64, _ update: AccountUpdate) async throws -> Bool {
-        let rows: [IDRow] = try await client
-            .from("accounts")
-            .update(WalletMapper.toDto(update))
-            .eq("id", value: Int(id))
-            .select("id")
-            .execute()
-            .value
-        return !rows.isEmpty
+        try await client.updateRow("accounts", id: id, values: WalletMapper.toDto(update))
     }
 
     func adjustBalance(_ adjustment: BalanceAdjustment) async throws {

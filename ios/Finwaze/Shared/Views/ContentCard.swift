@@ -112,6 +112,30 @@ struct CardErrorView: View {
     }
 }
 
+/// A whole screen's error with "Try again" (`GEN-25`); `actions` adds buttons below it.
+struct ScreenErrorView<Actions: View>: View {
+    let onRetry: () -> Void
+    @ViewBuilder var actions: Actions
+
+    var body: some View {
+        ContentUnavailableView {
+            Label("error.generic.title", systemImage: "exclamationmark.triangle")
+        } description: {
+            Text("error.generic.message")
+        } actions: {
+            Button("common.retry", systemImage: "arrow.clockwise", action: onRetry)
+                .buttonStyle(.glassProminent)
+            actions
+        }
+    }
+}
+
+extension ScreenErrorView where Actions == EmptyView {
+    init(onRetry: @escaping () -> Void) {
+        self.init(onRetry: onRetry) { EmptyView() }
+    }
+}
+
 /// An empty card (`GEN-24`): what is missing, one sentence and the way to fix it.
 struct CardEmptyState: View {
     let title: LocalizedStringKey

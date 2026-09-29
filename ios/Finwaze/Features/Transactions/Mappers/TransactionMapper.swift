@@ -7,7 +7,7 @@ nonisolated enum TransactionMapper {
     }
 
     static func toTransaction(_ dto: TransactionDto) throws -> Transaction {
-        guard let transactedAt = parseTimestamp(dto.transactedAt) else {
+        guard let transactedAt = Date(timestamptz: dto.transactedAt) else {
             throw MappingError.invalidDate(dto.transactedAt)
         }
         // A wrong offset would silently move the transaction to another day or month (`GEN-12`).
@@ -35,9 +35,7 @@ nonisolated enum TransactionMapper {
     static func toDto(_ transaction: NewTransaction) -> NewTransactionDto {
         NewTransactionDto(
             type: transaction.type,
-            // With the `Z` designator: without it Postgres would read the time in the session's time zone.
-            transactedAt: Date.ISO8601FormatStyle(includingFractionalSeconds: true, timeZone: .gmt)
-                .format(transaction.transactedAt),
+            transactedAt: transaction.transactedAt.timestamptzString,
             localOffset: transaction.localOffset.intervalString,
             accountID: transaction.accountID,
             categoryID: transaction.categoryID,
@@ -50,7 +48,7 @@ nonisolated enum TransactionMapper {
 
     /// The details `select` (`TX-06`): the same shape as the list row, reached through foreign keys.
     static func toTransaction(_ dto: TransactionDetailsDto) throws -> Transaction {
-        guard let transactedAt = parseTimestamp(dto.transactedAt) else {
+        guard let transactedAt = Date(timestamptz: dto.transactedAt) else {
             throw MappingError.invalidDate(dto.transactedAt)
         }
         guard let localOffset = LocalOffset(interval: dto.localOffset) else {
@@ -80,8 +78,7 @@ nonisolated enum TransactionMapper {
 
     static func toDto(_ update: TransactionUpdate) -> TransactionUpdateDto {
         TransactionUpdateDto(
-            transactedAt: Date.ISO8601FormatStyle(includingFractionalSeconds: true, timeZone: .gmt)
-                .format(update.transactedAt),
+            transactedAt: update.transactedAt.timestamptzString,
             localOffset: update.localOffset.intervalString,
             accountID: update.accountID,
             categoryID: update.categoryID,
@@ -90,12 +87,5 @@ nonisolated enum TransactionMapper {
             chargedAmount: update.chargedAmount,
             comment: update.comment
         )
-    }
-
-    /// `TIMESTAMPTZ` as PostgREST returns it: `2026-09-27T10:15:00+00:00`, with or without fractional seconds.
-    static func parseTimestamp(_ text: String) -> Date? {
-        let withFraction = Date.ISO8601FormatStyle(includingFractionalSeconds: true)
-        let withoutFraction = Date.ISO8601FormatStyle()
-        return (try? withFraction.parse(text)) ?? (try? withoutFraction.parse(text))
     }
 }

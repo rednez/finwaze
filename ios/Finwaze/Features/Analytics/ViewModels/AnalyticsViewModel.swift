@@ -171,7 +171,7 @@ private struct Selection {
     let preferences: DevicePreferences
 
     static func currencyCodes(_ referenceData: ReferenceDataStore) -> [String] {
-        referenceData.accountCurrencyCodes.sorted()
+        referenceData.sortedAccountCurrencyCodes
     }
 
     var currencyCode: String? {

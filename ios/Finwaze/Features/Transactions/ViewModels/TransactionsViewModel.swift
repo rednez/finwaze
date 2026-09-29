@@ -18,6 +18,9 @@ final class TransactionsViewModel {
 
     private let repository: any TransactionsRepository
     private let referenceData: ReferenceDataStore
+    /// What the list on screen was loaded for.
+    @ObservationIgnored private var loadedFilters: TransactionFilters?
+    @ObservationIgnored private var loadedDataVersion: Int?
 
     init(
         repository: any TransactionsRepository,
@@ -54,17 +57,28 @@ final class TransactionsViewModel {
 
     // MARK: Loading
 
-    /// Loads the list for the current filters. A reload keeps the rows on screen until the new ones arrive (`GEN-26`).
+    /// Loads the list when the filters or the data changed, not on every return to the tab.
+    func load(dataVersion: Int) async {
+        guard filters != loadedFilters || dataVersion != loadedDataVersion else { return }
+        let filters = filters
+        await load()
+        // Not when interrupted or failed: the next appearance tries again.
+        guard !Task.isCancelled, state != .failed else { return }
+        loadedFilters = filters
+        loadedDataVersion = dataVersion
+    }
+
+    /// Loads the list for the current filters: pull to refresh or "Try again". A reload keeps the rows on screen until
+    /// the new ones arrive (`GEN-26`).
     func load() async {
         if case .failed = state {
             state = .loading
         }
-        let repository = repository
         let query = filters.query(categories: referenceData.categories)
         do {
-            async let hasTransactions = repository.hasTransactions()
-            async let transactions = Self.transactions(matching: query, in: repository)
-            let (hasAny, list) = try await (hasTransactions, transactions)
+            let list = try await Self.transactions(matching: query, in: repository)
+            // Only an empty list needs to tell "no transactions at all" from "no matches".
+            let hasAny = if list.isEmpty { try await repository.hasTransactions() } else { true }
             guard !Task.isCancelled else { return }
             state = hasAny ? .loaded(list) : .empty
         } catch {

@@ -41,7 +41,7 @@ nonisolated enum DashboardMapper {
         var byMonth: [YearMonth: MonthlyCashFlowDto] = [:]
         for dto in dtos {
             // The month starts at midnight UTC: read in the device's time zone west of UTC, it would be last month.
-            guard let date = TransactionMapper.parseTimestamp(dto.month) else {
+            guard let date = Date(timestamptz: dto.month) else {
                 throw MappingError.invalidMonth(dto.month)
             }
             byMonth[YearMonth(date, in: serverCalendar)] = dto

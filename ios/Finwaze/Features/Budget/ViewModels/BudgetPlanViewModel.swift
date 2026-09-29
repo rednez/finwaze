@@ -120,6 +120,11 @@ final class BudgetPlanViewModel {
         draft.availableGroups(referenceData.groups).sorted { Self.isOrdered($0.name, $1.name) }
     }
 
+    /// Whether "Add category" has anything to offer; checked on every render, so without sorting.
+    func hasAvailableCategories(inGroup groupID: Int64) -> Bool {
+        !draft.availableCategories(inGroup: groupID, referenceData.categories).isEmpty
+    }
+
     func availableCategories(inGroup groupID: Int64) -> [Category] {
         draft.availableCategories(inGroup: groupID, referenceData.categories)
             .sorted { Self.isOrdered($0.name, $1.name) }
@@ -184,7 +189,7 @@ final class BudgetPlanViewModel {
 
     /// "Save" is enabled only with changes (`BUD-26`).
     var canSave: Bool {
-        state == .editing && draft.isDirty
+        hasUnsavedChanges
     }
 
     /// Closing asks first (`NAV-05`).

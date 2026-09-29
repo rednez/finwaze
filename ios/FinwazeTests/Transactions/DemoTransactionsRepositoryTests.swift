@@ -14,8 +14,8 @@ struct DemoTransactionsRepositoryTests {
         calendar.date(from: DateComponents(year: 2026, month: 9, day: 16, hour: 18))!
     }
 
-    private func month(_ year: Int, _ month: Int) -> Date {
-        calendar.date(from: DateComponents(year: year, month: month, day: 1))!
+    private func month(_ year: Int, _ month: Int) -> YearMonth {
+        YearMonth(year: year, month: month)
     }
 
     private func repository() -> DemoTransactionsRepository {
@@ -23,7 +23,7 @@ struct DemoTransactionsRepositoryTests {
         return DemoTransactionsRepository(calendar: calendar, now: { now })
     }
 
-    private func query(month: Date, type: TransactionType? = nil, categoryIDs: [Int64]? = nil) -> TransactionQuery {
+    private func query(month: YearMonth, type: TransactionType? = nil, categoryIDs: [Int64]? = nil) -> TransactionQuery {
         TransactionQuery(month: month, type: type, categoryIDs: categoryIDs, currencyCode: nil, accountID: nil)
     }
 

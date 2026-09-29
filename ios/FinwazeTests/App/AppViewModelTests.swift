@@ -192,12 +192,12 @@ struct AppViewModelTests {
         #expect(viewModel.referenceData.accounts == DemoData.accounts)
     }
 
-    @Test func createdTransactionSignalsChangedData() async {
+    @Test func dataChangeSignalsChangedData() async {
         let viewModel = makeViewModel(repository: FakeReferenceDataRepository(accounts: [cash]))
         await viewModel.apply(user())
         let version = viewModel.dataVersion
 
-        viewModel.transactionCreated()
+        viewModel.dataChanged()
 
         #expect(viewModel.dataVersion == version + 1)
     }

@@ -14,7 +14,7 @@ struct NewTransactionView: View {
                 referenceData: app.referenceData,
                 preferences: app.preferences,
                 repository: app.repositories.transactions,
-                onSaved: { app.transactionCreated() }
+                onSaved: { app.dataChanged() }
             )
         )
     }

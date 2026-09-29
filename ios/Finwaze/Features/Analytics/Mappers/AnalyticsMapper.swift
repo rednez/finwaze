@@ -29,7 +29,7 @@ nonisolated enum AnalyticsMapper {
         _ dto: DailyOverviewPointDto,
         calendar: Calendar = .current
     ) throws -> DailyOverviewPoint {
-        guard let day = SavingsGoalsMapper.parseDate(dto.day, timeZone: calendar.timeZone) else {
+        guard let day = Date(isoDate: dto.day, timeZone: calendar.timeZone) else {
             throw MappingError.invalidDay(dto.day)
         }
         return DailyOverviewPoint(
@@ -53,15 +53,9 @@ nonisolated enum AnalyticsMapper {
 
     /// A month of "Budgets vs Expenses", read from the `DATE` text without any time zone (`ANL-04`).
     static func toMonthlyBudgetExpense(_ dto: MonthlyBudgetExpenseDto) throws -> MonthlyBudgetExpense {
-        let parts = dto.month.prefix(10).split(separator: "-")
-        guard
-            parts.count == 3,
-            let year = Int(parts[0]),
-            let month = Int(parts[1]),
-            (1...12).contains(month)
-        else { throw MappingError.invalidMonth(dto.month) }
+        guard let month = YearMonth(isoDate: dto.month) else { throw MappingError.invalidMonth(dto.month) }
         return MonthlyBudgetExpense(
-            month: YearMonth(year: year, month: month),
+            month: month,
             budget: dto.budgetAmount ?? 0,
             expense: abs(dto.expenseAmount ?? 0)
         )

@@ -20,9 +20,4 @@ nonisolated struct BudgetItem: Identifiable, Equatable, Sendable {
     var status: BudgetStatus {
         BudgetStatus(planned: planned, spent: spent)
     }
-
-    /// Spent as a fraction of the plan — 1.1 for 110 % — or `nil` without a plan.
-    var spentRatio: Decimal? {
-        planned > 0 ? spent / planned : nil
-    }
 }

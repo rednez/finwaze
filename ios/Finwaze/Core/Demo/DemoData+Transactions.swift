@@ -48,6 +48,12 @@ nonisolated extension DemoData {
     /// The system category transfers are filed under; the list shows "Transfer" instead (`GEN-05`, `TX-02`).
     private static let transferLabel = Transaction.Label(id: 0, name: "internal", color: nil)
 
+    /// The records of `month` in `calendar`; see `transactions(inMonthOf:now:calendar:)`.
+    static func transactions(in month: YearMonth, now: Date = .now, calendar: Calendar = .current) -> [Transaction] {
+        guard let start = month.start(in: calendar) else { return [] }
+        return transactions(inMonthOf: start, now: now, calendar: calendar)
+    }
+
     /// The month's transactions: the template on the Main Card (USD) and the monthly transfer, newest first. None in
     /// the future: a later month is empty and the current one stops at `now`.
     static func transactions(inMonthOf month: Date, now: Date = .now, calendar: Calendar = .current) -> [Transaction] {

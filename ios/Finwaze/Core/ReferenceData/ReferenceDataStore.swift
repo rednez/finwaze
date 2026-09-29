@@ -15,6 +15,11 @@ final class ReferenceDataStore {
         return accounts.map(\.currencyCode).filter { seen.insert($0).inserted }
     }
 
+    /// Currencies of the user's accounts, alphabetically — as currency filters list them (`GEN-11`).
+    var sortedAccountCurrencyCodes: [String] {
+        accountCurrencyCodes.sorted()
+    }
+
     /// Loads everything at once from `repositories` (live or demo); on failure the previous data stays as it was.
     func load(using repositories: Repositories) async throws {
         async let accounts = repositories.accounts.regularAccounts()

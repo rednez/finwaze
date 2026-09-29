@@ -72,7 +72,7 @@ final class WalletWidgetViewModel<Value: Equatable & Sendable> {
     }
 
     private static func currencyCodes(_ referenceData: ReferenceDataStore) -> [String] {
-        referenceData.accountCurrencyCodes.sorted()
+        referenceData.sortedAccountCurrencyCodes
     }
 
     private static func currencyCode(

@@ -43,14 +43,8 @@ extension View {
     /// Loads the widget when it appears, and again when its month, its currency or the data change (`ACC-06`,
     /// `GEN-26`).
     func loads<Value>(_ widget: WalletWidgetViewModel<Value>, dataVersion: Int) -> some View {
-        task(id: WalletWidgetTaskID(month: widget.key?.month, currencyCode: widget.key?.currencyCode, dataVersion: dataVersion)) {
+        task(for: widget.key, dataVersion: dataVersion) {
             await widget.load(dataVersion: dataVersion)
         }
     }
-}
-
-private struct WalletWidgetTaskID: Equatable {
-    let month: YearMonth?
-    let currencyCode: String?
-    let dataVersion: Int
 }

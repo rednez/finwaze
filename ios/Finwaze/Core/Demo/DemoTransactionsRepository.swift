@@ -7,7 +7,7 @@ nonisolated struct DemoTransactionsRepository: TransactionsRepository {
     var now: @Sendable () -> Date = { .now }
 
     func transactions(matching query: TransactionQuery) async throws -> [Transaction] {
-        DemoData.transactions(inMonthOf: query.month, now: now(), calendar: calendar).filter { $0.matches(query) }
+        DemoData.transactions(in: query.month, now: now(), calendar: calendar).filter { $0.matches(query) }
     }
 
     func hasTransactions() async throws -> Bool {

@@ -10,11 +10,3 @@ extension SignedAmountInput.Issue {
         }
     }
 }
-
-extension AccountSettingsViewModel.DateIssue {
-    var message: LocalizedStringResource {
-        switch self {
-        case .inFuture: "transferForm.dateInFuture"
-        }
-    }
-}

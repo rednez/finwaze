@@ -6,13 +6,7 @@ struct LoadFailedView: View {
     let onSignOut: () -> Void
 
     var body: some View {
-        ContentUnavailableView {
-            Label("error.generic.title", systemImage: "exclamationmark.triangle")
-        } description: {
-            Text("error.generic.message")
-        } actions: {
-            Button("common.retry", systemImage: "arrow.clockwise", action: onRetry)
-                .buttonStyle(.glassProminent)
+        ScreenErrorView(onRetry: onRetry) {
             Button("profile.signOut", action: onSignOut)
                 .buttonStyle(.glass)
         }

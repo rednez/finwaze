@@ -18,7 +18,7 @@ struct ResetPasswordViewModelTests {
 
         #expect(viewModel.emailIssue == .invalid)
         #expect(repository.calls.passwordReset.isEmpty)
-        #expect(!viewModel.isLinkSent)
+        #expect(viewModel.sentEmail == nil)
     }
 
     @Test func sendsLinkToTrimmedEmail() async {
@@ -41,6 +41,6 @@ struct ResetPasswordViewModelTests {
         await viewModel.sendLink()
 
         #expect(viewModel.failure == .rateLimited)
-        #expect(!viewModel.isLinkSent)
+        #expect(viewModel.sentEmail == nil)
     }
 }

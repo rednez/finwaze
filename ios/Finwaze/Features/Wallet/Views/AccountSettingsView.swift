@@ -4,7 +4,6 @@ import SwiftUI
 /// not a sheet, so a plain back button leaves without saving (`NAV-05`).
 struct AccountSettingsView: View {
     @State private var viewModel: AccountSettingsViewModel
-    @Environment(\.dismiss) private var dismiss
 
     init(app: AppViewModel, accountID: Int64) {
         _viewModel = State(
@@ -12,8 +11,8 @@ struct AccountSettingsView: View {
                 accountID: accountID,
                 referenceData: app.referenceData,
                 repository: app.repositories.wallet,
-                onChanged: { await app.accountUpdated() },
-                onDeleted: { await app.accountDeleted() }
+                onChanged: { await app.referenceDataChanged() },
+                onDeleted: { await app.referenceDataChanged() }
             )
         )
     }
@@ -25,35 +24,16 @@ struct AccountSettingsView: View {
             .task { await viewModel.load() }
     }
 
-    @ViewBuilder
     private var content: some View {
-        switch viewModel.state {
-        case .loading:
-            // A neutral spinner while the fresh copy loads (`GEN-23`).
-            ProgressView()
-                .frame(maxWidth: .infinity, maxHeight: .infinity)
-                .background(Color(.systemGroupedBackground))
-        case .notFound:
-            ContentUnavailableView {
-                Label("accountSettings.notFound.title", systemImage: "questionmark.circle")
-            } description: {
-                Text("accountSettings.notFound.message")
-            } actions: {
-                Button("accountSettings.notFound.back") { dismiss() }
-                    .buttonStyle(.glassProminent)
-            }
-        case .failed:
-            ContentUnavailableView {
-                Label("error.generic.title", systemImage: "exclamationmark.triangle")
-            } description: {
-                Text("error.generic.message")
-            } actions: {
-                Button("common.retry", systemImage: "arrow.clockwise") {
-                    Task { await viewModel.load() }
-                }
-                .buttonStyle(.glassProminent)
-            }
-        case .loaded:
+        DetailStateView(
+            state: viewModel.state,
+            notFound: .init(
+                title: "accountSettings.notFound.title",
+                message: "accountSettings.notFound.message",
+                back: "accountSettings.notFound.back"
+            ),
+            onRetry: { Task { await viewModel.load() } }
+        ) { _ in
             AccountSettingsForm(viewModel: viewModel)
         }
     }

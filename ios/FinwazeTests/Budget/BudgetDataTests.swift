@@ -31,13 +31,11 @@ struct BudgetDataTests {
         let item = BudgetItem(id: 1, name: "Groceries", planned: 4000, spent: 4100, categoriesCount: 1, isUnplanned: false)
 
         #expect(item.remaining == -100)
-        #expect(item.spentRatio == Decimal(string: "1.025"))
     }
 
-    @Test func noPlanHasNoRatio() {
+    @Test func noPlanLeavesSpentAsOverspent() {
         let item = BudgetItem(id: 1, name: "Cinema", planned: 0, spent: 30, categoriesCount: nil, isUnplanned: true)
 
-        #expect(item.spentRatio == nil)
         #expect(item.remaining == -30)
     }
 
@@ -145,7 +143,6 @@ struct BudgetDataTests {
                                  isUnplanned: false)
 
         #expect(filter.matches(food) && filter.matches(housing))
-        #expect(!filter.narrowsGroups)
 
         filter.status = .attention
         #expect(!filter.matches(food))
@@ -157,6 +154,6 @@ struct BudgetDataTests {
         #expect(!filter.matches(housing))
 
         filter.clearGroupFilters()
-        #expect(!filter.narrowsGroups)
+        #expect(filter.status == nil && filter.groupIDs.isEmpty)
     }
 }

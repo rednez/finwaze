@@ -5,17 +5,9 @@ import Observation
 /// banner and deletion. The form fields themselves are `TransactionFormViewModel`, in `.edit` mode.
 @Observable
 final class EditTransactionViewModel {
-    enum State: Equatable {
-        case loading
-        case loaded
-        /// The transaction no longer exists: deleted elsewhere, or never visible under RLS (`TX-42`).
-        case notFound
-        case failed
-    }
-
     let transactionID: Int64
-    private(set) var state: State = .loading
-    private(set) var formViewModel: TransactionFormViewModel?
+    /// Loaded with the form, filled from the latest copy.
+    private(set) var state: DetailState<TransactionFormViewModel> = .loading
     /// A save just succeeded; the screen shows a banner that clears this itself (`TX-41`).
     var didSave = false
     private(set) var isDeleting = false
@@ -46,23 +38,25 @@ final class EditTransactionViewModel {
     /// Loads (or reloads) the transaction fresh from the server, not from the list it was opened from (`TX-06`).
     func load() async {
         state = .loading
-        formViewModel = nil
         do {
             guard let transaction = try await repository.transaction(id: transactionID) else {
                 state = .notFound
                 return
             }
-            formViewModel = TransactionFormViewModel(
+            state = .loaded(TransactionFormViewModel(
                 mode: .edit(transaction),
                 referenceData: referenceData,
                 preferences: preferences,
                 repository: repository,
                 onSaved: { [weak self] in await self?.saved() }
-            )
-            state = .loaded
+            ))
         } catch {
             state = .failed
         }
+    }
+
+    var formViewModel: TransactionFormViewModel? {
+        state.value
     }
 
     /// After `formViewModel.submit()` answers `false`, checks whether it was because the transaction was deleted

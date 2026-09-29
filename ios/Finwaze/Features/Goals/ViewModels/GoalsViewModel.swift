@@ -68,9 +68,7 @@ final class GoalsViewModel {
 
     /// The currency picked here while it is still among the goals', else the first.
     var overviewCurrencyCode: String? {
-        let codes = overviewCurrencyCodes
-        if let code = chosenOverviewCurrency, codes.contains(code) { return code }
-        return codes.first
+        CurrencySelection.currencyCode(picked: chosenOverviewCurrency, among: overviewCurrencyCodes, primary: nil)
     }
 
     func selectOverviewCurrency(_ code: String) async {

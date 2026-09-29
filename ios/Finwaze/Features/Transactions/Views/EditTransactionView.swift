@@ -5,7 +5,6 @@ import SwiftUI
 struct EditTransactionView: View {
     let app: AppViewModel
     @State private var viewModel: EditTransactionViewModel
-    @Environment(\.dismiss) private var dismiss
 
     init(app: AppViewModel, transactionID: Int64) {
         self.app = app
@@ -15,8 +14,8 @@ struct EditTransactionView: View {
                 referenceData: app.referenceData,
                 preferences: app.preferences,
                 repository: app.repositories.transactions,
-                onUpdated: { app.transactionUpdated() },
-                onDeleted: { app.transactionDeleted() }
+                onUpdated: { app.dataChanged() },
+                onDeleted: { app.dataChanged() }
             )
         )
     }
@@ -33,38 +32,17 @@ struct EditTransactionView: View {
             }
     }
 
-    @ViewBuilder
     private var content: some View {
-        switch viewModel.state {
-        case .loading:
-            // A neutral spinner while the fresh copy loads (`GEN-23`).
-            ProgressView()
-                .frame(maxWidth: .infinity, maxHeight: .infinity)
-                .background(Color(.systemGroupedBackground))
-        case .notFound:
-            ContentUnavailableView {
-                Label("transactionForm.notFound.title", systemImage: "questionmark.circle")
-            } description: {
-                Text("transactionForm.notFound.message")
-            } actions: {
-                Button("transactionForm.notFound.back") { dismiss() }
-                    .buttonStyle(.glassProminent)
-            }
-        case .failed:
-            ContentUnavailableView {
-                Label("error.generic.title", systemImage: "exclamationmark.triangle")
-            } description: {
-                Text("error.generic.message")
-            } actions: {
-                Button("common.retry", systemImage: "arrow.clockwise") {
-                    Task { await viewModel.load() }
-                }
-                .buttonStyle(.glassProminent)
-            }
-        case .loaded:
-            if let formViewModel = viewModel.formViewModel {
-                EditTransactionForm(app: app, viewModel: viewModel, formViewModel: formViewModel)
-            }
+        DetailStateView(
+            state: viewModel.state,
+            notFound: .init(
+                title: "transactionForm.notFound.title",
+                message: "transactionForm.notFound.message",
+                back: "transactionForm.notFound.back"
+            ),
+            onRetry: { Task { await viewModel.load() } }
+        ) { formViewModel in
+            EditTransactionForm(app: app, viewModel: viewModel, formViewModel: formViewModel)
         }
     }
 }

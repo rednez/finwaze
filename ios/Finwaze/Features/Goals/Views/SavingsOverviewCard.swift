@@ -59,16 +59,7 @@ private struct SavingsOverviewChart: View {
                 AxisValueLabel(format: .dateTime.month(.narrow), centered: true)
             }
         }
-        .chartYAxis {
-            AxisMarks { value in
-                AxisGridLine()
-                AxisValueLabel {
-                    if let amount = value.as(Double.self) {
-                        Text(verbatim: Decimal(amount).formatted(.currency(code: currencyCode).notation(.compactName)))
-                    }
-                }
-            }
-        }
+        .currencyYAxis(currencyCode: currencyCode)
         .frame(height: 220)
     }
 

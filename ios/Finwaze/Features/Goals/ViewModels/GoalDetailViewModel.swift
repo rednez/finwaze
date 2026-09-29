@@ -5,16 +5,8 @@ import Observation
 /// "Mark as cancelled" and "Delete goal" when they apply.
 @Observable
 final class GoalDetailViewModel {
-    enum State: Equatable {
-        case loading
-        case loaded(SavingsGoal)
-        /// The goal does not exist: deleted elsewhere, or never visible under RLS (`GOAL-26`).
-        case notFound
-        case failed
-    }
-
     let goalID: Int64
-    private(set) var state: State = .loading
+    private(set) var state: DetailState<SavingsGoal> = .loading
     /// The goal's fields, filled from the latest copy.
     private(set) var form: GoalFormViewModel?
     /// "Goal updated", shown after a save.
@@ -48,7 +40,7 @@ final class GoalDetailViewModel {
     }
 
     var goal: SavingsGoal? {
-        if case .loaded(let goal) = state { goal } else { nil }
+        state.value
     }
 
     /// Whether any of the goal's actions applies (`GOAL-23…25`).

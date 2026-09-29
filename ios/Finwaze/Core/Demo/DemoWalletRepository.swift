@@ -48,7 +48,7 @@ nonisolated struct DemoWalletRepository: WalletRepository {
         return days.compactMap { day in
             guard let date = calendar.date(byAdding: .day, value: day - 1, to: start) else { return nil }
             let transactions = byDay[date] ?? []
-            return DailyCashFlow(day: date, income: Self.income(of: transactions), expense: Self.expense(of: transactions))
+            return DailyCashFlow(day: date, income: transactions.income(\.transactionAmount), expense: transactions.expense(\.transactionAmount))
         }
     }
 
@@ -71,8 +71,8 @@ nonisolated struct DemoWalletRepository: WalletRepository {
             return GroupAmounts(
                 id: group.id,
                 name: group.name,
-                income: Self.income(of: transactions),
-                expense: Self.expense(of: transactions)
+                income: transactions.income(\.transactionAmount),
+                expense: transactions.expense(\.transactionAmount)
             )
         }
         .sorted { $0.id < $1.id }
@@ -81,15 +81,6 @@ nonisolated struct DemoWalletRepository: WalletRepository {
     /// The month's incomes and expenses in the purchase currency; transfers never count (`GEN-02`).
     private func incomesAndExpenses(inMonthOf month: Date, currencyCode: String) -> [Transaction] {
         DemoData.transactions(inMonthOf: month, now: now(), calendar: calendar)
-            .filter { $0.transactionCurrencyCode == currencyCode && ($0.type == .income || $0.type == .expense) }
-    }
-
-    private static func income(of transactions: [Transaction]) -> Decimal {
-        transactions.filter { $0.type == .income }.reduce(0) { $0 + $1.transactionAmount }
-    }
-
-    /// As a positive amount.
-    private static func expense(of transactions: [Transaction]) -> Decimal {
-        abs(transactions.filter { $0.type == .expense }.reduce(0) { $0 + $1.transactionAmount })
+            .filter { $0.transactionCurrencyCode == currencyCode && $0.isCounted }
     }
 }

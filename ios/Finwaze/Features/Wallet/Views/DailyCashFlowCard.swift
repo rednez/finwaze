@@ -41,9 +41,12 @@ private struct DailyCashFlowChart: View {
     let currencyCode: String
     @State private var selectedDate: Date?
 
-    private var incomeName: String { String(localized: "dashboard.chart.income") }
-    private var expenseName: String { String(localized: "dashboard.chart.expense") }
-    private var seriesTitle: String { String(localized: "dashboard.chart.series") }
+    // Looked up once, not per mark: the chart renders on every frame while a day is picked.
+    private let incomeName = String(localized: "dashboard.chart.income")
+    private let expenseName = String(localized: "dashboard.chart.expense")
+    private let seriesTitle = String(localized: "dashboard.chart.series")
+    private let dayTitle = String(localized: "wallet.chart.day")
+    private let amountTitle = String(localized: "dashboard.chart.amount")
 
     private var selectedDay: DailyCashFlow? {
         guard let selectedDate else { return nil }
@@ -60,7 +63,7 @@ private struct DailyCashFlowChart: View {
                 line(day, series: expenseName, amount: day.expense, dash: [5, 3])
             }
             if let selectedDay {
-                RuleMark(x: .value(String(localized: "wallet.chart.day"), selectedDay.day, unit: .day))
+                RuleMark(x: .value(dayTitle, selectedDay.day, unit: .day))
                     .foregroundStyle(.secondary.opacity(0.5))
                     .annotation(position: .top, spacing: 4, overflowResolution: .init(x: .fit(to: .chart), y: .disabled)) {
                         SelectedDayCallout(day: selectedDay, includesIncome: includesIncome, currencyCode: currencyCode)
@@ -80,23 +83,14 @@ private struct DailyCashFlowChart: View {
                 AxisValueLabel(format: .dateTime.day())
             }
         }
-        .chartYAxis {
-            AxisMarks { value in
-                AxisGridLine()
-                AxisValueLabel {
-                    if let amount = value.as(Double.self) {
-                        Text(verbatim: Decimal(amount).formatted(.currency(code: currencyCode).notation(.compactName)))
-                    }
-                }
-            }
-        }
+        .currencyYAxis(currencyCode: currencyCode)
         .frame(height: 220)
     }
 
     private func line(_ day: DailyCashFlow, series: String, amount: Decimal, dash: [CGFloat] = []) -> some ChartContent {
         LineMark(
-            x: .value(String(localized: "wallet.chart.day"), day.day, unit: .day),
-            y: .value(String(localized: "dashboard.chart.amount"), amount.chartValue),
+            x: .value(dayTitle, day.day, unit: .day),
+            y: .value(amountTitle, amount.chartValue),
             series: .value(seriesTitle, series)
         )
         .foregroundStyle(by: .value(seriesTitle, series))

@@ -40,19 +40,21 @@ private struct MonthlyOverviewChart: View {
     let currencyCode: String
     @State private var selectedDay: Int?
 
-    private var currentName: String { month.title }
-    private var previousName: String { month.adding(months: -1).title }
-    private var seriesTitle: String { String(localized: "dashboard.chart.series") }
-    private var dayTitle: String { String(localized: "wallet.chart.day") }
-    private var amountTitle: String { String(localized: "dashboard.chart.amount") }
+    private let seriesTitle = String(localized: "dashboard.chart.series")
+    private let dayTitle = String(localized: "wallet.chart.day")
+    private let amountTitle = String(localized: "dashboard.chart.amount")
 
     private var lastDay: Int {
         max(overview.current.last?.dayOfMonth ?? 1, overview.previous.last?.dayOfMonth ?? 1)
     }
 
     var body: some View {
+        // Worked out once per render, not per mark: the chart renders on every frame while a day is picked.
+        let currentName = month.title
+        let previousName = month.adding(months: -1).title
+        let lines = dayLines(currentName: currentName, previousName: previousName)
         VStack(alignment: .leading, spacing: 8) {
-            legend
+            legend(currentName: currentName, previousName: previousName)
             Chart {
                 ForEach(overview.current) { point in
                     AreaMark(x: .value(dayTitle, point.dayOfMonth), y: .value(amountTitle, value(of: point).chartValue))
@@ -67,13 +69,13 @@ private struct MonthlyOverviewChart: View {
                         .accessibilityHidden(true)
                     line(point, series: currentName)
                         .accessibilityLabel(Text("analytics.overview.day \(point.dayOfMonth)"))
-                        .accessibilityValue(Text(verbatim: spokenValue(day: point.dayOfMonth)))
+                        .accessibilityValue(Text(verbatim: lines[point.dayOfMonth, default: []].joined(separator: ", ")))
                 }
                 ForEach(overview.previous) { point in
                     // Told apart by the dash, not only by colour.
                     line(point, series: previousName, dash: [5, 3])
                         .accessibilityLabel(Text("analytics.overview.day \(point.dayOfMonth)"))
-                        .accessibilityValue(Text(verbatim: spokenValue(day: point.dayOfMonth)))
+                        .accessibilityValue(Text(verbatim: lines[point.dayOfMonth, default: []].joined(separator: ", ")))
                         // A day the month also has is read out with it.
                         .accessibilityHidden(point.dayOfMonth <= (overview.current.last?.dayOfMonth ?? 0))
                 }
@@ -81,7 +83,7 @@ private struct MonthlyOverviewChart: View {
                     RuleMark(x: .value(dayTitle, selectedDay))
                         .foregroundStyle(.secondary.opacity(0.5))
                         .annotation(position: .top, spacing: 4, overflowResolution: .init(x: .fit(to: .chart), y: .disabled)) {
-                            SelectedDayCallout(lines: lines(day: selectedDay), day: selectedDay)
+                            SelectedDayCallout(lines: lines[selectedDay, default: []], day: selectedDay)
                         }
                 }
             }
@@ -95,25 +97,16 @@ private struct MonthlyOverviewChart: View {
                     AxisValueLabel()
                 }
             }
-            .chartYAxis {
-                AxisMarks { value in
-                    AxisGridLine()
-                    AxisValueLabel {
-                        if let amount = value.as(Double.self) {
-                            Text(verbatim: Decimal(amount).formatted(.currency(code: currencyCode).notation(.compactName)))
-                        }
-                    }
-                }
-            }
+            .currencyYAxis(currencyCode: currencyCode)
             .frame(height: 220)
         }
     }
 
     /// The months by name, with their line's style: solid for this one, dashed for the one before.
-    private var legend: some View {
+    private func legend(currentName: String, previousName: String) -> some View {
         ViewThatFits(in: .horizontal) {
-            HStack(spacing: 16) { legendItems }
-            VStack(alignment: .leading, spacing: 4) { legendItems }
+            HStack(spacing: 16) { legendItems(currentName: currentName, previousName: previousName) }
+            VStack(alignment: .leading, spacing: 4) { legendItems(currentName: currentName, previousName: previousName) }
         }
         .font(.caption)
         .foregroundStyle(.secondary)
@@ -121,7 +114,7 @@ private struct MonthlyOverviewChart: View {
     }
 
     @ViewBuilder
-    private var legendItems: some View {
+    private func legendItems(currentName: String, previousName: String) -> some View {
         LegendLine(color: .accentColor, dash: [], name: currentName)
         LegendLine(color: .secondary, dash: [5, 3], name: previousName)
     }
@@ -146,17 +139,16 @@ private struct MonthlyOverviewChart: View {
         }
     }
 
-    /// "September 2026: $1,200.00" for each month that has the day.
-    private func lines(day: Int) -> [String] {
-        [(currentName, overview.current), (previousName, overview.previous)].compactMap { name, points in
-            points.first { $0.dayOfMonth == day }.map { point in
-                String(localized: "analytics.overview.value \(name) \(value(of: point).formattedAmount(currencyCode: currencyCode))")
+    /// By day of the month: "September 2026: $1,200.00" for each month that has the day.
+    private func dayLines(currentName: String, previousName: String) -> [Int: [String]] {
+        var lines: [Int: [String]] = [:]
+        for (name, points) in [(currentName, overview.current), (previousName, overview.previous)] {
+            for point in points {
+                let amount = value(of: point).formattedAmount(currencyCode: currencyCode)
+                lines[point.dayOfMonth, default: []].append(String(localized: "analytics.overview.value \(name) \(amount)"))
             }
         }
-    }
-
-    private func spokenValue(day: Int) -> String {
-        lines(day: day).joined(separator: ", ")
+        return lines
     }
 }
 

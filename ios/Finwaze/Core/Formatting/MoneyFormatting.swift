@@ -11,6 +11,11 @@ nonisolated extension Decimal {
         formatted(.currency(code: currencyCode).sign(strategy: .always(showZero: false)).locale(locale))
     }
 
+    /// A short amount with its currency for a chart axis: `₴1.2K`.
+    func formattedCompactAmount(currencyCode: String, locale: Locale = .current) -> String {
+        formatted(.currency(code: currencyCode).notation(.compactName).locale(locale))
+    }
+
     /// The amount as the user would type it in the interface language, without grouping, to prefill a field:
     /// `4101,10`, `-300`.
     func inputText(locale: Locale = .current) -> String {

@@ -5,15 +5,6 @@ import Observation
 /// for the received amount (`TRF-03`).
 @Observable
 final class TransferFormViewModel {
-    enum AccountIssue: Equatable {
-        case required
-    }
-
-    enum DateIssue: Equatable {
-        /// A transfer cannot be dated in the future (`GEN-13`).
-        case inFuture
-    }
-
     /// Changing the source clears the destination: it may be the same account, or no longer fit (`TRF-02`).
     var fromAccount: Account? {
         didSet {
@@ -102,11 +93,11 @@ final class TransferFormViewModel {
 
     // MARK: Validation (GEN-21)
 
-    var fromAccountIssue: AccountIssue? {
+    var fromAccountIssue: RequiredIssue? {
         showsValidation && fromAccount == nil ? .required : nil
     }
 
-    var toAccountIssue: AccountIssue? {
+    var toAccountIssue: RequiredIssue? {
         showsValidation && toAccount == nil ? .required : nil
     }
 
@@ -123,7 +114,7 @@ final class TransferFormViewModel {
         return issue
     }
 
-    var dateIssue: DateIssue? {
+    var dateIssue: FutureDateIssue? {
         showsValidation && transactedAt > clock() ? .inFuture : nil
     }
 

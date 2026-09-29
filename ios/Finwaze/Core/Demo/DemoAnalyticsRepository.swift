@@ -10,13 +10,13 @@ nonisolated struct DemoAnalyticsRepository: AnalyticsRepository {
     func summary(_ query: AnalyticsQuery) async throws -> AnalyticsSummary {
         let current = records(in: query.month, query)
         let previous = records(in: query.month.adding(months: -1), query)
-        let incomes = current.filter(Self.isIncome)
-        let expenses = current.filter(Self.isExpense)
+        let incomes = current.filter { $0.isIncome(by: \.chargedAmount) }
+        let expenses = current.filter { $0.isExpense(by: \.chargedAmount) }
         return AnalyticsSummary(
-            monthlyIncome: Self.total(incomes),
-            previousMonthlyIncome: Self.total(previous.filter(Self.isIncome)),
-            monthlyExpense: abs(Self.total(expenses)),
-            previousMonthlyExpense: abs(Self.total(previous.filter(Self.isExpense))),
+            monthlyIncome: incomes.income(\.chargedAmount),
+            previousMonthlyIncome: previous.income(\.chargedAmount),
+            monthlyExpense: expenses.expense(\.chargedAmount),
+            previousMonthlyExpense: previous.expense(\.chargedAmount),
             totalBalance: balance(atEndOf: query.month, query),
             previousTotalBalance: balance(atEndOf: query.month.adding(months: -1), query),
             incomeTransactionCount: incomes.count,
@@ -45,8 +45,8 @@ nonisolated struct DemoAnalyticsRepository: AnalyticsRepository {
             return DailyOverviewPoint(
                 day: day,
                 dayOfMonth: dayOfMonth,
-                income: Self.total(onDay.filter(Self.isIncome)),
-                expense: abs(Self.total(onDay.filter(Self.isExpense))),
+                income: onDay.income(\.chargedAmount),
+                expense: onDay.expense(\.chargedAmount),
                 balance: closing - Self.total(later)
             )
         }
@@ -54,15 +54,15 @@ nonisolated struct DemoAnalyticsRepository: AnalyticsRepository {
 
     /// Like the server: groups with an income or an expense, largest expense first, then by name.
     func amountsByGroup(_ query: AnalyticsQuery) async throws -> [GroupAmounts] {
-        let counted = records(in: query.month, query).filter { Self.isIncome($0) || Self.isExpense($0) }
+        let counted = records(in: query.month, query).filter { $0.isCounted && $0.chargedAmount != 0 }
         return Dictionary(grouping: counted, by: \.group.id).values
             .compactMap { records -> GroupAmounts? in
                 guard let group = records.first?.group else { return nil }
                 return GroupAmounts(
                     id: group.id,
                     name: group.name,
-                    income: Self.total(records.filter(Self.isIncome)),
-                    expense: abs(Self.total(records.filter(Self.isExpense)))
+                    income: records.income(\.chargedAmount),
+                    expense: records.expense(\.chargedAmount)
                 )
             }
             .sorted { ($1.expense, $0.name) < ($0.expense, $1.name) }
@@ -76,16 +76,15 @@ nonisolated struct DemoAnalyticsRepository: AnalyticsRepository {
             let month = YearMonth(year: year, month: number)
             let totals = try await budget.totals(BudgetQuery(month: month, currencyCode: currencyCode, groupID: nil))
             let query = AnalyticsQuery(month: month, currencyCode: currencyCode, accountIDs: [])
-            let expenses = records(in: month, query).filter(Self.isExpense)
-            months.append(MonthlyBudgetExpense(month: month, budget: totals.planned, expense: abs(Self.total(expenses))))
+            let expense = records(in: month, query).expense(\.chargedAmount)
+            months.append(MonthlyBudgetExpense(month: month, budget: totals.planned, expense: expense))
         }
         return months
     }
 
     /// The month's records charged to the query's accounts in its currency, transfers included.
     private func records(in month: YearMonth, _ query: AnalyticsQuery) -> [Transaction] {
-        guard let start = month.start(in: calendar) else { return [] }
-        return DemoData.transactions(inMonthOf: start, now: now(), calendar: calendar).filter {
+        DemoData.transactions(in: month, now: now(), calendar: calendar).filter {
             $0.chargedCurrencyCode == query.currencyCode
                 && (query.accountIDs.isEmpty || query.accountIDs.contains($0.accountID))
         }
@@ -114,15 +113,6 @@ nonisolated struct DemoAnalyticsRepository: AnalyticsRepository {
             .filter { $0.currencyCode == query.currencyCode }
             .reduce(Decimal(0)) { $0 + $1.accumulatedAmount }
         return accounts + goals
-    }
-
-    /// Counted by the sign of the amount charged, without transfers and corrections (`GEN-02`).
-    private static func isIncome(_ transaction: Transaction) -> Bool {
-        transaction.chargedAmount > 0 && transaction.type != .transfer && transaction.type != .internal
-    }
-
-    private static func isExpense(_ transaction: Transaction) -> Bool {
-        transaction.chargedAmount < 0 && transaction.type != .transfer && transaction.type != .internal
     }
 
     private static func total(_ transactions: [Transaction]) -> Decimal {

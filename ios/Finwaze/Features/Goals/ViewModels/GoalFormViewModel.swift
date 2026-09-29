@@ -27,10 +27,6 @@ final class GoalFormViewModel {
         case inPast
     }
 
-    enum CurrencyIssue: Equatable {
-        case required
-    }
-
     static let nameLength = 3...30
     static let minimumTarget: Decimal = 1
 
@@ -138,7 +134,7 @@ final class GoalFormViewModel {
         return calendar.startOfDay(for: targetDate) < earliestDate ? .inPast : nil
     }
 
-    var currencyIssue: CurrencyIssue? {
+    var currencyIssue: RequiredIssue? {
         showsValidation && !isEditing && currency == nil ? .required : nil
     }
 

@@ -5,21 +5,8 @@ import Observation
 /// currency while it has no transactions, sets its balance at a moment and deletes it.
 @Observable
 final class AccountSettingsViewModel {
-    enum State: Equatable {
-        case loading
-        case loaded(AccountDetails)
-        /// The account no longer exists: deleted elsewhere, or never visible under RLS.
-        case notFound
-        case failed
-    }
-
-    enum DateIssue: Equatable {
-        /// The balance cannot be set at a moment in the future (`GEN-13`).
-        case inFuture
-    }
-
     let accountID: Int64
-    private(set) var state: State = .loading
+    private(set) var state: DetailState<AccountDetails> = .loading
 
     var name = ""
     var currency: Currency?
@@ -63,7 +50,7 @@ final class AccountSettingsViewModel {
     }
 
     var details: AccountDetails? {
-        if case .loaded(let details) = state { details } else { nil }
+        state.value
     }
 
     /// The full directory: the currency is set anew here (`GEN-11`).
@@ -71,9 +58,9 @@ final class AccountSettingsViewModel {
         referenceData.currencies
     }
 
-    /// Only while the account has no transactions (`ACC-10`).
+    /// Only while the account has no transactions (`ACC-10`), like deleting it.
     var isCurrencyEditable: Bool {
-        details?.canDelete == true
+        canDelete
     }
 
     /// Only while the account has no transactions (`ACC-11`).
@@ -124,7 +111,7 @@ final class AccountSettingsViewModel {
         return issue
     }
 
-    var dateIssue: DateIssue? {
+    var dateIssue: FutureDateIssue? {
         showsValidation && usesBalanceDate && balanceDate > clock() ? .inFuture : nil
     }
 

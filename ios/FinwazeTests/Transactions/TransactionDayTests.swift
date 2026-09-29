@@ -14,7 +14,7 @@ struct TransactionDayTests {
         let base = Transaction.fixture(id: id, type: type, amount: amount, currencyCode: currency)
         return Transaction(
             id: base.id, type: base.type,
-            transactedAt: TransactionMapper.parseTimestamp(iso)!,
+            transactedAt: Date(timestamptz: iso)!,
             localOffset: LocalOffset(seconds: offset),
             transactionAmount: base.transactionAmount, transactionCurrencyCode: base.transactionCurrencyCode,
             chargedAmount: base.chargedAmount, chargedCurrencyCode: base.chargedCurrencyCode,

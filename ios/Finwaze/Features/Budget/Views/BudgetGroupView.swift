@@ -3,11 +3,6 @@ import SwiftUI
 /// A group's budget (`BUD-17`): the group's total, a card per category and the categories' "Most expenses", in the
 /// month and currency of the Budget screen it was opened from.
 struct BudgetGroupView: View {
-    private struct LoadKey: Equatable {
-        let query: BudgetQuery?
-        let dataVersion: Int
-    }
-
     let app: AppViewModel
     let route: BudgetGroupRoute
     @State private var viewModel: BudgetViewModel
@@ -43,7 +38,7 @@ struct BudgetGroupView: View {
         // "Budget · September 2026 · UAH" under the group's name (`BUD-10`).
         .navigationTitle(Text(verbatim: route.name))
         .navigationSubtitle(Text("budget.group.subtitle \(viewModel.filter.month.title) \(viewModel.currencyCode ?? "")"))
-        .task(id: LoadKey(query: viewModel.query, dataVersion: app.dataVersion)) {
+        .task(for: viewModel.query, dataVersion: app.dataVersion) {
             await viewModel.load(dataVersion: app.dataVersion)
         }
         .refreshable { await viewModel.refresh() }

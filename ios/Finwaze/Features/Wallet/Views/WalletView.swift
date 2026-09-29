@@ -46,7 +46,7 @@ struct WalletView: View {
                 NewTransactionView(app: app)
             }
             // Balances follow every change to the data: a new account or transaction (`GEN-26`).
-            .task(id: app.dataVersion) { await viewModel.load() }
+            .task(id: app.dataVersion) { await viewModel.load(dataVersion: app.dataVersion) }
             .refreshable { await refresh() }
     }
 
@@ -87,7 +87,7 @@ struct WalletView: View {
             AccountCardGrid(accounts: accounts)
         case .failed:
             ContentCard(title: "wallet.accounts.title") {
-                CardErrorView { Task { await viewModel.load() } }
+                CardErrorView { Task { await viewModel.refresh() } }
             }
         }
     }
@@ -107,7 +107,7 @@ struct WalletView: View {
 
     /// Pull to refresh: the accounts and every widget, keeping their figures until the new ones arrive.
     private func refresh() async {
-        async let accounts: Void = viewModel.load()
+        async let accounts: Void = viewModel.refresh()
         async let cashFlow: Void = cashFlow.widget.refresh()
         async let recent: Void = recentTransactions.refresh()
         async let statistics: Void = statistics.widget.refresh()

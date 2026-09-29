@@ -38,3 +38,32 @@ nonisolated struct Transaction: Identifiable, Equatable, Sendable {
         transactionCurrencyCode != chargedCurrencyCode
     }
 }
+
+nonisolated extension Transaction {
+    /// Whether it counts as an income or expense: transfers and balance corrections never do (`GEN-02`).
+    var isCounted: Bool {
+        type != .transfer && type != .internal
+    }
+
+    /// A counted record with a positive `amount`: incomes and expenses are told apart by sign, not by type (`GEN-02`).
+    func isIncome(by amount: KeyPath<Transaction, Decimal>) -> Bool {
+        isCounted && self[keyPath: amount] > 0
+    }
+
+    /// A counted record with a negative `amount` (`GEN-02`).
+    func isExpense(by amount: KeyPath<Transaction, Decimal>) -> Bool {
+        isCounted && self[keyPath: amount] < 0
+    }
+}
+
+nonisolated extension Sequence<Transaction> {
+    /// The total of the incomes by `amount` (`GEN-02`).
+    func income(_ amount: KeyPath<Transaction, Decimal>) -> Decimal {
+        filter { $0.isIncome(by: amount) }.reduce(0) { $0 + $1[keyPath: amount] }
+    }
+
+    /// The total of the expenses by `amount`, as a positive amount (`GEN-02`).
+    func expense(_ amount: KeyPath<Transaction, Decimal>) -> Decimal {
+        abs(filter { $0.isExpense(by: amount) }.reduce(0) { $0 + $1[keyPath: amount] })
+    }
+}

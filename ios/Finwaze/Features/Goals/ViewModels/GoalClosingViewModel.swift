@@ -13,10 +13,6 @@ final class GoalClosingViewModel: Identifiable {
         case complete, cancel
     }
 
-    enum AccountIssue: Equatable {
-        case required
-    }
-
     let kind: Kind
     let goal: SavingsGoal
     /// The account picked here; see `account`.
@@ -62,13 +58,12 @@ final class GoalClosingViewModel: Identifiable {
 
     /// Regular accounts in the goal's currency (`GOAL-03`).
     var accounts: [Account] {
-        referenceData.accounts.filter { $0.currencyCode == goal.currencyCode }
+        GoalAccountChoice.accounts(for: goal, in: referenceData)
     }
 
     /// The account picked here, or the only one there is.
     var account: Account? {
-        if let selectedAccount, accounts.contains(selectedAccount) { return selectedAccount }
-        return accounts.count == 1 ? accounts.first : nil
+        GoalAccountChoice.account(selected: selectedAccount, among: accounts)
     }
 
     /// No account in the goal's currency: the sheet explains it and offers to create one (`Q-04`).
@@ -76,7 +71,7 @@ final class GoalClosingViewModel: Identifiable {
         accounts.isEmpty && !hasMovedMoney
     }
 
-    var accountIssue: AccountIssue? {
+    var accountIssue: RequiredIssue? {
         showsValidation && !hasMovedMoney && account == nil ? .required : nil
     }
 

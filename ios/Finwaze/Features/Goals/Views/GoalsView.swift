@@ -3,12 +3,6 @@ import SwiftUI
 /// The Goals section (`GOAL-10…17`): the filters, a card per goal with "Deposit" and "Withdraw", "Total goals" and
 /// the savings overview. The section's "+" and the empty state open "New goal"; a card opens the goal's screen.
 struct GoalsView: View {
-    /// Reload trigger: the filters and every change to the data (`GEN-26`).
-    private struct LoadKey: Equatable {
-        let query: GoalsQuery
-        let dataVersion: Int
-    }
-
     /// "Deposit" or "Withdraw" on a card (`GOAL-12`).
     private struct TransferRequest: Identifiable {
         let goal: SavingsGoal
@@ -50,7 +44,7 @@ struct GoalsView: View {
                 SuccessBanner(message: banner) { viewModel.banner = nil }
             }
         }
-        .task(id: LoadKey(query: viewModel.query, dataVersion: app.dataVersion)) {
+        .task(for: viewModel.query, dataVersion: app.dataVersion) {
             await viewModel.load(dataVersion: app.dataVersion)
         }
         .refreshable { await viewModel.refresh() }
@@ -79,14 +73,7 @@ struct GoalsView: View {
                 .accessibilityElement(children: .ignore)
                 .accessibilityLabel(Text("common.loading"))
         case .failed:
-            ContentUnavailableView {
-                Label("error.generic.title", systemImage: "exclamationmark.triangle")
-            } description: {
-                Text("error.generic.message")
-            } actions: {
-                Button("common.retry", systemImage: "arrow.clockwise", action: retryGoals)
-                    .buttonStyle(.glassProminent)
-            }
+            ScreenErrorView(onRetry: retryGoals)
         case .loaded(let goals) where goals.isEmpty:
             emptyState
         case .loaded(let goals):

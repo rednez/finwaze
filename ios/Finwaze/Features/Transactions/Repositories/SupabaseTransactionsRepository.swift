@@ -16,12 +16,6 @@ nonisolated struct SupabaseTransactionsRepository: TransactionsRepository {
         )
         """
 
-    /// The response of an `update`/`insert` `select("id")`: present only for rows that still exist and are visible
-    /// under RLS.
-    private struct IDRow: Decodable {
-        let id: Int64
-    }
-
     /// Parameters of `get_filtered_transactions`; a `nil` one is left out, so the SQL default (`NULL`, "any") applies.
     private struct Params: Encodable {
         let month: String
@@ -77,14 +71,7 @@ nonisolated struct SupabaseTransactionsRepository: TransactionsRepository {
     }
 
     func update(id: Int64, _ update: TransactionUpdate) async throws -> Bool {
-        let rows: [IDRow] = try await client
-            .from("transactions")
-            .update(TransactionMapper.toDto(update))
-            .eq("id", value: Int(id))
-            .select("id")
-            .execute()
-            .value
-        return !rows.isEmpty
+        try await client.updateRow("transactions", id: id, values: TransactionMapper.toDto(update))
     }
 
     func delete(id: Int64) async throws {
@@ -98,7 +85,7 @@ nonisolated struct SupabaseTransactionsRepository: TransactionsRepository {
     /// The whole month in one call, like the web (`Q-07`): no `p_page_size`.
     private static func params(for query: TransactionQuery) -> Params {
         Params(
-            month: query.month.isoDateString(),
+            month: query.month.firstDayParameter,
             type: query.type,
             categoryIDs: query.categoryIDs,
             currencyCodes: query.currencyCode.map { [$0] },

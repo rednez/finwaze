@@ -2,8 +2,7 @@ import Foundation
 
 /// What the transactions list asks the server for.
 nonisolated struct TransactionQuery: Equatable, Sendable {
-    /// The first day of the month, in the device's time zone.
-    let month: Date
+    let month: YearMonth
     let type: TransactionType?
     /// `nil` means any category.
     let categoryIDs: [Int64]?
@@ -13,8 +12,8 @@ nonisolated struct TransactionQuery: Equatable, Sendable {
 
 /// The list's filters (`TX-03`) with the rules that tie them together (`TX-04`).
 nonisolated struct TransactionFilters: Equatable, Sendable {
-    /// The first day of the selected month (`GEN-14`).
-    private(set) var month: Date
+    /// The selected month (`GEN-14`).
+    private(set) var month: YearMonth
     var type: TransactionType?
     /// Purchase currency; changing it resets the account (`TX-04`).
     var currencyCode: String? {
@@ -27,12 +26,9 @@ nonisolated struct TransactionFilters: Equatable, Sendable {
     }
     var categoryID: Int64?
 
-    private let calendar: Calendar
-
     /// Starts on the current month with every other filter set to "All".
     init(now: Date = .now, calendar: Calendar = .current) {
-        self.calendar = calendar
-        month = calendar.dateInterval(of: .month, for: now)?.start ?? now
+        month = YearMonth(now, in: calendar)
     }
 
     /// How many filters besides the month are set to something other than "All".
@@ -51,8 +47,7 @@ nonisolated struct TransactionFilters: Equatable, Sendable {
 
     /// Moves the month by `months` (negative for earlier).
     mutating func shiftMonth(by months: Int) {
-        guard let shifted = calendar.date(byAdding: .month, value: months, to: month) else { return }
-        month = shifted
+        month = month.adding(months: months)
     }
 
     /// The server query, or `nil` when nothing can match: a group without categories (`TX-04`).

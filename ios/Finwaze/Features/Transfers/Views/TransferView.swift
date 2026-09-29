@@ -16,7 +16,7 @@ struct TransferView: View {
             initialValue: TransferFormViewModel(
                 referenceData: app.referenceData,
                 repository: app.repositories.transfers,
-                onSaved: { app.transferMade() }
+                onSaved: { app.dataChanged() }
             )
         )
     }

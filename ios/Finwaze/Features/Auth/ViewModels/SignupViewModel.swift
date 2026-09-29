@@ -22,10 +22,6 @@ final class SignupViewModel {
         self.repository = repository
     }
 
-    var isConfirmationEmailSent: Bool {
-        confirmationEmail != nil
-    }
-
     var emailIssue: CredentialsValidator.EmailIssue? {
         showsValidation ? CredentialsValidator.validateEmail(email) : nil
     }

@@ -4,11 +4,6 @@ import Supabase
 nonisolated struct SupabaseGroupsRepository: GroupsRepository {
     let client: SupabaseClient
 
-    /// The response of an `update` `select("id")`: present only for rows that still exist and are visible under RLS.
-    private struct IDRow: Decodable {
-        let id: Int64
-    }
-
     func groups() async throws -> [GroupWithCategories] {
         let dtos: [GroupWithCategoriesDto] = try await client
             .from("groups_with_categories_tx_counts")
@@ -36,13 +31,6 @@ nonisolated struct SupabaseGroupsRepository: GroupsRepository {
 
     /// One request for both the name and the colour; the web sends them separately.
     private func update(table: String, id: Int64, name: String, color: String?) async throws -> Bool {
-        let rows: [IDRow] = try await client
-            .from(table)
-            .update(NameColorUpdateDto(name: name, color: color))
-            .eq("id", value: Int(id))
-            .select("id")
-            .execute()
-            .value
-        return !rows.isEmpty
+        try await client.updateRow(table, id: id, values: NameColorUpdateDto(name: name, color: color))
     }
 }

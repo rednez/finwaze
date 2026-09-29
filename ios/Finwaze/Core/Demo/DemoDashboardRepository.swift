@@ -25,11 +25,11 @@ nonisolated struct DemoDashboardRepository: DashboardRepository {
 
         return DashboardTotals(
             totalBalance: balance,
-            monthlyIncome: Self.income(of: current),
-            monthlyExpense: Self.expense(of: current),
+            monthlyIncome: current.income(\.chargedAmount),
+            monthlyExpense: current.expense(\.chargedAmount),
             previousTotalBalance: balance - thisMonth,
-            previousMonthlyIncome: Self.income(of: previous),
-            previousMonthlyExpense: Self.expense(of: previous)
+            previousMonthlyIncome: previous.income(\.chargedAmount),
+            previousMonthlyExpense: previous.expense(\.chargedAmount)
         )
     }
 
@@ -37,7 +37,7 @@ nonisolated struct DemoDashboardRepository: DashboardRepository {
         DashboardMapper.lastMonths(months, now: now()).compactMap { month in
             guard let start = month.start(in: calendar) else { return nil }
             let transactions = transactions(inMonthOf: start, currencyCode: currencyCode)
-            return MonthlyCashFlow(month: start, income: Self.income(of: transactions), expense: Self.expense(of: transactions))
+            return MonthlyCashFlow(month: start, income: transactions.income(\.chargedAmount), expense: transactions.expense(\.chargedAmount))
         }
     }
 
@@ -65,15 +65,5 @@ nonisolated struct DemoDashboardRepository: DashboardRepository {
 
     private func previousMonth(of date: Date) -> Date {
         calendar.date(byAdding: .month, value: -1, to: date) ?? date
-    }
-
-    /// Incomes only, by the amount charged (`GEN-02`).
-    private static func income(of transactions: [Transaction]) -> Decimal {
-        transactions.filter { $0.type == .income }.reduce(0) { $0 + $1.chargedAmount }
-    }
-
-    /// Expenses only, as a positive amount (`GEN-02`).
-    private static func expense(of transactions: [Transaction]) -> Decimal {
-        abs(transactions.filter { $0.type == .expense }.reduce(0) { $0 + $1.chargedAmount })
     }
 }

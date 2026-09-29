@@ -5,12 +5,6 @@ import Observation
 /// editing and deleting both. Every change reloads what other screens show (`GEN-26`).
 @Observable
 final class GroupsViewModel {
-    enum State: Equatable {
-        case loading
-        case loaded([GroupWithCategories])
-        case failed
-    }
-
     /// A failed deletion: which action failed and the server's explanation (`CAT-11`, `GEN-19`). Creating and
     /// editing report failures inside their own dialog, which keeps the entered name.
     struct Failure: Equatable {
@@ -25,7 +19,6 @@ final class GroupsViewModel {
         }
     }
 
-    private(set) var state: State = .loading
     /// `nil` shows all groups (`CAT-01`).
     var typeFilter: TransactionType?
     /// A short success message; the screen shows it as a banner that clears this itself (`CAT-11`).
@@ -34,6 +27,8 @@ final class GroupsViewModel {
     private(set) var isDeleting = false
 
     private let repository: any GroupsRepository
+    /// Keyed by the data version only: the type filter works on the loaded groups.
+    private let groups: CardLoader<Bool, [GroupWithCategories]>
     private let createGroupAction: (_ name: String, _ type: TransactionType, _ color: String?) async throws -> Void
     private let createCategoryAction: (_ name: String, _ groupID: Int64, _ color: String?) async throws -> Void
     private let onChanged: () async -> Void
@@ -45,14 +40,19 @@ final class GroupsViewModel {
         onChanged: @escaping () async -> Void
     ) {
         self.repository = repository
+        groups = CardLoader(key: { true }) { _ in try await repository.groups() }
         createGroupAction = createGroup
         createCategoryAction = createCategory
         self.onChanged = onChanged
     }
 
+    var state: CardState<[GroupWithCategories]> {
+        groups.state
+    }
+
     /// Groups of the filtered type, or all of them.
     var visibleGroups: [GroupWithCategories] {
-        guard case .loaded(let groups) = state else { return [] }
+        let groups = state.value ?? []
         guard let typeFilter else { return groups }
         return groups.filter { $0.transactionType == typeFilter }
     }
@@ -68,17 +68,14 @@ final class GroupsViewModel {
         typeFilter ?? .expense
     }
 
-    /// Loads the groups. A reload keeps the list on screen until the new one arrives (`GEN-26`).
-    func load() async {
-        if case .failed = state {
-            state = .loading
-        }
-        do {
-            state = .loaded(try await repository.groups())
-        } catch {
-            guard !Task.isCancelled else { return }
-            state = .failed
-        }
+    /// Loads the groups when the data changed, not on every return to the screen (see `CardLoader`).
+    func load(dataVersion: Int) async {
+        await groups.load(dataVersion: dataVersion)
+    }
+
+    /// Pull to refresh or "Try again". A reload keeps the list on screen until the new one arrives (`GEN-26`).
+    func refresh() async {
+        await groups.refresh()
     }
 
     // MARK: Create (CAT-04, CAT-07)

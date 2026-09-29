@@ -54,7 +54,7 @@ struct TransactionMapperTests {
         ("2026-09-27T12:15:00+03:00", 0.0),
     ])
     func parsesTimestamps(_ text: String, fraction: Double) throws {
-        let date = try #require(TransactionMapper.parseTimestamp(text))
+        let date = try #require(Date(timestamptz: text))
 
         #expect(abs(date.timeIntervalSince1970 - (1_790_500_500 + fraction)) < 0.001)
     }

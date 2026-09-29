@@ -29,7 +29,7 @@ struct SignupViewModelTests {
         await viewModel.signUp()
 
         #expect(repository.calls.signUp.map(\.email) == ["new@mail.com"])
-        #expect(viewModel.isConfirmationEmailSent)
+        #expect(viewModel.confirmationEmail != nil)
     }
 
     @Test func staysOnFormWhenSignedInImmediately() async {
@@ -37,7 +37,7 @@ struct SignupViewModelTests {
 
         await viewModel.signUp()
 
-        #expect(!viewModel.isConfirmationEmailSent)
+        #expect(viewModel.confirmationEmail == nil)
         #expect(viewModel.failure == nil)
     }
 
@@ -47,7 +47,7 @@ struct SignupViewModelTests {
         await viewModel.signUp()
 
         #expect(viewModel.failure == .weakPassword)
-        #expect(!viewModel.isConfirmationEmailSent)
+        #expect(viewModel.confirmationEmail == nil)
     }
 
     @Test func doesNotRevealExistingAccount() async {

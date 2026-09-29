@@ -4,12 +4,6 @@ import SwiftUI
 /// and savings goals. The primary currency is chosen in the navigation bar (`PrimaryCurrencyMenu`, `SectionToolbar`).
 /// One column on a phone, more on a wider screen.
 struct DashboardView: View {
-    /// Reload trigger: the primary currency and every change to the data (`DASH-01`, `GEN-26`).
-    private struct LoadKey: Equatable {
-        let currencyCode: String?
-        let dataVersion: Int
-    }
-
     @Environment(AppViewModel.self) private var app
     @Environment(MainNavigation.self) private var navigation: MainNavigation?
     @State private var viewModel: DashboardViewModel
@@ -31,7 +25,7 @@ struct DashboardView: View {
             .padding()
         }
         .background(Color(.systemGroupedBackground))
-        .task(id: LoadKey(currencyCode: viewModel.currencyCode, dataVersion: app.dataVersion)) {
+        .task(for: viewModel.currencyCode, dataVersion: app.dataVersion) {
             await viewModel.load(dataVersion: app.dataVersion)
         }
         .refreshable { await viewModel.refresh() }

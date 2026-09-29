@@ -13,7 +13,7 @@ struct NewGoalView: View {
                 referenceData: app.referenceData,
                 repository: app.repositories.goals,
                 defaultCurrencyCode: app.preferences.primaryCurrencyCode,
-                onSaved: { app.goalsChanged() }
+                onSaved: { app.dataChanged() }
             )
         )
     }

@@ -61,17 +61,17 @@ struct TransactionFormViewModelTests {
         #expect(await viewModel.submit() == false)
 
         #expect(viewModel.accountIssue == .required)
-        #expect(viewModel.amountIssue == .required)
+        #expect(viewModel.amountIssue == .input(.required))
         #expect(viewModel.categoryIssue == .required)
         #expect(repository.created.isEmpty)
     }
 
     @Test(arguments: [
-        ("0", TransactionFormViewModel.AmountIssue.notPositive),
-        ("0,00", .notPositive),
-        ("-5", .notPositive),
-        ("abc", .notPositive),
-        ("1,234", .tooPrecise),
+        ("0", TransactionFormViewModel.AmountIssue.input(.notPositive)),
+        ("0,00", .input(.notPositive)),
+        ("-5", .input(.notPositive)),
+        ("abc", .input(.notPositive)),
+        ("1,234", .input(.tooPrecise)),
     ])
     func rejectsBadAmounts(_ text: String, issue: TransactionFormViewModel.AmountIssue) async throws {
         let viewModel = try await makeViewModel()
@@ -286,7 +286,7 @@ struct TransactionFormViewModelTests {
         viewModel.purchaseCurrencyCode = "EUR"
 
         #expect(await viewModel.submit() == false)
-        #expect(viewModel.chargedAmountIssue == .required)
+        #expect(viewModel.chargedAmountIssue == .input(.required))
         #expect(repository.created.isEmpty)
     }
 
@@ -297,7 +297,7 @@ struct TransactionFormViewModelTests {
         viewModel.chargedAmountText = "1,234"
 
         #expect(await viewModel.submit() == false)
-        #expect(viewModel.chargedAmountIssue == .tooPrecise)
+        #expect(viewModel.chargedAmountIssue == .input(.tooPrecise))
     }
 
     @Test func chargedAndPurchaseAmountsMustDiffer() async throws {

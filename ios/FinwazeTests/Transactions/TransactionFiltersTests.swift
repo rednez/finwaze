@@ -22,8 +22,8 @@ struct TransactionFiltersTests {
         TransactionFilters(now: now, calendar: calendar)
     }
 
-    private func month(_ year: Int, _ month: Int) -> Date {
-        calendar.date(from: DateComponents(year: year, month: month, day: 1))!
+    private func month(_ year: Int, _ month: Int) -> YearMonth {
+        YearMonth(year: year, month: month)
     }
 
     @Test func startsOnCurrentMonthWithEverythingAll() throws {
@@ -31,7 +31,7 @@ struct TransactionFiltersTests {
         let query = try #require(filters.query(categories: categories))
 
         #expect(query == TransactionQuery(month: month(2026, 9), type: nil, categoryIDs: nil, currencyCode: nil, accountID: nil))
-        #expect(query.month.isoDateString(in: calendar.timeZone) == "2026-09-01")
+        #expect(query.month.firstDayParameter == "2026-09-01")
     }
 
     @Test func shiftsMonthAcrossYears() {

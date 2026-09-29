@@ -85,7 +85,7 @@ struct SavingsGoalsMapperTests {
 
     /// The date goes as the calendar day on this device, the amount exactly (`GEN-09`).
     @Test func encodesANewGoal() throws {
-        let day = try #require(SavingsGoalsMapper.parseDate("2027-05-31", timeZone: kyiv))
+        let day = try #require(Date(isoDate: "2027-05-31", timeZone: kyiv))
         let goal = NewSavingsGoal(name: "Vacation", currencyID: 2, targetAmount: Decimal(string: "30000.1")!, targetDate: day)
 
         let json = try #require(
@@ -100,7 +100,7 @@ struct SavingsGoalsMapperTests {
     }
 
     @Test func encodesAnUpdate() throws {
-        let day = try #require(SavingsGoalsMapper.parseDate("2027-01-01", timeZone: kyiv))
+        let day = try #require(Date(isoDate: "2027-01-01", timeZone: kyiv))
         let update = SavingsGoalUpdate(name: "Car", targetAmount: 1500, targetDate: day)
 
         let json = try #require(

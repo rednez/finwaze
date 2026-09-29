@@ -34,16 +34,14 @@ nonisolated enum WalletMapper {
             accountID: adjustment.accountID,
             targetBalance: adjustment.targetBalance,
             localOffset: adjustment.localOffset.intervalString,
-            // With the `Z` designator: without it Postgres would read the time in the session's time zone.
-            balanceDate: Date.ISO8601FormatStyle(includingFractionalSeconds: true, timeZone: .gmt)
-                .format(adjustment.balanceDate)
+            balanceDate: adjustment.balanceDate.timestamptzString
         )
     }
 
     /// A day of the Wallet's chart. The day is a calendar date, read in the device's time zone so it stays the same
     /// day; expenses become positive, like the web (`ACC-03`).
     static func toDailyCashFlow(_ dto: DailyCashFlowDto, timeZone: TimeZone = .current) throws -> DailyCashFlow {
-        guard let day = SavingsGoalsMapper.parseDate(dto.day, timeZone: timeZone) else {
+        guard let day = Date(isoDate: dto.day, timeZone: timeZone) else {
             throw MappingError.invalidDay(dto.day)
         }
         return DailyCashFlow(day: day, income: dto.totalIncome ?? 0, expense: abs(dto.totalExpense ?? 0))

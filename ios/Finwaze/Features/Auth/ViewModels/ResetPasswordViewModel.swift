@@ -18,10 +18,6 @@ final class ResetPasswordViewModel {
         self.email = email
     }
 
-    var isLinkSent: Bool {
-        sentEmail != nil
-    }
-
     var emailIssue: CredentialsValidator.EmailIssue? {
         showsValidation ? CredentialsValidator.validateEmail(email) : nil
     }

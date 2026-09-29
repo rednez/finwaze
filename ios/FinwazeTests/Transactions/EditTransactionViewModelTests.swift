@@ -36,7 +36,7 @@ struct EditTransactionViewModelTests {
     @Test func startsLoading() async throws {
         let viewModel = try await makeViewModel()
 
-        #expect(viewModel.state == .loading)
+        #expect(viewModel.state.phase == .loading)
         #expect(viewModel.formViewModel == nil)
     }
 
@@ -46,7 +46,7 @@ struct EditTransactionViewModelTests {
 
         await viewModel.load()
 
-        #expect(viewModel.state == .loaded)
+        #expect(viewModel.state.phase == .loaded)
         #expect(viewModel.formViewModel?.mode == .edit(transaction))
         #expect(repository.requestedIDs == [7])
     }
@@ -56,7 +56,7 @@ struct EditTransactionViewModelTests {
 
         await viewModel.load()
 
-        #expect(viewModel.state == .notFound)
+        #expect(viewModel.state.phase == .notFound)
         #expect(viewModel.formViewModel == nil)
     }
 
@@ -66,7 +66,7 @@ struct EditTransactionViewModelTests {
 
         await viewModel.load()
 
-        #expect(viewModel.state == .failed)
+        #expect(viewModel.state.phase == .failed)
     }
 
     @Test func savingShowsTheBannerAndNotifies() async throws {
@@ -94,7 +94,7 @@ struct EditTransactionViewModelTests {
 
         viewModel.applyNotFoundIfNeeded()
 
-        #expect(viewModel.state == .notFound)
+        #expect(viewModel.state.phase == .notFound)
     }
 
     @Test func deleteNotifiesOnSuccess() async throws {
@@ -117,5 +117,21 @@ struct EditTransactionViewModelTests {
 
         #expect(viewModel.deletionFailure == "duplicate key value")
         #expect(deletions == 0)
+    }
+}
+
+/// The state without the form, which is not `Equatable`.
+private enum Phase {
+    case loading, loaded, notFound, failed
+}
+
+private extension DetailState {
+    var phase: Phase {
+        switch self {
+        case .loading: .loading
+        case .loaded: .loaded
+        case .notFound: .notFound
+        case .failed: .failed
+        }
     }
 }

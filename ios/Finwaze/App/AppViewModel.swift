@@ -150,59 +150,10 @@ final class AppViewModel {
         dataChanged()
     }
 
-    /// An account was renamed, changed currency or got a new balance (`ACC-09`, `ACC-10`): forms, filters and
-    /// balances follow (`GEN-26`), and the primary currency is re-derived if its last account moved on (`NAV-11`).
-    func accountUpdated() async {
-        await reloadReferenceData()
-        dataChanged()
-    }
-
-    /// An account was deleted (`ACC-11`): it disappears everywhere; deleting the last one leads to onboarding
-    /// (`NAV-07`).
-    func accountDeleted() async {
-        await reloadReferenceData()
-        dataChanged()
-    }
-
-    /// A transaction was created: balances and lists follow (`GEN-26`).
-    func transactionCreated() {
-        dataChanged()
-    }
-
-    /// A transaction was edited (`TX-40`): balances and lists follow (`GEN-26`).
-    func transactionUpdated() {
-        dataChanged()
-    }
-
-    /// A transaction was deleted (`TX-41`): balances and lists follow (`GEN-26`).
-    func transactionDeleted() {
-        dataChanged()
-    }
-
-    /// A transfer was made (`TRF-05`): both balances and the lists follow (`GEN-26`).
-    func transferMade() {
-        dataChanged()
-    }
-
-    /// A transfer was deleted (`TRF-08`): both balances and the lists follow (`GEN-26`).
-    func transferDeleted() {
-        dataChanged()
-    }
-
-    /// A month's budget plan was saved (`BUD-26`): the Budget and the Dashboard's budget card follow (`GEN-26`).
-    func budgetSaved() {
-        dataChanged()
-    }
-
-    /// A goal was created, edited, completed, cancelled or deleted, or money went in or out of it (`GOAL-13…25`):
-    /// Goals, the Dashboard's goals and balance, the Wallet's balances and the transactions list follow (`GEN-26`).
-    func goalsChanged() {
-        dataChanged()
-    }
-
-    /// A group or category was renamed, recoloured or deleted (`CAT-05…10`): the category picker, the transaction
-    /// filters and the transactions list follow (`GEN-26`).
-    func categoriesChanged() async {
+    /// Accounts, groups or categories changed — renamed, recoloured, re-currencied, rebalanced or deleted
+    /// (`ACC-09…11`, `CAT-05…10`): forms, filters and balances follow (`GEN-26`), the primary currency is re-derived
+    /// if its last account moved on (`NAV-11`), and deleting the last account leads to onboarding (`NAV-07`).
+    func referenceDataChanged() async {
         await reloadReferenceData()
         dataChanged()
     }
@@ -230,7 +181,9 @@ final class AppViewModel {
         return category
     }
 
-    private func dataChanged() {
+    /// A transaction, transfer, budget plan or goal was saved or deleted (`TX-40`, `TX-41`, `TRF-05`, `TRF-08`,
+    /// `BUD-26`, `GOAL-13…25`): balances and lists follow (`GEN-26`).
+    func dataChanged() {
         dataVersion += 1
     }
 

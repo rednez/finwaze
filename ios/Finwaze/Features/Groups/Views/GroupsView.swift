@@ -52,7 +52,7 @@ struct GroupsView: View {
                 repository: app.repositories.groups,
                 createGroup: { _ = try await app.createGroup(name: $0, type: $1, color: $2) },
                 createCategory: { _ = try await app.createCategory(name: $0, groupID: $1, color: $2) },
-                onChanged: { await app.categoriesChanged() }
+                onChanged: { await app.referenceDataChanged() }
             )
         )
     }
@@ -60,8 +60,8 @@ struct GroupsView: View {
     var body: some View {
         content
             // Follows every change, including groups and categories created from the category picker (`GEN-26`).
-            .task(id: app.dataVersion) { await viewModel.load() }
-            .refreshable { await viewModel.load() }
+            .task(id: app.dataVersion) { await viewModel.load(dataVersion: app.dataVersion) }
+            .refreshable { await viewModel.refresh() }
             .onChange(of: isAddingGroup, initial: true) { _, isAdding in
                 guard isAdding else { return }
                 prompt = .newGroup
@@ -104,16 +104,7 @@ struct GroupsView: View {
                 .frame(maxWidth: .infinity, maxHeight: .infinity)
                 .background(Color(.systemGroupedBackground))
         case .failed:
-            ContentUnavailableView {
-                Label("error.generic.title", systemImage: "exclamationmark.triangle")
-            } description: {
-                Text("error.generic.message")
-            } actions: {
-                Button("common.retry", systemImage: "arrow.clockwise") {
-                    Task { await viewModel.load() }
-                }
-                .buttonStyle(.glassProminent)
-            }
+            ScreenErrorView(onRetry: { Task { await viewModel.refresh() } })
         case .loaded where viewModel.hasNoGroups:
             // `CAT-12`.
             ContentUnavailableView {

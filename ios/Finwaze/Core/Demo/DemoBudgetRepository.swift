@@ -159,10 +159,9 @@ nonisolated struct DemoBudgetRepository: BudgetRepository {
 
     /// Expenses in the purchase currency, as positive amounts (`BUD-02`).
     private func spentByCategory(in month: YearMonth, currencyCode: String) -> [Int64: Decimal] {
-        guard let start = month.start(in: calendar) else { return [:] }
         var result: [Int64: Decimal] = [:]
-        for transaction in DemoData.transactions(inMonthOf: start, now: now(), calendar: calendar)
-        where transaction.type == .expense && transaction.transactionCurrencyCode == currencyCode {
+        for transaction in DemoData.transactions(in: month, now: now(), calendar: calendar)
+        where transaction.isExpense(by: \.transactionAmount) && transaction.transactionCurrencyCode == currencyCode {
             result[transaction.category.id, default: 0] += abs(transaction.transactionAmount)
         }
         return result

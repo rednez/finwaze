@@ -24,11 +24,6 @@ final class BudgetFilter {
         month = month.adding(months: months)
     }
 
-    /// Whether the status or group filter hides any group card.
-    var narrowsGroups: Bool {
-        status != nil || !groupIDs.isEmpty
-    }
-
     /// Back to every status and every group; the month and currency stay.
     func clearGroupFilters() {
         status = nil

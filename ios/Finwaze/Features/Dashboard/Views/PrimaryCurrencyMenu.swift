@@ -7,7 +7,7 @@ struct PrimaryCurrencyMenu: View {
 
     var body: some View {
         let preferences = app.preferences
-        let currencyCodes = app.referenceData.accountCurrencyCodes.sorted()
+        let currencyCodes = app.referenceData.sortedAccountCurrencyCodes
         // With a single currency there is nothing to choose.
         if let selection = preferences.primaryCurrencyCode, currencyCodes.count > 1 {
             Menu {

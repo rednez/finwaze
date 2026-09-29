@@ -167,7 +167,7 @@ nonisolated struct BudgetPlanDraft: Equatable, Sendable {
 
     /// The first category with an invalid amount, in the order shown.
     var firstInvalidCategoryID: Int64? {
-        lines.first { issue(for: $0.id) != nil }?.id
+        lines.first { (try? $0.amount.get()) == nil }?.id
     }
 
     /// Category id → amount, while every amount is valid; a group without categories is simply not in it.

@@ -11,16 +11,8 @@ final class TransactionFormViewModel {
         case edit(Transaction)
     }
 
-    enum RequiredIssue: Equatable {
-        case required
-    }
-
     enum AmountIssue: Equatable {
-        case required
-        /// Not a number, signed, zero or below.
-        case notPositive
-        /// More than two decimal places (`GEN-07`).
-        case tooPrecise
+        case input(PositiveAmountInput.Issue)
         /// The purchase amount equals the charged amount (`TX-22`); shown under the purchase field.
         case equalsChargedAmount
         /// The charged amount equals the purchase amount (`TX-22`); shown under the charged field.
@@ -176,7 +168,7 @@ final class TransactionFormViewModel {
 
     var amountIssue: AmountIssue? {
         guard showsValidation else { return nil }
-        if let issue = Self.validate(amountText).issue { return issue }
+        if case .failure(let issue) = PositiveAmountInput.parse(amountText) { return .input(issue) }
         if showsChargedAmount, let amount = parsedAmount, let charged = parsedChargedAmount, amount == charged {
             return .equalsChargedAmount
         }
@@ -185,7 +177,7 @@ final class TransactionFormViewModel {
 
     var chargedAmountIssue: AmountIssue? {
         guard showsValidation, showsChargedAmount else { return nil }
-        if let issue = Self.validate(chargedAmountText).issue { return issue }
+        if case .failure(let issue) = PositiveAmountInput.parse(chargedAmountText) { return .input(issue) }
         if let amount = parsedAmount, let charged = parsedChargedAmount, amount == charged {
             return .equalsExpenseAmount
         }
@@ -319,34 +311,16 @@ final class TransactionFormViewModel {
     }
 
     private var parsedAmount: Decimal? {
-        if case .valid(let value) = Self.validate(amountText) { value } else { nil }
+        try? PositiveAmountInput.parse(amountText).get()
     }
 
     private var parsedChargedAmount: Decimal? {
-        if case .valid(let value) = Self.validate(chargedAmountText) { value } else { nil }
+        try? PositiveAmountInput.parse(chargedAmountText).get()
     }
 
     /// A plain decimal string a user could type, e.g. `"250.5"` — for filling `amountText`/`chargedAmountText` from
     /// a saved transaction.
     private static func text(for amount: Decimal) -> String {
         "\(amount)"
-    }
-
-    private enum AmountValidation {
-        case valid(Decimal)
-        case invalid(AmountIssue)
-
-        var issue: AmountIssue? {
-            if case .invalid(let issue) = self { issue } else { nil }
-        }
-    }
-
-    private static func validate(_ text: String) -> AmountValidation {
-        switch PositiveAmountInput.parse(text) {
-        case .success(let value): .valid(value)
-        case .failure(.required): .invalid(.required)
-        case .failure(.notPositive): .invalid(.notPositive)
-        case .failure(.tooPrecise): .invalid(.tooPrecise)
-        }
     }
 }

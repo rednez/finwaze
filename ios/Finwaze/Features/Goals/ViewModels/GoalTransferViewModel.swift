@@ -9,19 +9,10 @@ final class GoalTransferViewModel {
         case deposit, withdraw
     }
 
-    enum AccountIssue: Equatable {
-        case required
-    }
-
     enum AmountIssue: Equatable {
         case input(PositiveAmountInput.Issue)
         /// A withdrawal cannot take more than the goal has (`GOAL-14`).
         case exceedsSaved
-    }
-
-    enum DateIssue: Equatable {
-        /// A transfer cannot be dated in the future (`GEN-13`).
-        case inFuture
     }
 
     let goal: SavingsGoal
@@ -62,13 +53,12 @@ final class GoalTransferViewModel {
 
     /// Regular accounts in the goal's currency (`GOAL-03`).
     var accounts: [Account] {
-        referenceData.accounts.filter { $0.currencyCode == goal.currencyCode }
+        GoalAccountChoice.accounts(for: goal, in: referenceData)
     }
 
     /// The account picked here, or the only one there is.
     var account: Account? {
-        if let selectedAccount, accounts.contains(selectedAccount) { return selectedAccount }
-        return accounts.count == 1 ? accounts.first : nil
+        GoalAccountChoice.account(selected: selectedAccount, among: accounts)
     }
 
     /// No account in the goal's currency: the form explains it and offers to create one (`Q-04`).
@@ -83,7 +73,7 @@ final class GoalTransferViewModel {
 
     // MARK: Validation (GEN-21)
 
-    var accountIssue: AccountIssue? {
+    var accountIssue: RequiredIssue? {
         showsValidation && account == nil ? .required : nil
     }
 
@@ -97,7 +87,7 @@ final class GoalTransferViewModel {
         }
     }
 
-    var dateIssue: DateIssue? {
+    var dateIssue: FutureDateIssue? {
         showsValidation && transactedAt > clock() ? .inFuture : nil
     }
 

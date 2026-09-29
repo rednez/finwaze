@@ -21,9 +21,7 @@ nonisolated enum TransferMapper {
             fromAmount: transfer.fromAmount,
             toAmount: transfer.toAmount,
             localOffset: transfer.localOffset.intervalString,
-            // With the `Z` designator: without it Postgres would read the time in the session's time zone.
-            transactedAt: Date.ISO8601FormatStyle(includingFractionalSeconds: true, timeZone: .gmt)
-                .format(transfer.transactedAt)
+            transactedAt: transfer.transactedAt.timestamptzString
         )
     }
 }

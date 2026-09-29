@@ -17,7 +17,7 @@ struct GoalDetailView: View {
                 referenceData: app.referenceData,
                 repository: app.repositories.goals,
                 transfers: app.repositories.transfers,
-                onChanged: { app.goalsChanged() }
+                onChanged: { app.dataChanged() }
             )
         )
     }
@@ -29,35 +29,12 @@ struct GoalDetailView: View {
             .task { await viewModel.load() }
     }
 
-    @ViewBuilder
     private var content: some View {
-        switch viewModel.state {
-        case .loading:
-            // A neutral spinner while the fresh copy loads (`GEN-23`).
-            ProgressView()
-                .frame(maxWidth: .infinity, maxHeight: .infinity)
-                .background(Color(.systemGroupedBackground))
-        case .notFound:
-            ContentUnavailableView {
-                Label("goals.notFound.title", systemImage: "questionmark.circle")
-            } description: {
-                Text("goals.notFound.message")
-            } actions: {
-                Button("goals.notFound.back") { dismiss() }
-                    .buttonStyle(.glassProminent)
-            }
-        case .failed:
-            ContentUnavailableView {
-                Label("error.generic.title", systemImage: "exclamationmark.triangle")
-            } description: {
-                Text("error.generic.message")
-            } actions: {
-                Button("common.retry", systemImage: "arrow.clockwise") {
-                    Task { await viewModel.load() }
-                }
-                .buttonStyle(.glassProminent)
-            }
-        case .loaded(let goal):
+        DetailStateView(
+            state: viewModel.state,
+            notFound: .init(title: "goals.notFound.title", message: "goals.notFound.message", back: "goals.notFound.back"),
+            onRetry: { Task { await viewModel.load() } }
+        ) { goal in
             if let form = viewModel.form {
                 GoalDetailContent(
                     app: app,

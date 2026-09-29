@@ -4,7 +4,7 @@ import Foundation
 nonisolated struct TransactionDay: Identifiable, Equatable, Sendable {
     /// `YYYY-MM-DD` of the local day.
     let id: String
-    let transactions: [Transaction]
+    private(set) var transactions: [Transaction]
 
     /// A transaction of the day, to format its date in the day's local time.
     var first: Transaction {
@@ -17,8 +17,8 @@ nonisolated struct TransactionDay: Identifiable, Equatable, Sendable {
         var days: [TransactionDay] = []
         for transaction in transactions {
             let key = transaction.transactedAt.isoDateString(in: transaction.localOffset.timeZone)
-            if let last = days.last, last.id == key {
-                days[days.count - 1] = TransactionDay(id: key, transactions: last.transactions + [transaction])
+            if days.last?.id == key {
+                days[days.count - 1].transactions.append(transaction)
             } else {
                 days.append(TransactionDay(id: key, transactions: [transaction]))
             }
@@ -42,7 +42,7 @@ nonisolated struct TransactionTotals: Equatable, Sendable {
     /// `nil` when there is nothing to add up or the currencies differ. Transfers and balance corrections are left
     /// out by type; income and expense are told apart by the sign of the amount.
     static func of(_ transactions: [Transaction]) -> TransactionTotals? {
-        let counted = transactions.filter { $0.type != .transfer && $0.type != .internal }
+        let counted = transactions.filter(\.isCounted)
         guard
             let currencyCode = counted.first?.transactionCurrencyCode,
             counted.allSatisfy({ $0.transactionCurrencyCode == currencyCode })

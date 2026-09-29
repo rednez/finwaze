@@ -5,28 +5,20 @@ import Observation
 /// with its own state, like the Dashboard's (`GEN-23…25`).
 @Observable
 final class BudgetViewModel {
-    nonisolated enum Card: CaseIterable, Sendable {
+    nonisolated enum Card: Sendable {
         case budgets, totals, expenses
     }
 
-    /// What the cards on screen were loaded for.
-    private struct LoadKey: Equatable {
-        let query: BudgetQuery
-        let dataVersion: Int
-    }
-
-    private(set) var budgets: CardState<[BudgetItem]> = .loading
-    private(set) var totals: CardState<BudgetTotals> = .loading
-    private(set) var expenses: CardState<[MonthlyExpense]> = .loading
+    private let budgetsCard: CardLoader<BudgetQuery, [BudgetItem]>
+    private let totalsCard: CardLoader<BudgetQuery, BudgetTotals>
+    private let expensesCard: CardLoader<BudgetQuery, [MonthlyExpense]>
 
     let filter: BudgetFilter
     /// `nil` for the month's screen, the group's id for a group's (`BUD-17`).
     let groupID: Int64?
 
-    private let repository: any BudgetRepository
     private let referenceData: ReferenceDataStore
     private let preferences: DevicePreferences
-    @ObservationIgnored private var loadedKey: LoadKey?
 
     init(
         repository: any BudgetRepository,
@@ -35,31 +27,50 @@ final class BudgetViewModel {
         filter: BudgetFilter,
         groupID: Int64? = nil
     ) {
-        self.repository = repository
         self.referenceData = referenceData
         self.preferences = preferences
         self.filter = filter
         self.groupID = groupID
+
+        let query = { Self.query(filter: filter, referenceData: referenceData, preferences: preferences, groupID: groupID) }
+        budgetsCard = CardLoader(key: query) { try await repository.budgets($0) }
+        totalsCard = CardLoader(key: query) { try await repository.totals($0) }
+        expensesCard = CardLoader(key: query) { try await repository.expenses($0) }
     }
+
+    var budgets: CardState<[BudgetItem]> { budgetsCard.state }
+    var totals: CardState<BudgetTotals> { totalsCard.state }
+    var expenses: CardState<[MonthlyExpense]> { expensesCard.state }
 
     // MARK: Filters (BUD-11)
 
     /// The currencies of the user's accounts, alphabetically (`GEN-11`).
     var currencyCodes: [String] {
-        referenceData.accountCurrencyCodes.sorted()
+        referenceData.sortedAccountCurrencyCodes
     }
 
     /// The currency picked here; until then the primary currency (`DASH-01`). One no account has any more falls back
     /// the same way.
     var currencyCode: String? {
-        let codes = currencyCodes
-        if let code = filter.currencyCode, codes.contains(code) { return code }
-        if let code = preferences.primaryCurrencyCode, codes.contains(code) { return code }
-        return codes.first
+        query?.currencyCode
     }
 
     var query: BudgetQuery? {
-        currencyCode.map { BudgetQuery(month: filter.month, currencyCode: $0, groupID: groupID) }
+        budgetsCard.key
+    }
+
+    private static func query(
+        filter: BudgetFilter,
+        referenceData: ReferenceDataStore,
+        preferences: DevicePreferences,
+        groupID: Int64?
+    ) -> BudgetQuery? {
+        CurrencySelection.currencyCode(
+            picked: filter.currencyCode,
+            among: referenceData.sortedAccountCurrencyCodes,
+            primary: preferences.primaryCurrencyCode
+        )
+        .map { BudgetQuery(month: filter.month, currencyCode: $0, groupID: groupID) }
     }
 
     func selectCurrency(_ code: String) {
@@ -88,80 +99,32 @@ final class BudgetViewModel {
 
     // MARK: Loading
 
-    /// Brings the cards up to date. Another month or currency shows skeletons, since the figures on screen are
-    /// wrong for it; new data keeps them until the new ones arrive (`GEN-26`); nothing changed loads nothing.
+    /// Brings the cards up to date; each loads only when what it shows changed (see `CardLoader`).
     func load(dataVersion: Int) async {
-        guard let query else {
-            // Only without accounts, which the main app never is (`NAV-07`).
-            budgets = .failed
-            totals = .failed
-            expenses = .failed
-            return
-        }
         // The first load fixes the currency for the session (`DASH-01`).
-        if filter.currencyCode != query.currencyCode {
-            filter.currencyCode = query.currencyCode
+        if let currencyCode, filter.currencyCode != currencyCode {
+            filter.currencyCode = currencyCode
         }
-
-        let key = LoadKey(query: query, dataVersion: dataVersion)
-        guard key != loadedKey else { return }
-        if loadedKey?.query != query {
-            budgets = .loading
-            totals = .loading
-            expenses = .loading
-        }
-        loadedKey = key
-        await reload(Card.allCases, query: query)
-        // Interrupted, e.g. by leaving the tab: the next appearance loads again rather than keep a skeleton.
-        if Task.isCancelled, loadedKey == key {
-            loadedKey = nil
-        }
+        async let budgets: Void = budgetsCard.load(dataVersion: dataVersion)
+        async let totals: Void = totalsCard.load(dataVersion: dataVersion)
+        async let expenses: Void = expensesCard.load(dataVersion: dataVersion)
+        _ = await (budgets, totals, expenses)
     }
 
     /// Pull to refresh: every card, keeping the current figures until the new ones arrive.
     func refresh() async {
-        guard let query else { return }
-        await reload(Card.allCases, query: query)
+        async let budgets: Void = budgetsCard.refresh()
+        async let totals: Void = totalsCard.refresh()
+        async let expenses: Void = expensesCard.refresh()
+        _ = await (budgets, totals, expenses)
     }
 
     /// "Try again" on one failed card (`GEN-25`).
     func retry(_ card: Card) async {
-        guard let query else { return }
-        await reload([card], query: query)
-    }
-
-    private func reload(_ cards: [Card], query: BudgetQuery) async {
-        await withDiscardingTaskGroup { group in
-            for card in cards {
-                group.addTask { await self.load(card, query: query) }
-            }
-        }
-    }
-
-    private func load(_ card: Card, query: BudgetQuery) async {
         switch card {
-        case .budgets: await load(\.budgets, query: query) { try await self.repository.budgets(query) }
-        case .totals: await load(\.totals, query: query) { try await self.repository.totals(query) }
-        case .expenses: await load(\.expenses, query: query) { try await self.repository.expenses(query) }
-        }
-    }
-
-    /// Only a failed card shows loading again; a response for a month or currency no longer selected is dropped.
-    private func load<Value>(
-        _ keyPath: ReferenceWritableKeyPath<BudgetViewModel, CardState<Value>>,
-        query: BudgetQuery,
-        fetch: () async throws -> Value
-    ) async {
-        if case .failed = self[keyPath: keyPath] {
-            self[keyPath: keyPath] = .loading
-        }
-        do {
-            let value = try await fetch()
-            guard !Task.isCancelled, self.query == query else { return }
-            self[keyPath: keyPath] = .loaded(value)
-        } catch {
-            guard !Task.isCancelled, self.query == query else { return }
-            self[keyPath: keyPath] = .failed
+        case .budgets: await budgetsCard.refresh()
+        case .totals: await totalsCard.refresh()
+        case .expenses: await expensesCard.refresh()
         }
     }
 }

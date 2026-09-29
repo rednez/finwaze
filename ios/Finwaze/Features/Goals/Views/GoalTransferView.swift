@@ -24,7 +24,7 @@ struct GoalTransferView: View {
                 direction: direction,
                 referenceData: app.referenceData,
                 repository: app.repositories.transfers,
-                onSaved: { app.goalsChanged() }
+                onSaved: { app.dataChanged() }
             )
         )
     }

@@ -5,16 +5,8 @@ import Observation
 /// deletes the whole transfer. A transfer cannot be edited: delete it and make it again.
 @Observable
 final class TransferDetailsViewModel {
-    enum State: Equatable {
-        case loading
-        case loaded(Transfer)
-        /// The transfer no longer exists: deleted elsewhere, or never visible under RLS.
-        case notFound
-        case failed
-    }
-
     let transactionID: Int64
-    private(set) var state: State = .loading
+    private(set) var state: DetailState<Transfer> = .loading
     private(set) var isDeleting = false
     var deletionFailure: String?
 
@@ -28,7 +20,7 @@ final class TransferDetailsViewModel {
     }
 
     var transfer: Transfer? {
-        if case .loaded(let transfer) = state { transfer } else { nil }
+        state.value
     }
 
     /// The rate, only when the currencies differ (`TRF-07`): a same-currency transfer has a rate of exactly 1.

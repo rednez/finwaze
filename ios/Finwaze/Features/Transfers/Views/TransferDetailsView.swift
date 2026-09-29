@@ -12,7 +12,7 @@ struct TransferDetailsView: View {
             initialValue: TransferDetailsViewModel(
                 transactionID: transactionID,
                 repository: app.repositories.transfers,
-                onDeleted: { app.transferDeleted() }
+                onDeleted: { app.dataChanged() }
             )
         )
     }
@@ -43,37 +43,17 @@ struct TransferDetailsView: View {
             }
     }
 
-    @ViewBuilder
     private var content: some View {
-        switch viewModel.state {
-        case .loading:
-            // A neutral spinner while the fresh copy loads (`GEN-23`).
-            ProgressView()
-                .frame(maxWidth: .infinity, maxHeight: .infinity)
-                .background(Color(.systemGroupedBackground))
-        case .notFound:
-            ContentUnavailableView {
-                Label("transferDetails.notFound.title", systemImage: "questionmark.circle")
-            } description: {
-                Text("transferDetails.notFound.message")
-            } actions: {
-                Button("transactionForm.notFound.back") { dismiss() }
-                    .buttonStyle(.glassProminent)
-            }
-        case .failed:
-            ContentUnavailableView {
-                Label("error.generic.title", systemImage: "exclamationmark.triangle")
-            } description: {
-                Text("error.generic.message")
-            } actions: {
-                Button("common.retry", systemImage: "arrow.clockwise") {
-                    Task { await viewModel.load() }
-                }
-                .buttonStyle(.glassProminent)
-            }
-        case .loaded(let transfer):
-            details(transfer)
-        }
+        DetailStateView(
+            state: viewModel.state,
+            notFound: .init(
+                title: "transferDetails.notFound.title",
+                message: "transferDetails.notFound.message",
+                back: "transactionForm.notFound.back"
+            ),
+            onRetry: { Task { await viewModel.load() } },
+            content: details
+        )
     }
 
     private func details(_ transfer: Transfer) -> some View {

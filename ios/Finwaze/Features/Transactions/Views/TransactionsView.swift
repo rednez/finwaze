@@ -4,12 +4,6 @@ import SwiftUI
 /// month and its totals on top, the other filters in a sheet and "Add" (`TX-05`). Opening a transaction comes with
 /// editing (stage 4) and transfer details (stage 5).
 struct TransactionsView: View {
-    /// What the list depends on: a change to either reloads it.
-    private struct LoadKey: Equatable {
-        let filters: TransactionFilters
-        let dataVersion: Int
-    }
-
     let app: AppViewModel
     /// "New transaction" is open; set by the section's "+" or the empty state.
     @Binding var isAdding: Bool
@@ -35,7 +29,9 @@ struct TransactionsView: View {
                 TransactionFiltersSheet(viewModel: viewModel)
             }
             // New data (a transaction, category, account) reloads the list as well as a filter change (`GEN-26`).
-            .task(id: LoadKey(filters: viewModel.filters, dataVersion: app.dataVersion)) { await viewModel.load() }
+            .task(for: viewModel.filters, dataVersion: app.dataVersion) {
+                await viewModel.load(dataVersion: app.dataVersion)
+            }
     }
 
     @ViewBuilder
@@ -59,16 +55,7 @@ struct TransactionsView: View {
             TransactionList(viewModel: viewModel, transactions: transactions) { isFiltering = true }
                 .refreshable { await viewModel.load() }
         case .failed:
-            ContentUnavailableView {
-                Label("error.generic.title", systemImage: "exclamationmark.triangle")
-            } description: {
-                Text("error.generic.message")
-            } actions: {
-                Button("common.retry", systemImage: "arrow.clockwise") {
-                    Task { await viewModel.load() }
-                }
-                .buttonStyle(.glassProminent)
-            }
+            ScreenErrorView(onRetry: { Task { await viewModel.load() } })
         }
     }
 }
@@ -120,7 +107,7 @@ private struct TransactionList: View {
 /// "‹ September 2026 ›" with the filters button, the number of items and — when they can be added up — the month's
 /// income and expenses (`GEN-02`, `GEN-14`, `TX-05`).
 private struct MonthCard: View {
-    let month: Date
+    let month: YearMonth
     let count: Int
     let totals: TransactionTotals?
     let activeFilters: Int
@@ -132,7 +119,7 @@ private struct MonthCard: View {
             HStack(spacing: 8) {
                 Button("transactions.filters.previousMonth", systemImage: "chevron.left") { onShift(-1) }
                 VStack(spacing: 2) {
-                    Text(verbatim: title)
+                    Text(verbatim: month.title)
                         .font(.title3.weight(.semibold))
                         .contentTransition(.numericText())
                     Text("transactions.count \(count)")
@@ -193,12 +180,6 @@ private struct MonthCard: View {
         }
         .padding(20)
         .background(Color(.secondarySystemGroupedBackground), in: .rect(cornerRadius: 28))
-    }
-
-    /// "September 2026"; capitalised, since some languages write months in lowercase ("вересень").
-    private var title: String {
-        let text = month.formattedMonth()
-        return text.prefix(1).uppercased() + text.dropFirst()
     }
 }
 

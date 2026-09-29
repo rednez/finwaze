@@ -4,12 +4,6 @@ import SwiftUI
 /// card opens the group's screen (`BUD-17`); "Add budget", "Edit budget" and "Create budget" open the plan editor
 /// (`BUD-20`).
 struct BudgetView: View {
-    /// Reload trigger: the month, the currency and every change to the data (`GEN-26`).
-    private struct LoadKey: Equatable {
-        let query: BudgetQuery?
-        let dataVersion: Int
-    }
-
     let app: AppViewModel
     @Environment(\.pushRoute) private var pushRoute
     // Kept by the tab for the whole session, so the filters survive switching tabs (`BUD-11`).
@@ -56,7 +50,7 @@ struct BudgetView: View {
             }
         }
         .background(Color(.systemGroupedBackground))
-        .task(id: LoadKey(query: viewModel.query, dataVersion: app.dataVersion)) {
+        .task(for: viewModel.query, dataVersion: app.dataVersion) {
             await viewModel.load(dataVersion: app.dataVersion)
         }
         .refreshable { await viewModel.refresh() }

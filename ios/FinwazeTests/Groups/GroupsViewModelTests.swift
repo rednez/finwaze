@@ -39,7 +39,7 @@ struct GroupsViewModelTests {
         repository.setGroups([food, salary])
         let viewModel = makeViewModel()
 
-        await viewModel.load()
+        await viewModel.refresh()
 
         #expect(viewModel.state == .loaded([food, salary]))
         #expect(viewModel.visibleGroups == [food, salary])
@@ -50,7 +50,7 @@ struct GroupsViewModelTests {
         repository.setLoadFails(true)
         let viewModel = makeViewModel()
 
-        await viewModel.load()
+        await viewModel.refresh()
 
         #expect(viewModel.state == .failed)
     }
@@ -58,7 +58,7 @@ struct GroupsViewModelTests {
     @Test func filtersByType() async {
         repository.setGroups([food, salary])
         let viewModel = makeViewModel()
-        await viewModel.load()
+        await viewModel.refresh()
 
         viewModel.typeFilter = .income
         #expect(viewModel.visibleGroups == [salary])
@@ -71,11 +71,11 @@ struct GroupsViewModelTests {
     /// No group at all is the empty state; a filter that hides every group is not.
     @Test func emptyStateOnlyWithoutAnyGroup() async {
         let viewModel = makeViewModel()
-        await viewModel.load()
+        await viewModel.refresh()
         #expect(viewModel.hasNoGroups)
 
         repository.setGroups([food])
-        await viewModel.load()
+        await viewModel.refresh()
         viewModel.typeFilter = .income
 
         #expect(viewModel.visibleGroups.isEmpty)

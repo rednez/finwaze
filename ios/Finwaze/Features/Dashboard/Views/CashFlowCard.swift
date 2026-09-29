@@ -38,16 +38,7 @@ private struct CashFlowChart: View {
                 AxisValueLabel(format: .dateTime.month(.abbreviated), centered: true)
             }
         }
-        .chartYAxis {
-            AxisMarks { value in
-                AxisGridLine()
-                AxisValueLabel {
-                    if let amount = value.as(Double.self) {
-                        Text(verbatim: Decimal(amount).formatted(.currency(code: currencyCode).notation(.compactName)))
-                    }
-                }
-            }
-        }
+        .currencyYAxis(currencyCode: currencyCode)
         .frame(height: 220)
     }
 

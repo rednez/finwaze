@@ -16,7 +16,7 @@ struct DemoTransfersRepositoryTests {
 
     private func august() async throws -> [Transaction] {
         let now = now
-        let month = calendar.date(from: DateComponents(year: 2026, month: 8, day: 1))!
+        let month = YearMonth(year: 2026, month: 8)
         return try await DemoTransactionsRepository(calendar: calendar, now: { now })
             .transactions(matching: TransactionQuery(month: month, type: .transfer, categoryIDs: nil, currencyCode: nil, accountID: nil))
     }
