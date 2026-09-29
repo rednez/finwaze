@@ -111,7 +111,8 @@ Parameter names must match the SQL function parameter names exactly (including t
   function — the section's actions in one group, the profile menu apart. Help goes into the "Help" menu ("…"), not
   the bar; secondary sections live in the "More" tab, never pushed onto another tab. The profile menu is only on a
   tab's root screen.
-- Destructive or irreversible actions (delete, sign out, cancel a goal) ask for confirmation (`confirmationDialog`).
+- Only irreversible actions — ones that delete data the user can't restore (delete, cancel a goal) — ask for
+  confirmation (`confirmationDialog`). Reversible ones, such as signing out, run straight away.
 - Check UI changes in the simulator (screenshots), not only by building — including neighbouring screens, so the
   navigation bar and menus stay consistent across sections.
 - Support Dark Mode, Dynamic Type and VoiceOver from the start: label every control, don't hard-code font sizes or colours (use semantic colours / asset catalog).

@@ -35,7 +35,6 @@ private struct SectionToolbar: ViewModifier {
     let showsProfile: Bool
     @Environment(AppViewModel.self) private var app
     @State private var sheet: Sheet?
-    @State private var isConfirmingSignOut = false
 
     func body(content: Content) -> some View {
         content
@@ -83,19 +82,8 @@ private struct SectionToolbar: ViewModifier {
                             avatarURL: app.user?.avatarURL,
                             isDemo: app.isDemo,
                             onSettings: { sheet = .settings },
-                            onSignOut: { isConfirmingSignOut = true }
+                            onSignOut: { Task { await app.signOut() } }
                         )
-                        // Confirmed first, as a sign-out is two taps away on every tab (`AUTH-11`).
-                        .confirmationDialog(
-                            "profile.signOut.confirmTitle",
-                            isPresented: $isConfirmingSignOut,
-                            titleVisibility: .visible
-                        ) {
-                            Button("profile.signOut", role: .destructive) {
-                                Task { await app.signOut() }
-                            }
-                            Button("common.cancel", role: .cancel) {}
-                        }
                     }
                 }
             }
