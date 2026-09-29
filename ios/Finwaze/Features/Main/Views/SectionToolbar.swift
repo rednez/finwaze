@@ -1,12 +1,11 @@
 import SwiftUI
 
 extension View {
-    /// Adds the "…" help menu (the section's guide article and the guide), the section's actions — the Dashboard's
-    /// primary currency, "Transfer money" and "+" — and, apart from them, the profile menu to the navigation bar. The
-    /// profile menu is only on a tab's root screen (`showsProfile`), not on a section pushed onto it. `onAdd` runs for
-    /// "+" and `onTransfer` for "Transfer money"; sections without them (`AppSection.addTitle`,
-    /// `AppSection.transferTitle`) show no such button. A screen that is not a section (`nil`, the "More" tab) gets
-    /// only the guide and the profile menu.
+    /// Adds the section's actions — the Dashboard's primary currency, "Transfer money" and "+" — and, apart from them,
+    /// the profile menu to the navigation bar. The profile menu is only on a tab's root screen (`showsProfile`), not on
+    /// a section pushed onto it. `onAdd` runs for "+" and `onTransfer` for "Transfer money"; sections without them
+    /// (`AppSection.addTitle`, `AppSection.transferTitle`) show no such button. A screen that is not a section (`nil`,
+    /// the "More" tab) gets only the profile menu. The guide lives in "More" (`NAV-03`).
     func sectionToolbar(
         for section: AppSection?,
         onAdd: @escaping () -> Void = {},
@@ -23,36 +22,16 @@ extension View {
 }
 
 private struct SectionToolbar: ViewModifier {
-    private enum Sheet: Identifiable {
-        case sectionGuide, guide, settings
-
-        var id: Self { self }
-    }
-
     let section: AppSection?
     let onAdd: () -> Void
     let onTransfer: () -> Void
     let showsProfile: Bool
     @Environment(AppViewModel.self) private var app
-    @State private var sheet: Sheet?
+    @State private var isShowingSettings = false
 
     func body(content: Content) -> some View {
         content
             .toolbar {
-                ToolbarItem(placement: .topBarLeading) {
-                    // Help lives here rather than in the bar, which keeps the bar for the section's actions.
-                    Menu("section.helpMenu", systemImage: "ellipsis") {
-                        if section != nil {
-                            Button("section.help", systemImage: "questionmark.circle") {
-                                sheet = .sectionGuide
-                            }
-                        }
-                        Button("profile.guide", systemImage: "book") {
-                            sheet = .guide
-                        }
-                    }
-                }
-
                 // The section's actions share one group; the profile menu stands apart after the spacer. The
                 // currency is declared here, not in the Dashboard, which would put it after the profile menu.
                 if section == .dashboard {
@@ -81,21 +60,14 @@ private struct SectionToolbar: ViewModifier {
                             email: app.user?.email,
                             avatarURL: app.user?.avatarURL,
                             isDemo: app.isDemo,
-                            onSettings: { sheet = .settings },
+                            onSettings: { isShowingSettings = true },
                             onSignOut: { Task { await app.signOut() } }
                         )
                     }
                 }
             }
-            .sheet(item: $sheet) { sheet in
-                switch sheet {
-                case .sectionGuide:
-                    GuideView(initialTopic: section.map(GuideTopic.init(section:)))
-                case .guide:
-                    GuideView(initialTopic: nil)
-                case .settings:
-                    PlaceholderSheet(title: "profile.settings", message: "settings.comingSoon", systemImage: "gearshape")
-                }
+            .sheet(isPresented: $isShowingSettings) {
+                PlaceholderSheet(title: "profile.settings", message: "settings.comingSoon", systemImage: "gearshape")
             }
     }
 }

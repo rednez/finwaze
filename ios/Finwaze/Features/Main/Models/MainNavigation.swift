@@ -18,4 +18,16 @@ final class MainNavigation {
             selection = .more
         }
     }
+
+    /// A neighbouring guide article in place of the open one, so "Back" always leads to all articles rather than
+    /// through every article read (`GUIDE-02`).
+    func showGuideArticle(_ topic: GuideTopic) {
+        morePath.removeLast()
+        morePath.append(topic)
+    }
+
+    /// "All guides": back from the open article to the guide's first screen.
+    func showAllGuides() {
+        morePath.removeLast()
+    }
 }

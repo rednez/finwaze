@@ -9684,19 +9684,19 @@
         "cs": {
           "stringUnit": {
             "state": "translated",
-            "value": "Začínáte se sledováním peněz? Tyto krátké praktické příručky vás krok za krokem provedou každou částí aplikace — bez znalostí financí. Čtěte v libovolném pořadí, nebo v nabídce „…“ kterékoli sekce zvolte „Více o této sekci“ a přejděte rovnou k její příručce."
+            "value": "Začínáte se sledováním peněz? Tyto krátké praktické příručky vás krok za krokem provedou každou částí aplikace — bez znalostí financí. Čtěte v libovolném pořadí — průvodce máte vždy po ruce na kartě „Více“."
           }
         },
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "New to tracking your money? These short, practical guides walk you through every part of the app step by step — no finance background needed. Read them in any order, or choose “Learn about this section” in the “…” menu of any section to jump straight to its guide."
+            "value": "New to tracking your money? These short, practical guides walk you through every part of the app step by step — no finance background needed. Read them in any order — the guide is always at hand in the “More” tab."
           }
         },
         "uk": {
           "stringUnit": {
             "state": "translated",
-            "value": "Тільки починаєте вести облік грошей? Ці короткі практичні посібники крок за кроком пояснюють кожну частину застосунку — без жодної фінансової освіти. Читайте в будь-якому порядку або виберіть «Дізнатися про цей розділ» у меню «…» будь-якого розділу, щоб одразу перейти до його посібника."
+            "value": "Тільки починаєте вести облік грошей? Ці короткі практичні посібники крок за кроком пояснюють кожну частину застосунку — без жодної фінансової освіти. Читайте в будь-якому порядку — посібник завжди під рукою у вкладці «Більше»."
           }
         }
       }
@@ -12802,52 +12802,6 @@
           "stringUnit": {
             "state": "translated",
             "value": "Групи та категорії"
-          }
-        }
-      }
-    },
-    "section.help": {
-      "extractionState": "manual",
-      "localizations": {
-        "cs": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Více o této sekci"
-          }
-        },
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Learn about this section"
-          }
-        },
-        "uk": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Дізнатися про цей розділ"
-          }
-        }
-      }
-    },
-    "section.helpMenu": {
-      "extractionState": "manual",
-      "localizations": {
-        "cs": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Nápověda"
-          }
-        },
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Help"
-          }
-        },
-        "uk": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Довідка"
           }
         }
       }
