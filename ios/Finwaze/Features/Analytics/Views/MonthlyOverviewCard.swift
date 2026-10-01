@@ -8,7 +8,7 @@ struct MonthlyOverviewCard: View {
     let currencyCode: String
 
     var body: some View {
-        ContentCard(title: "analytics.overview.title") {
+        ContentCard(title: "analytics.overview.title", systemImage: "chart.line.uptrend.xyaxis") {
             VStack(alignment: .leading, spacing: 12) {
                 Picker("analytics.overview.metric", selection: $viewModel.overviewMetric) {
                     Text("analytics.overview.balance").tag(AnalyticsViewModel.OverviewMetric.balance)

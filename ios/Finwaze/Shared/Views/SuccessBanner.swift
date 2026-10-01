@@ -12,6 +12,7 @@ struct SuccessBanner: View {
             Text(message)
         } icon: {
             Image(systemName: "checkmark.circle.fill")
+                .foregroundStyle(.green)
         }
         .font(.subheadline.weight(.medium))
         .foregroundStyle(.primary)
@@ -22,6 +23,7 @@ struct SuccessBanner: View {
         .transition(.move(edge: .top).combined(with: .opacity))
         .accessibilityElement(children: .combine)
         .task {
+            Haptics.success()
             UIAccessibility.post(notification: .announcement, argument: String(localized: message))
             try? await Task.sleep(for: .seconds(2))
             withAnimation { onDismiss() }

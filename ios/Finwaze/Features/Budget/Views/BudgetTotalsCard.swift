@@ -10,7 +10,7 @@ struct BudgetTotalsCard: View {
     let onCreateBudget: () -> Void
 
     var body: some View {
-        ContentCard(title: title) {
+        ContentCard(title: title, systemImage: "chart.pie.fill", style: .prominent) {
             CardStateView(state: state, placeholder: .placeholder, onRetry: onRetry) { totals in
                 if totals.hasPlan {
                     BudgetTotalsContent(totals: totals, currencyCode: currencyCode)
@@ -35,13 +35,13 @@ private struct BudgetTotalsContent: View {
         VStack(alignment: .leading, spacing: 14) {
             ViewThatFits(in: .horizontal) {
                 HStack(alignment: .firstTextBaseline) {
-                    figure("budget.spent", totals.spent, font: .title2.weight(.semibold))
+                    figure("budget.spent", totals.spent, size: .large)
                     Spacer(minLength: 12)
-                    figure("budget.planned", totals.planned, font: .headline, alignment: .trailing)
+                    figure("budget.planned", totals.planned, size: .medium, alignment: .trailing)
                 }
                 VStack(alignment: .leading, spacing: 8) {
-                    figure("budget.spent", totals.spent, font: .title2.weight(.semibold))
-                    figure("budget.planned", totals.planned, font: .headline)
+                    figure("budget.spent", totals.spent, size: .large)
+                    figure("budget.planned", totals.planned, size: .medium)
                 }
             }
 
@@ -77,18 +77,14 @@ private struct BudgetTotalsContent: View {
     private func figure(
         _ title: LocalizedStringKey,
         _ amount: Decimal,
-        font: Font,
+        size: AmountText.Size,
         alignment: HorizontalAlignment = .leading
     ) -> some View {
         VStack(alignment: alignment, spacing: 2) {
             Text(title)
                 .font(.footnote)
                 .foregroundStyle(.secondary)
-            Text(verbatim: amount.formattedAmount(currencyCode: currencyCode))
-                .font(font)
-                .monospacedDigit()
-                .lineLimit(1)
-                .minimumScaleFactor(0.6)
+            AmountText(amount: amount, currencyCode: currencyCode, size: size)
         }
         .accessibilityElement(children: .combine)
     }

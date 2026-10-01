@@ -1,96 +1,74 @@
 import SwiftUI
 
-/// The foot of an article: the previous and next articles by name — side by side, or one under the other when they
-/// do not fit, e.g. at the largest text sizes — and "All guides". The first article has no previous one, the last
-/// no next one.
+/// The foot of an article, as one grouped list like Settings: the previous and the next article — each with its
+/// section's icon, "Previous" or "Next" over its name — and "All guides". The first article has no previous one, the
+/// last no next one.
 struct GuideArticleNav: View {
     let topic: GuideTopic
     let onShow: (GuideTopic) -> Void
     let onShowAll: () -> Void
 
     var body: some View {
-        VStack(alignment: .leading, spacing: 16) {
-            ViewThatFits(in: .horizontal) {
-                HStack(alignment: .top, spacing: 12) {
-                    previousButton(fillsWidth: false)
-                    Spacer(minLength: 0)
-                    nextButton(fillsWidth: false)
-                }
-                VStack(spacing: 12) {
-                    previousButton(fillsWidth: true)
-                    nextButton(fillsWidth: true)
-                }
+        FormSection {
+            if let previous = topic.previous {
+                NeighbourRow(topic: previous, caption: "guide.previous") { onShow(previous) }
+                    .accessibilityLabel(Text("guide.previous.accessibility \(String(localized: previous.cardTitle))"))
             }
-
-            Button("guide.backToGuide", systemImage: "list.bullet", action: onShowAll)
-                .font(.body.weight(.medium))
-        }
-    }
-
-    @ViewBuilder
-    private func previousButton(fillsWidth: Bool) -> some View {
-        if let previous = topic.previous {
-            NeighbourButton(
-                topic: previous,
-                caption: "guide.previous",
-                systemImage: "chevron.left",
-                accessibilityLabel: Text("guide.previous.accessibility \(String(localized: previous.cardTitle))"),
-                alignment: .leading,
-                fillsWidth: fillsWidth
-            ) { onShow(previous) }
-        }
-    }
-
-    @ViewBuilder
-    private func nextButton(fillsWidth: Bool) -> some View {
-        if let next = topic.next {
-            NeighbourButton(
-                topic: next,
-                caption: "guide.next",
-                systemImage: "chevron.right",
-                accessibilityLabel: Text("guide.next.accessibility \(String(localized: next.cardTitle))"),
-                alignment: .trailing,
-                fillsWidth: fillsWidth
-            ) { onShow(next) }
+            if let next = topic.next {
+                NeighbourRow(topic: next, caption: "guide.next") { onShow(next) }
+                    .accessibilityLabel(Text("guide.next.accessibility \(String(localized: next.cardTitle))"))
+            }
+            Button(action: onShowAll) {
+                HStack(spacing: 12) {
+                    FormRowIcon(systemImage: "list.bullet", tint: .gray)
+                    Text("guide.backToGuide")
+                        .foregroundStyle(.primary)
+                    Spacer(minLength: 8)
+                    NavigationChevron()
+                }
+                .padding(.horizontal, 16)
+                .padding(.vertical, 12)
+                .contentShape(.rect)
+            }
+            .buttonStyle(.plain)
         }
     }
 }
 
-private struct NeighbourButton: View {
+/// A neighbouring article: its icon, "Previous" or "Next" small above its name, and a chevron.
+private struct NeighbourRow: View {
     let topic: GuideTopic
     let caption: LocalizedStringKey
-    let systemImage: String
-    let accessibilityLabel: Text
-    let alignment: HorizontalAlignment
-    /// One under the other, each spans the width, the next article at its trailing edge.
-    let fillsWidth: Bool
     let action: () -> Void
 
     var body: some View {
         Button(action: action) {
-            HStack(spacing: 8) {
-                if alignment == .leading { chevron }
-                VStack(alignment: alignment, spacing: 2) {
+            HStack(spacing: 12) {
+                GuideTopicIcon(topic: topic, size: FormRowMetrics.iconSize)
+                VStack(alignment: .leading, spacing: 2) {
                     Text(caption)
-                        .font(.caption)
+                        .font(.footnote)
                         .foregroundStyle(.secondary)
                     Text(topic.cardTitle)
-                        .font(.subheadline.weight(.semibold))
-                        .multilineTextAlignment(alignment == .leading ? .leading : .trailing)
+                        .foregroundStyle(.primary)
+                        .multilineTextAlignment(.leading)
                 }
-                if alignment == .trailing { chevron }
+                Spacer(minLength: 8)
+                NavigationChevron()
             }
-            .padding(.vertical, 4)
-            .frame(maxWidth: fillsWidth ? .infinity : nil, alignment: alignment == .leading ? .leading : .trailing)
+            .padding(.horizontal, 16)
+            .padding(.vertical, 10)
+            .contentShape(.rect)
         }
-        .buttonStyle(.bordered)
-        .buttonBorderShape(.roundedRectangle(radius: 14))
-        .accessibilityLabel(accessibilityLabel)
+        .buttonStyle(.plain)
     }
+}
 
-    private var chevron: some View {
-        Image(systemName: systemImage)
+private struct NavigationChevron: View {
+    var body: some View {
+        Image(systemName: "chevron.right")
             .font(.footnote.weight(.semibold))
+            .foregroundStyle(.tertiary)
             .accessibilityHidden(true)
     }
 }

@@ -9,7 +9,9 @@ struct SavingsGoalsCard: View {
     var body: some View {
         ContentCard(
             title: "dashboard.goals.title",
-            action: .init(title: "dashboard.goals.all", perform: onOpenGoals)
+            action: .init(title: "dashboard.goals.all", perform: onOpenGoals),
+            systemImage: "target",
+            tint: .green
         ) {
             CardStateView(state: state, placeholder: .placeholder, onRetry: onRetry) { goals in
                 if goals.isEmpty {

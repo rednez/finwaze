@@ -3,15 +3,27 @@ import SwiftUI
 
 /// "Budgets vs Expenses" (`ANL-04`): the plan against the expenses of every month of the year, by the year's own
 /// stepper; the month and the accounts do not apply. Expenses are the amounts charged to accounts in the currency,
-/// which may differ from Budget's purchase-currency spending (`Q-03`) — the subtitle says so.
+/// which may differ from Budget's purchase-currency spending (`Q-03`) — the note under the chart says so.
 struct BudgetsVsExpensesCard: View {
     let viewModel: AnalyticsViewModel
     let currencyCode: String
 
     var body: some View {
-        ContentCard(title: "analytics.budgets.title", subtitle: "analytics.budgets.subtitle \(currencyCode)") {
-            VStack(alignment: .leading, spacing: 12) {
-                YearStepper(year: viewModel.filter.budgetYear, onShift: viewModel.shiftBudgetYear(by:))
+        let year = viewModel.filter.budgetYear.formatted(.number.grouping(.never))
+        ContentCard(
+            title: "analytics.budgets.title",
+            detail: Text.summary(year, currencyCode),
+            systemImage: "chart.bar.xaxis",
+            tint: .orange
+        ) {
+            ChartSettingsMenu(
+                periodTitle: year,
+                previousTitle: "analytics.previousYear",
+                nextTitle: "analytics.nextYear",
+                onShift: viewModel.shiftBudgetYear(by:)
+            )
+        } content: {
+            VStack(alignment: .leading, spacing: 10) {
                 CardStateView(
                     state: viewModel.budgetsVsExpenses.state,
                     placeholder: .placeholder(year: viewModel.filter.budgetYear),
@@ -24,6 +36,10 @@ struct BudgetsVsExpensesCard: View {
                             .foregroundStyle(.secondary)
                     }
                 }
+                // Which expenses count here, as they may differ from Budget's (`Q-03`).
+                Text("analytics.budgets.subtitle \(currencyCode)")
+                    .font(.caption)
+                    .foregroundStyle(.secondary)
             }
         }
     }

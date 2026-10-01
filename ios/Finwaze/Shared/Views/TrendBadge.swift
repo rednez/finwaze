@@ -38,10 +38,16 @@ struct TrendBadge: View {
                 .monospacedDigit()
         }
         .font(.subheadline.weight(.semibold))
+        .fontDesign(.rounded)
         .foregroundStyle(color)
-        .padding(.horizontal, 10)
+        .padding(.horizontal, isFlat ? 0 : 10)
         .padding(.vertical, 3)
-        .background(color.opacity(0.15), in: .capsule)
+        // No change says little, so it goes without the capsule and stays quiet.
+        .background(isFlat ? .clear : color.opacity(0.15), in: .capsule)
+    }
+
+    private var isFlat: Bool {
+        trend.direction == .flat
     }
 
     private var caption: some View {

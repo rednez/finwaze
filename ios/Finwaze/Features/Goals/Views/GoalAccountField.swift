@@ -25,22 +25,23 @@ struct GoalAccountField: View {
             }
             .padding(16)
             .frame(maxWidth: .infinity, alignment: .leading)
-            .background(Color(.secondarySystemGroupedBackground), in: .rect(cornerRadius: 16))
+            .background { CardBackground() }
         } else {
-            FormField(label: label, error: error) {
-                Menu {
-                    Picker(label, selection: Binding(get: { selection }, set: { $0.map(onSelect) })) {
-                        ForEach(accounts) { account in
-                            Text(verbatim: account.name).tag(Account?.some(account))
-                        }
-                    }
-                } label: {
-                    PickerRowLabel(
+            FormSection {
+                FormRow(label: label, systemImage: "creditcard.fill", tint: .blue, error: error) {
+                    FormMenuValue(
                         value: selection.map { Text(verbatim: $0.name) },
                         placeholder: "transactionForm.accountPlaceholder"
-                    )
+                    ) {
+                        Picker(label, selection: Binding(get: { selection }, set: { $0.map(onSelect) })) {
+                            ForEach(accounts) { account in
+                                Text(verbatim: account.name).tag(Account?.some(account))
+                            }
+                        }
+                    }
+                    .accessibilityLabel(Text(label))
+                    .accessibilityValue(selection?.name ?? "")
                 }
-                .accessibilityValue(selection?.name ?? "")
             }
         }
     }

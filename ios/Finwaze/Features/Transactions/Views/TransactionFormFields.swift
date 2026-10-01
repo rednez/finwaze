@@ -1,9 +1,9 @@
 import SwiftUI
 
-/// Account, amount, category, date and comment — shared by "New transaction" and "Edit transaction" (`TX-40`).
-/// Labels follow the type: "From account" for an expense, "To account" for an income. For an expense, the amount's
-/// currency can be changed (`TX-21`); when it differs from the account's, a "Charged from account" field appears
-/// (`TX-22`).
+/// Account, amount, category, date and comment — shared by "New transaction" and "Edit transaction" (`TX-40`), in
+/// grouped rows. Labels follow the type: "From account" for an expense, "To account" for an income. For an expense,
+/// the amount's currency can be changed (`TX-21`); when it differs from the account's, "Charged from account" appears
+/// right under the amount, with the exchange rate (`TX-22`, `GEN-10`).
 struct TransactionFormFields: View {
     @Bindable var viewModel: TransactionFormViewModel
     let app: AppViewModel
@@ -20,13 +20,22 @@ struct TransactionFormFields: View {
     }
 
     var body: some View {
-        VStack(spacing: 16) {
-            accountField
-            amountField
-            chargedAmountField
-            categoryField
-            dateField
-            commentField
+        VStack(spacing: 20) {
+            FormSection {
+                accountRow
+                amountRow
+                if viewModel.showsChargedAmount {
+                    chargedAmountRow
+                        .transition(.opacity.combined(with: .move(edge: .top)))
+                }
+            }
+            FormSection {
+                categoryRow
+                dateRow
+            }
+            FormSection {
+                commentRow
+            }
         }
         .disabled(viewModel.isSubmitting)
         .sheet(isPresented: $isPickingCategory) {
@@ -35,40 +44,30 @@ struct TransactionFormFields: View {
         .animation(.default, value: viewModel.showsChargedAmount)
     }
 
-    private var accountField: some View {
-        FormField(
-            label: isExpense ? "transactionForm.fromAccount" : "transactionForm.toAccount",
-            error: viewModel.accountIssue?.message
-        ) {
-            Menu {
+    private var accountRow: some View {
+        let label: LocalizedStringKey = isExpense ? "transactionForm.fromAccount" : "transactionForm.toAccount"
+        return FormRow(label: label, systemImage: "creditcard.fill", tint: .blue, error: viewModel.accountIssue?.message) {
+            FormMenuValue(
+                value: viewModel.account.map { Text(verbatim: "\($0.name) · \($0.currencyCode)") },
+                placeholder: "transactionForm.accountPlaceholder"
+            ) {
                 Picker("transactionForm.account", selection: $viewModel.account) {
                     ForEach(viewModel.accounts) { account in
                         Text(verbatim: "\(account.name) · \(account.currencyCode)").tag(Account?.some(account))
                     }
                 }
-            } label: {
-                PickerRowLabel(
-                    value: viewModel.account.map { Text(verbatim: "\($0.name) · \($0.currencyCode)") },
-                    placeholder: "transactionForm.accountPlaceholder"
-                )
             }
+            .accessibilityLabel(Text(label))
             .accessibilityValue(viewModel.account.map { "\($0.name), \($0.currencyCode)" } ?? "")
         }
     }
 
     /// For an income the currency is always the account's, shown as a fixed badge (`TX-30`); for an expense it can
     /// be changed to any of the user's account currencies (`TX-21`).
-    private var amountField: some View {
-        FormField(
-            label: isExpense ? "transactionForm.expenseAmount" : "transactionForm.incomeAmount",
-            error: viewModel.amountIssue?.message,
-            isFocused: focus == .amount
-        ) {
-            HStack {
-                TextField("transactionForm.amountPlaceholder", text: $viewModel.amountText)
-                    .keyboardType(.decimalPad)
-                    .monospacedDigit()
-                    .focused($focus, equals: .amount)
+    private var amountRow: some View {
+        let label: LocalizedStringKey = isExpense ? "transactionForm.expenseAmount" : "transactionForm.incomeAmount"
+        return FormRow(label: label, systemImage: "banknote.fill", tint: .green, error: viewModel.amountIssue?.message) {
+            FormAmountInput(title: label, text: $viewModel.amountText) {
                 if isExpense {
                     currencyMenu
                 } else if let code = viewModel.purchaseCurrencyCode {
@@ -76,6 +75,7 @@ struct TransactionFormFields: View {
                         .accessibilityHint(Text("transactionForm.currencyHint"))
                 }
             }
+            .focused($focus, equals: .amount)
         }
     }
 
@@ -89,108 +89,84 @@ struct TransactionFormFields: View {
                     }
                 }
             } label: {
-                CurrencyBadge(code: code)
+                HStack(spacing: 4) {
+                    Text(verbatim: code)
+                    Image(systemName: "chevron.up.chevron.down")
+                        .font(.caption2.weight(.bold))
+                }
+                .font(.subheadline.weight(.semibold))
+                .foregroundStyle(.tint)
+                .padding(.horizontal, 10)
+                .padding(.vertical, 5)
+                .background(.tint.opacity(0.12), in: .capsule)
             }
+            .buttonStyle(.plain)
             .accessibilityLabel(Text("transactionForm.currency"))
+            .accessibilityValue(Text(verbatim: code))
         }
     }
 
-    /// "Charged from account", only for a foreign-currency expense (`TX-22`); shows the exchange rate below it
-    /// (`GEN-10`).
-    @ViewBuilder
-    private var chargedAmountField: some View {
-        if viewModel.showsChargedAmount {
-            VStack(alignment: .leading, spacing: 6) {
-                FormField(
-                    label: "transactionForm.chargedFromAccount",
-                    error: viewModel.chargedAmountIssue?.message,
-                    isFocused: focus == .chargedAmount
-                ) {
-                    HStack {
-                        TextField("transactionForm.amountPlaceholder", text: $viewModel.chargedAmountText)
-                            .keyboardType(.decimalPad)
-                            .monospacedDigit()
-                            .focused($focus, equals: .chargedAmount)
-                        if let code = viewModel.account?.currencyCode {
-                            CurrencyBadge(code: code)
-                        }
-                    }
-                }
-                if let hint = viewModel.exchangeRateHint {
-                    Text(verbatim: hint)
-                        .font(.caption)
-                        .foregroundStyle(.secondary)
-                        .padding(.leading, 8)
-                }
-            }
-            .transition(.opacity.combined(with: .move(edge: .top)))
+    /// "Charged from account", only for a foreign-currency expense (`TX-22`), with the exchange rate (`GEN-10`).
+    private var chargedAmountRow: some View {
+        FormRow(
+            label: "transactionForm.chargedFromAccount",
+            systemImage: "arrow.left.arrow.right",
+            tint: .indigo,
+            note: viewModel.exchangeRateHint.map { Text(verbatim: $0) },
+            error: viewModel.chargedAmountIssue?.message
+        ) {
+            FormAmountInput(title: "transactionForm.chargedFromAccount", text: $viewModel.chargedAmountText, currencyCode: viewModel.account?.currencyCode)
+            .focused($focus, equals: .chargedAmount)
         }
     }
 
-    private var categoryField: some View {
-        FormField(label: "transactionForm.category", error: viewModel.categoryIssue?.message) {
+    private var categoryRow: some View {
+        FormRow(
+            label: "transactionForm.category",
+            systemImage: "square.grid.2x2.fill",
+            tint: .orange,
+            error: viewModel.categoryIssue?.message
+        ) {
             Button {
                 focus = nil
                 isPickingCategory = true
             } label: {
-                PickerRowLabel(
+                FormValueLabel(
                     value: viewModel.category.map { CategoryLabel(category: $0, group: viewModel.categoryGroup) },
                     placeholder: "transactionForm.categoryPlaceholder"
                 )
             }
             .buttonStyle(.plain)
+            .accessibilityLabel(Text("transactionForm.category"))
             .accessibilityValue(viewModel.category?.name ?? "")
         }
     }
 
-    private var dateField: some View {
-        FormField(label: "transactionForm.date", error: nil) {
+    private var dateRow: some View {
+        FormRow(label: "transactionForm.date", systemImage: "calendar", tint: .red) {
             DatePicker(
                 "transactionForm.date",
                 selection: $viewModel.transactedAt,
                 displayedComponents: [.date, .hourAndMinute]
             )
             .labelsHidden()
-            .frame(maxWidth: .infinity, alignment: .leading)
         }
         // The transaction's own offset while editing, not the device's (`GEN-12`).
         .environment(\.timeZone, viewModel.timeZone)
     }
 
-    private var commentField: some View {
-        FormField(
+    private var commentRow: some View {
+        FormRow(
             label: "transactionForm.comment",
-            error: viewModel.commentIssue?.message,
-            isFocused: focus == .comment
+            systemImage: "text.bubble.fill",
+            tint: .gray,
+            error: viewModel.commentIssue?.message
         ) {
             TextField("transactionForm.commentPlaceholder", text: $viewModel.comment, axis: .vertical)
                 .lineLimit(1...3)
                 .focused($focus, equals: .comment)
+                .accessibilityLabel(Text("transactionForm.comment"))
         }
-    }
-}
-
-/// A picker field's content: the chosen value, or a placeholder, and an up-down chevron.
-struct PickerRowLabel<Value: View>: View {
-    let value: Value?
-    let placeholder: LocalizedStringKey
-
-    var body: some View {
-        HStack {
-            Group {
-                if let value {
-                    value.foregroundStyle(.primary)
-                } else {
-                    Text(placeholder).foregroundStyle(.tertiary)
-                }
-            }
-            .lineLimit(1)
-            Spacer()
-            Image(systemName: "chevron.up.chevron.down")
-                .font(.footnote)
-                .foregroundStyle(.secondary)
-        }
-        .contentShape(.rect)
     }
 }
 

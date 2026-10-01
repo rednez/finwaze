@@ -53,35 +53,41 @@ private struct AccountSettingsForm: View {
 
     var body: some View {
         ScrollView {
-            VStack(spacing: 24) {
-                if !viewModel.canDelete {
-                    // Why the currency and "Delete" are unavailable (`ACC-10`, `ACC-11`).
-                    Label("accountSettings.lockedHint", systemImage: "info.circle")
-                        .font(.footnote)
-                        .foregroundStyle(.secondary)
-                        .frame(maxWidth: .infinity, alignment: .leading)
-                }
-
-                VStack(spacing: 16) {
-                    nameField
-                    currencyField
-                    balanceField
-                    balanceDateFields
+            VStack(spacing: 20) {
+                VStack(spacing: 20) {
+                    FormSection(footer: viewModel.canDelete ? nil : lockedHint) {
+                        nameRow
+                        currencyRow
+                    }
+                    FormSection {
+                        balanceRow
+                        balanceDateRows
+                    }
                 }
                 .disabled(viewModel.isSubmitting || viewModel.isDeleting)
                 .animation(.default, value: viewModel.usesBalanceDate)
 
-                SubmitButton(title: "accountSettings.update", isLoading: viewModel.isSubmitting, action: submit)
-
-                Button("accountSettings.delete", systemImage: "trash", role: .destructive) {
+                FormDestructiveButton(
+                    title: "accountSettings.delete",
+                    isEnabled: viewModel.canDelete && !viewModel.isSubmitting && !viewModel.isDeleting
+                ) {
                     isConfirmingDelete = true
                 }
-                .disabled(!viewModel.canDelete || viewModel.isSubmitting || viewModel.isDeleting)
             }
-            .padding(24)
+            .padding(.horizontal, 16)
+            .padding(.vertical, 8)
         }
         .scrollDismissesKeyboard(.interactively)
         .background(Color(.systemGroupedBackground))
+        .toolbar {
+            FormConfirmItem(
+                title: "accountSettings.update",
+                isSubmitting: viewModel.isSubmitting,
+                isEnabled: !viewModel.isDeleting,
+                placement: .primaryAction,
+                action: submit
+            )
+        }
         .sheet(isPresented: $isPickingCurrency) {
             CurrencyPicker(currencies: viewModel.currencies, selection: $viewModel.currency)
         }
@@ -97,6 +103,7 @@ private struct AccountSettingsForm: View {
                 Task {
                     // Back to the Wallet on success (`ACC-12`); a failure stays on screen with an alert.
                     if await viewModel.delete() {
+                        Haptics.success()
                         dismiss()
                     }
                 }
@@ -107,65 +114,76 @@ private struct AccountSettingsForm: View {
         }
     }
 
-    private var nameField: some View {
-        FormField(label: "accountForm.name", error: viewModel.nameIssue?.message, isFocused: focus == .name) {
+    /// Why the currency and "Delete" are unavailable (`ACC-10`, `ACC-11`).
+    private var lockedHint: Text {
+        Text("\(Image(systemName: "info.circle")) \(Text("accountSettings.lockedHint"))")
+    }
+
+    private var nameRow: some View {
+        FormRow(label: "accountForm.name", systemImage: "creditcard.fill", tint: .blue, error: viewModel.nameIssue?.message) {
             TextField("accountForm.namePlaceholder", text: $viewModel.name)
                 .textInputAutocapitalization(.sentences)
                 .focused($focus, equals: .name)
+                .accessibilityLabel(Text("accountForm.name"))
         }
     }
 
     /// The full directory while the account has no transactions; locked otherwise (`ACC-10`).
-    private var currencyField: some View {
-        FormField(label: "accountForm.currency", error: viewModel.currencyIssue?.message) {
+    private var currencyRow: some View {
+        FormRow(
+            label: "accountForm.currency",
+            systemImage: "banknote.fill",
+            tint: .green,
+            error: viewModel.currencyIssue?.message
+        ) {
             Button {
                 focus = nil
                 isPickingCurrency = true
             } label: {
-                HStack {
-                    Text(verbatim: viewModel.currency?.displayName ?? "")
-                        .foregroundStyle(viewModel.isCurrencyEditable ? .primary : .secondary)
-                        .lineLimit(1)
-                    Spacer()
-                    Image(systemName: viewModel.isCurrencyEditable ? "chevron.up.chevron.down" : "lock")
-                        .font(.footnote)
-                        .foregroundStyle(.secondary)
-                }
-                .contentShape(.rect)
+                FormValueLabel(
+                    value: viewModel.currency.map { Text(verbatim: $0.displayName) },
+                    placeholder: "accountForm.currencyPlaceholder",
+                    systemImage: viewModel.isCurrencyEditable ? "chevron.right" : "lock.fill"
+                )
             }
             .buttonStyle(.plain)
             .disabled(!viewModel.isCurrencyEditable)
+            .accessibilityLabel(Text("accountForm.currency"))
             .accessibilityValue(viewModel.currency?.displayName ?? "")
         }
     }
 
     /// May be negative, so the keyboard has a minus (`ACC-09`).
-    private var balanceField: some View {
-        FormField(
+    private var balanceRow: some View {
+        FormRow(
             label: "accountSettings.balance",
-            error: viewModel.balanceIssue?.message,
-            isFocused: focus == .balance
+            systemImage: "banknote.fill",
+            tint: .green,
+            error: viewModel.balanceIssue?.message
         ) {
-            HStack {
-                TextField("accountSettings.balancePlaceholder", text: $viewModel.balanceText)
-                    .keyboardType(.numbersAndPunctuation)
-                    .monospacedDigit()
-                    .focused($focus, equals: .balance)
-                if let code = viewModel.currency?.code {
-                    CurrencyBadge(code: code)
-                }
-            }
+            FormAmountInput(
+                title: "accountSettings.balance",
+                text: $viewModel.balanceText,
+                keyboard: .numbersAndPunctuation,
+                currencyCode: viewModel.currency?.code
+            )
+            .focused($focus, equals: .balance)
         }
     }
 
     /// "Balance as of" another moment, never in the future; now when off (`ACC-09`, `GEN-13`).
     @ViewBuilder
-    private var balanceDateFields: some View {
-        Toggle("accountSettings.balanceAsOfOtherDate", isOn: $viewModel.usesBalanceDate)
-            .padding(.horizontal, 4)
+    private var balanceDateRows: some View {
+        // A switch row as in Settings: its name beside the switch, not above it.
+        HStack(spacing: 12) {
+            FormRowIcon(systemImage: "clock.arrow.circlepath", tint: .purple)
+            Toggle("accountSettings.balanceAsOfOtherDate", isOn: $viewModel.usesBalanceDate)
+        }
+        .padding(.horizontal, 16)
+        .padding(.vertical, 10)
 
         if viewModel.usesBalanceDate {
-            FormField(label: "accountSettings.balanceDate", error: viewModel.dateIssue?.message) {
+            FormRow(label: "accountSettings.balanceDate", systemImage: "calendar", tint: .red, error: viewModel.dateIssue?.message) {
                 DatePicker(
                     "accountSettings.balanceDate",
                     selection: $viewModel.balanceDate,
@@ -173,7 +191,6 @@ private struct AccountSettingsForm: View {
                     displayedComponents: [.date, .hourAndMinute]
                 )
                 .labelsHidden()
-                .frame(maxWidth: .infinity, alignment: .leading)
             }
             .transition(.opacity.combined(with: .move(edge: .top)))
         }
@@ -184,6 +201,7 @@ private struct AccountSettingsForm: View {
         Task {
             // Back to the Wallet on success (`ACC-12`).
             if await viewModel.submit() {
+                Haptics.success()
                 dismiss()
             }
         }

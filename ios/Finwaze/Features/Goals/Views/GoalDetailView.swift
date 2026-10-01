@@ -64,10 +64,10 @@ private struct GoalDetailContent: View {
 
     var body: some View {
         ScrollView {
-            VStack(spacing: 24) {
+            VStack(spacing: 20) {
                 GoalCardSummary(goal: goal)
-                    .padding(16)
-                    .background(Color(.secondarySystemGroupedBackground), in: .rect(cornerRadius: 20))
+                    .padding(18)
+                    .background { CardBackground() }
 
                 if form.isReadOnly {
                     // Why nothing can be changed (`GOAL-04`, `GOAL-22`).
@@ -79,18 +79,25 @@ private struct GoalDetailContent: View {
 
                 GoalFormFields(viewModel: form)
 
-                if !form.isReadOnly {
-                    SubmitButton(title: "goals.form.save", isLoading: form.isSubmitting, action: save)
-                        .disabled(!form.hasChanges || viewModel.isBusy)
-                }
-
                 if viewModel.hasActions {
                     actions
                 }
             }
-            .padding(24)
+            .padding(.horizontal, 16)
+            .padding(.vertical, 8)
         }
         .scrollDismissesKeyboard(.interactively)
+        .toolbar {
+            if !form.isReadOnly {
+                FormConfirmItem(
+                    title: "goals.form.save",
+                    isSubmitting: form.isSubmitting,
+                    isEnabled: form.hasChanges && !viewModel.isBusy,
+                    placement: .primaryAction,
+                    action: save
+                )
+            }
+        }
         .background(Color(.systemGroupedBackground))
         .overlay(alignment: .top) {
             if viewModel.showsUpdatedBanner {
@@ -159,7 +166,7 @@ private struct GoalDetailContent: View {
                 .buttonStyle(.glass)
             }
             if goal.canDelete {
-                Button("goals.delete", systemImage: "trash", role: .destructive) {
+                FormDestructiveButton(title: "goals.delete") {
                     isConfirmingDelete = true
                 }
             }

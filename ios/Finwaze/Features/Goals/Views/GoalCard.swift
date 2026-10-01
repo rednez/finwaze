@@ -28,9 +28,9 @@ struct GoalCard: View {
                 .font(.subheadline.weight(.medium))
             }
         }
-        .padding(16)
+        .padding(18)
         .frame(maxWidth: .infinity, alignment: .topLeading)
-        .background(Color(.secondarySystemGroupedBackground), in: .rect(cornerRadius: 20))
+        .background { CardBackground() }
     }
 }
 
@@ -69,25 +69,19 @@ struct GoalCardSummary: View {
                 GoalStatusBadge(status: goal.status)
             }
 
-            ViewThatFits(in: .horizontal) {
-                HStack(alignment: .firstTextBaseline, spacing: 4) { amounts }
-                VStack(alignment: .leading, spacing: 2) { amounts }
-            }
-
-            VStack(alignment: .leading, spacing: 6) {
-                ProgressView(value: goal.progressFraction)
-                    .tint(goal.status.color)
-                HStack(alignment: .firstTextBaseline) {
-                    Text(verbatim: percent)
-                        .font(.subheadline.weight(.semibold))
+            HStack(spacing: 16) {
+                ProgressRing(fraction: goal.progressFraction, tint: goal.status.color)
+                VStack(alignment: .leading, spacing: 2) {
+                    AmountText(amount: goal.accumulatedAmount, currencyCode: goal.currencyCode, size: .large)
+                    Text("goals.card.ofTarget \(target)")
+                        .font(.subheadline)
                         .monospacedDigit()
-                    Spacer(minLength: 8)
+                        .foregroundStyle(.secondary)
                     if goal.status == .inProgress {
                         Text("goals.card.left \(goal.remainingAmount.formattedAmount(currencyCode: goal.currencyCode))")
                             .font(.footnote)
                             .monospacedDigit()
                             .foregroundStyle(.secondary)
-                            .multilineTextAlignment(.trailing)
                     }
                 }
             }
@@ -96,17 +90,6 @@ struct GoalCardSummary: View {
         .accessibilityElement(children: .ignore)
         .accessibilityLabel(Text(verbatim: goal.name))
         .accessibilityValue(accessibilityValue)
-    }
-
-    @ViewBuilder
-    private var amounts: some View {
-        Text(verbatim: saved)
-            .font(.title2.weight(.semibold))
-            .monospacedDigit()
-        Text("goals.card.ofTarget \(target)")
-            .font(.subheadline)
-            .monospacedDigit()
-            .foregroundStyle(.secondary)
     }
 
     /// "In progress, 5 800 $ of 10 000 $, 58 %, due 31 May 2027".

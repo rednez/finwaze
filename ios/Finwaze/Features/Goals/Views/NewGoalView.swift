@@ -21,11 +21,9 @@ struct NewGoalView: View {
     var body: some View {
         NavigationStack {
             ScrollView {
-                VStack(spacing: 24) {
-                    GoalFormFields(viewModel: viewModel)
-                    SubmitButton(title: "goals.form.create", isLoading: viewModel.isSubmitting, action: submit)
-                }
-                .padding(24)
+                GoalFormFields(viewModel: viewModel)
+                    .padding(.horizontal, 16)
+                    .padding(.vertical, 8)
             }
             .scrollDismissesKeyboard(.interactively)
             .background(Color(.systemGroupedBackground))
@@ -36,6 +34,7 @@ struct NewGoalView: View {
                     Button("common.cancel", role: .cancel) { dismiss() }
                         .disabled(viewModel.isSubmitting)
                 }
+                FormConfirmItem(title: "goals.form.create", isSubmitting: viewModel.isSubmitting, action: submit)
             }
             .failureAlert($viewModel.failure, title: "goals.new.failed")
         }
@@ -45,6 +44,7 @@ struct NewGoalView: View {
     private func submit() {
         Task {
             if await viewModel.submit() {
+                Haptics.success()
                 dismiss()
             }
         }

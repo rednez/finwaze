@@ -16,10 +16,12 @@ struct TransactionRow: View {
                 NavigationLink(value: TransferRoute(transactionID: transaction.id)) {
                     content
                 }
+                .zoomSource(ZoomID.transfer(transaction.id))
             } else {
                 NavigationLink(value: TransactionRoute(id: transaction.id)) {
                     content
                 }
+                .zoomSource(ZoomID.transaction(transaction.id))
             }
         }
         .buttonStyle(.plain)
@@ -48,6 +50,7 @@ struct TransactionRow: View {
             VStack(alignment: .trailing, spacing: 2) {
                 Text(verbatim: amount)
                     .font(.body.weight(.semibold))
+                    .fontDesign(.rounded)
                     .foregroundStyle(amountStyle)
                 if transaction.isForeignCurrency {
                     Text(verbatim: transaction.chargedAmount.formattedAmount(currencyCode: transaction.chargedCurrencyCode))
@@ -109,28 +112,38 @@ struct TransactionRow: View {
     }
 }
 
-/// A round badge: the category's initial on a soft tint of its colour (`CAT-10`), or arrows for a transfer.
+/// A badge: the category's initial on a soft tint of its colour (`CAT-10`) — the brand's when the category has none —
+/// or arrows for a transfer.
 private struct TransactionBadge: View {
     let transaction: Transaction
+    @ScaledMetric(relativeTo: .body) private var size: CGFloat = 42
 
-    private var color: Color? {
-        transaction.type == .transfer ? nil : transaction.category.color.flatMap(Color.init(hex:))
+    private var color: Color {
+        if transaction.type == .transfer { return .blue }
+        return transaction.category.color.flatMap(Color.init(hex:)) ?? .accentColor
     }
 
     var body: some View {
         ZStack {
-            Circle()
-                .fill(color.map { AnyShapeStyle($0.opacity(0.18)) } ?? AnyShapeStyle(.fill.tertiary))
+            RoundedRectangle(cornerRadius: size * 0.34, style: .continuous)
+                .fill(
+                    LinearGradient(
+                        colors: [color.opacity(0.26), color.opacity(0.14)],
+                        startPoint: .topLeading,
+                        endPoint: .bottomTrailing
+                    )
+                )
             if transaction.type == .transfer {
                 Image(systemName: "arrow.left.arrow.right")
-                    .font(.subheadline.weight(.semibold))
+                    .font(.subheadline.weight(.bold))
             } else {
                 Text(verbatim: String(transaction.category.name.prefix(1)).uppercased())
-                    .font(.headline)
+                    .font(.headline.weight(.bold))
+                    .fontDesign(.rounded)
             }
         }
-        .foregroundStyle(color.map { AnyShapeStyle($0) } ?? AnyShapeStyle(.secondary))
-        .frame(width: 40, height: 40)
+        .foregroundStyle(color)
+        .frame(width: size, height: size)
         .accessibilityHidden(true)
     }
 }
@@ -142,7 +155,7 @@ private struct TransactionBadge: View {
                 TransactionRow(transaction: transaction)
             }
         }
-        .background(Color(.secondarySystemGroupedBackground), in: .rect(cornerRadius: 20))
+        .background { CardBackground() }
         .padding()
     }
     .background(Color(.systemGroupedBackground))

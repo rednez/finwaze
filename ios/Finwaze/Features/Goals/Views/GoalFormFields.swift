@@ -1,7 +1,8 @@
 import SwiftUI
 
-/// Name, target amount, target date and currency (`GOAL-20`), shared by "New goal" and a goal's screen. The currency
-/// is picked only for a new goal; a done or cancelled goal shows everything read-only (`GOAL-22`).
+/// Name, target amount, currency and target date (`GOAL-20`), shared by "New goal" and a goal's screen, in grouped
+/// rows. The currency is picked only for a new goal; a done or cancelled goal shows everything read-only
+/// (`GOAL-22`).
 struct GoalFormFields: View {
     @Bindable var viewModel: GoalFormViewModel
     @State private var isPickingCurrency = false
@@ -12,11 +13,15 @@ struct GoalFormFields: View {
     }
 
     var body: some View {
-        VStack(spacing: 16) {
-            nameField
-            amountField
-            dateField
-            currencyField
+        VStack(spacing: 20) {
+            FormSection {
+                nameRow
+                amountRow
+                currencyRow
+            }
+            FormSection {
+                dateRow
+            }
         }
         .disabled(viewModel.isSubmitting || viewModel.isReadOnly)
         .sheet(isPresented: $isPickingCurrency) {
@@ -24,37 +29,62 @@ struct GoalFormFields: View {
         }
     }
 
-    private var nameField: some View {
-        FormField(label: "goals.form.name", error: viewModel.nameIssue?.message, isFocused: focus == .name) {
+    private var nameRow: some View {
+        FormRow(label: "goals.form.name", systemImage: "target", tint: .green, error: viewModel.nameIssue?.message) {
             TextField("goals.form.namePlaceholder", text: $viewModel.name)
                 .textInputAutocapitalization(.sentences)
                 .focused($focus, equals: .name)
+                .accessibilityLabel(Text("goals.form.name"))
         }
     }
 
-    private var amountField: some View {
-        FormField(label: "goals.form.targetAmount", error: viewModel.amountIssue?.message, isFocused: focus == .amount) {
-            HStack {
-                TextField("goals.form.targetAmountPlaceholder", text: $viewModel.targetAmountText)
-                    .keyboardType(.decimalPad)
-                    .monospacedDigit()
-                    .focused($focus, equals: .amount)
-                if let code = viewModel.currencyCode {
-                    CurrencyBadge(code: code)
-                }
+    private var amountRow: some View {
+        FormRow(
+            label: "goals.form.targetAmount",
+            systemImage: "banknote.fill",
+            tint: .blue,
+            error: viewModel.amountIssue?.message
+        ) {
+            FormAmountInput(title: "goals.form.targetAmount", text: $viewModel.targetAmountText, currencyCode: viewModel.currencyCode)
+            .focused($focus, equals: .amount)
+        }
+    }
+
+    /// The full directory for a new goal; locked afterwards (`GOAL-20`).
+    private var currencyRow: some View {
+        FormRow(
+            label: "accountForm.currency",
+            systemImage: "dollarsign.circle.fill",
+            tint: .teal,
+            error: viewModel.currencyIssue?.message
+        ) {
+            Button {
+                focus = nil
+                isPickingCurrency = true
+            } label: {
+                FormValueLabel(
+                    value: viewModel.currency.map { Text(verbatim: $0.displayName) }
+                        ?? viewModel.currencyCode.map { Text(verbatim: $0) },
+                    placeholder: "goals.form.selectCurrency",
+                    systemImage: viewModel.isEditing ? "lock.fill" : "chevron.right"
+                )
             }
+            .buttonStyle(.plain)
+            .disabled(viewModel.isEditing)
+            .accessibilityLabel(Text("accountForm.currency"))
+            .accessibilityValue(viewModel.currency?.displayName ?? viewModel.currencyCode ?? "")
         }
     }
 
     /// Required and not in the past; empty for a new goal until picked (`GOAL-20`).
-    private var dateField: some View {
-        FormField(label: "goals.form.targetDate", error: viewModel.dateIssue?.message) {
+    private var dateRow: some View {
+        FormRow(label: "goals.form.targetDate", systemImage: "calendar", tint: .red, error: viewModel.dateIssue?.message) {
             if viewModel.targetDate == nil {
                 Button {
                     focus = nil
                     viewModel.targetDate = viewModel.earliestDate
                 } label: {
-                    PickerRowLabel(value: Text?.none, placeholder: "goals.form.selectTargetDate")
+                    FormValueLabel(value: Text?.none, placeholder: "goals.form.selectTargetDate")
                 }
                 .buttonStyle(.plain)
             } else {
@@ -68,40 +98,7 @@ struct GoalFormFields: View {
                     displayedComponents: .date
                 )
                 .labelsHidden()
-                .frame(maxWidth: .infinity, alignment: .leading)
             }
-        }
-    }
-
-    /// The full directory for a new goal; locked afterwards (`GOAL-20`).
-    private var currencyField: some View {
-        FormField(label: "accountForm.currency", error: viewModel.currencyIssue?.message) {
-            Button {
-                focus = nil
-                isPickingCurrency = true
-            } label: {
-                HStack {
-                    Group {
-                        if let currency = viewModel.currency {
-                            Text(verbatim: currency.displayName)
-                        } else if let code = viewModel.currencyCode {
-                            Text(verbatim: code)
-                        } else {
-                            Text("goals.form.selectCurrency").foregroundStyle(.tertiary)
-                        }
-                    }
-                    .foregroundStyle(viewModel.isEditing ? .secondary : .primary)
-                    .lineLimit(1)
-                    Spacer()
-                    Image(systemName: viewModel.isEditing ? "lock" : "chevron.up.chevron.down")
-                        .font(.footnote)
-                        .foregroundStyle(.secondary)
-                }
-                .contentShape(.rect)
-            }
-            .buttonStyle(.plain)
-            .disabled(viewModel.isEditing)
-            .accessibilityValue(viewModel.currency?.displayName ?? viewModel.currencyCode ?? "")
         }
     }
 }

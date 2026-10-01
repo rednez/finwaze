@@ -7,7 +7,7 @@ struct AnalyticsStatisticsCard: View {
     let currencyCode: String
 
     var body: some View {
-        ContentCard(title: "analytics.statistics.title") {
+        ContentCard(title: "analytics.statistics.title", systemImage: "chart.pie.fill", tint: .purple) {
             VStack(alignment: .leading, spacing: 12) {
                 Picker("analytics.statistics.mode", selection: $viewModel.statisticsMode) {
                     Text("dashboard.chart.expense").tag(AnalyticsViewModel.StatisticsMode.expense)

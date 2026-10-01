@@ -10,16 +10,13 @@ struct AccountFormFields: View {
     @State private var isPickingCurrency = false
 
     var body: some View {
-        VStack(spacing: 16) {
-            FormField(
-                label: "accountForm.name",
-                error: viewModel.nameIssue?.message,
-                isFocused: isNameFocused
-            ) {
+        FormSection {
+            FormRow(label: "accountForm.name", systemImage: "creditcard.fill", tint: .blue, error: viewModel.nameIssue?.message) {
                 TextField("accountForm.namePlaceholder", text: $viewModel.name)
                     .textInputAutocapitalization(.sentences)
                     .submitLabel(.next)
                     .focused($isNameFocused)
+                    .accessibilityLabel(Text("accountForm.name"))
                     .onSubmit {
                         if viewModel.currency == nil {
                             isPickingCurrency = true
@@ -29,30 +26,23 @@ struct AccountFormFields: View {
                     }
             }
 
-            FormField(
+            FormRow(
                 label: "accountForm.currency",
+                systemImage: "banknote.fill",
+                tint: .green,
                 error: viewModel.currencyIssue?.message
             ) {
                 Button {
                     isNameFocused = false
                     isPickingCurrency = true
                 } label: {
-                    HStack {
-                        if let currency = viewModel.currency {
-                            Text(verbatim: currency.displayName)
-                                .foregroundStyle(.primary)
-                        } else {
-                            Text("accountForm.currencyPlaceholder")
-                                .foregroundStyle(.tertiary)
-                        }
-                        Spacer()
-                        Image(systemName: "chevron.up.chevron.down")
-                            .font(.footnote)
-                            .foregroundStyle(.secondary)
-                    }
-                    .contentShape(.rect)
+                    FormValueLabel(
+                        value: viewModel.currency.map { Text(verbatim: $0.displayName) },
+                        placeholder: "accountForm.currencyPlaceholder"
+                    )
                 }
                 .buttonStyle(.plain)
+                .accessibilityLabel(Text("accountForm.currency"))
                 .accessibilityValue(viewModel.currency?.displayName ?? "")
             }
         }

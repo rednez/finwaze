@@ -32,18 +32,6 @@ enum AppSection: String, Hashable, CaseIterable {
         }
     }
 
-    var subtitle: LocalizedStringKey {
-        switch self {
-        case .dashboard: "section.dashboard.description"
-        case .transactions: "section.transactions.description"
-        case .wallet: "section.wallet.description"
-        case .budget: "section.budget.description"
-        case .goals: "section.goals.description"
-        case .groups: "section.groups.description"
-        case .analytics: "section.analytics.description"
-        }
-    }
-
     /// The section's "+" action, shown next to "?", or `nil` when it has none.
     var addTitle: LocalizedStringKey? {
         switch self {

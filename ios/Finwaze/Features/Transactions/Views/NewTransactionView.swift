@@ -31,10 +31,9 @@ struct NewTransactionView: View {
                     .disabled(viewModel.isSubmitting)
 
                     TransactionFormFields(viewModel: viewModel, app: app)
-
-                    SubmitButton(title: "transactionForm.create", isLoading: viewModel.isSubmitting, action: submit)
                 }
-                .padding(24)
+                .padding(.horizontal, 16)
+                .padding(.vertical, 8)
             }
             .scrollDismissesKeyboard(.interactively)
             .background(Color(.systemGroupedBackground))
@@ -46,6 +45,7 @@ struct NewTransactionView: View {
                     Button("common.cancel", role: .cancel) { dismiss() }
                         .disabled(viewModel.isSubmitting)
                 }
+                FormConfirmItem(title: "transactionForm.create", isSubmitting: viewModel.isSubmitting, action: submit)
             }
             .failureAlert($viewModel.failure, title: "transactionForm.creationFailed")
         }
@@ -55,6 +55,7 @@ struct NewTransactionView: View {
     private func submit() {
         Task {
             if await viewModel.submit() {
+                Haptics.success()
                 dismiss()
             }
         }

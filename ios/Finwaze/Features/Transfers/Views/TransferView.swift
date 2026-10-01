@@ -24,24 +24,26 @@ struct TransferView: View {
     var body: some View {
         NavigationStack {
             ScrollView {
-                VStack(spacing: 24) {
-                    VStack(spacing: 16) {
-                        fromAccountField
-                        sentAmountField
-                        Image(systemName: "arrow.down.circle.fill")
-                            .font(.title)
-                            .foregroundStyle(.tint)
-                            .accessibilityHidden(true)
-                        toAccountField
-                        receivedAmountField
-                        dateField
+                VStack(spacing: 20) {
+                    FormSection {
+                        fromAccountRow
+                        sentAmountRow
                     }
-                    .disabled(viewModel.isSubmitting)
-                    .animation(.default, value: viewModel.showsReceivedAmount)
-
-                    SubmitButton(title: "transferForm.submit", isLoading: viewModel.isSubmitting, action: submit)
+                    FormSection(footer: viewModel.needsAnotherAccount ? Text("transferForm.needsAnotherAccount") : nil) {
+                        toAccountRow
+                        if viewModel.showsReceivedAmount {
+                            receivedAmountRow
+                                .transition(.opacity.combined(with: .move(edge: .top)))
+                        }
+                    }
+                    FormSection {
+                        dateRow
+                    }
                 }
-                .padding(24)
+                .disabled(viewModel.isSubmitting)
+                .animation(.default, value: viewModel.showsReceivedAmount)
+                .padding(.horizontal, 16)
+                .padding(.vertical, 8)
             }
             .scrollDismissesKeyboard(.interactively)
             .background(Color(.systemGroupedBackground))
@@ -54,86 +56,68 @@ struct TransferView: View {
                     Button("common.cancel", role: .cancel) { dismiss() }
                         .disabled(viewModel.isSubmitting)
                 }
+                FormConfirmItem(title: "transferForm.submit", isSubmitting: viewModel.isSubmitting, action: submit)
             }
             .failureAlert($viewModel.failure, title: "transferForm.creationFailed")
         }
         .interactiveDismissDisabled(viewModel.isSubmitting)
     }
 
-    private var fromAccountField: some View {
-        FormField(label: "transferForm.fromAccount", error: viewModel.fromAccountIssue?.message) {
-            AccountMenu(
-                title: "transferForm.fromAccount",
-                accounts: viewModel.accounts,
-                selection: $viewModel.fromAccount
-            )
-        }
-    }
-
-    private var sentAmountField: some View {
-        FormField(
+    /// The amount leaving the source account, in its currency.
+    private var sentAmountRow: some View {
+        FormRow(
             label: "transferForm.sentAmount",
-            error: viewModel.sentAmountIssue?.message,
-            isFocused: focus == .sentAmount
+            systemImage: "banknote.fill",
+            tint: .green,
+            error: viewModel.sentAmountIssue?.message
         ) {
-            AmountInput(
-                text: $viewModel.sentAmountText,
-                currencyCode: viewModel.fromAccount?.currencyCode
-            )
+            FormAmountInput(title: "transferForm.sentAmount", text: $viewModel.sentAmountText, currencyCode: viewModel.fromAccount?.currencyCode)
             .focused($focus, equals: .sentAmount)
         }
     }
 
-    /// Empty and inactive until a source is chosen (`TRF-02`); explains why when there is no other account.
-    private var toAccountField: some View {
-        VStack(alignment: .leading, spacing: 6) {
-            FormField(label: "transferForm.toAccount", error: viewModel.toAccountIssue?.message) {
-                AccountMenu(
-                    title: "transferForm.toAccount",
-                    accounts: viewModel.toAccounts,
-                    selection: $viewModel.toAccount
-                )
-                .disabled(viewModel.toAccounts.isEmpty)
-            }
-            if viewModel.needsAnotherAccount {
-                Text("transferForm.needsAnotherAccount")
-                    .font(.caption)
-                    .foregroundStyle(.secondary)
-                    .padding(.leading, 8)
-            }
+    private var fromAccountRow: some View {
+        FormRow(
+            label: "transferForm.fromAccount",
+            systemImage: "arrow.up.right",
+            tint: .orange,
+            error: viewModel.fromAccountIssue?.message
+        ) {
+            AccountMenu(title: "transferForm.fromAccount", accounts: viewModel.accounts, selection: $viewModel.fromAccount)
         }
     }
 
-    /// Only when the currencies differ, with the rate below it (`TRF-03`, `GEN-10`).
-    @ViewBuilder
-    private var receivedAmountField: some View {
-        if viewModel.showsReceivedAmount {
-            VStack(alignment: .leading, spacing: 6) {
-                FormField(
-                    label: "transferForm.receivedAmount",
-                    error: viewModel.receivedAmountIssue?.message,
-                    isFocused: focus == .receivedAmount
-                ) {
-                    AmountInput(
-                        text: $viewModel.receivedAmountText,
-                        currencyCode: viewModel.toAccount?.currencyCode
-                    )
-                    .focused($focus, equals: .receivedAmount)
-                }
-                if let hint = viewModel.exchangeRateHint {
-                    Text(verbatim: hint)
-                        .font(.caption)
-                        .foregroundStyle(.secondary)
-                        .padding(.leading, 8)
-                }
-            }
-            .transition(.opacity.combined(with: .move(edge: .top)))
+    /// Empty and inactive until a source is chosen (`TRF-02`); the section's note explains why when there is no other
+    /// account.
+    private var toAccountRow: some View {
+        FormRow(
+            label: "transferForm.toAccount",
+            systemImage: "arrow.down.left",
+            tint: .green,
+            error: viewModel.toAccountIssue?.message
+        ) {
+            AccountMenu(title: "transferForm.toAccount", accounts: viewModel.toAccounts, selection: $viewModel.toAccount)
+                .disabled(viewModel.toAccounts.isEmpty)
+        }
+    }
+
+    /// Only when the currencies differ, with the rate under it (`TRF-03`, `GEN-10`).
+    private var receivedAmountRow: some View {
+        FormRow(
+            label: "transferForm.receivedAmount",
+            systemImage: "arrow.left.arrow.right",
+            tint: .indigo,
+            note: viewModel.exchangeRateHint.map { Text(verbatim: $0) },
+            error: viewModel.receivedAmountIssue?.message
+        ) {
+            FormAmountInput(title: "transferForm.receivedAmount", text: $viewModel.receivedAmountText, currencyCode: viewModel.toAccount?.currencyCode)
+            .focused($focus, equals: .receivedAmount)
         }
     }
 
     /// Never in the future (`GEN-13`).
-    private var dateField: some View {
-        FormField(label: "transactionForm.date", error: viewModel.dateIssue?.message) {
+    private var dateRow: some View {
+        FormRow(label: "transactionForm.date", systemImage: "calendar", tint: .red, error: viewModel.dateIssue?.message) {
             DatePicker(
                 "transactionForm.date",
                 selection: $viewModel.transactedAt,
@@ -141,7 +125,6 @@ struct TransferView: View {
                 displayedComponents: [.date, .hourAndMinute]
             )
             .labelsHidden()
-            .frame(maxWidth: .infinity, alignment: .leading)
         }
     }
 
@@ -149,6 +132,7 @@ struct TransferView: View {
         focus = nil
         Task {
             if await viewModel.submit() {
+                Haptics.success()
                 dismiss()
             }
         }
@@ -162,36 +146,18 @@ private struct AccountMenu: View {
     @Binding var selection: Account?
 
     var body: some View {
-        Menu {
+        FormMenuValue(
+            value: selection.map { Text(verbatim: "\($0.name) · \($0.currencyCode)") },
+            placeholder: "transactionForm.accountPlaceholder"
+        ) {
             Picker(title, selection: $selection) {
                 ForEach(accounts) { account in
                     Text(verbatim: "\(account.name) · \(account.currencyCode)").tag(Account?.some(account))
                 }
             }
-        } label: {
-            PickerRowLabel(
-                value: selection.map { Text(verbatim: "\($0.name) · \($0.currencyCode)") },
-                placeholder: "transactionForm.accountPlaceholder"
-            )
         }
+        .accessibilityLabel(Text(title))
         .accessibilityValue(selection.map { "\($0.name), \($0.currencyCode)" } ?? "")
-    }
-}
-
-/// A decimal amount with the account's currency next to it.
-private struct AmountInput: View {
-    @Binding var text: String
-    let currencyCode: String?
-
-    var body: some View {
-        HStack {
-            TextField("transactionForm.amountPlaceholder", text: $text)
-                .keyboardType(.decimalPad)
-                .monospacedDigit()
-            if let currencyCode {
-                CurrencyBadge(code: currencyCode)
-            }
-        }
     }
 }
 

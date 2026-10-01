@@ -1,76 +1,67 @@
 import SwiftUI
 
-/// The list's filters in a bottom sheet (`TX-03`): type, currency, account, group and category. Changes apply right
-/// away; the currency narrows the accounts and the group the categories (`TX-04`). The month stays on the list.
+/// The list's filters in a bottom sheet (`TX-03`): the month, type, currency, account, group and category. Changes
+/// apply right away; the currency narrows the accounts and the group the categories (`TX-04`). "Reset" leaves the
+/// month.
 struct TransactionFiltersSheet: View {
     @Bindable var viewModel: TransactionsViewModel
-    @Environment(\.dismiss) private var dismiss
 
     var body: some View {
-        NavigationStack {
-            Form {
-                Section("transactions.filters.type") {
-                    Picker("transactions.filters.type", selection: $viewModel.filters.type) {
-                        Text("transactions.filters.all").tag(TransactionType?.none)
-                        ForEach(TransactionType.filterable, id: \.self) { type in
-                            Text(type.filterTitle).tag(TransactionType?.some(type))
-                        }
-                    }
-                    .pickerStyle(.segmented)
-                    .labelsHidden()
-                    .listRowBackground(Color.clear)
-                    .listRowInsets(EdgeInsets())
+        FiltersSheet(canReset: viewModel.filters.activeCount > 0, onReset: { viewModel.filters.reset() }) {
+            FilterPeriodSection(title: "filters.month") {
+                MonthStepper(month: viewModel.filters.month) { months in
+                    viewModel.filters.shiftMonth(by: months)
                 }
+            }
 
-                Section {
-                    Picker("transactions.filters.currency", selection: $viewModel.filters.currencyCode) {
-                        Text("transactions.filters.all").tag(String?.none)
-                        ForEach(viewModel.currencyCodes, id: \.self) { code in
-                            Text(verbatim: code).tag(String?.some(code))
-                        }
-                    }
-                    Picker("transactions.filters.account", selection: $viewModel.filters.accountID) {
-                        Text("transactions.filters.all").tag(Int64?.none)
-                        ForEach(viewModel.accounts) { account in
-                            Text(verbatim: account.name).tag(Int64?.some(account.id))
-                        }
+            Section("transactions.filters.type") {
+                Picker("transactions.filters.type", selection: $viewModel.filters.type) {
+                    Text("transactions.filters.all").tag(TransactionType?.none)
+                    ForEach(TransactionType.filterable, id: \.self) { type in
+                        Text(type.filterTitle).tag(TransactionType?.some(type))
                     }
                 }
+                .pickerStyle(.segmented)
+                .labelsHidden()
+                .listRowBackground(Color.clear)
+                .listRowInsets(EdgeInsets())
+            }
 
-                Section {
-                    Picker("transactions.filters.group", selection: $viewModel.filters.groupID) {
-                        Text("transactions.filters.all").tag(Int64?.none)
-                        ForEach(viewModel.groups) { group in
-                            Text(verbatim: group.name).tag(Int64?.some(group.id))
-                        }
+            Section {
+                Picker("transactions.filters.currency", selection: $viewModel.filters.currencyCode) {
+                    Text("transactions.filters.all").tag(String?.none)
+                    ForEach(viewModel.currencyCodes, id: \.self) { code in
+                        Text(verbatim: code).tag(String?.some(code))
                     }
-                    Picker("transactions.filters.category", selection: $viewModel.filters.categoryID) {
-                        Text("transactions.filters.all").tag(Int64?.none)
-                        ForEach(viewModel.categories) { category in
-                            Text(verbatim: category.name).tag(Int64?.some(category.id))
-                        }
-                    }
-                    .disabled(viewModel.filters.groupID == nil)
-                } footer: {
-                    if viewModel.filters.groupID == nil {
-                        Text("transactions.filters.categoryHint")
+                }
+                Picker("transactions.filters.account", selection: $viewModel.filters.accountID) {
+                    Text("transactions.filters.all").tag(Int64?.none)
+                    ForEach(viewModel.accounts) { account in
+                        Text(verbatim: account.name).tag(Int64?.some(account.id))
                     }
                 }
             }
-            .navigationTitle("transactions.filters.title")
-            .navigationBarTitleDisplayMode(.inline)
-            .toolbar {
-                ToolbarItem(placement: .cancellationAction) {
-                    Button("transactions.filters.reset") { viewModel.filters.reset() }
-                        .disabled(viewModel.filters.activeCount == 0)
+
+            Section {
+                Picker("transactions.filters.group", selection: $viewModel.filters.groupID) {
+                    Text("transactions.filters.all").tag(Int64?.none)
+                    ForEach(viewModel.groups) { group in
+                        Text(verbatim: group.name).tag(Int64?.some(group.id))
+                    }
                 }
-                ToolbarItem(placement: .confirmationAction) {
-                    Button("common.done", role: .confirm) { dismiss() }
+                Picker("transactions.filters.category", selection: $viewModel.filters.categoryID) {
+                    Text("transactions.filters.all").tag(Int64?.none)
+                    ForEach(viewModel.categories) { category in
+                        Text(verbatim: category.name).tag(Int64?.some(category.id))
+                    }
+                }
+                .disabled(viewModel.filters.groupID == nil)
+            } footer: {
+                if viewModel.filters.groupID == nil {
+                    Text("transactions.filters.categoryHint")
                 }
             }
         }
-        .presentationDetents([.medium, .large])
-        .presentationDragIndicator(.visible)
     }
 }
 

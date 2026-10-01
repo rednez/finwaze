@@ -18,6 +18,7 @@ struct TabStack<Root: View>: View {
     @Binding var path: NavigationPath
     @ViewBuilder let root: Root
     @Environment(AppViewModel.self) private var app
+    @Namespace private var zoom
 
     var body: some View {
         NavigationStack(path: $path) {
@@ -27,19 +28,23 @@ struct TabStack<Root: View>: View {
                 }
                 .navigationDestination(for: TransactionRoute.self) { route in
                     EditTransactionView(app: app, transactionID: route.id)
+                        .zoomDestination(ZoomID.transaction(route.id), in: zoom)
                 }
                 .navigationDestination(for: TransferRoute.self) { route in
                     TransferDetailsView(app: app, transactionID: route.transactionID)
+                        .zoomDestination(ZoomID.transfer(route.transactionID), in: zoom)
                 }
                 .navigationDestination(for: AccountRoute.self) { route in
                     AccountSettingsView(app: app, accountID: route.id)
+                        .zoomDestination(ZoomID.account(route.id), in: zoom)
                 }
         }
         .environment(\.pushRoute, PushRouteAction { route in path.append(route) })
+        .environment(\.zoomNamespace, zoom)
     }
 }
 
-/// One section's screen: title, short description, the section's actions and the menus (`NAV-03`, `NAV-04`).
+/// One section's screen: title, the section's actions and the menus (`NAV-03`, `NAV-04`).
 struct SectionContentView: View {
     let section: AppSection
     /// The tab's first screen rather than a section pushed onto it: only it shows the profile menu (`NAV-04`).
@@ -49,15 +54,19 @@ struct SectionContentView: View {
     @State private var isAdding = false
     /// The section's "Transfer money" was tapped (`ACC-01`).
     @State private var isTransferring = false
+    /// The section's own action in the bar and whether it was tapped, e.g. Budget's "Edit budget" (`BUD-15`).
+    @State private var primaryAction: SectionToolbarAction?
+    @State private var isPerformingPrimary = false
 
     var body: some View {
         content
             .navigationTitle(section.title)
-            .navigationSubtitle(section.subtitle)
             .sectionToolbar(
                 for: section,
                 onAdd: { isAdding = true },
                 onTransfer: { isTransferring = true },
+                primaryAction: primaryAction,
+                onPrimary: { isPerformingPrimary = true },
                 showsProfile: isRoot
             )
     }
@@ -78,7 +87,7 @@ struct SectionContentView: View {
         case .groups:
             GroupsView(app: app, isAddingGroup: $isAdding)
         case .budget:
-            BudgetView(app: app)
+            BudgetView(app: app, planAction: $primaryAction, isPlanning: $isPerformingPrimary)
         case .goals:
             GoalsView(app: app, isAdding: $isAdding)
         case .analytics:

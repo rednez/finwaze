@@ -60,8 +60,9 @@ struct TransactionsView: View {
     }
 }
 
-/// The month card, the filters in use and a card per day. Filters that match nothing keep all of that in place
-/// with a short note, not the empty state (`TX-07`).
+/// The month and its item count with the filters button, the month's totals, the filters in use and a card per day.
+/// The month is changed in the filters sheet. Filters that match nothing keep all of that in place with a short note,
+/// not the empty state (`TX-07`).
 private struct TransactionList: View {
     @Bindable var viewModel: TransactionsViewModel
     let transactions: [Transaction]
@@ -71,16 +72,17 @@ private struct TransactionList: View {
         let days = TransactionDay.group(transactions)
         ScrollView {
             LazyVStack(spacing: 24) {
-                VStack(spacing: 12) {
-                    MonthCard(
-                        month: viewModel.filters.month,
-                        count: transactions.count,
-                        totals: TransactionTotals.of(transactions),
-                        activeFilters: viewModel.filters.activeCount,
-                        onShift: { months in withAnimation(.snappy) { viewModel.filters.shiftMonth(by: months) } },
+                VStack(spacing: 14) {
+                    FilterSummaryBar(
+                        title: viewModel.filters.month.title,
+                        details: Text("transactions.count \(transactions.count)"),
+                        activeCount: viewModel.filters.activeCount,
                         onFilter: onFilter
                     )
                     .padding(.horizontal, 16)
+
+                    MonthTotals(totals: TransactionTotals.of(transactions))
+                        .padding(.horizontal, 16)
 
                     ActiveFilterChips(viewModel: viewModel)
                 }
@@ -104,82 +106,35 @@ private struct TransactionList: View {
     }
 }
 
-/// "‹ September 2026 ›" with the filters button, the number of items and — when they can be added up — the month's
-/// income and expenses (`GEN-02`, `GEN-14`, `TX-05`).
-private struct MonthCard: View {
-    let month: YearMonth
-    let count: Int
+/// The month's income and expenses, when they can be added up (`GEN-02`, `TX-05`).
+private struct MonthTotals: View {
     let totals: TransactionTotals?
-    let activeFilters: Int
-    let onShift: (Int) -> Void
-    let onFilter: () -> Void
 
     var body: some View {
-        VStack(alignment: .leading, spacing: 16) {
-            HStack(spacing: 8) {
-                Button("transactions.filters.previousMonth", systemImage: "chevron.left") { onShift(-1) }
-                VStack(spacing: 2) {
-                    Text(verbatim: month.title)
-                        .font(.title3.weight(.semibold))
-                        .contentTransition(.numericText())
-                    Text("transactions.count \(count)")
-                        .font(.footnote)
-                        .foregroundStyle(.secondary)
-                        .contentTransition(.numericText())
+        // A zero total says nothing (e.g. expenses while filtering incomes), so only non-zero ones show.
+        if let totals, totals.income != 0 || totals.expenses != 0 {
+            HStack(spacing: 12) {
+                if totals.income != 0 {
+                    TotalTile(
+                        title: "transactions.summary.income",
+                        systemImage: "arrow.down.left",
+                        amount: totals.income,
+                        currencyCode: totals.currencyCode,
+                        isSigned: true,
+                        tint: .green
+                    )
                 }
-                .frame(maxWidth: .infinity)
-                .accessibilityElement(children: .combine)
-                Button("transactions.filters.nextMonth", systemImage: "chevron.right") { onShift(1) }
-            }
-            .labelStyle(.iconOnly)
-            .buttonStyle(.glass)
-            .buttonBorderShape(.circle)
-
-            // A zero total says nothing (e.g. expenses while filtering incomes), so only non-zero ones show.
-            if let totals, totals.income != 0 || totals.expenses != 0 {
-                HStack(spacing: 12) {
-                    if totals.income != 0 {
-                        TotalTile(
-                            title: "transactions.summary.income",
-                            systemImage: "arrow.down.left",
-                            amount: totals.income.formattedSignedAmount(currencyCode: totals.currencyCode),
-                            tint: .green
-                        )
-                    }
-                    if totals.expenses != 0 {
-                        TotalTile(
-                            title: "transactions.summary.expenses",
-                            systemImage: "arrow.up.right",
-                            amount: totals.expenses.formattedAmount(currencyCode: totals.currencyCode),
-                            tint: .orange
-                        )
-                    }
+                if totals.expenses != 0 {
+                    TotalTile(
+                        title: "transactions.summary.expenses",
+                        systemImage: "arrow.up.right",
+                        amount: totals.expenses,
+                        currencyCode: totals.currencyCode,
+                        tint: .orange
+                    )
                 }
             }
-
-            Button(action: onFilter) {
-                HStack {
-                    Label("transactions.filters.title", systemImage: "line.3.horizontal.decrease")
-                    Spacer()
-                    if activeFilters > 0 {
-                        Text(verbatim: activeFilters.formatted())
-                            .font(.caption.weight(.bold))
-                            .foregroundStyle(.white)
-                            .frame(minWidth: 20, minHeight: 20)
-                            .background(.tint, in: .capsule)
-                    }
-                    Image(systemName: "chevron.right")
-                        .font(.footnote.weight(.semibold))
-                        .foregroundStyle(.tertiary)
-                }
-                .font(.subheadline.weight(.medium))
-                .contentShape(.rect)
-            }
-            .buttonStyle(.plain)
-            .accessibilityValue(Text("transactions.filters.activeCount \(activeFilters)"))
         }
-        .padding(20)
-        .background(Color(.secondarySystemGroupedBackground), in: .rect(cornerRadius: 28))
     }
 }
 
@@ -187,7 +142,9 @@ private struct MonthCard: View {
 private struct TotalTile: View {
     let title: LocalizedStringKey
     let systemImage: String
-    let amount: String
+    let amount: Decimal
+    let currencyCode: String
+    var isSigned = false
     let tint: Color
 
     var body: some View {
@@ -196,16 +153,11 @@ private struct TotalTile: View {
                 .font(.footnote.weight(.medium))
                 .foregroundStyle(.secondary)
                 .labelStyle(TintedIconLabelStyle(tint: tint))
-            Text(verbatim: amount)
-                .font(.headline)
-                .monospacedDigit()
-                .lineLimit(1)
-                .minimumScaleFactor(0.7)
-                .contentTransition(.numericText())
+            AmountText(amount: amount, currencyCode: currencyCode, size: .medium, isSigned: isSigned)
         }
         .frame(maxWidth: .infinity, alignment: .leading)
-        .padding(12)
-        .background(tint.opacity(0.1), in: .rect(cornerRadius: 16))
+        .padding(14)
+        .background { CardBackground() }
         .accessibilityElement(children: .combine)
     }
 }
@@ -251,12 +203,12 @@ private struct DaySection: View {
                 ForEach(Array(day.transactions.enumerated()), id: \.element.id) { index, transaction in
                     if index > 0 {
                         Divider()
-                            .padding(.leading, 68)
+                            .padding(.leading, 70)
                     }
                     TransactionRow(transaction: transaction)
                 }
             }
-            .background(Color(.secondarySystemGroupedBackground), in: .rect(cornerRadius: 22))
+            .background { CardBackground() }
             .padding(.horizontal, 16)
         }
     }

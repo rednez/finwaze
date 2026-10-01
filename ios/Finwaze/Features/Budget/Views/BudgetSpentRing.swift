@@ -7,6 +7,8 @@ struct BudgetSpentRing: View {
     let planned: Decimal
     let spent: Decimal
     let currencyCode: String
+    /// The spent part's colour: the budget's status, so the ring agrees with its badge (`BUD-04`).
+    var tint: Color = .accentColor
 
     private struct Segment: Identifiable {
         let id: Int
@@ -18,7 +20,7 @@ struct BudgetSpentRing: View {
         Chart(segments) { segment in
             SectorMark(
                 angle: .value(String(localized: "budget.chart.amount"), segment.value.chartValue),
-                innerRadius: .ratio(0.8),
+                innerRadius: .ratio(0.78),
                 angularInset: 1
             )
             .cornerRadius(3)
@@ -35,6 +37,7 @@ struct BudgetSpentRing: View {
                             .foregroundStyle(.secondary)
                         Text(verbatim: spent.formattedAmount(currencyCode: currencyCode))
                             .font(.subheadline.weight(.semibold))
+                            .fontDesign(.rounded)
                             .monospacedDigit()
                     }
                     .lineLimit(1)
@@ -58,7 +61,7 @@ struct BudgetSpentRing: View {
             return [Segment(id: 0, value: 1, color: .red.opacity(0.7))]
         }
         return [
-            Segment(id: 0, value: spent, color: .accentColor),
+            Segment(id: 0, value: spent, color: tint),
             Segment(id: 1, value: planned - spent, color: Color(.systemGray5)),
         ]
         .filter { $0.value > 0 }

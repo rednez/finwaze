@@ -126,43 +126,88 @@ private struct AccountCardGrid: View {
                     AccountCard(account: account)
                 }
                 .buttonStyle(.plain)
+                .zoomSource(ZoomID.account(account.id))
             }
         }
     }
 }
 
-/// Name, balance with its currency and the currency code (`ACC-02`, `GEN-06`), with a chevron hinting it opens.
+/// Name, balance with its currency and the currency code (`ACC-02`, `GEN-06`), with a chevron hinting it opens — on
+/// a card in the account's own colour, like a card in Apple Wallet, so accounts tell apart at a glance.
 private struct AccountCard: View {
     let account: WalletAccount
 
     var body: some View {
-        VStack(alignment: .leading, spacing: 12) {
-            HStack(alignment: .firstTextBaseline) {
+        VStack(alignment: .leading, spacing: 20) {
+            HStack(spacing: 10) {
+                Image(systemName: "creditcard.fill")
+                    .font(.subheadline.weight(.semibold))
+                    .frame(width: 32, height: 32)
+                    .background(.white.opacity(0.2), in: .rect(cornerRadius: 10, style: .continuous))
+                    .accessibilityHidden(true)
                 Text(verbatim: account.name)
                     .font(.headline)
                     .lineLimit(1)
-                Spacer()
+                Spacer(minLength: 8)
                 Text(verbatim: account.currencyCode)
-                    .font(.caption.weight(.semibold))
-                    .foregroundStyle(.secondary)
+                    .font(.caption.weight(.bold))
                     .padding(.horizontal, 8)
                     .padding(.vertical, 4)
-                    .background(.fill.tertiary, in: .capsule)
+                    .background(.white.opacity(0.22), in: .capsule)
                 Image(systemName: "chevron.right")
                     .font(.footnote.weight(.semibold))
-                    .foregroundStyle(.tertiary)
+                    .opacity(0.7)
                     .accessibilityHidden(true)
             }
-            Text(verbatim: account.balance.formattedAmount(currencyCode: account.currencyCode))
-                .font(.title2.weight(.semibold))
-                .monospacedDigit()
-                .minimumScaleFactor(0.6)
-                .lineLimit(1)
+            AmountText(
+                amount: account.balance,
+                currencyCode: account.currencyCode,
+                size: .large,
+                minorColor: .white.opacity(0.75)
+            )
         }
+        .foregroundStyle(.white)
         .padding(20)
         .frame(maxWidth: .infinity, alignment: .leading)
-        .background(Color(.secondarySystemGroupedBackground), in: .rect(cornerRadius: 20))
+        .background { AccountCardBackground(color: account.cardColor) }
+        .contentShape(.rect(cornerRadius: 26, style: .continuous))
         .accessibilityElement(children: .combine)
+    }
+}
+
+/// The card's colour, deepening to its lower edge, with two soft rings for depth.
+private struct AccountCardBackground: View {
+    let color: Color
+
+    var body: some View {
+        let shape = RoundedRectangle(cornerRadius: 26, style: .continuous)
+        shape
+            .fill(
+                LinearGradient(
+                    colors: [color.mix(with: .black, by: 0.1), color.mix(with: .black, by: 0.38)],
+                    startPoint: .topLeading,
+                    endPoint: .bottomTrailing
+                )
+            )
+            .overlay(alignment: .topTrailing) {
+                ZStack {
+                    Circle().stroke(.white.opacity(0.10), lineWidth: 18).frame(width: 150, height: 150)
+                    Circle().stroke(.white.opacity(0.07), lineWidth: 12).frame(width: 90, height: 90)
+                }
+                .offset(x: 40, y: -40)
+            }
+            .clipShape(shape)
+            .shadow(color: color.opacity(0.28), radius: 12, y: 6)
+    }
+}
+
+private extension WalletAccount {
+    /// System colours, deepened by the card's gradient so white text stays readable; an account keeps its colour
+    /// as long as it exists. No red: it would read as a debt.
+    private static let cardColors: [Color] = [.indigo, .purple, .blue, .teal, .orange, .green, .cyan]
+
+    var cardColor: Color {
+        Self.cardColors[Int(abs(id) % Int64(Self.cardColors.count))]
     }
 }
 

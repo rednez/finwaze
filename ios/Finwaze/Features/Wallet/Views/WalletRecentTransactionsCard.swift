@@ -11,26 +11,34 @@ struct WalletRecentTransactionsCard: View {
     var body: some View {
         ContentCard(
             title: "dashboard.recent.title",
-            action: .init(title: "dashboard.recent.all", perform: onOpenTransactions)
+            detail: widget.currencyCode.map { Text(verbatim: $0) },
+            action: .init(title: "dashboard.recent.all", perform: onOpenTransactions),
+            systemImage: "list.bullet",
+            tint: .blue
         ) {
             if let currencyCode = widget.currencyCode {
-                VStack(alignment: .leading, spacing: 12) {
-                    WalletWidgetFilterBar(widget: widget, currencyCode: currencyCode, showsMonth: false)
-                    CardStateView(
-                        state: widget.state,
-                        placeholder: .recentPlaceholder(count: WalletRecentTransactions.limit),
-                        onRetry: { Task { await widget.refresh() } }
-                    ) { transactions in
-                        if transactions.isEmpty {
-                            CardEmptyState(
-                                title: "wallet.recent.empty.title \(currencyCode)",
-                                message: "dashboard.recent.empty.message",
-                                actionTitle: "transactions.add",
-                                action: onAddTransaction
-                            )
-                        } else {
-                            RecentTransactionsList(transactions: transactions)
-                        }
+                ChartSettingsMenu(
+                    currencyCodes: widget.currencyCodes,
+                    currencyCode: currencyCode,
+                    onSelectCurrency: widget.selectCurrency
+                )
+            }
+        } content: {
+            if let currencyCode = widget.currencyCode {
+                CardStateView(
+                    state: widget.state,
+                    placeholder: .recentPlaceholder(count: WalletRecentTransactions.limit),
+                    onRetry: { Task { await widget.refresh() } }
+                ) { transactions in
+                    if transactions.isEmpty {
+                        CardEmptyState(
+                            title: "wallet.recent.empty.title \(currencyCode)",
+                            message: "dashboard.recent.empty.message",
+                            actionTitle: "transactions.add",
+                            action: onAddTransaction
+                        )
+                    } else {
+                        RecentTransactionsList(transactions: transactions)
                     }
                 }
             }

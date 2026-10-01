@@ -25,7 +25,9 @@ struct DashboardViewModelTests {
         repository.setTotals(usdTotals, currencyCode: "USD")
         repository.setTotals(eurTotals, currencyCode: "EUR")
         repository.setBudgets([CategoryBudget(name: "Rent", amount: 1200)], currencyCode: "USD")
-        repository.setRecentTransactions(Array(DemoData.transactions(inMonthOf: .now).prefix(3)))
+        // Last month's, which always has more than three, unlike the current one on its first days.
+        let lastMonth = Calendar.current.date(byAdding: .month, value: -1, to: .now) ?? .now
+        repository.setRecentTransactions(Array(DemoData.transactions(inMonthOf: lastMonth).prefix(3)))
         repository.setGoals([goal])
         return DashboardViewModel(repository: repository, preferences: preferences)
     }

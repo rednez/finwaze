@@ -122,6 +122,7 @@ struct BudgetCardsView: View {
                     currencyCode: currencyCode,
                     onOpen: onOpenGroup.map { open in { open(item) } }
                 )
+                .zoomSource(ZoomID.budgetGroup(item.id))
             }
         }
     }

@@ -10,7 +10,9 @@ struct RecentTransactionsCard: View {
     var body: some View {
         ContentCard(
             title: "dashboard.recent.title",
-            action: .init(title: "dashboard.recent.all", perform: onOpenTransactions)
+            action: .init(title: "dashboard.recent.all", perform: onOpenTransactions),
+            systemImage: "list.bullet",
+            tint: .blue
         ) {
             CardStateView(
                 state: state,

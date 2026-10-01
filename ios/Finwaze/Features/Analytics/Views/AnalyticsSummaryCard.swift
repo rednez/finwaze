@@ -9,7 +9,7 @@ struct AnalyticsSummaryCard: View {
     let onRetry: () -> Void
 
     var body: some View {
-        ContentCard(title: kind.title) {
+        ContentCard(title: kind.title, systemImage: kind.systemImage, tint: kind.tint, style: kind.cardStyle) {
             CardStateView(state: state, placeholder: .placeholder, onRetry: onRetry) { summary in
                 VStack(alignment: .leading, spacing: 12) {
                     SummaryFigure(

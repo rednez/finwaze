@@ -33,7 +33,7 @@ struct ColorPaletteField: View {
                 .accessibilityAddTraits(selection == nil ? .isSelected : [])
             }
             .padding(16)
-            .background(Color(.secondarySystemGroupedBackground), in: .rect(cornerRadius: 16))
+            .background { CardBackground() }
         }
         .accessibilityElement(children: .contain)
         .accessibilityLabel(Text("colorPalette.label"))

@@ -25,6 +25,8 @@ private struct AnalyticsContentView: View {
     let app: AppViewModel
     @State private var viewModel: AnalyticsViewModel
     @Environment(\.verticalSizeClass) private var verticalSizeClass
+    @Environment(\.dynamicTypeSize) private var dynamicTypeSize
+    @State private var isFiltering = false
 
     init(app: AppViewModel, filter: AnalyticsFilter) {
         self.app = app
@@ -45,7 +47,12 @@ private struct AnalyticsContentView: View {
         ScrollView {
             if let currencyCode = viewModel.currencyCode {
                 VStack(spacing: 16) {
-                    AnalyticsFilterBar(viewModel: viewModel, currencyCode: currencyCode)
+                    FilterSummaryBar(
+                        title: viewModel.filter.month.title,
+                        details: Text("filters.summary \(currencyCode) \(viewModel.accountsText)"),
+                        activeCount: viewModel.activeFilterCount,
+                        onFilter: { isFiltering = true }
+                    )
                     summaryCards(currencyCode: currencyCode)
                     charts(currencyCode: currencyCode)
                 }
@@ -53,6 +60,11 @@ private struct AnalyticsContentView: View {
             }
         }
         .background(Color(.systemGroupedBackground))
+        .sheet(isPresented: $isFiltering) {
+            if let currencyCode = viewModel.currencyCode {
+                AnalyticsFiltersSheet(viewModel: viewModel, currencyCode: currencyCode)
+            }
+        }
         .task(id: LoadKey(query: viewModel.query, yearKey: viewModel.yearKey, dataVersion: app.dataVersion)) {
             await viewModel.load(dataVersion: app.dataVersion)
         }
@@ -68,8 +80,21 @@ private struct AnalyticsContentView: View {
         }
         if isLandscape {
             HStack(alignment: .top, spacing: 16) { cards }
-        } else {
+        } else if dynamicTypeSize.isAccessibilitySize {
             VStack(spacing: 16) { cards }
+        } else {
+            // A row of cards to swipe through, the next one peeking in, so the charts start on the first screen.
+            ScrollView(.horizontal) {
+                LazyHStack(alignment: .top, spacing: 12) {
+                    cards
+                        .containerRelativeFrame(.horizontal) { width, _ in width * 0.86 }
+                }
+                .scrollTargetLayout()
+            }
+            .scrollTargetBehavior(.viewAligned)
+            .scrollIndicators(.hidden)
+            .contentMargins(.horizontal, 16, for: .scrollContent)
+            .padding(.horizontal, -16)
         }
     }
 

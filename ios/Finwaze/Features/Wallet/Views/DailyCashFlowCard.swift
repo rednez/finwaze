@@ -10,17 +10,32 @@ struct DailyCashFlowCard: View {
     private var widget: WalletWidgetViewModel<[DailyCashFlow]> { viewModel.widget }
 
     var body: some View {
-        ContentCard(title: "wallet.dailyFlow.title", subtitle: "wallet.dailyFlow.subtitle") {
+        ContentCard(
+            title: "wallet.dailyFlow.title",
+            detail: widget.currencyCode.map { Text.summary(widget.filter.month.title, $0) },
+            systemImage: "waveform.path.ecg"
+        ) {
             if let currencyCode = widget.currencyCode {
-                VStack(alignment: .leading, spacing: 12) {
-                    WalletWidgetFilterBar(widget: widget, currencyCode: currencyCode)
-                    Toggle("wallet.dailyFlow.incomes", isOn: $viewModel.includesIncome)
-                        .font(.subheadline)
-                    CardStateView(
-                        state: widget.state,
-                        placeholder: .placeholder(widget.filter.month),
-                        onRetry: { Task { await widget.refresh() } }
-                    ) { days in
+                ChartSettingsMenu(
+                    periodTitle: widget.filter.month.title,
+                    onShift: widget.shiftMonth(by:),
+                    currencyCodes: widget.currencyCodes,
+                    currencyCode: currencyCode,
+                    onSelectCurrency: widget.selectCurrency
+                ) {
+                    Toggle(isOn: $viewModel.includesIncome.animation(.snappy)) {
+                        Label("wallet.dailyFlow.incomes", systemImage: "arrow.down.left")
+                    }
+                }
+            }
+        } content: {
+            if let currencyCode = widget.currencyCode {
+                CardStateView(
+                    state: widget.state,
+                    placeholder: .placeholder(widget.filter.month),
+                    onRetry: { Task { await widget.refresh() } }
+                ) { days in
+                    VStack(alignment: .leading, spacing: 8) {
                         DailyCashFlowChart(days: days, includesIncome: viewModel.includesIncome, currencyCode: currencyCode)
                         if viewModel.isEmpty(days) {
                             Text("wallet.dailyFlow.empty")
@@ -29,6 +44,7 @@ struct DailyCashFlowCard: View {
                         }
                     }
                 }
+                .accessibilityHint(Text("wallet.dailyFlow.subtitle"))
             }
         }
         .loads(widget, dataVersion: dataVersion)

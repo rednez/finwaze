@@ -25,21 +25,21 @@ nonisolated enum DemoData {
     ]
 
     static let groups = [
-        CategoryGroup(id: 1, name: "Food", transactionType: .expense, color: nil),
-        CategoryGroup(id: 2, name: "Transport", transactionType: .expense, color: nil),
-        CategoryGroup(id: 3, name: "Entertainment", transactionType: .expense, color: nil),
-        CategoryGroup(id: 4, name: "Housing", transactionType: .expense, color: nil),
-        CategoryGroup(id: 5, name: "Salary", transactionType: .income, color: nil),
+        CategoryGroup(id: 1, name: "Food", transactionType: .expense, color: "#F97316"),
+        CategoryGroup(id: 2, name: "Transport", transactionType: .expense, color: "#3B82F6"),
+        CategoryGroup(id: 3, name: "Entertainment", transactionType: .expense, color: "#D946EF"),
+        CategoryGroup(id: 4, name: "Housing", transactionType: .expense, color: "#6366F1"),
+        CategoryGroup(id: 5, name: "Salary", transactionType: .income, color: "#22C55E"),
     ]
 
     static let categories = [
-        Category(id: 1, name: "Groceries", groupID: 1, color: nil),
-        Category(id: 2, name: "Restaurants", groupID: 1, color: nil),
-        Category(id: 3, name: "Taxi", groupID: 2, color: nil),
-        Category(id: 4, name: "Public Transport", groupID: 2, color: nil),
-        Category(id: 5, name: "Cinema", groupID: 3, color: nil),
-        Category(id: 6, name: "Subscriptions", groupID: 3, color: nil),
-        Category(id: 7, name: "Rent", groupID: 4, color: nil),
-        Category(id: 8, name: "Monthly Paycheck", groupID: 5, color: nil),
+        Category(id: 1, name: "Groceries", groupID: 1, color: "#FB923C"),
+        Category(id: 2, name: "Restaurants", groupID: 1, color: "#F43F5E"),
+        Category(id: 3, name: "Taxi", groupID: 2, color: "#FBBF24"),
+        Category(id: 4, name: "Public Transport", groupID: 2, color: "#06B6D4"),
+        Category(id: 5, name: "Cinema", groupID: 3, color: "#8B5CF6"),
+        Category(id: 6, name: "Subscriptions", groupID: 3, color: "#EC4899"),
+        Category(id: 7, name: "Rent", groupID: 4, color: "#4F46E5"),
+        Category(id: 8, name: "Monthly Paycheck", groupID: 5, color: "#10B981"),
     ]
 }

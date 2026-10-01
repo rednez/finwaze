@@ -1,5 +1,13 @@
 import SwiftUI
 
+/// A section's own action in the navigation bar whose title follows the screen's state, e.g. Budget's "Add budget" or
+/// "Edit budget" (`BUD-15`). It sits first in the section's group of actions.
+struct SectionToolbarAction: Equatable {
+    let title: LocalizedStringKey
+    let systemImage: String
+    var isEnabled = true
+}
+
 extension View {
     /// Adds the section's actions — the Dashboard's primary currency, "Transfer money" and "+" — and, apart from them,
     /// the profile menu to the navigation bar. The profile menu is only on a tab's root screen (`showsProfile`), not on
@@ -10,12 +18,16 @@ extension View {
         for section: AppSection?,
         onAdd: @escaping () -> Void = {},
         onTransfer: @escaping () -> Void = {},
+        primaryAction: SectionToolbarAction? = nil,
+        onPrimary: @escaping () -> Void = {},
         showsProfile: Bool = true
     ) -> some View {
         modifier(SectionToolbar(
             section: section,
             onAdd: onAdd,
             onTransfer: onTransfer,
+            primaryAction: primaryAction,
+            onPrimary: onPrimary,
             showsProfile: showsProfile
         ))
     }
@@ -25,6 +37,8 @@ private struct SectionToolbar: ViewModifier {
     let section: AppSection?
     let onAdd: () -> Void
     let onTransfer: () -> Void
+    let primaryAction: SectionToolbarAction?
+    let onPrimary: () -> Void
     let showsProfile: Bool
     @Environment(AppViewModel.self) private var app
     @State private var isShowingSettings = false
@@ -37,6 +51,13 @@ private struct SectionToolbar: ViewModifier {
                 if section == .dashboard {
                     ToolbarItem(placement: .topBarTrailing) {
                         PrimaryCurrencyMenu()
+                    }
+                }
+
+                if let primaryAction {
+                    ToolbarItem(placement: .topBarTrailing) {
+                        Button(primaryAction.title, systemImage: primaryAction.systemImage, action: onPrimary)
+                            .disabled(!primaryAction.isEnabled)
                     }
                 }
 

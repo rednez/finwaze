@@ -3,7 +3,6 @@ import SwiftUI
 /// "‹ September 2026 ›": the month between buttons for the previous and the next one (`GEN-14`).
 struct MonthStepper: View {
     let month: YearMonth
-    var font: Font = .title3.weight(.semibold)
     let onShift: (Int) -> Void
 
     var body: some View {
@@ -11,7 +10,6 @@ struct MonthStepper: View {
             title: month.title,
             previousTitle: "budget.previousMonth",
             nextTitle: "budget.nextMonth",
-            font: font,
             onShift: onShift
         )
     }
@@ -20,16 +18,16 @@ struct MonthStepper: View {
 /// "‹ 2026 ›": the year between buttons for the previous and the next one (`ANL-04`).
 struct YearStepper: View {
     let year: Int
-    var font: Font = .subheadline.weight(.semibold)
+    var previousTitle: LocalizedStringKey = "analytics.previousYear"
+    var nextTitle: LocalizedStringKey = "analytics.nextYear"
     let onShift: (Int) -> Void
 
     var body: some View {
         PeriodStepper(
             // No grouping: "2026", not "2 026".
             title: year.formatted(.number.grouping(.never)),
-            previousTitle: "analytics.previousYear",
-            nextTitle: "analytics.nextYear",
-            font: font,
+            previousTitle: previousTitle,
+            nextTitle: nextTitle,
             onShift: onShift
         )
     }
@@ -40,14 +38,13 @@ private struct PeriodStepper: View {
     let title: String
     let previousTitle: LocalizedStringKey
     let nextTitle: LocalizedStringKey
-    let font: Font
     let onShift: (Int) -> Void
 
     var body: some View {
         HStack(spacing: 8) {
             Button(previousTitle, systemImage: "chevron.left") { shift(by: -1) }
             Text(verbatim: title)
-                .font(font)
+                .font(.headline)
                 .lineLimit(1)
                 .minimumScaleFactor(0.8)
                 .contentTransition(.numericText())
@@ -60,6 +57,7 @@ private struct PeriodStepper: View {
     }
 
     private func shift(by steps: Int) {
+        Haptics.selection()
         withAnimation(.snappy) { onShift(steps) }
     }
 }

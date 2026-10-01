@@ -10,7 +10,7 @@ struct RecentTransactionsList: View {
             ForEach(transactions) { transaction in
                 if transaction.id != transactions.first?.id {
                     Divider()
-                        .padding(.leading, 68)
+                        .padding(.leading, 70)
                 }
                 TransactionRow(transaction: transaction, showsDate: true)
             }

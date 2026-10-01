@@ -15,8 +15,10 @@ struct GoalsView: View {
     /// The section's "+" (`GOAL-10`).
     @Binding var isAdding: Bool
     @Environment(\.pushRoute) private var pushRoute
+    @Environment(\.zoomNamespace) private var zoomNamespace
     @State private var viewModel: GoalsViewModel
     @State private var transferRequest: TransferRequest?
+    @State private var isFiltering = false
 
     init(app: AppViewModel, isAdding: Binding<Bool>) {
         self.app = app
@@ -27,7 +29,12 @@ struct GoalsView: View {
     var body: some View {
         ScrollView {
             VStack(spacing: 16) {
-                GoalsFilterCard(viewModel: viewModel)
+                FilterSummaryBar(
+                    title: String(viewModel.year),
+                    details: viewModel.statusText,
+                    activeCount: viewModel.activeFilterCount,
+                    onFilter: { isFiltering = true }
+                )
                 goals
                 if viewModel.goals.value?.isEmpty == false {
                     LazyVGrid(columns: [GridItem(.adaptive(minimum: 340), spacing: 16, alignment: .top)], spacing: 16) {
@@ -39,6 +46,9 @@ struct GoalsView: View {
             .padding()
         }
         .background(Color(.systemGroupedBackground))
+        .sheet(isPresented: $isFiltering) {
+            GoalsFiltersSheet(viewModel: viewModel)
+        }
         .overlay(alignment: .top) {
             if let banner = viewModel.banner {
                 SuccessBanner(message: banner) { viewModel.banner = nil }
@@ -52,6 +62,7 @@ struct GoalsView: View {
             GoalDetailView(app: app, goalID: route.id) { message in
                 withAnimation { viewModel.banner = message }
             }
+            .zoomDestination(ZoomID.goal(route.id), in: zoomNamespace)
         }
         .sheet(isPresented: $isAdding) {
             NewGoalView(app: app)
@@ -90,6 +101,7 @@ struct GoalsView: View {
                     onDeposit: { transferRequest = TransferRequest(goal: goal, direction: .deposit) },
                     onWithdraw: { transferRequest = TransferRequest(goal: goal, direction: .withdraw) }
                 )
+                .zoomSource(ZoomID.goal(goal.id))
             }
         }
     }

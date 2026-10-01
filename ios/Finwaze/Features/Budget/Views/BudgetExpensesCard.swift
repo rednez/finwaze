@@ -9,7 +9,12 @@ struct BudgetExpensesCard: View {
     let onAddExpense: () -> Void
 
     var body: some View {
-        ContentCard(title: "budget.expenses.title", subtitle: "budget.expenses.subtitle") {
+        ContentCard(
+            title: "budget.expenses.title",
+            subtitle: "budget.expenses.subtitle",
+            systemImage: "flame.fill",
+            tint: .orange
+        ) {
             CardStateView(state: state, placeholder: MonthlyExpense.placeholders, onRetry: onRetry) { expenses in
                 if expenses.isEmpty {
                     CardEmptyState(

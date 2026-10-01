@@ -6,11 +6,13 @@ struct GoalsSummaryCard: View {
     let onRetry: () -> Void
 
     var body: some View {
-        ContentCard(title: "goals.summary.title") {
+        ContentCard(title: "goals.summary.title", systemImage: "target", tint: .green) {
             CardStateView(state: state, placeholder: GoalsSummary([]), onRetry: onRetry) { summary in
                 VStack(alignment: .leading, spacing: 12) {
                     Text(summary.total, format: .number)
-                        .font(.largeTitle.weight(.semibold))
+                        .font(.largeTitle.weight(.bold))
+                        .fontDesign(.rounded)
+                        .contentTransition(.numericText())
                         .monospacedDigit()
                         .accessibilityLabel(Text("goals.summary.total \(summary.total)"))
                     LazyVGrid(columns: [GridItem(.adaptive(minimum: 140), spacing: 8)], spacing: 8) {

@@ -33,44 +33,75 @@ struct DonutChart: View {
     }
 }
 
+/// The ring; touching a slice brings it forward and puts its name and amount in the middle instead of the total.
 private struct DonutRing: View {
     let summary: SliceSummary
     let currencyCode: String
     let caption: LocalizedStringKey
+    @State private var selectedAngle: Double?
+
+    /// The slice under the touched angle: the angles run through the slices' amounts in order.
+    private var selectedSlice: ChartSlice? {
+        guard let selectedAngle else { return nil }
+        var end = 0.0
+        for slice in summary.slices {
+            end += slice.amount.chartValue
+            if selectedAngle <= end { return slice }
+        }
+        return nil
+    }
 
     var body: some View {
+        // Looked up once per update: the ring redraws on every step of a drag around it.
+        let selectedSlice = selectedSlice
         Chart(summary.slices) { slice in
             SectorMark(angle: .value(String(localized: "dashboard.chart.amount"), slice.amount.chartValue),
-                       innerRadius: .ratio(0.66),
+                       innerRadius: .ratio(selectedSlice?.id == slice.id ? 0.6 : 0.66),
                        angularInset: 1.5)
-                .cornerRadius(3)
+                .cornerRadius(4)
                 .foregroundStyle(slice.color)
+                .opacity(selectedSlice == nil || selectedSlice?.id == slice.id ? 1 : 0.35)
                 .accessibilityLabel(Text(verbatim: slice.displayName))
                 .accessibilityValue(Text(verbatim: slice.amount.formattedAmount(currencyCode: currencyCode)))
         }
         .chartLegend(.hidden)
+        .chartAngleSelection(value: $selectedAngle)
         .chartBackground { proxy in
             GeometryReader { geometry in
                 if let plotFrame = proxy.plotFrame {
                     let frame = geometry[plotFrame]
-                    VStack(spacing: 2) {
-                        Text(caption)
-                            .font(.caption)
-                            .foregroundStyle(.secondary)
-                            .lineLimit(2)
-                            .multilineTextAlignment(.center)
-                        Text(verbatim: summary.total.formattedAmount(currencyCode: currencyCode))
-                            .font(.subheadline.weight(.semibold))
-                            .monospacedDigit()
-                    }
-                    .lineLimit(1)
-                    .minimumScaleFactor(0.5)
-                    .frame(width: frame.width * 0.56)
-                    .position(x: frame.midX, y: frame.midY)
+                    center(selectedSlice)
+                        .lineLimit(1)
+                        .minimumScaleFactor(0.5)
+                        .frame(width: frame.width * 0.56)
+                        .position(x: frame.midX, y: frame.midY)
                 }
             }
         }
-        .frame(width: 160, height: 160)
+        .frame(width: 164, height: 164)
+        .animation(.snappy, value: selectedSlice?.id)
+        .sensoryFeedback(.selection, trigger: selectedSlice?.id)
+    }
+
+    private func center(_ selectedSlice: ChartSlice?) -> some View {
+        VStack(spacing: 2) {
+            Group {
+                if let selectedSlice {
+                    Text(verbatim: selectedSlice.displayName)
+                } else {
+                    Text(caption)
+                }
+            }
+            .font(.caption)
+            .foregroundStyle(.secondary)
+            .lineLimit(2)
+            .multilineTextAlignment(.center)
+            Text(verbatim: (selectedSlice?.amount ?? summary.total).formattedAmount(currencyCode: currencyCode))
+                .font(.subheadline.weight(.bold))
+                .fontDesign(.rounded)
+                .monospacedDigit()
+                .contentTransition(.numericText())
+        }
     }
 }
 

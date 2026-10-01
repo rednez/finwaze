@@ -57,21 +57,27 @@ private struct EditTransactionForm: View {
 
     var body: some View {
         ScrollView {
-            VStack(spacing: 24) {
+            VStack(spacing: 20) {
                 TransactionFormFields(viewModel: formViewModel, app: app)
 
-                SubmitButton(
-                    title: "transactionForm.saveChanges",
-                    isLoading: formViewModel.isSubmitting,
-                    action: submit
-                )
-
-                Button("transactionForm.delete", systemImage: "trash", role: .destructive) {
+                FormDestructiveButton(
+                    title: "transactionForm.delete",
+                    isEnabled: !(formViewModel.isSubmitting || viewModel.isDeleting)
+                ) {
                     isConfirmingDelete = true
                 }
-                .disabled(formViewModel.isSubmitting || viewModel.isDeleting)
             }
-            .padding(24)
+            .padding(.horizontal, 16)
+            .padding(.vertical, 8)
+        }
+        .toolbar {
+            FormConfirmItem(
+                title: "transactionForm.saveChanges",
+                isSubmitting: formViewModel.isSubmitting,
+                isEnabled: !viewModel.isDeleting,
+                placement: .primaryAction,
+                action: submit
+            )
         }
         .scrollDismissesKeyboard(.interactively)
         .background(Color(.systemGroupedBackground))
@@ -87,6 +93,7 @@ private struct EditTransactionForm: View {
                 Task {
                     // Back to the list on success (`TX-41`); a failure stays on screen with an alert.
                     if await viewModel.delete() {
+                        Haptics.success()
                         dismiss()
                     }
                 }

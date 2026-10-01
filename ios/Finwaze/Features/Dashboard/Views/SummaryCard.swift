@@ -12,6 +12,32 @@ enum SummaryKind: CaseIterable {
         }
     }
 
+    /// The card's icon, the same arrows as the month's totals in Transactions.
+    var systemImage: String {
+        switch self {
+        case .balance: "wallet.bifold.fill"
+        case .income: "arrow.down.left"
+        case .expenses: "arrow.up.right"
+        }
+    }
+
+    var tint: Color {
+        switch self {
+        case .balance: .accentColor
+        case .income: .green
+        case .expenses: .orange
+        }
+    }
+
+    /// The balance is the screen's headline; income and expenses sit side by side under it.
+    var amountSize: AmountText.Size {
+        self == .balance ? .hero : .medium
+    }
+
+    var cardStyle: ContentCardStyle {
+        self == .balance ? .prominent : .plain
+    }
+
     /// Growth is good for the balance and income, bad for expenses (`DASH-03`).
     var growthIsGood: Bool {
         self != .expenses
@@ -42,7 +68,7 @@ struct SummaryCard: View {
     let onRetry: () -> Void
 
     var body: some View {
-        ContentCard(title: kind.title) {
+        ContentCard(title: kind.title, systemImage: kind.systemImage, tint: kind.tint, style: kind.cardStyle) {
             CardStateView(state: state, placeholder: .placeholder, onRetry: onRetry) { totals in
                 SummaryFigure(
                     kind: kind,
@@ -66,11 +92,7 @@ struct SummaryFigure: View {
 
     var body: some View {
         VStack(alignment: .leading, spacing: 8) {
-            Text(verbatim: current.formattedAmount(currencyCode: currencyCode))
-                .font(.title2.weight(.semibold))
-                .monospacedDigit()
-                .minimumScaleFactor(0.6)
-                .lineLimit(1)
+            AmountText(amount: current, currencyCode: currencyCode, size: kind.amountSize)
             TrendBadge(trend: TrendChange(current: current, previous: previous, growthIsGood: kind.growthIsGood))
         }
     }

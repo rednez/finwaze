@@ -36,30 +36,24 @@ struct GoalTransferView: View {
     var body: some View {
         NavigationStack {
             ScrollView {
-                VStack(spacing: 24) {
-                    VStack(spacing: 16) {
-                        GoalAccountField(
-                            label: isDeposit ? "goals.transfer.fromAccount" : "goals.transfer.toAccount",
-                            accounts: viewModel.accounts,
-                            selection: viewModel.account,
-                            currencyCode: viewModel.goal.currencyCode,
-                            error: viewModel.accountIssue?.message,
-                            onSelect: { viewModel.selectedAccount = $0 },
-                            onCreateAccount: { isCreatingAccount = true }
-                        )
-                        amountField
-                        dateField
-                    }
-                    .disabled(viewModel.isSubmitting)
-
-                    SubmitButton(
-                        title: isDeposit ? "goals.deposit" : "goals.withdraw",
-                        isLoading: viewModel.isSubmitting,
-                        action: submit
+                VStack(spacing: 20) {
+                    GoalAccountField(
+                        label: isDeposit ? "goals.transfer.fromAccount" : "goals.transfer.toAccount",
+                        accounts: viewModel.accounts,
+                        selection: viewModel.account,
+                        currencyCode: viewModel.goal.currencyCode,
+                        error: viewModel.accountIssue?.message,
+                        onSelect: { viewModel.selectedAccount = $0 },
+                        onCreateAccount: { isCreatingAccount = true }
                     )
-                    .disabled(viewModel.needsAccount)
+                    FormSection {
+                        amountRow
+                        dateRow
+                    }
                 }
-                .padding(24)
+                .disabled(viewModel.isSubmitting)
+                .padding(.horizontal, 16)
+                .padding(.vertical, 8)
             }
             .scrollDismissesKeyboard(.interactively)
             .background(Color(.systemGroupedBackground))
@@ -71,6 +65,12 @@ struct GoalTransferView: View {
                     Button("common.cancel", role: .cancel) { dismiss() }
                         .disabled(viewModel.isSubmitting)
                 }
+                FormConfirmItem(
+                    title: isDeposit ? "goals.deposit" : "goals.withdraw",
+                    isSubmitting: viewModel.isSubmitting,
+                    isEnabled: !viewModel.needsAccount,
+                    action: submit
+                )
             }
             .failureAlert(
                 $viewModel.failure,
@@ -84,30 +84,26 @@ struct GoalTransferView: View {
     }
 
     /// Up to what is saved when withdrawing (`GOAL-14`).
-    private var amountField: some View {
-        VStack(alignment: .leading, spacing: 6) {
-            FormField(label: "goals.transfer.amount", error: viewModel.amountIssue?.message, isFocused: isAmountFocused) {
-                HStack {
-                    TextField("transactionForm.amountPlaceholder", text: $viewModel.amountText)
-                        .keyboardType(.decimalPad)
-                        .monospacedDigit()
-                        .focused($isAmountFocused)
-                    CurrencyBadge(code: viewModel.goal.currencyCode)
-                }
-            }
-            if !isDeposit {
-                let saved = viewModel.goal.accumulatedAmount.formattedAmount(currencyCode: viewModel.goal.currencyCode)
-                Text("goals.transfer.saved \(saved)")
-                    .font(.caption)
-                    .foregroundStyle(.secondary)
-                    .padding(.leading, 8)
-            }
+    private var amountRow: some View {
+        FormRow(
+            label: "goals.transfer.amount",
+            systemImage: "banknote.fill",
+            tint: .green,
+            note: isDeposit ? nil : Text("goals.transfer.saved \(savedAmount)"),
+            error: viewModel.amountIssue?.message
+        ) {
+            FormAmountInput(title: "goals.transfer.amount", text: $viewModel.amountText, currencyCode: viewModel.goal.currencyCode)
+            .focused($isAmountFocused)
         }
     }
 
+    private var savedAmount: String {
+        viewModel.goal.accumulatedAmount.formattedAmount(currencyCode: viewModel.goal.currencyCode)
+    }
+
     /// "Now" unless changed; never in the future (`GEN-13`).
-    private var dateField: some View {
-        FormField(label: "transactionForm.date", error: viewModel.dateIssue?.message) {
+    private var dateRow: some View {
+        FormRow(label: "transactionForm.date", systemImage: "calendar", tint: .red, error: viewModel.dateIssue?.message) {
             DatePicker(
                 "transactionForm.date",
                 selection: $viewModel.transactedAt,
@@ -115,13 +111,13 @@ struct GoalTransferView: View {
                 displayedComponents: [.date, .hourAndMinute]
             )
             .labelsHidden()
-            .frame(maxWidth: .infinity, alignment: .leading)
         }
     }
 
     private func submit() {
         isAmountFocused = false
         Task {
+            // The banner on Goals plays the success haptic.
             guard await viewModel.submit() else { return }
             if isDeposit {
                 onDone("goals.transfer.deposited \(viewModel.goal.name)")

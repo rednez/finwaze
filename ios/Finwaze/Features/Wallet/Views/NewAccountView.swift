@@ -17,11 +17,9 @@ struct NewAccountView: View {
     var body: some View {
         NavigationStack {
             ScrollView {
-                VStack(spacing: 24) {
-                    AccountFormFields(viewModel: viewModel, currencies: currencies, onSubmit: submit)
-                    SubmitButton(title: "wallet.newAccount.submit", isLoading: viewModel.isSubmitting, action: submit)
-                }
-                .padding(24)
+                AccountFormFields(viewModel: viewModel, currencies: currencies, onSubmit: submit)
+                    .padding(.horizontal, 16)
+                    .padding(.vertical, 8)
             }
             .scrollDismissesKeyboard(.interactively)
             .background(Color(.systemGroupedBackground))
@@ -32,6 +30,7 @@ struct NewAccountView: View {
                     Button("common.cancel", role: .cancel) { dismiss() }
                         .disabled(viewModel.isSubmitting)
                 }
+                FormConfirmItem(title: "wallet.newAccount.submit", isSubmitting: viewModel.isSubmitting, action: submit)
             }
             .failureAlert($viewModel.failure, title: "wallet.newAccount.creationFailed")
         }
@@ -41,6 +40,7 @@ struct NewAccountView: View {
     private func submit() {
         Task {
             if await viewModel.submit() {
+                Haptics.success()
                 dismiss()
             }
         }

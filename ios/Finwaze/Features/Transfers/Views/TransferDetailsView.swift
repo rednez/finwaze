@@ -124,7 +124,7 @@ private struct TransferSideCard: View {
         }
         .padding(20)
         .frame(maxWidth: .infinity)
-        .background(Color(.secondarySystemGroupedBackground), in: .rect(cornerRadius: 20))
+        .background { CardBackground() }
         .accessibilityElement(children: .combine)
     }
 }

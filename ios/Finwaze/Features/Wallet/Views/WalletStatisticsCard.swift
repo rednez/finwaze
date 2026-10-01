@@ -9,10 +9,24 @@ struct WalletStatisticsCard: View {
     private var widget: WalletWidgetViewModel<[GroupAmounts]> { viewModel.widget }
 
     var body: some View {
-        ContentCard(title: "wallet.statistics.title") {
+        ContentCard(
+            title: "wallet.statistics.title",
+            detail: widget.currencyCode.map { Text.summary(widget.filter.month.title, $0) },
+            systemImage: "chart.pie.fill",
+            tint: .purple
+        ) {
             if let currencyCode = widget.currencyCode {
-                VStack(alignment: .leading, spacing: 12) {
-                    WalletWidgetFilterBar(widget: widget, currencyCode: currencyCode)
+                ChartSettingsMenu(
+                    periodTitle: widget.filter.month.title,
+                    onShift: widget.shiftMonth(by:),
+                    currencyCodes: widget.currencyCodes,
+                    currencyCode: currencyCode,
+                    onSelectCurrency: widget.selectCurrency
+                )
+            }
+        } content: {
+            if let currencyCode = widget.currencyCode {
+                VStack(alignment: .leading, spacing: 14) {
                     Picker("wallet.statistics.kind", selection: $viewModel.kind) {
                         Text("dashboard.chart.expense").tag(WalletStatisticsViewModel.Kind.expense)
                         Text("dashboard.chart.income").tag(WalletStatisticsViewModel.Kind.income)

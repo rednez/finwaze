@@ -145,9 +145,10 @@ struct GroupsView: View {
                             .swipeActions(edge: .trailing) { categoryActions(category) }
                     }
 
-                    Button("groups.addCategory", systemImage: "plus") {
+                    Button("groups.addCategory", systemImage: "plus.circle.fill") {
                         prompt = .newCategory(groupID: group.id)
                     }
+                    .font(.subheadline.weight(.medium))
                     .padding(.leading, 20)
                 }
             }
@@ -230,11 +231,16 @@ private struct GroupRow: View {
     let group: GroupWithCategories
 
     var body: some View {
-        HStack(spacing: 8) {
-            ColorTag(hex: group.color)
+        HStack(spacing: 10) {
+            // The group's colour as its icon's square, or grey without one (`CAT-10`).
+            FormRowIcon(
+                systemImage: group.transactionType == .income ? "arrow.down.left" : "folder.fill",
+                tint: group.color.flatMap(Color.init(hex:)) ?? Color(.systemGray3)
+            )
             Text(verbatim: group.name)
                 .font(.headline)
                 .lineLimit(1)
+                .layoutPriority(1)
             Text(group.transactionType == .income ? "transactionType.income" : "transactionType.expense")
                 .font(.caption.weight(.semibold))
                 .foregroundStyle(group.transactionType == .income ? .green : .secondary)
@@ -255,8 +261,9 @@ private struct CategoryRow: View {
     let category: GroupWithCategories.Item
 
     var body: some View {
-        HStack(spacing: 8) {
+        HStack(spacing: 10) {
             ColorTag(hex: category.color)
+                .frame(width: 10)
             Text(verbatim: category.name)
                 .lineLimit(1)
             Spacer(minLength: 8)

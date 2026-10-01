@@ -29,7 +29,7 @@ struct BudgetItemCard: View {
     }
 
     private var ring: some View {
-        BudgetSpentRing(planned: item.planned, spent: item.spent, currencyCode: currencyCode)
+        BudgetSpentRing(planned: item.planned, spent: item.spent, currencyCode: currencyCode, tint: item.status.color)
     }
 
     private var summary: some View {
@@ -53,7 +53,8 @@ struct BudgetRemaining: View {
                 .font(.footnote)
                 .foregroundStyle(.secondary)
             Text(verbatim: remaining.formattedAmount(currencyCode: currencyCode))
-                .font(.title3.weight(.semibold))
+                .font(.title3.weight(.bold))
+                .fontDesign(.rounded)
                 .foregroundStyle(remaining < 0 ? .red : .primary)
                 .monospacedDigit()
                 .lineLimit(1)
