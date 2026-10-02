@@ -280,6 +280,17 @@ struct TransactionFormViewModelTests {
         #expect(!viewModel.showsChargedAmount)
     }
 
+    @Test func switchingToIncomeResetsTheCurrencyToTheAccounts() async throws {
+        let viewModel = try await makeViewModel()
+        fill(viewModel, amount: "5")
+        viewModel.purchaseCurrencyCode = "EUR"
+
+        viewModel.type = .income
+
+        #expect(viewModel.account == cash)
+        #expect(viewModel.purchaseCurrencyCode == "UAH")
+    }
+
     @Test func requiresChargedAmountWhenShown() async throws {
         let viewModel = try await makeViewModel()
         fill(viewModel, amount: "5")

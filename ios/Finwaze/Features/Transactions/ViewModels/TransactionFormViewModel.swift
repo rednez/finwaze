@@ -288,7 +288,11 @@ final class TransactionFormViewModel {
         category = remembered?.categoryID.flatMap { categoryID in
             referenceData.categories.first { $0.id == categoryID && isOfCurrentType($0) }
         }
-        if let currencyCode = remembered?.currencyCode, purchaseCurrencyCodes.contains(currencyCode) {
+        if type == .income {
+            // An income is always in the account's currency (`TX-30`); the account may stay the same across the
+            // switch, so its `didSet` would not reset a foreign currency chosen for the expense.
+            purchaseCurrencyCode = account?.currencyCode
+        } else if let currencyCode = remembered?.currencyCode, purchaseCurrencyCodes.contains(currencyCode) {
             purchaseCurrencyCode = currencyCode
         }
     }
