@@ -56,7 +56,7 @@ private struct DonutRing: View {
         let selectedSlice = selectedSlice
         Chart(summary.slices) { slice in
             SectorMark(angle: .value(String(localized: "dashboard.chart.amount"), slice.amount.chartValue),
-                       innerRadius: .ratio(selectedSlice?.id == slice.id ? 0.6 : 0.66),
+                       innerRadius: .ratio(selectedSlice?.id == slice.id ? 0.68 : 0.74),
                        angularInset: 1.5)
                 .cornerRadius(4)
                 .foregroundStyle(slice.color)
