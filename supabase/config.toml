@@ -341,6 +341,7 @@ email_optional = false
 
 [auth.external.google]
 enabled = true
+# Comma-separated: the web client ID first, then the iOS client IDs (native sign-in, see ios/Config/Shared.xcconfig).
 client_id = "env(SUPABASE_AUTH_EXTERNAL_GOOGLE_CLIENT_ID)"
 # DO NOT commit your OAuth provider secret to git. Use environment variable substitution instead:
 secret = "env(SUPABASE_AUTH_EXTERNAL_GOOGLE_SECRET)"

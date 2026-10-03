@@ -1,16 +1,16 @@
 import SwiftUI
 
 /// "Don't have an account? Sign up" — a prompt followed by a navigation link.
-struct AuthRedirectLink<Destination: View>: View {
+struct AuthRedirectLink: View {
     let prompt: LocalizedStringKey
     let linkLabel: LocalizedStringKey
-    @ViewBuilder let destination: () -> Destination
+    let route: AuthRoute
 
     var body: some View {
         HStack(spacing: 4) {
             Text(prompt)
                 .foregroundStyle(.secondary)
-            NavigationLink(linkLabel, destination: destination)
+            NavigationLink(linkLabel, value: route)
                 .fontWeight(.semibold)
         }
         .font(.subheadline)

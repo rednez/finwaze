@@ -6,7 +6,7 @@ struct ResetPasswordView: View {
   @State private var viewModel: ResetPasswordViewModel
   @FocusState private var isEmailFocused: Bool
   @Environment(\.dismiss) private var dismiss
-  /// Called with the email when the user goes back to sign in.
+  /// Called with the email when the user goes back to sign in; the caller navigates to the sign-in screen.
   private let onSignIn: (String) -> Void
 
   init(
@@ -26,10 +26,7 @@ struct ResetPasswordView: View {
             message: "resetPassword.sent",
             hint: "resetPassword.hint",
             signInTitle: "resetPassword.signIn",
-            onSignIn: {
-              onSignIn(email)
-              dismiss()
-            }
+            onSignIn: { onSignIn(email) }
           )
         }
       } else {

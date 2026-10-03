@@ -2,3 +2,8 @@
 // Only publishable Supabase keys belong here — never secret or service_role keys.
 
 BASE_BUNDLE_IDENTIFIER = dev.yefimenko.Finwaze
+
+// Sign in with Google — each configuration sets the iOS OAuth client of its bundle id (Google Cloud Console →
+// Credentials): GOOGLE_IOS_CLIENT_ID and GOOGLE_IOS_URL_SCHEME, the client's "iOS URL scheme"
+// (`com.googleusercontent.apps.<…>`). Client IDs are public — they ship inside the app, like the publishable key;
+// the web client's secret never goes here. Leave both empty to hide the "Continue with Google" button.

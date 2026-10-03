@@ -11,10 +11,16 @@ import SwiftUI
 struct FinwazeApp: App {
     private let authRepository: SupabaseAuthRepository
     private let app: AppViewModel
+    private let google: GoogleSignInProvider?
 
     init() {
         let client = SupabaseProvider.client
-        authRepository = SupabaseAuthRepository(client: client, webAppURL: SupabaseProvider.config.webAppURL)
+        google = SupabaseProvider.config.googleClientID.map(GoogleSignInProvider.init(clientID:))
+        authRepository = SupabaseAuthRepository(
+            client: client,
+            webAppURL: SupabaseProvider.config.webAppURL,
+            google: google
+        )
         app = AppViewModel(
             authRepository: authRepository,
             liveRepositories: .live(client: client),
@@ -26,6 +32,7 @@ struct FinwazeApp: App {
     var body: some Scene {
         WindowGroup {
             RootView(app: app, authRepository: authRepository)
+                .onOpenURL { google?.handle($0) }
         }
     }
 }

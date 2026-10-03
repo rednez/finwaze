@@ -1,7 +1,7 @@
 import Foundation
 @testable import Finwaze
 
-/// Holds `signIn(email:password:)` open until the test resumes it, to observe in-flight state.
+/// Holds `signIn(email:password:)` and `signInWithGoogle()` open until the test resumes them, to observe in-flight state.
 final class SuspendedSignInRepository: AuthRepository {
     private let called = AsyncStream<Void>.makeStream()
     private let release = AsyncStream<Void>.makeStream()
@@ -16,11 +16,20 @@ final class SuspendedSignInRepository: AuthRepository {
     }
 
     func signIn(email: String, password: String) async throws(AuthFailure) {
+        await suspend()
+    }
+
+    func signInWithGoogle() async throws(AuthFailure) {
+        await suspend()
+    }
+
+    private func suspend() async {
         called.continuation.yield()
         var iterator = release.stream.makeAsyncIterator()
         _ = await iterator.next()
     }
 
+    var isGoogleSignInAvailable: Bool { true }
     func signInWithDemo() async throws(AuthFailure) {}
     func sessionChanges() -> AsyncStream<UserSession?> { AsyncStream { $0.finish() } }
     func signUp(email: String, password: String) async throws(AuthFailure) -> SignUpResult { .confirmationRequired }

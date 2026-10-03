@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		69D81FC630682C2E00B2A385 /* Supabase in Frameworks */ = {isa = PBXBuildFile; productRef = 69D81FC530682C2E00B2A385 /* Supabase */; };
+		6A60061A10682C2E00B2A385 /* GoogleSignIn in Frameworks */ = {isa = PBXBuildFile; productRef = 6A60061A30682C2E00B2A385 /* GoogleSignIn */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -77,6 +78,7 @@
 			isa = PBXFrameworksBuildPhase;
 			files = (
 				69D81FC630682C2E00B2A385 /* Supabase in Frameworks */,
+				6A60061A10682C2E00B2A385 /* GoogleSignIn in Frameworks */,
 			);
 		};
 		69D81FA630682C2E00B2A385 /* Frameworks */ = {
@@ -168,6 +170,7 @@
 			name = Finwaze;
 			packageProductDependencies = (
 				69D81FC530682C2E00B2A385 /* Supabase */,
+				6A60061A30682C2E00B2A385 /* GoogleSignIn */,
 			);
 			productName = Finwaze;
 			productReference = 69D81F9C30682C2C00B2A385 /* Finwaze.app */;
@@ -251,6 +254,7 @@
 			minimizedProjectReferenceProxies = 1;
 			packageReferences = (
 				69D81FC430682C2E00B2A385 /* XCRemoteSwiftPackageReference "supabase-swift" */,
+				6A60061A20682C2E00B2A385 /* XCRemoteSwiftPackageReference "GoogleSignIn-iOS" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 69D81F9D30682C2C00B2A385 /* Products */;
@@ -772,6 +776,14 @@
 			traits = (
 			);
 		};
+		6A60061A20682C2E00B2A385 /* XCRemoteSwiftPackageReference "GoogleSignIn-iOS" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/google/GoogleSignIn-iOS";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 10.0.0;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -779,6 +791,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 69D81FC430682C2E00B2A385 /* XCRemoteSwiftPackageReference "supabase-swift" */;
 			productName = Supabase;
+		};
+		6A60061A30682C2E00B2A385 /* GoogleSignIn */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 6A60061A20682C2E00B2A385 /* XCRemoteSwiftPackageReference "GoogleSignIn-iOS" */;
+			productName = GoogleSignIn;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

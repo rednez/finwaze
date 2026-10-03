@@ -10863,6 +10863,29 @@
         }
       }
     },
+    "login.continueWithGoogle" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pokračovat přes Google"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Continue with Google"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Продовжити з Google"
+          }
+        }
+      }
+    },
     "login.error.title" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -10951,6 +10974,29 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Введіть пароль"
+          }
+        }
+      }
+    },
+    "login.signInWithEmail" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Přes e-mail"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sign in with email"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Увійти через email"
           }
         }
       }
@@ -12860,6 +12906,52 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Налаштування з’являться згодом."
+          }
+        }
+      }
+    },
+    "signin.subtitle" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Vítejte zpět. Zadejte své přihlašovací údaje."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Welcome back. Enter your credentials to continue."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "З поверненням. Введіть свої дані для входу."
+          }
+        }
+      }
+    },
+    "signin.title" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Přihlášení e-mailem"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sign In with Email"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Вхід через email"
           }
         }
       }

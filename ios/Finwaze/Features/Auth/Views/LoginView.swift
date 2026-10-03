@@ -1,43 +1,25 @@
 import SwiftUI
 
+/// The sign-in method picker (`AUTH-01`); email and password are on `EmailSignInView`.
 struct LoginView: View {
-  private enum Field {
-    case email, password
-  }
-
   @State private var viewModel: LoginViewModel
-  @FocusState private var focusedField: Field?
-  private let repository: any AuthRepository
 
   init(repository: any AuthRepository, enterDemo: @escaping () async throws(AuthFailure) -> Void = {}) {
-    self.repository = repository
     _viewModel = State(initialValue: LoginViewModel(repository: repository, enterDemo: enterDemo))
   }
 
   var body: some View {
     AuthScreen(title: "login.title", subtitle: "login.subtitle") {
-      VStack(spacing: 16) {
-        credentialsForm
-
-        SubmitButton(
-          title: "login.submit",
-          isLoading: viewModel.pendingMethod == .email
-        ) {
-          submit()
+      VStack(spacing: 12) {
+        if viewModel.isGoogleSignInAvailable {
+          googleButton
         }
-        .disabled(viewModel.isSubmitting)
-        .padding(.top, 8)
+        emailButton
       }
 
       demoButton
 
-      AuthRedirectLink(prompt: "login.noAccount", linkLabel: "login.signUpLink")
-      {
-        // After sign-up the user comes back here with the email already filled in.
-        SignupView(repository: repository) { email in
-          viewModel.email = email
-        }
-      }
+      AuthRedirectLink(prompt: "login.noAccount", linkLabel: "login.signUpLink", route: .signup)
 
       badge
     }
@@ -45,55 +27,40 @@ struct LoginView: View {
     .authFailureAlert($viewModel.failure, title: "login.error.title")
   }
 
-  private var credentialsForm: some View {
-    VStack(spacing: 16) {
-      FormField(
-        label: "auth.email",
-        error: viewModel.emailIssue?.message,
-        isFocused: focusedField == .email
-      ) {
-        TextField("auth.emailPlaceholder", text: $viewModel.email)
-          .textContentType(.username)
-          .keyboardType(.emailAddress)
-          .textInputAutocapitalization(.never)
-          .autocorrectionDisabled()
-          .submitLabel(.next)
-          .focused($focusedField, equals: .email)
-          .onSubmit { focusedField = .password }
-      }
-
-      FormField(
-        label: "auth.password",
-        error: viewModel.passwordIssue?.message,
-        isFocused: focusedField == .password
-      ) {
-        PasswordField(
-          prompt: "login.passwordPlaceholder",
-          text: $viewModel.password
-        )
-        .submitLabel(.go)
-        .focused($focusedField, equals: .password)
-        .onSubmit(submit)
-      }
-
-      NavigationLink("login.forgotPassword") {
-        // After requesting the link the user comes back here with the email already filled in.
-        ResetPasswordView(repository: repository, email: viewModel.email) { email in
-          viewModel.email = email
+  private var googleButton: some View {
+    Button {
+      Task { await viewModel.signInWithGoogle() }
+    } label: {
+      LoadingButtonLabel(isLoading: viewModel.pendingMethod == .google) {
+        Label {
+          Text("login.continueWithGoogle")
+        } icon: {
+          Image(.googleLogo)
+            .resizable()
+            .scaledToFit()
+            .frame(width: 20, height: 20)
         }
       }
-      .font(.subheadline.weight(.semibold))
-      .frame(maxWidth: .infinity, alignment: .trailing)
     }
+    .buttonStyle(.glass)
+    .disabled(viewModel.isSubmitting)
+  }
+
+  private var emailButton: some View {
+    NavigationLink(value: AuthRoute.emailSignIn(email: "")) {
+      LoadingButtonLabel(isLoading: false) {
+        Label("login.signInWithEmail", systemImage: "envelope")
+      }
+    }
+    .buttonStyle(.glass)
+    .disabled(viewModel.isSubmitting)
   }
 
   private var demoButton: some View {
     Button {
-      focusedField = nil
       Task { await viewModel.signInWithDemo() }
     } label: {
-      let isLoading = viewModel.pendingMethod == .demo
-      ZStack {
+      LoadingButtonLabel(isLoading: viewModel.pendingMethod == .demo) {
         Text("login.tryDemo")
           .foregroundStyle(
             LinearGradient(
@@ -102,14 +69,7 @@ struct LoginView: View {
               endPoint: .trailing
             )
           )
-          .opacity(isLoading ? 0 : 1)
-        if isLoading {
-          ProgressView()
-        }
       }
-      .font(.headline)
-      .frame(maxWidth: .infinity)
-      .padding(.vertical, 6)
     }
     .buttonStyle(.glass)
     .disabled(viewModel.isSubmitting)
@@ -126,11 +86,6 @@ struct LoginView: View {
         .tracking(2)
         .foregroundStyle(.secondary)
     }
-  }
-
-  private func submit() {
-    focusedField = nil
-    Task { await viewModel.signIn() }
   }
 }
 

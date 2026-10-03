@@ -1,19 +1,16 @@
 import Foundation
 import Observation
 
+/// The sign-in method picker (`AUTH-01`): Google and demo mode start right here; email has its own screen.
 @Observable
 final class LoginViewModel {
     enum SignInMethod {
-        case email, demo
+        case google, demo
     }
 
-    var email = ""
-    var password = ""
     var failure: AuthFailure?
     /// The sign-in request in progress; each button shows its own spinner.
     private(set) var pendingMethod: SignInMethod?
-    /// Field errors stay hidden until the first submit, like the web form.
-    private(set) var showsValidation = false
 
     private let repository: any AuthRepository
     /// Opens demo mode (`AUTH-10`).
@@ -24,22 +21,13 @@ final class LoginViewModel {
         self.enterDemo = enterDemo
     }
 
-    var emailIssue: CredentialsValidator.EmailIssue? {
-        showsValidation ? CredentialsValidator.validateEmail(email) : nil
+    var isGoogleSignInAvailable: Bool {
+        repository.isGoogleSignInAvailable
     }
 
-    var passwordIssue: CredentialsValidator.PasswordIssue? {
-        showsValidation ? CredentialsValidator.validateSignInPassword(password) : nil
-    }
-
-    /// On success the session store switches the app to the signed-in content.
-    func signIn() async {
-        showsValidation = true
-        guard emailIssue == nil, passwordIssue == nil else { return }
-
-        let email = email.trimmingCharacters(in: .whitespacesAndNewlines)
-        await perform(.email) { [repository, password] () async throws(AuthFailure) in
-            try await repository.signIn(email: email, password: password)
+    func signInWithGoogle() async {
+        await perform(.google) { [repository] () async throws(AuthFailure) in
+            try await repository.signInWithGoogle()
         }
     }
 

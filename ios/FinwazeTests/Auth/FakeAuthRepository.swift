@@ -5,6 +5,7 @@ import Synchronization
 final class FakeAuthRepository: AuthRepository {
     struct Calls {
         var signIn: [(email: String, password: String)] = []
+        var signInWithGoogle = 0
         var signInWithDemo = 0
         var signUp: [(email: String, password: String)] = []
         var resendConfirmation: [String] = []
@@ -56,6 +57,13 @@ final class FakeAuthRepository: AuthRepository {
     func resendSignUpConfirmation(email: String) async throws(AuthFailure) {
         recorded.withLock { $0.resendConfirmation.append(email) }
         if let resendFailure { throw resendFailure }
+    }
+
+    var isGoogleSignInAvailable: Bool { true }
+
+    func signInWithGoogle() async throws(AuthFailure) {
+        recorded.withLock { $0.signInWithGoogle += 1 }
+        if let signInFailure { throw signInFailure }
     }
 
     func signInWithDemo() async throws(AuthFailure) {

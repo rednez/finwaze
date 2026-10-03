@@ -8,15 +8,9 @@ struct SubmitButton: View {
 
   var body: some View {
     Button(action: action) {
-      ZStack {
-        Text(title).opacity(isLoading ? 0 : 1)
-        if isLoading {
-          ProgressView()
-        }
+      LoadingButtonLabel(isLoading: isLoading) {
+        Text(title)
       }
-      .font(.headline)
-      .frame(maxWidth: .infinity)
-      .padding(.vertical, 6)
     }
     .buttonStyle(.glassProminent)
     .disabled(isLoading)

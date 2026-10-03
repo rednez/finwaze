@@ -31,6 +31,10 @@ protocol AuthRepository: Sendable {
     /// Emits the signed-in user, or `nil` while signed out. Starts with the state restored on launch.
     func sessionChanges() -> AsyncStream<UserSession?>
     func signIn(email: String, password: String) async throws(AuthFailure)
+    /// Whether this build has a Google client configured (`GOOGLE_IOS_CLIENT_ID`).
+    var isGoogleSignInAvailable: Bool { get }
+    /// Shows Google's sign-in sheet and starts a session. Returns without a session when the user cancels (`AUTH-06`).
+    func signInWithGoogle() async throws(AuthFailure)
     /// Signs in to the shared server demo account; demo data itself stays local (`AUTH-10`, `Q-08`).
     func signInWithDemo() async throws(AuthFailure)
     func signUp(email: String, password: String) async throws(AuthFailure) -> SignUpResult

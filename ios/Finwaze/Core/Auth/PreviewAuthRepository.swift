@@ -10,6 +10,10 @@ nonisolated struct PreviewAuthRepository: AuthRepository {
         throw .invalidCredentials
     }
 
+    var isGoogleSignInAvailable: Bool { true }
+
+    func signInWithGoogle() async throws(AuthFailure) {}
+
     func signInWithDemo() async throws(AuthFailure) {}
 
     func signUp(email: String, password: String) async throws(AuthFailure) -> SignUpResult {

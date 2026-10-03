@@ -3,7 +3,8 @@ import Supabase
 
 nonisolated enum AuthErrorMapper {
     static func toAuthFailure(_ error: any Error) -> AuthFailure {
-        if error is URLError {
+        // Also covers `URLError`, which bridges to this domain.
+        if (error as NSError).domain == NSURLErrorDomain {
             return .network
         }
         guard let authError = error as? AuthError else {

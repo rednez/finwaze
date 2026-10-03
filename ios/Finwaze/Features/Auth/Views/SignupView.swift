@@ -8,7 +8,8 @@ struct SignupView: View {
   @State private var viewModel: SignupViewModel
   @FocusState private var focusedField: Field?
   @Environment(\.dismiss) private var dismiss
-  /// Called with the registered email when the user returns to sign in after confirming it.
+  /// Called with the registered email when the user returns to sign in after confirming it;
+  /// the caller navigates to the sign-in screen.
   private let onSignIn: (String) -> Void
 
   init(
@@ -27,10 +28,7 @@ struct SignupView: View {
             message: "signup.verificationSent",
             hint: "signup.confirmHint",
             signInTitle: "signup.signInAfterConfirm",
-            onSignIn: {
-              onSignIn(email)
-              dismiss()
-            },
+            onSignIn: { onSignIn(email) },
             resend: .init(
               isResending: viewModel.isResending,
               didResend: viewModel.didResend,

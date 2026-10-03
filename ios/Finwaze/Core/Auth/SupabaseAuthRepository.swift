@@ -9,6 +9,8 @@ nonisolated struct SupabaseAuthRepository: AuthRepository {
     let client: SupabaseClient
     /// The web client of this environment; reset links open its "set a new password" page.
     var webAppURL: URL?
+    /// `nil` when this build has no Google client (`GOOGLE_IOS_CLIENT_ID`).
+    var google: GoogleSignInProvider?
 
     func sessionChanges() -> AsyncStream<UserSession?> {
         let changes = client.auth.authStateChanges
@@ -59,6 +61,27 @@ nonisolated struct SupabaseAuthRepository: AuthRepository {
         }
     }
 
+    var isGoogleSignInAvailable: Bool {
+        google != nil
+    }
+
+    func signInWithGoogle() async throws(AuthFailure) {
+        guard let google else { return }
+        do {
+            guard let tokens = try await google.signIn() else { return }
+            try await client.auth.signInWithIdToken(
+                credentials: OpenIDConnectCredentials(
+                    provider: .google,
+                    idToken: tokens.idToken,
+                    accessToken: tokens.accessToken,
+                    nonce: tokens.nonce
+                )
+            )
+        } catch {
+            throw AuthErrorMapper.toAuthFailure(error)
+        }
+    }
+
     func signInWithDemo() async throws(AuthFailure) {
         try await signIn(email: Self.demoEmail, password: Self.demoPassword)
     }
@@ -94,6 +117,7 @@ nonisolated struct SupabaseAuthRepository: AuthRepository {
     func signOut() async throws(AuthFailure) {
         do {
             try await client.auth.signOut()
+            google?.signOut()
         } catch {
             throw AuthErrorMapper.toAuthFailure(error)
         }

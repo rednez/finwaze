@@ -7,6 +7,8 @@ nonisolated struct SupabaseConfig: Sendable {
     let publishableKey: String
     /// The web client of the same environment; `nil` when not configured.
     let webAppURL: URL?
+    /// The iOS OAuth client for Sign in with Google; `nil` hides the Google button.
+    let googleClientID: String?
 
     static func load(from bundle: Bundle = .main) -> SupabaseConfig {
         guard
@@ -17,8 +19,16 @@ nonisolated struct SupabaseConfig: Sendable {
         else {
             fatalError("Missing SUPABASE_URL or SUPABASE_PUBLISHABLE_KEY — check ios/Config/*.xcconfig")
         }
-        let webAppURL = (bundle.object(forInfoDictionaryKey: "WEB_APP_URL") as? String)
-            .flatMap { $0.isEmpty ? nil : URL(string: $0) }
-        return SupabaseConfig(url: url, publishableKey: key, webAppURL: webAppURL)
+        return SupabaseConfig(
+            url: url,
+            publishableKey: key,
+            webAppURL: optionalString("WEB_APP_URL", in: bundle).flatMap(URL.init(string:)),
+            googleClientID: optionalString("GOOGLE_IOS_CLIENT_ID", in: bundle)
+        )
+    }
+
+    /// An optional setting: `nil` when it is missing or left empty in the xcconfig.
+    private static func optionalString(_ key: String, in bundle: Bundle) -> String? {
+        (bundle.object(forInfoDictionaryKey: key) as? String).flatMap { $0.isEmpty ? nil : $0 }
     }
 }

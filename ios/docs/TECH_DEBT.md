@@ -4,9 +4,6 @@ Known gaps in the iOS client that still need to be done. Remove an item once it'
 
 ## Auth
 
-- **Sign in with Google.** The web client supports it (`src/app/features/auth/login/ui/google-button`).
-  On iOS it needs OAuth via `ASWebAuthenticationSession` (`client.auth.signInWithOAuth`), a custom URL
-  scheme for the app, and the redirect URL added to `additional_redirect_urls` in `supabase/config.toml`.
 - **Sign in with a passkey.** The web client supports it (`passkey-button`, `AuthService.loginWithPasskey`).
   On iOS it needs `AuthenticationServices` (`ASAuthorizationPlatformPublicKeyCredentialProvider`),
   an Associated Domains entitlement (`webcredentials:`) and an `apple-app-site-association` file on the web domain.

@@ -158,9 +158,11 @@ Like `src/environments/*` on the web, each build configuration talks to its own 
 | Staging       | `Finwaze Staging` | hosted staging project         | Finwaze β     |
 | Release       | `Finwaze` (archive) | hosted production project    | Finwaze       |
 
-Values (`SUPABASE_URL`, `SUPABASE_PUBLISHABLE_KEY`, `WEB_APP_URL`, bundle id, display name) live in
+Values (`SUPABASE_URL`, `SUPABASE_PUBLISHABLE_KEY`, `WEB_APP_URL`, `GOOGLE_IOS_CLIENT_ID`, `GOOGLE_IOS_URL_SCHEME`,
+bundle id, display name) live in
 `ios/Config/<Configuration>.xcconfig` and reach the app through `ios/Config/Info.plist`; `SupabaseConfig` reads them
-from the bundle. These files are committed: they hold publishable keys only, the same ones the web client ships.
+from the bundle. These files are committed: they hold publishable keys and public OAuth client IDs only, the same
+kind the web client ships.
 
 ```bash
 supabase start                                   # local backend (repo root)
