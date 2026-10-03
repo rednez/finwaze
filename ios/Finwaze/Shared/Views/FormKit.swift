@@ -141,7 +141,22 @@ struct FormAmountInput<Currency: View>: View {
                 .font(.title3.weight(.semibold))
                 .fontDesign(.rounded)
                 .monospacedDigit()
+                .limitsAmountInput($text)
             currency
+        }
+    }
+}
+
+extension View {
+    /// Stops a third digit after the decimal separator from being typed or pasted into an amount field (`GEN-07`).
+    func limitsAmountInput(_ text: Binding<String>) -> some View {
+        // Fixed up after the change rather than in the binding's setter: a setter that keeps the old value leaves the
+        // field showing what was typed.
+        onChange(of: text.wrappedValue) { _, newValue in
+            let limited = AmountInputLimiter.limit(newValue)
+            if limited != newValue {
+                text.wrappedValue = limited
+            }
         }
     }
 }

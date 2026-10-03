@@ -77,6 +77,7 @@ struct BudgetPlanCategoryRow: View {
         HStack(spacing: 6) {
             TextField("budget.plan.amountPlaceholder", text: $amountText)
                 .keyboardType(.decimalPad)
+                .limitsAmountInput($amountText)
                 .multilineTextAlignment(.trailing)
                 .focused(focus, equals: categoryID)
                 .accessibilityLabel(Text("budget.plan.amount.accessibility \(name)"))
