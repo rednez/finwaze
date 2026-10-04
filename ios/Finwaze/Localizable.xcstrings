@@ -9535,19 +9535,19 @@
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Skupiny a kategorie si vytváříte sami, takže struktura je od začátku vaše. Přidávejte je při zápisu transakce — výběr kategorie nabízí „Nová skupina“ a „Nová kategorie“ — nebo v sekci „Skupiny a kategorie“ na kartě „Více“: „+“ pro skupinu a „Přidat kategorii“ v ní. Postupem času je přejmenovávejte, přidávejte chybějící a odebírejte ty, které nepoužíváte — podržte skupinu či kategorii nebo ji přejeďte prstem — dokud struktura nezrcadlí, jak skutečně žijete a utrácíte. Jediné správné nastavení neexistuje — jen to, které sedí vám."
+            "value" : "Skupiny a kategorie si vytváříte sami, takže struktura je od začátku vaše. Přidávejte je při zápisu transakce — výběr kategorie nabízí „Nová skupina“ a „Nová kategorie“ — nebo v sekci „Kategorie“ na kartě „Více“: „+“ pro skupinu a „Přidat kategorii“ v ní. Postupem času je přejmenovávejte, přidávejte chybějící a odebírejte ty, které nepoužíváte — podržte skupinu či kategorii nebo ji přejeďte prstem — dokud struktura nezrcadlí, jak skutečně žijete a utrácíte. Jediné správné nastavení neexistuje — jen to, které sedí vám."
           }
         },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "You create groups and categories yourself, so the structure is yours from the start. Add them while recording a transaction — the category picker has “New Group” and “New Category” — or in Groups & Categories in the More tab, with “+” for a group and “Add category” inside it. Over time, rename them, add what is missing, and remove what you never use — touch and hold a group or category, or swipe it — until the structure mirrors how you actually live and spend. There is no single correct setup — only the one that fits you."
+            "value" : "You create groups and categories yourself, so the structure is yours from the start. Add them while recording a transaction — the category picker has “New Group” and “New Category” — or in Categories in the More tab, with “+” for a group and “Add category” inside it. Over time, rename them, add what is missing, and remove what you never use — touch and hold a group or category, or swipe it — until the structure mirrors how you actually live and spend. There is no single correct setup — only the one that fits you."
           }
         },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Групи й категорії ви створюєте самі, тож структура ваша від самого початку. Додавайте їх під час запису транзакції — у виборі категорії є «Нова група» і «Нова категорія» — або в розділі «Групи та категорії» на вкладці «Більше»: «+» для групи й «Додати категорію» в ній. З часом перейменовуйте їх, додавайте відсутнє та прибирайте те, чим не користуєтесь, — натисніть і утримуйте групу чи категорію або змахніть її, — доки структура не відобразить, як ви насправді живете й витрачаєте. Єдино правильного варіанту немає — лише той, що пасує вам."
+            "value" : "Групи й категорії ви створюєте самі, тож структура ваша від самого початку. Додавайте їх під час запису транзакції — у виборі категорії є «Нова група» і «Нова категорія» — або в розділі «Категорії» на вкладці «Більше»: «+» для групи й «Додати категорію» в ній. З часом перейменовуйте їх, додавайте відсутнє та прибирайте те, чим не користуєтесь, — натисніть і утримуйте групу чи категорію або змахніть її, — доки структура не відобразить, як ви насправді живете й витрачаєте. Єдино правильного варіанту немає — лише той, що пасує вам."
           }
         }
       }
@@ -12801,19 +12801,19 @@
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Skupiny a kategorie"
+            "value" : "Kategorie"
           }
         },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Groups & Categories"
+            "value" : "Categories"
           }
         },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Групи та категорії"
+            "value" : "Категорії"
           }
         }
       }
