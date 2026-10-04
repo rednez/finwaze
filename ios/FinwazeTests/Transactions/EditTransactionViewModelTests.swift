@@ -9,6 +9,7 @@ struct EditTransactionViewModelTests {
     private let repository = FakeTransactionsRepository()
 
     private func makeViewModel(
+        preview: Transaction? = nil,
         onUpdated: @escaping () async -> Void = {},
         onDeleted: @escaping () async -> Void = {}
     ) async throws -> EditTransactionViewModel {
@@ -21,6 +22,7 @@ struct EditTransactionViewModelTests {
         )
         return EditTransactionViewModel(
             transactionID: 7,
+            preview: preview,
             referenceData: referenceData,
             preferences: preferences,
             repository: repository,
@@ -67,6 +69,51 @@ struct EditTransactionViewModelTests {
         await viewModel.load()
 
         #expect(viewModel.state.phase == .failed)
+    }
+
+    @Test func showsThePreviewBeforeLoading() async throws {
+        let viewModel = try await makeViewModel(preview: transaction)
+
+        #expect(viewModel.state.phase == .loaded)
+        #expect(viewModel.formViewModel?.mode == .edit(transaction))
+    }
+
+    @Test func keepsThePreviewsFormWhenTheFreshCopyIsTheSame() async throws {
+        repository.setDetails(transaction)
+        let viewModel = try await makeViewModel(preview: transaction)
+        let form = try #require(viewModel.formViewModel)
+
+        await viewModel.load()
+
+        #expect(viewModel.formViewModel === form)
+        #expect(repository.requestedIDs == [7])
+    }
+
+    @Test func replacesThePreviewWithADifferentFreshCopy() async throws {
+        let fresh = Transaction.fixture(id: 7, amount: -300, currencyCode: "UAH")
+        repository.setDetails(fresh)
+        let viewModel = try await makeViewModel(preview: transaction)
+
+        await viewModel.load()
+
+        #expect(viewModel.formViewModel?.mode == .edit(fresh))
+    }
+
+    @Test func keepsThePreviewWhenLoadingErrors() async throws {
+        repository.setFails(true)
+        let viewModel = try await makeViewModel(preview: transaction)
+
+        await viewModel.load()
+
+        #expect(viewModel.formViewModel?.mode == .edit(transaction))
+    }
+
+    @Test func notFoundReplacesThePreview() async throws {
+        let viewModel = try await makeViewModel(preview: transaction)
+
+        await viewModel.load()
+
+        #expect(viewModel.state.phase == .notFound)
     }
 
     @Test func savingShowsTheBannerAndNotifies() async throws {

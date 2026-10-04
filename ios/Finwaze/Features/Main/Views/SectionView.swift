@@ -27,7 +27,7 @@ struct TabStack<Root: View>: View {
                     SectionContentView(section: destination, isRoot: false)
                 }
                 .navigationDestination(for: TransactionRoute.self) { route in
-                    EditTransactionView(app: app, transactionID: route.id)
+                    EditTransactionView(app: app, transactionID: route.id, preview: route.preview)
                         .zoomDestination(ZoomID.transaction(route.id), in: zoom)
                 }
                 .navigationDestination(for: TransferRoute.self) { route in
@@ -35,7 +35,7 @@ struct TabStack<Root: View>: View {
                         .zoomDestination(ZoomID.transfer(route.transactionID), in: zoom)
                 }
                 .navigationDestination(for: AccountRoute.self) { route in
-                    AccountSettingsView(app: app, accountID: route.id)
+                    AccountSettingsView(app: app, accountID: route.id, preview: route.preview)
                         .zoomDestination(ZoomID.account(route.id), in: zoom)
                 }
         }

@@ -3,12 +3,15 @@ import SwiftUI
 /// One transaction in a day card (`TX-02`), in the short form a phone fits: a badge in the category's colour, the
 /// category with its group and time, the comment and the amount. A purchase in another currency also shows the
 /// amount charged to the account. The day is in the card's header. An expense or income opens for editing, a
-/// transfer opens its details (`TX-06`, `TRF-07`). Outside a day card, e.g. on the Dashboard, the row shows the date
-/// too (`DASH-06`).
+/// transfer opens its details (`TX-06`, `TRF-07`), zooming out of the row. Outside a day card, e.g. on the Dashboard,
+/// the row shows the date too (`DASH-06`).
 struct TransactionRow: View {
     let transaction: Transaction
     /// The date besides the time, for a row outside a day card.
     var showsDate = false
+
+    /// Softer than the card's corners: a row sits inside the card, mostly between other rows.
+    private static let zoomCornerRadius: CGFloat = 16
 
     var body: some View {
         Group {
@@ -16,12 +19,12 @@ struct TransactionRow: View {
                 NavigationLink(value: TransferRoute(transactionID: transaction.id)) {
                     content
                 }
-                .zoomSource(ZoomID.transfer(transaction.id))
+                .zoomSource(ZoomID.transfer(transaction.id), cornerRadius: Self.zoomCornerRadius)
             } else {
-                NavigationLink(value: TransactionRoute(id: transaction.id)) {
+                NavigationLink(value: TransactionRoute(id: transaction.id, preview: transaction)) {
                     content
                 }
-                .zoomSource(ZoomID.transaction(transaction.id))
+                .zoomSource(ZoomID.transaction(transaction.id), cornerRadius: Self.zoomCornerRadius)
             }
         }
         .buttonStyle(.plain)

@@ -7,9 +7,10 @@ extension EnvironmentValues {
 
 extension View {
     /// The card or row a screen zooms out of, like a photo opening in Photos (iOS 18 zoom transition). Does nothing
-    /// outside a tab's stack.
-    func zoomSource(_ id: String) -> some View {
-        modifier(ZoomSource(id: id))
+    /// outside a tab's stack. `cornerRadius` is the source's own: a card's by default, a smaller one for a row inside
+    /// a card.
+    func zoomSource(_ id: String, cornerRadius: CGFloat = CardBackground.cornerRadius) -> some View {
+        modifier(ZoomSource(id: id, cornerRadius: cornerRadius))
     }
 
     /// The screen that zooms out of `zoomSource(id)`; the usual push without a namespace.
@@ -25,11 +26,18 @@ extension View {
 
 private struct ZoomSource: ViewModifier {
     let id: String
+    let cornerRadius: CGFloat
     @Environment(\.zoomNamespace) private var namespace
 
     func body(content: Content) -> some View {
         if let namespace {
-            content.matchedTransitionSource(id: id, in: namespace)
+            // The source's own background and shape: a row has none of its own, as its card draws them, so without
+            // them the zoom would grow a transparent, square snapshot.
+            content.matchedTransitionSource(id: id, in: namespace) { source in
+                source
+                    .background(Color(.secondarySystemGroupedBackground))
+                    .clipShape(.rect(cornerRadius: cornerRadius, style: .continuous))
+            }
         } else {
             content
         }

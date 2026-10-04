@@ -6,11 +6,12 @@ struct EditTransactionView: View {
     let app: AppViewModel
     @State private var viewModel: EditTransactionViewModel
 
-    init(app: AppViewModel, transactionID: Int64) {
+    init(app: AppViewModel, transactionID: Int64, preview: Transaction? = nil) {
         self.app = app
         _viewModel = State(
             initialValue: EditTransactionViewModel(
                 transactionID: transactionID,
+                preview: preview,
                 referenceData: app.referenceData,
                 preferences: app.preferences,
                 repository: app.repositories.transactions,

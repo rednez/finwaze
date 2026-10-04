@@ -12,6 +12,7 @@ struct AccountSettingsViewModelTests {
     }
 
     private func makeViewModel(
+        preview: WalletAccount? = nil,
         locale: Locale = Locale(identifier: "en_US"),
         onChanged: @escaping () async -> Void = {},
         onDeleted: @escaping () async -> Void = {}
@@ -20,6 +21,7 @@ struct AccountSettingsViewModelTests {
         let now = now
         return AccountSettingsViewModel(
             accountID: 5,
+            preview: preview,
             referenceData: referenceData,
             repository: repository,
             clock: { now },
@@ -52,6 +54,48 @@ struct AccountSettingsViewModelTests {
         #expect(!viewModel.usesBalanceDate)
         #expect(viewModel.isCurrencyEditable)
         #expect(viewModel.canDelete)
+    }
+
+    private let preview = WalletAccount(id: 5, name: "Cash", currencyCode: "UAH", balance: 1000)
+
+    @Test func fillsTheFormFromThePreviewBeforeLoading() async throws {
+        let viewModel = try await makeViewModel(preview: preview)
+
+        #expect(viewModel.state == .loaded(details(canDelete: false)))
+        #expect(viewModel.name == "Cash")
+        #expect(viewModel.currency == FakeReferenceDataRepository.uah)
+        #expect(viewModel.balanceText == "1000")
+        #expect(!viewModel.canDelete)
+    }
+
+    @Test func freshDetailsUnlockThePreviewWithoutRefillingIt() async throws {
+        repository.setDetails(details())
+        let viewModel = try await makeViewModel(preview: preview)
+        viewModel.name = "Wallet"
+
+        await viewModel.load()
+
+        #expect(viewModel.state == .loaded(details()))
+        #expect(viewModel.canDelete)
+        #expect(viewModel.name == "Wallet")
+    }
+
+    @Test func refillsThePreviewWhenTheFreshDetailsDiffer() async throws {
+        repository.setDetails(details(balance: 1200))
+        let viewModel = try await makeViewModel(preview: preview)
+
+        await viewModel.load()
+
+        #expect(viewModel.balanceText == "1200")
+    }
+
+    @Test func keepsThePreviewWhenLoadingErrors() async throws {
+        repository.setFails(true)
+        let viewModel = try await makeViewModel(preview: preview)
+
+        await viewModel.load()
+
+        #expect(viewModel.state == .loaded(details(canDelete: false)))
     }
 
     @Test(arguments: [("en_US", "4101.1", "4101.10"), ("uk_UA", "4101.1", "4101,10"), ("uk_UA", "-300", "-300"), ("uk_UA", "12500", "12500")])

@@ -157,7 +157,8 @@ private struct CardFooterLink: View {
 struct CardBackground: View {
     var style: ContentCardStyle = .plain
 
-    static let shape = RoundedRectangle(cornerRadius: 26, style: .continuous)
+    static let cornerRadius: CGFloat = 26
+    static let shape = RoundedRectangle(cornerRadius: cornerRadius, style: .continuous)
 
     var body: some View {
         Self.shape

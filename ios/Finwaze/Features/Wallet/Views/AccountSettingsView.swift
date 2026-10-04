@@ -5,10 +5,11 @@ import SwiftUI
 struct AccountSettingsView: View {
     @State private var viewModel: AccountSettingsViewModel
 
-    init(app: AppViewModel, accountID: Int64) {
+    init(app: AppViewModel, accountID: Int64, preview: WalletAccount? = nil) {
         _viewModel = State(
             initialValue: AccountSettingsViewModel(
                 accountID: accountID,
+                preview: preview,
                 referenceData: app.referenceData,
                 repository: app.repositories.wallet,
                 onChanged: { await app.referenceDataChanged() },

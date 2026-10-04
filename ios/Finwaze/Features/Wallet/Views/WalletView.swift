@@ -122,7 +122,7 @@ private struct AccountCardGrid: View {
         LazyVGrid(columns: [GridItem(.adaptive(minimum: 280), spacing: 16)], spacing: 16) {
             ForEach(accounts) { account in
                 // Account settings (`ACC-02`, `ACC-09`).
-                NavigationLink(value: AccountRoute(id: account.id)) {
+                NavigationLink(value: AccountRoute(id: account.id, preview: account)) {
                     AccountCard(account: account)
                 }
                 .buttonStyle(.plain)

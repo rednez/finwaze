@@ -1,8 +1,9 @@
 import Foundation
 import Observation
 
-/// "Account settings" (`ACC-09…12`): loads one account fresh from the server, then renames it, changes its
-/// currency while it has no transactions, sets its balance at a moment and deletes it.
+/// "Account settings" (`ACC-09…12`): shows the Wallet card's copy straight away and loads the account fresh from the
+/// server, then renames it, changes its currency while it has no transactions, sets its balance at a moment and
+/// deletes it.
 @Observable
 final class AccountSettingsViewModel {
     let accountID: Int64
@@ -30,8 +31,12 @@ final class AccountSettingsViewModel {
     private let onChanged: () async -> Void
     private let onDeleted: () async -> Void
 
+    /// With a `preview` from the Wallet card, the form is filled from it at once, so the zoom ends on the form rather
+    /// than a spinner; `load()` then brings in the fresh details. Until then the account counts as having
+    /// transactions, like most do: its currency stays locked and it cannot be deleted.
     init(
         accountID: Int64,
+        preview: WalletAccount? = nil,
         referenceData: ReferenceDataStore,
         repository: any WalletRepository,
         clock: @escaping () -> Date = { .now },
@@ -47,6 +52,16 @@ final class AccountSettingsViewModel {
         self.onChanged = onChanged
         self.onDeleted = onDeleted
         balanceDate = clock()
+        if let preview, let currency = referenceData.currencies.first(where: { $0.code == preview.currencyCode }) {
+            fill(with: AccountDetails(
+                id: preview.id,
+                name: preview.name,
+                currencyID: currency.id,
+                currencyCode: preview.currencyCode,
+                balance: preview.balance,
+                canDelete: false
+            ))
+        }
     }
 
     var details: AccountDetails? {
@@ -75,24 +90,39 @@ final class AccountSettingsViewModel {
 
     // MARK: Load
 
-    /// Loads (or reloads) the account fresh from the server and fills the form with it.
+    /// Loads (or reloads) the account fresh from the server and fills the form with it. While the card's copy is
+    /// shown, it stays on screen: the fields are refilled only if the name, currency or balance changed, and a failed
+    /// request leaves it be, as saving goes to the server anyway.
     func load() async {
-        state = .loading
+        let shown = details
+        if shown == nil {
+            state = .loading
+        }
         do {
             guard let details = try await repository.accountDetails(id: accountID) else {
                 state = .notFound
                 return
             }
-            name = details.name
-            currency = referenceData.currencies.first { $0.id == details.currencyID }
-            balanceText = details.balance.inputText(locale: locale)
-            usesBalanceDate = false
-            balanceDate = clock()
-            showsValidation = false
-            state = .loaded(details)
+            if let shown, shown.sameFields(as: details) {
+                state = .loaded(details)
+            } else {
+                fill(with: details)
+            }
         } catch {
-            state = .failed
+            if shown == nil {
+                state = .failed
+            }
         }
+    }
+
+    private func fill(with details: AccountDetails) {
+        name = details.name
+        currency = referenceData.currencies.first { $0.id == details.currencyID }
+        balanceText = details.balance.inputText(locale: locale)
+        usesBalanceDate = false
+        balanceDate = clock()
+        showsValidation = false
+        state = .loaded(details)
     }
 
     // MARK: Validation (GEN-21)
@@ -188,5 +218,12 @@ final class AccountSettingsViewModel {
 
     private var trimmedName: String {
         name.trimmingCharacters(in: .whitespacesAndNewlines)
+    }
+}
+
+private extension AccountDetails {
+    /// The same values in the form's fields; `canDelete` aside, which only the server knows.
+    func sameFields(as other: AccountDetails) -> Bool {
+        name == other.name && currencyID == other.currencyID && balance == other.balance
     }
 }
