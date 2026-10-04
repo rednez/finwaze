@@ -83,9 +83,10 @@ private struct AnalyticsContentView: View {
         } else if dynamicTypeSize.isAccessibilitySize {
             VStack(spacing: 16) { cards }
         } else {
-            // A row of cards to swipe through, the next one peeking in, so the charts start on the first screen.
+            // A row of cards to swipe through, the next one peeking in, so the charts start on the first screen. A plain
+            // stack, not a lazy one: a card built lazily mid-swipe animated its first figures in from a neighbour's place.
             ScrollView(.horizontal) {
-                LazyHStack(alignment: .top, spacing: 12) {
+                HStack(alignment: .top, spacing: 12) {
                     cards
                         .containerRelativeFrame(.horizontal) { width, _ in width * 0.86 }
                 }
