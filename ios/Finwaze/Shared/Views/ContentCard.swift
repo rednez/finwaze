@@ -194,26 +194,43 @@ struct TintedIcon: View {
     }
 }
 
-/// A card's content by its state (`DASH-08`): a skeleton of `placeholder` while loading (`GEN-23`), a short error
-/// with "Try again" that reloads only this card (`GEN-25`), or the content.
+/// A card's content by its state (`DASH-08`): a skeleton while loading (`GEN-23`), a short error with "Try again"
+/// that reloads only this card (`GEN-25`), or the content.
+///
+/// The skeleton and the content are one view whose data and redaction change, never two branches: a chart is not
+/// rebuilt on every new filter, so its marks move from the old figures to the new ones instead of blinking. While
+/// another key loads, the skeleton keeps the last figures — hidden under the redaction — rather than jumping to
+/// `placeholder`, which is only shown before the first load.
 struct CardStateView<Value: Equatable & Sendable, Content: View>: View {
     let state: CardState<Value>
     let placeholder: Value
     let onRetry: () -> Void
     @ViewBuilder let content: (Value) -> Content
+    /// The figures shown last, kept under the skeleton while the next ones load.
+    @State private var lastValue: Value?
 
     var body: some View {
-        switch state {
-        case .loading:
-            content(placeholder)
-                .redacted(reason: .placeholder)
-                .allowsHitTesting(false)
-                .accessibilityElement(children: .ignore)
-                .accessibilityLabel(Text("common.loading"))
-        case .loaded(let value):
-            content(value)
-        case .failed:
+        if case .failed = state {
             CardErrorView(onRetry: onRetry)
+        } else {
+            let isLoading = state == .loading
+            content(state.value ?? lastValue ?? placeholder)
+                .redacted(reason: isLoading ? .placeholder : [])
+                .allowsHitTesting(!isLoading)
+                .accessibilityHidden(isLoading)
+                .overlay {
+                    if isLoading {
+                        Color.clear
+                            .accessibilityElement()
+                            .accessibilityLabel(Text("common.loading"))
+                    }
+                }
+                .animation(.smooth, value: state)
+                .onChange(of: state.value, initial: true) { _, value in
+                    if let value {
+                        lastValue = value
+                    }
+                }
         }
     }
 }
