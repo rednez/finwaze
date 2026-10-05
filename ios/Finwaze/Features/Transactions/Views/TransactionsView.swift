@@ -67,6 +67,9 @@ private struct TransactionList: View {
     @Bindable var viewModel: TransactionsViewModel
     let transactions: [Transaction]
     let onFilter: () -> Void
+    /// The day "Today" and "Yesterday" are taken from. The list can stay open past midnight or come back from the
+    /// background on another day, so it follows the clock rather than the moment the list was first drawn.
+    @State private var now = Date.now
 
     var body: some View {
         let days = TransactionDay.group(transactions)
@@ -95,13 +98,21 @@ private struct TransactionList: View {
                     }
                 } else {
                     ForEach(days) { day in
-                        DaySection(day: day)
+                        DaySection(day: day, now: now)
                     }
                 }
             }
             .padding(.top, 8)
             .padding(.bottom, 32)
             .animation(.snappy, value: transactions)
+        }
+        // Midnight passing while the app is open or suspended is a significant time change; a suspended app gets it
+        // on its return. The tab being shown again catches up on any change missed while the task wasn't running.
+        .task {
+            now = .now
+            for await _ in NotificationCenter.default.notifications(named: UIApplication.significantTimeChangeNotification) {
+                now = .now
+            }
         }
     }
 }
@@ -181,6 +192,7 @@ private struct TintedIconLabelStyle: LabelStyle {
 /// day's transactions in one card.
 private struct DaySection: View {
     let day: TransactionDay
+    let now: Date
 
     var body: some View {
         VStack(alignment: .leading, spacing: 8) {
@@ -215,8 +227,8 @@ private struct DaySection: View {
 
     @ViewBuilder
     private var title: some View {
-        let today = Date.now.isoDateString()
-        let yesterday = Calendar.current.date(byAdding: .day, value: -1, to: .now)?.isoDateString()
+        let today = now.isoDateString()
+        let yesterday = Calendar.current.date(byAdding: .day, value: -1, to: now)?.isoDateString()
         switch day.id {
         case today: Text("transactions.today")
         case yesterday: Text("transactions.yesterday")
